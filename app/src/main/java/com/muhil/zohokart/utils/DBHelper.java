@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.SubCategory;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DB", "Creating tables");
         db.execSQL("create table categories (_id integer primary key not null, name text)");
         db.execSQL("create table sub_categories (_id integer primary key not null, category_id integer, name text)");
+        db.execSQL("create table products (_id integer, category_id integer, title text, description text, price real, stars real, ratings integer, primary key (_id, category_id))");
         db.execSQL("create table accounts(name text, email text not null primary key, password text, phone_number text, date_of_birth date)");
         Log.d("DB", "accounts table created");
         db.execSQL("create table wishlist (_id integer not null primary key)");
@@ -66,27 +68,36 @@ public class DBHelper extends SQLiteOpenHelper {
         return (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, "sub_categories");
     }
 
-    public boolean hasAccount(String email){
+    public int addProducts(List<Product> products) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        for (Product product : products) {
+            ContentValues contentValue = new ContentValues();
+            contentValue.put("_id", product.getId());
+            contentValue.put("category_id", product.getCategoryId());
+            contentValue.put("title", product.getTitle());
+            contentValue.put("description", product.getDescription());
+            contentValue.put("price", product.getPrice());
+            contentValue.put("stars", product.getStars());
+            contentValue.put("ratings", product.getRatings());
 
-        boolean result = false;
+            sqLiteDatabase.insert("products", null, contentValue);
+        }
+        sqLiteDatabase = this.getReadableDatabase();
+        return (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, "products");
+    }
 
+
+    public boolean hasAccount(String email) {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = '"+email+"'", null);
-        if(cursor.moveToNext()){
-            result = true;
-        }
-        else {
-            result = false;
-        }
-
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ?",
+                new String[]{email});
+        boolean result = cursor.moveToNext();
+        cursor.close();
         return result;
     }
 
-    public boolean addAccount(Account account){
-
-        boolean result = false;
+    public boolean addAccount(Account account) {
         ContentValues contentValues = new ContentValues();
-
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         contentValues.put("name", account.getName());
         contentValues.put("email", account.getEmail());
@@ -95,26 +106,23 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("date_of_birth", account.getDateOfBirth());
         sqLiteDatabase.insert("accounts", null, contentValues);
 
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = '" + account.getEmail() +"'", null);
-        if(cursor.moveToNext()){
-            result = true;
-        }
-        else {
-            result = false;
-        }
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ?",
+                new String[]{account.getEmail()});
+        boolean result = cursor.moveToNext();
         cursor.close();
         return result;
 
     }
 
-    public Account getAccountIfAvailable(String email, String password){
+    public Account getAccountIfAvailable(String email, String password) {
 
         Account account = new Account();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = '"+email+"' and password = '"+password+"'", null);
-        if(cursor.getCount() == 1){
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ? " +
+                "and password = ? ", new String[]{email, password});
+        if (cursor.getCount() == 1) {
 
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 account.setName(cursor.getString(0));
                 account.setEmail(email);
                 account.setPassword(password);
@@ -122,8 +130,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 account.setDateOfBirth(cursor.getString(4));
             }
 
-        }
-        else {
+        } else {
             return null;
         }
 
@@ -132,46 +139,32 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean checkWishlist(int productId){
+    public boolean checkWishlist(int productId) {
 
         boolean result;
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist where _id = "+productId, null);
-        if(cursor.getCount() == 1){
-            result = true;
-        }
-        else {
-            result = false;
-        }
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist where _id = ?",
+                new String[]{String.valueOf(productId)});
+        result = cursor.getCount() == 1;
+        cursor.close();
         return result;
 
     }
 
-    public boolean addToWishlist(int productId){
+    public boolean addToWishlist(int productId) {
 
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         contentValues.put("_id", productId);
         Long rowID = sqLiteDatabase.insert("wishlist", null, contentValues);
-        if(rowID != -1){
-            return true;
-        }
-        else {
-            return false;
-        }
-
+        return rowID != -1;
     }
 
-    public boolean removeFromWishList(int productId){
+    public boolean removeFromWishList(int productId) {
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         int rowsAffected = sqLiteDatabase.delete("wishlist", "_id = " + productId, null);
-        if(rowsAffected != -1){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return rowsAffected != -1;
 
     }
 
@@ -214,5 +207,27 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return subCategoriesBycategory;
+    }
+
+    public List<Product> getProductsForSubCategory(int subCategoryId) {
+        List<Product> products = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select _id, category_id, title, description," +
+                        " price, stars, ratings from products where category_id = ? ",
+                new String[]{String.valueOf(subCategoryId)});
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            int categoryId = cursor.getInt(1);
+            String title = cursor.getString(2);
+            String description = cursor.getString(3);
+            double price = cursor.getDouble(4);
+            double stars = cursor.getDouble(5);
+            int ratings = cursor.getInt(6);
+
+            Product product = new Product(id, categoryId, title, description, price, stars, ratings);
+            products.add(product);
+        }
+        cursor.close();
+        return products;
     }
 }

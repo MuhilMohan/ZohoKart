@@ -3,9 +3,11 @@ package com.muhil.zohokart.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Mobile implements Product {
+public class Mobile implements IProduct {
 
     private int id;
+    @SerializedName("category_id")
+    private int categoryId;
     private String name;
     private String brand;
     private String color;
@@ -30,4 +32,49 @@ public class Mobile implements Product {
         this.stars = stars;
         this.ratings = ratings;
     }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    @Override
+    public String getTitle() {
+        return name;
+    }
+
+    @Override
+    public String getDescription() {
+        return color + ", " + internalMemory + " GB";
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public double getStars() {
+        return stars;
+    }
+
+    @Override
+    public int getRatings() {
+        return ratings;
+    }
+
+    @Override
+    public Product getProduct() {
+        Product product = new Product(this.getId(), this.getCategoryId(),
+                this.getTitle(), this.getDescription(), this.getPrice(),
+                this.getStars(), this.getRatings());
+        return product;
+    }
+
+
 }

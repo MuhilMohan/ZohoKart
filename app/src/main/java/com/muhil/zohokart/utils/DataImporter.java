@@ -7,11 +7,14 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.Mobile;
+import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.SubCategory;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataImporter {
@@ -58,6 +61,19 @@ public class DataImporter {
             Log.d("JSON", "Number of sub_categories from JSON = " + categories.size());
             records = dbHelper.addSubCategories(subCategories);
             Log.d("DB", "Number of sub_categories in DB = " + records);
+
+            String mobilesAsString = getJsonContentAsString("products/mobiles");
+            List<Mobile> mobiles = gson.fromJson(mobilesAsString, new TypeToken<List<Mobile>>() {
+            }.getType());
+
+            Log.d("JSON", "Number of mobiles from JSON = " + mobiles.size());
+            List<Product> products = new ArrayList<>();
+            for (Mobile mobile : mobiles) {
+                products.add(mobile.getProduct());
+            }
+            records = dbHelper.addProducts(products);
+            Log.d("DB", "Number of products in DB = " + records);
+
         } else {
             Log.d("DB", "Data already imported");
         }

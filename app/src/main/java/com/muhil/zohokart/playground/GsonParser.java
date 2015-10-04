@@ -23,21 +23,6 @@ public class GsonParser {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-       /* Map<String, List<Map<String, List<Map<String, String>>>>> specifications = gson.fromJson(json, new TypeToken<Map<String, List<Map<String, List<Map<String, String>>>>>>() {
-        }.getType());
-
-        List<Map<String, List<Map<String, String>>>> productSpecification = specifications.get("1001");
-        
-        for(Map<String, List<Map<String, String>>> productSpecificationGroups: productSpecification) {
-            for(Map.Entry<String, List<Map<String, String>>> productSpecGroup: productSpecificationGroups.entrySet()) {
-                System.out.println(productSpecGroup.getKey());
-                for(Map<String, String> spec: productSpecGroup.getValue()) {
-                    for (Map.Entry<String, String> keyValue: spec.entrySet()) {
-                        System.out.println(keyValue.getKey() + " -> " + keyValue.getValue());
-                    }
-                }
-            }
-        }*/
 
         Map<String, List<SpecificationGroup>> specifications = gson.fromJson(json, new TypeToken<Map<String, List<SpecificationGroup>>>() {
         }.getType());

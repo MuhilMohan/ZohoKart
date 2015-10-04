@@ -32,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table products (_id integer, category_id integer, brand text, title text, description text, thumbnail text, price real, stars real, ratings integer, primary key (_id, category_id))");
         db.execSQL("create table accounts(name text, email text not null primary key, password text, phone_number text, date_of_birth date)");
         Log.d("DB", "accounts table created");
-        db.execSQL("create table wishlist (_id integer not null primary key)");
+        db.execSQL("create table wishlist (_id integer not null primary key, added_on datetime default current_timestamp)");
 
     }
 
@@ -165,7 +165,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean removeFromWishList(int productId) {
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        int rowsAffected = sqLiteDatabase.delete("wishlist", "_id = " + productId, null);
+        int rowsAffected = sqLiteDatabase.delete("wishlist", "_id = ? ", new String[]{String.valueOf(productId)});
         return rowsAffected != -1;
 
     }
@@ -230,6 +230,42 @@ public class DBHelper extends SQLiteOpenHelper {
 
             Product product = new Product(id, categoryId, brand, title, description, thumbnail, price, stars, ratings);
             products.add(product);
+        }
+        cursor.close();
+        return products;
+    }
+
+    public List<Product> getProductsFromWishList() {
+        List<Product> products = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist order by added_on asc", null);
+        List<Integer> productsInWishList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            productsInWishList.add(id);
+        }
+        if (!productsInWishList.isEmpty()) {
+            for (Integer productId : productsInWishList) {
+                cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail, " +
+                        "price, stars, ratings from products where category_id = ?", new String[]{String.valueOf(productId)});
+                while (cursor.moveToNext()) {
+                    int id = cursor.getInt(0);
+                    int categoryId = cursor.getInt(1);
+                    String brand = cursor.getString(2);
+                    String title = cursor.getString(3);
+                    String description = cursor.getString(4);
+                    String thumbnail = cursor.getString(5);
+                    double price = cursor.getDouble(6);
+                    double stars = cursor.getDouble(7);
+                    int ratings = cursor.getInt(8);
+
+                    Product product = new Product(id, categoryId, brand, title, description, thumbnail, price, stars, ratings);
+                    products.add(product);
+                }
+
+            }
+        } else {
+            return null;
         }
         cursor.close();
         return products;

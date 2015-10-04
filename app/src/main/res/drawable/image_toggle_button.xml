@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@mipmap/ic_fa_heart"
+        android:drawable="@mipmap/ic_fa_heart_red"
         android:state_checked="true" />
     <item
         android:drawable="@mipmap/ic_fa_heart_o"

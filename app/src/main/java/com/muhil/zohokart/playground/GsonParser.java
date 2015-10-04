@@ -2,49 +2,52 @@ package com.muhil.zohokart.playground;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.muhil.zohokart.models.Mobile;
+import com.muhil.zohokart.models.specification.Specification;
+import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.util.List;
+import java.util.Map;
 
 public class GsonParser {
     public static void main(String[] args) {
-
-        String json = "[\n" +
-                "  {\n" +
-                "    \"id\": 1001,\n" +
-                "    \"category_id\": 101,\n" +
-                "    \"name\": \"Apple iPhone 6\",\n" +
-                "    \"brand\": \"Apple\",\n" +
-                "    \"color\": \"Gold\",\n" +
-                "    \"internal_memory\": 16,\n" +
-                "    \"price\": 41937.0,\n" +
-                "    \"thumbnail\": \"http://rukmini4.flixcart.com/image/220/220/mobile/h/h/g/apple-iphone-6-original-imaeyny5hqffnnbn.jpeg\",\n" +
-                "    \"stars\": 4.5,\n" +
-                "    \"ratings\": 768\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 1002,\n" +
-                "    \"category_id\": 101,\n" +
-                "    \"name\": \"Apple iPhone 6\",\n" +
-                "    \"brand\": \"Apple\",\n" +
-                "    \"color\": \"Space Grey\",\n" +
-                "    \"internal_memory\": 16,\n" +
-                "    \"price\": 43258.0,\n" +
-                "    \"thumbnail\": \"http://rukmini4.flixcart.com/image/220/220/mobile/f/2/j/apple-iphone-6-original-imaeymdqs5gm5xkz.jpeg\",\n" +
-                "    \"stars\": 4.0,\n" +
-                "    \"ratings\": 748\n" +
-                "  }" +
-                "]";
         Gson gson = new Gson();
-        List<Mobile> mobiles = gson.fromJson(json, new TypeToken<List<Mobile>>() {
+        String json = "{\n" +
+                "  \"1001\": [\n" +
+                "    {\n" +
+                "      \"name\": \"General\",\n" +
+                "      \"specifications\": [{\"key\":\"Brand\", \"value\": \"Apple\"},{\"key\": \"Video Calling\", \"value\": \"Yes\"}]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"Display\",\n" +
+                "      \"specifications\": [{\"key\": \"HD\", \"value\": \"FullHD\"}, {\"key\": \"Resolution\", \"value\": \"1280x900\"}]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+       /* Map<String, List<Map<String, List<Map<String, String>>>>> specifications = gson.fromJson(json, new TypeToken<Map<String, List<Map<String, List<Map<String, String>>>>>>() {
         }.getType());
 
-        for (Mobile mobile : mobiles) {
-            /*Product product = new Product(mobile.getId(), mobile.getCategoryId(),
-                    mobile.getTitle(), mobile.getDescription(), mobile.getPrice(),
-                    mobile.getStars(), mobile.getRatings());*/
-            System.out.println(mobile.getProduct());
-        }
+        List<Map<String, List<Map<String, String>>>> productSpecification = specifications.get("1001");
+        
+        for(Map<String, List<Map<String, String>>> productSpecificationGroups: productSpecification) {
+            for(Map.Entry<String, List<Map<String, String>>> productSpecGroup: productSpecificationGroups.entrySet()) {
+                System.out.println(productSpecGroup.getKey());
+                for(Map<String, String> spec: productSpecGroup.getValue()) {
+                    for (Map.Entry<String, String> keyValue: spec.entrySet()) {
+                        System.out.println(keyValue.getKey() + " -> " + keyValue.getValue());
+                    }
+                }
+            }
+        }*/
 
+        Map<String, List<SpecificationGroup>> specifications = gson.fromJson(json, new TypeToken<Map<String, List<SpecificationGroup>>>() {
+        }.getType());
+
+        List<SpecificationGroup> specificationGroups = specifications.get("1001");
+        for (SpecificationGroup specificationGroup : specificationGroups) {
+            System.out.println(specificationGroup.getName());
+            for (Specification specification : specificationGroup.getSpecifications()) {
+                System.out.println(specification.getKey() + " = " + specification.getValue());
+            }
+        }
     }
 }

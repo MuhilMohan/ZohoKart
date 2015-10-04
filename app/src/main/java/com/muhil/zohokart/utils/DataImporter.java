@@ -10,12 +10,14 @@ import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.SubCategory;
+import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataImporter {
 
@@ -27,17 +29,17 @@ public class DataImporter {
     }
 
     private String getJsonContentAsString(String fileName) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream = context.getAssets().open(fileName + ".json");
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line);
+                stringBuilder.append(line);
             }
         } catch (Exception e) {
             Log.e("DATA", e.getMessage());
         }
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
 
     public void importData() {
@@ -73,6 +75,16 @@ public class DataImporter {
             }
             records = dbHelper.addProducts(products);
             Log.d("DB", "Number of products in DB = " + records);
+
+            String specificationsAsString = getJsonContentAsString("specifications");
+            Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {
+            }.getType());
+
+            for (Map.Entry<String, List<SpecificationGroup>> entry : specifications.entrySet()) {
+                DataHolder.specifications.put(entry.getKey(), entry.getValue());
+            }
+
+            Log.d("JSON", "Number of product specfications = " + DataHolder.specifications.size());
 
         } else {
             Log.d("DB", "Data already imported");

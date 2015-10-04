@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DB", "Creating tables");
         db.execSQL("create table categories (_id integer primary key not null, name text)");
         db.execSQL("create table sub_categories (_id integer primary key not null, category_id integer, name text)");
-        db.execSQL("create table products (_id integer, category_id integer, title text, description text, price real, stars real, ratings integer, primary key (_id, category_id))");
+        db.execSQL("create table products (_id integer, category_id integer, brand text, title text, description text, thumbnail text, price real, stars real, ratings integer, primary key (_id, category_id))");
         db.execSQL("create table accounts(name text, email text not null primary key, password text, phone_number text, date_of_birth date)");
         Log.d("DB", "accounts table created");
         db.execSQL("create table wishlist (_id integer not null primary key)");
@@ -74,8 +74,10 @@ public class DBHelper extends SQLiteOpenHelper {
             ContentValues contentValue = new ContentValues();
             contentValue.put("_id", product.getId());
             contentValue.put("category_id", product.getCategoryId());
+            contentValue.put("brand", product.getBrand());
             contentValue.put("title", product.getTitle());
             contentValue.put("description", product.getDescription());
+            contentValue.put("thumbnail", product.getThumbnail());
             contentValue.put("price", product.getPrice());
             contentValue.put("stars", product.getStars());
             contentValue.put("ratings", product.getRatings());
@@ -218,13 +220,15 @@ public class DBHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
             int categoryId = cursor.getInt(1);
-            String title = cursor.getString(2);
-            String description = cursor.getString(3);
-            double price = cursor.getDouble(4);
-            double stars = cursor.getDouble(5);
-            int ratings = cursor.getInt(6);
+            String brand = cursor.getString(2);
+            String title = cursor.getString(3);
+            String description = cursor.getString(4);
+            String thumbnail = cursor.getString(5);
+            double price = cursor.getDouble(6);
+            double stars = cursor.getDouble(7);
+            int ratings = cursor.getInt(8);
 
-            Product product = new Product(id, categoryId, title, description, price, stars, ratings);
+            Product product = new Product(id, categoryId, brand, title, description, thumbnail, price, stars, ratings);
             products.add(product);
         }
         cursor.close();

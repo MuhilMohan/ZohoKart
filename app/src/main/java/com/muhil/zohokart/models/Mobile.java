@@ -21,8 +21,9 @@ public class Mobile implements IProduct {
     public Mobile() {
     }
 
-    public Mobile(int id, String name, String brand, String color, int internalMemory, double price, String thumbnail, double stars, int ratings) {
+    public Mobile(int id, int categoryId, String name, String brand, String color, int internalMemory, double price, String thumbnail, double stars, int ratings) {
         this.id = id;
+        this.categoryId = categoryId;
         this.name = name;
         this.brand = brand;
         this.color = color;
@@ -44,6 +45,11 @@ public class Mobile implements IProduct {
     }
 
     @Override
+    public String getBrand() {
+        return brand;
+    }
+
+    @Override
     public String getTitle() {
         return name;
     }
@@ -51,6 +57,11 @@ public class Mobile implements IProduct {
     @Override
     public String getDescription() {
         return color + ", " + internalMemory + " GB";
+    }
+
+    @Override
+    public String getThumbnail() {
+        return thumbnail;
     }
 
     @Override
@@ -70,10 +81,9 @@ public class Mobile implements IProduct {
 
     @Override
     public Product getProduct() {
-        Product product = new Product(this.getId(), this.getCategoryId(),
-                this.getTitle(), this.getDescription(), this.getPrice(),
+        return new Product(this.getId(), this.getCategoryId(), this.getBrand(),
+                this.getTitle(), this.getDescription(), this.getThumbnail(), this.getPrice(),
                 this.getStars(), this.getRatings());
-        return product;
     }
 
 

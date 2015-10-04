@@ -7,9 +7,13 @@ public interface IProduct {
 
     int getCategoryId();
 
+    String getBrand();
+
     String getTitle();
 
     String getDescription();
+
+    String getThumbnail();
 
     double getPrice();
 

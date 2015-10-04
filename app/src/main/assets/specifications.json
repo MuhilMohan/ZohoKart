@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1001,
+    "specs": [
+      {
+        "General": [
+          {
+            "Brand": "Apple"
+          },
+          {
+            "Video Calling": "Yes"
+          },
+          {
+            "Handset Color": "Gold"
+          },
+          {
+            "Form": "Bar"
+          }
+        ]
+      }
+    ]
+  },
+  {}
+]

@@ -17,30 +17,6 @@
     "name": "Apple iPhone 6",
     "brand": "Apple",
     "color": "Space Grey",
-    "internal_memory": 16,
-    "price": 43258.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/2/j/apple-iphone-6-original-imaeymdqs5gm5xkz.jpeg",
-    "stars": 4.0,
-    "ratings": 748
-  },
-  {
-    "id": 1003,
-    "category_id": 100,
-    "name": "Apple iPhone 6",
-    "brand": "Apple",
-    "color": "Gold",
-    "internal_memory": 64,
-    "price": 51940.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/a/z/h/apple-iphone-6-original-imaeynf5tzfkzaym.jpeg",
-    "stars": 4.5,
-    "ratings": 131
-  },
-  {
-    "id": 1004,
-    "category_id": 100,
-    "name": "Apple iPhone 6",
-    "brand": "Apple",
-    "color": "Space Grey",
     "internal_memory": 64,
     "price": 51199.0,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/2/j/apple-iphone-6-original-imaeymdqs5gm5xkz.jpeg",
@@ -48,7 +24,7 @@
     "ratings": 160
   },
   {
-    "id": 1005,
+    "id": 1003,
     "category_id": 100,
     "name": "Apple iPhone 6",
     "brand": "Apple",
@@ -60,31 +36,7 @@
     "ratings": 12
   },
   {
-    "id": 1006,
-    "category_id": 100,
-    "name": "Apple iPhone 6 Plus",
-    "brand": "Apple",
-    "color": "Gold",
-    "internal_memory": 16,
-    "price": 51990.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/4/q/n/apple-iphone-6-plus-original-imaeymdqx2g2wtjn.jpeg",
-    "stars": 4.5,
-    "ratings": 131
-  },
-  {
-    "id": 1007,
-    "category_id": 100,
-    "name": "Apple iPhone 6 Plus",
-    "brand": "Apple",
-    "color": "Gold",
-    "internal_memory": 64,
-    "price": 69000.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/4/q/n/apple-iphone-6-plus-original-imaeymdqx2g2wtjn.jpeg",
-    "stars": 4.5,
-    "ratings": 72
-  },
-  {
-    "id": 1008,
+    "id": 1004,
     "category_id": 100,
     "name": "Apple iPhone 6 Plus",
     "brand": "Apple",
@@ -96,7 +48,7 @@
     "ratings": 94
   },
   {
-    "id": 1009,
+    "id": 1005,
     "category_id": 100,
     "name": "Apple iPhone 6 Plus",
     "brand": "Apple",
@@ -108,7 +60,7 @@
     "ratings": 72
   },
   {
-    "id": 1010,
+    "id": 1006,
     "category_id": 100,
     "name": "Apple iPhone 5s",
     "brand": "Apple",
@@ -120,31 +72,7 @@
     "ratings": 2747
   },
   {
-    "id": 1011,
-    "category_id": 100,
-    "name": "Apple iPhone 5s",
-    "brand": "Apple",
-    "color": "Space Grey",
-    "internal_memory": 16,
-    "price": 30097.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/z/h/f/apple-iphone-5s-original-imadpppc54zfpj9c.jpeg",
-    "stars": 4.0,
-    "ratings": 2747
-  },
-  {
-    "id": 1012,
-    "category_id": 100,
-    "name": "Apple iPhone 5C",
-    "brand": "Apple",
-    "color": "Blue",
-    "internal_memory": 16,
-    "price": 33900.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/3/p/6/apple-iphone-5c-original-imadwyy4bg2n9ewn.jpeg",
-    "stars": 4.0,
-    "ratings": 206
-  },
-  {
-    "id": 1013,
+    "id": 1007,
     "category_id": 100,
     "name": "Apple iPhone 5C",
     "brand": "Apple",
@@ -156,7 +84,7 @@
     "ratings": 206
   },
   {
-    "id": 1014,
+    "id": 1008,
     "category_id": 100,
     "name": "Apple iPhone 5",
     "brand": "Apple",
@@ -168,19 +96,7 @@
     "ratings": 371
   },
   {
-    "id": 1015,
-    "category_id": 100,
-    "name": "Apple iPhone 5",
-    "brand": "Apple",
-    "color": "Black",
-    "internal_memory": 16,
-    "price": 27999.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/t/6/f/apple-iphone-5-original-imadknfx5s2wngz9.jpeg",
-    "stars": 4.0,
-    "ratings": 371
-  },
-  {
-    "id": 1016,
+    "id": 1009,
     "category_id": 100,
     "name": "Apple iPhone 4S",
     "brand": "Apple",
@@ -192,7 +108,7 @@
     "ratings": 1
   },
   {
-    "id": 1017,
+    "id": 1010,
     "category_id": 100,
     "name": "Apple iPhone 4",
     "brand": "Apple",
@@ -204,7 +120,7 @@
     "ratings": 574
   },
   {
-    "id": 1018,
+    "id": 1011,
     "category_id": 100,
     "name": "Moto G(3rd Generation)",
     "brand": "Motorola",
@@ -216,43 +132,7 @@
     "ratings": 8186
   },
   {
-    "id": 1019,
-    "category_id": 100,
-    "name": "Moto G(3rd Generation)",
-    "brand": "Motorola",
-    "color": "White",
-    "internal_memory": 16,
-    "price": 12999.0,
-    "thumbnail": "http://rukmini1.flixcart.com/image/220/220/mobile/g/u/c/motorola-moto-g-3rd-generation-ap3522ad1k8-original-imae9h4kydnyervx.jpeg",
-    "stars": 4.0,
-    "ratings": 8186
-  },
-  {
-    "id": 1020,
-    "category_id": 101,
-    "name": "Moto E(2nd Generation) 3G",
-    "brand": "Motorola",
-    "color": "Black",
-    "internal_memory": 8,
-    "price": 5999.0,
-    "thumbnail": "http://rukmini1.flixcart.com/image/220/220/mobile/a/c/f/motorola-moto-e-2nd-gen-xt1521-original-imae5yvnugydbf9d.jpeg",
-    "stars": 4.0,
-    "ratings": 41617
-  },
-  {
-    "id": 1021,
-    "category_id": 100,
-    "name": "Moto E(2nd Generation) 3G",
-    "brand": "Motorola",
-    "color": "White",
-    "internal_memory": 8,
-    "price": 5999.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/t/n/d/motorola-moto-e-2nd-gen-xt1521-original-imae5yvnbrtaydnx.jpeg",
-    "stars": 4.0,
-    "ratings": 41617
-  },
-  {
-    "id": 1022,
+    "id": 1012,
     "category_id": 100,
     "name": "Moto G(2nd Generation)",
     "brand": "Motorola",
@@ -264,31 +144,7 @@
     "ratings": 41622
   },
   {
-    "id": 1023,
-    "category_id": 100,
-    "name": "Moto G(2nd Generation)",
-    "brand": "Motorola",
-    "color": "White",
-    "internal_memory": 16,
-    "price": 9999.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/d/h/f/motorola-xt1068-original-imadzm9ayhcfem8z.jpeg",
-    "stars": 4.0,
-    "ratings": 41622
-  },
-  {
-    "id": 1024,
-    "category_id": 100,
-    "name": "Moto X Play",
-    "brand": "Motorola",
-    "color": "Black",
-    "internal_memory": 16,
-    "price": 18499.0,
-    "thumbnail": "http://rukmini1.flixcart.com/image/220/220/mobile/9/k/q/motorola-moto-x-play-xt1562-original-imaeb7fdsmje8bt5.jpeg",
-    "stars": 4.5,
-    "ratings": 103
-  },
-  {
-    "id": 1025,
+    "id": 1013,
     "category_id": 100,
     "name": "Moto X Play",
     "brand": "Motorola",
@@ -300,7 +156,7 @@
     "ratings": 103
   },
   {
-    "id": 1026,
+    "id": 1014,
     "category_id": 100,
     "name": "Moto X Play",
     "brand": "Motorola",
@@ -312,19 +168,7 @@
     "ratings": 103
   },
   {
-    "id": 1027,
-    "category_id": 100,
-    "name": "Moto X Play",
-    "brand": "Motorola",
-    "color": "White",
-    "internal_memory": 32,
-    "price": 19999.0,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/h/a/motorola-moto-x-play-xt1562-original-imaeb7fcpgftfvfq.jpeg",
-    "stars": 4.5,
-    "ratings": 128
-  },
-  {
-    "id": 1028,
+    "id": 1015,
     "category_id": 100,
     "name": "Moto Turbo",
     "brand": "Motorola",

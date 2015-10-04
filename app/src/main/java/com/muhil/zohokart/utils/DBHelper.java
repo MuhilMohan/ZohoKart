@@ -214,7 +214,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Product> getProductsForSubCategory(int subCategoryId) {
         List<Product> products = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select _id, category_id, title, description," +
+        Cursor cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail," +
                         " price, stars, ratings from products where category_id = ? ",
                 new String[]{String.valueOf(subCategoryId)});
         while (cursor.moveToNext()) {

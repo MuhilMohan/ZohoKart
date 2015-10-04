@@ -17,13 +17,15 @@
             layout="@layout/app_bar"
             android:id="@+id/app_bar" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_below="@+id/app_bar"
-            android:id="@+id/reclyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/fragmentHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar">
 
-        </android.support.v7.widget.RecyclerView>
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 

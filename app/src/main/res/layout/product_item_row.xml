@@ -32,7 +32,7 @@
                 android:layout_marginStart="20dp">
 
                 <TextView
-                    android:id="@+id/phoneName"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
@@ -40,7 +40,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/color_and_storage"
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

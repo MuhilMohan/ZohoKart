@@ -1,5 +1,7 @@
 package com.muhil.zohokart;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,15 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ToggleButton;
 
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.adapters.RecyclerViewAdapter;
+import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
+import com.muhil.zohokart.fragments.ProductListFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Phone;
+import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 import com.muhil.zohokart.utils.DataImporter;
 
@@ -36,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     DBHelper dbHelper;
 
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
     public static final int ACTION_ACCOUNT_NAME = 1000;
 
     String preferenceName = "logged_account";
@@ -46,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
+
+        fragmentManager = getFragmentManager();
 
         dataImporter = new DataImporter(this);
         dataImporter.importData();
@@ -65,20 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-
-        new Phone();
-        recyclerView = (RecyclerView) findViewById(R.id.reclyclerView);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(Phone.phoneList, this);
-
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-
-        wishlistButton = (ToggleButton) findViewById(R.id.wishListToggle);
-
-        
 
     }
 
@@ -170,6 +167,17 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public void closeDrawer() {
 
         drawerLayout.closeDrawers();
+
+    }
+
+    @Override
+    public void sendSubCategoryId(int subCategoryId) {
+        Log.d("TRANSACTION", "enetered transaction bay");
+        ProductListFragment productListFragment = ProductListFragment.getInstance(subCategoryId);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragmentHolder, productListFragment, "product_list");
+        fragmentTransaction.commit();
+        Log.d("TRANSACTION", "commit done.");
 
     }
 }

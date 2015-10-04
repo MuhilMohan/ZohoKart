@@ -97,6 +97,7 @@ public class NavigationFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             SubCategory subCategory = (SubCategory) v.getTag();
+                            communicator.sendSubCategoryId(subCategory.getId());
                             Toast.makeText(getActivity(), "Sub-category id: " + subCategory.getId(), Toast.LENGTH_SHORT).show();
                             communicator.closeDrawer();
                         }
@@ -195,6 +196,7 @@ public class NavigationFragment extends Fragment {
 
     public interface Communicator {
         void closeDrawer();
+        void sendSubCategoryId(int subCategoryId);
     }
 
 }

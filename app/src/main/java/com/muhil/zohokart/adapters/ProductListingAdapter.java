@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
@@ -43,11 +45,12 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
     }
 
     @Override
-    public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, final int position) {
 
         holder.productListItemView.setTag(productList.get(position));
         holder.title.setText(productList.get(position).getTitle());
         holder.description.setText(productList.get(position).getDescription());
+        holder.wishListButton.setChecked(false);
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(productList.get(position).getPrice())));
         Picasso.with(context).load(productList.get(position).getThumbnail()).into(holder.displayImage);
         if (dbHelper.checkWishlist(productList.get(position).getId())) {
@@ -55,6 +58,30 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         } else {
             holder.wishListButton.setChecked(false);
         }
+
+        holder.wishListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    if(dbHelper.addToWishlist(productList.get(position).getId())){
+                        Toast.makeText(context, "Product added to wishlist", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(context, "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
+                        buttonView.setChecked(false);
+                    }
+                }
+                else {
+                    if(dbHelper.removeFromWishList(productList.get(position).getId())){
+                        Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                        buttonView.setChecked(true);
+                    }
+                }
+            }
+        });
 
     }
 

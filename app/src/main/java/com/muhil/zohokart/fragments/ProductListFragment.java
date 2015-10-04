@@ -8,9 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductListingAdapter;
 import com.muhil.zohokart.decorators.DividerItemDecoration;
@@ -28,6 +32,8 @@ public class ProductListFragment extends Fragment {
     DBHelper dbHelper;
     RecyclerView recyclerView;
     ProductListingAdapter productListingAdapter;
+    ToggleButton wishlistButton;
+    boolean wishlistToggle;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -53,6 +59,7 @@ public class ProductListFragment extends Fragment {
         dbHelper = new DBHelper(getActivity());
         productList = dbHelper.getProductsForSubCategory(bundle.getInt("sub_category_id"));
         recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.productList);
+        wishlistButton = (ToggleButton) fragmentLayout.findViewById(R.id.wishListToggle);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL);
@@ -62,6 +69,5 @@ public class ProductListFragment extends Fragment {
 
         return fragmentLayout;
     }
-
 
 }

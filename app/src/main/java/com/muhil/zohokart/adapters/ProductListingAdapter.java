@@ -47,10 +47,9 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
     @Override
     public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, final int position) {
 
-        holder.productListItemView.setTag(productList.get(position));
+        holder.wishListButton.setTag(productList.get(position));
         holder.title.setText(productList.get(position).getTitle());
         holder.description.setText(productList.get(position).getDescription());
-        holder.wishListButton.setChecked(false);
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(productList.get(position).getPrice())));
         Picasso.with(context).load(productList.get(position).getThumbnail()).into(holder.displayImage);
         if (dbHelper.checkWishlist(productList.get(position).getId())) {
@@ -59,27 +58,29 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             holder.wishListButton.setChecked(false);
         }
 
-        holder.wishListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.wishListButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    if(dbHelper.addToWishlist(productList.get(position).getId())){
+            public void onClick(View v) {
+
+                ToggleButton toggleButton = (ToggleButton) v;
+                Product product = (Product) toggleButton.getTag();
+
+                if (toggleButton.isChecked()) {
+                    if (dbHelper.addToWishlist(product.getId())) {
                         Toast.makeText(context, "Product added to wishlist", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(context, "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
-                        buttonView.setChecked(false);
+                        toggleButton.setChecked(false);
                     }
-                }
-                else {
-                    if(dbHelper.removeFromWishList(productList.get(position).getId())){
+                } else {
+                    if (dbHelper.removeFromWishList(product.getId())) {
                         Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
-                        buttonView.setChecked(true);
+                        toggleButton.setChecked(true);
                     }
                 }
+
             }
         });
 
@@ -94,13 +95,11 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
         TextView title, price, description;
         ImageView displayImage;
-        View productListItemView;
         ToggleButton wishListButton;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
 
-            productListItemView = itemView;
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);

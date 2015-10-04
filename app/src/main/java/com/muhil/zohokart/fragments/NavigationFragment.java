@@ -10,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Category;
@@ -30,8 +34,9 @@ import java.util.Map;
 public class NavigationFragment extends Fragment {
 
     LinearLayout menuLinearLayout, subCategoriesMenu;
-    TextView categoryName, subCategoryName;
-    View subCategoryMenuItem;
+    TextView subCategoryName, categoryName;
+    View subCategoryMenuItem,categoryMenuItem;
+    ToggleButton dropdown;
     List<Category> categories;
     List<SubCategory> subCategories;
     Map<Integer, List<SubCategory>> subCategoriesByCategory;
@@ -72,14 +77,9 @@ public class NavigationFragment extends Fragment {
         }
         for (Category category : categories) {
 
-            categoryName = new TextView(getActivity());
-            categoryName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 150));
+            categoryMenuItem = View.inflate(getActivity(), R.layout.navigation_menu_row, null);
+            categoryName = (TextView) categoryMenuItem.findViewById(R.id.categoryName);
             categoryName.setText(category.getName());
-            categoryName.setGravity(Gravity.CENTER_VERTICAL);
-            categoryName.setBackgroundColor(Color.parseColor("#E0E0E0"));
-            categoryName.setPadding( 16, 0, 0, 0);
-            categoryName.setTextSize(16);
-            categoryName.setId(category.getId());
 
             if ((subCategories = subCategoriesByCategory.get(category.getId())) != null){
                 subCategoriesMenu = new LinearLayout(getActivity());
@@ -104,9 +104,9 @@ public class NavigationFragment extends Fragment {
 
                     subCategoriesMenu.addView(subCategoryMenuItem);
                 }
-                categoryName.setTag(subCategoriesMenu);
+                categoryMenuItem.setTag(subCategoriesMenu);
 
-                categoryName.setOnClickListener(new View.OnClickListener() {
+                categoryMenuItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -114,17 +114,22 @@ public class NavigationFragment extends Fragment {
                         if (subMenuTag.getVisibility() == View.GONE) {
 
                             expand(subMenuTag);
+                            dropdown = (ToggleButton) v.findViewById(R.id.dropdown);
+                            dropdown.setChecked(true);
+
 
                         } else if (subMenuTag.getVisibility() == View.VISIBLE) {
 
                             collapse(subMenuTag);
+                            dropdown = (ToggleButton) v.findViewById(R.id.dropdown);
+                            dropdown.setChecked(false);
 
                         }
 
                     }
                 });
 
-                menuLinearLayout.addView(categoryName);
+                menuLinearLayout.addView(categoryMenuItem);
                 menuLinearLayout.addView(subCategoriesMenu);
 
             }

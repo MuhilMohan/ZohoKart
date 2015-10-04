@@ -1,0 +1,77 @@
+[
+  {
+    "id": 100,
+    "category_id": 1,
+    "name": "Mobiles"
+  },
+  {
+    "id": 101,
+    "category_id": 1,
+    "name": "Tablets"
+  },
+  {
+    "id": 102,
+    "category_id": 1,
+    "name": "Laptops"
+  },
+  {
+    "id": 200,
+    "category_id": 2,
+    "name": "Furniture"
+  },
+  {
+    "id": 201,
+    "category_id": 2,
+    "name": "Lighting"
+  },
+  {
+    "id": 202,
+    "category_id": 2,
+    "name": "Kitchen & Dining"
+  },
+  {
+    "id": 300,
+    "category_id": 3,
+    "name": "Tyres"
+  },
+  {
+    "id": 301,
+    "category_id": 3,
+    "name": "Lubricants & Oil"
+  },
+  {
+    "id": 302,
+    "category_id": 3,
+    "name": "Car Essentials"
+  },
+  {
+    "id": 400,
+    "category_id": 4,
+    "name": "Health Care"
+  },
+  {
+    "id": 401,
+    "category_id": 4,
+    "name": "Sports & Fitness"
+  },
+  {
+    "id": 402,
+    "category_id": 4,
+    "name": "Luggage & Travel"
+  },
+  {
+    "id": 500,
+    "category_id": 5,
+    "name": "Fiction"
+  },
+  {
+    "id": 501,
+    "category_id": 5,
+    "name": "Non-Fiction"
+  },
+  {
+    "id": 502,
+    "category_id": 5,
+    "name": "Literature"
+  }
+]

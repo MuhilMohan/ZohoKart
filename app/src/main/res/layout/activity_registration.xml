@@ -1,0 +1,220 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_layout_background"
+    tools:context="com.muhil.recylcerviewdemo.RegistrationActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="ZohoKart"
+                    android:textSize="50sp"
+                    android:textStyle="italic|bold"
+                    android:textColor="#FFF"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:inputType="text"
+                        android:ems="10"
+                        android:textSize="16sp"
+                        android:textColor="#FFF"
+                        android:textColorHint="#FFF"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/accountName"
+                        android:hint="Full Name"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFF"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:inputType="textEmailAddress"
+                        android:ems="10"
+                        android:textSize="16sp"
+                        android:textColor="#FFF"
+                        android:textColorHint="#FFF"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/email"
+                        android:hint="Email"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFF"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:inputType="textPassword"
+                            android:ems="10"
+                            android:textSize="16sp"
+                            android:textColor="#FFF"
+                            android:textColorHint="#FFF"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/password"
+                            android:hint="Password"/>
+                        <TextView
+                            android:id="@+id/showButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/blank_button"
+                            android:layout_alignParentRight="true"
+                            android:text="Show"
+                            android:textColor="#FFF"
+                            android:textSize="16sp"
+                            android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/hideButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/blank_button"
+                            android:layout_alignParentRight="true"
+                            android:text="Hide"
+                            android:textColor="#FFF"
+                            android:textSize="16sp"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFF"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:textSize="16sp"
+                        android:textColor="#FFF"
+                        android:textColorHint="#FFF"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/phoneNumber"
+                        android:hint="Phone number"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#FFF"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/dateOfBirth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:text="Date of birth"
+                            android:textColor="#FFF"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:text="Show Calendar"
+                            android:textColor="#FFF"
+                            android:textSize="16sp"
+                            android:gravity="center"
+                            android:onClick="OnShowCalendarClicked"/>
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="Register"
+                        android:background="@drawable/rounded_button"
+                        android:id="@+id/registrationButton"
+                        android:textSize="18sp"
+                        android:textColor="#FFF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="40dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="#FFF"
+                        android:text="@string/sign_in_string"
+                        android:textSize="18sp"
+                        android:onClick="onSigninClicked"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@mipmap/ic_close_white_24dp"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"/>
+
+</RelativeLayout>

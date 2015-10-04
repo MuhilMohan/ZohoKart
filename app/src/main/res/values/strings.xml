@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">ZohoKart</string>
+    <string name="app_name">RecylcerView demo</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="sign_up_string"><u>New to Zohokart? Sign up</u></string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="sign_in_string"><u>Have an account? Sign in</u></string>
 </resources>

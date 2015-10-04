@@ -1,5 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
+        app:showAsAction="never"
+        android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/action_login"
+        android:title="Login"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/cart_icon"
+        android:title="cart"
+        android:icon="@mipmap/ic_shopping_cart_white_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="400" />
+
+    <item android:title="wish list"
+        android:icon="@mipmap/ic_favorite_white_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="300" />
+
+
 </menu>

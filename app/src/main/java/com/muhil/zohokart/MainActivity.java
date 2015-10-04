@@ -1,16 +1,85 @@
 package com.muhil.zohokart;
 
-import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ToggleButton;
 
-public class MainActivity extends Activity {
+import com.muhil.zohokart.activities.LoginActivity;
+import com.muhil.zohokart.adapters.RecyclerViewAdapter;
+import com.muhil.zohokart.fragments.NavigationFragment;
+import com.muhil.zohokart.models.Account;
+import com.muhil.zohokart.models.Phone;
+import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.DataImporter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator {
+
+    RecyclerView recyclerView;
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    DataImporter dataImporter;
+    SharedPreferences sharedPreferences;
+    NavigationFragment navigationFragment;
+    ToggleButton wishlistButton;
+
+    DBHelper dbHelper;
+
+    public static final int ACTION_ACCOUNT_NAME = 1000;
+
+    String preferenceName = "logged_account";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
+
+        dataImporter = new DataImporter(this);
+        dataImporter.importData();
+
+        navigationFragment = (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        navigationFragment.setCommunicator(this);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if (getSupportActionBar() != null){
+
+            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        new Phone();
+        recyclerView = (RecyclerView) findViewById(R.id.reclyclerView);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(Phone.phoneList, this);
+
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        wishlistButton = (ToggleButton) findViewById(R.id.wishListToggle);
+
+        
+
     }
 
     @Override
@@ -18,6 +87,46 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem menuItem = null;
+
+
+        Account account = new Account();
+        String jsonString = sharedPreferences.getString("logged_account","");
+        if (jsonString!=null && !jsonString.equals("")){
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                account.setName(jsonObject.getString("name"));
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
+
+            if ((menuItem = menu.findItem(ACTION_ACCOUNT_NAME)) == null){
+
+                menu.findItem(R.id.action_login).setVisible(false);
+                menu.add(0, ACTION_ACCOUNT_NAME, 200, account.getName());
+
+            }
+
+        }
+        else {
+
+            if ((menuItem = menu.findItem(ACTION_ACCOUNT_NAME)) != null){
+
+                menu.removeItem(ACTION_ACCOUNT_NAME);
+                menu.findItem(R.id.action_login).setVisible(true);
+
+            }
+
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -31,7 +140,36 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == android.R.id.home){
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        else if (id == R.id.action_login){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+
+
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else{
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    public void closeDrawer() {
+
+        drawerLayout.closeDrawers();
+
     }
 }

@@ -8,10 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductListingAdapter;
+import com.muhil.zohokart.decorators.DividerItemDecoration;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 
@@ -53,7 +55,8 @@ public class ProductListFragment extends Fragment {
         recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.productList);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        RecyclerView.ItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL);
+        recyclerView.addItemDecoration(divider);
         productListingAdapter = new ProductListingAdapter(productList, getActivity());
         recyclerView.setAdapter(productListingAdapter);
 

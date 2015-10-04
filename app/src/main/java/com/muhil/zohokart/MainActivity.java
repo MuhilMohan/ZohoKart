@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         Log.d("TRANSACTION", "enetered transaction bay");
         ProductListFragment productListFragment = ProductListFragment.getInstance(subCategoryId);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentHolder, productListFragment, "product_list");
+        fragmentTransaction.replace(R.id.fragmentHolder, productListFragment, "product_list");
         fragmentTransaction.commit();
         Log.d("TRANSACTION", "commit done.");
 

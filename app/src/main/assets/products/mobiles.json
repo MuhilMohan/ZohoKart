@@ -6,7 +6,7 @@
     "brand": "Apple",
     "color": "Gold",
     "internal_memory": 16,
-    "price": 41937.0,
+    "price": 41937.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/h/h/g/apple-iphone-6-original-imaeyny5hqffnnbn.jpeg",
     "stars": 4.5,
     "ratings": 768
@@ -18,7 +18,7 @@
     "brand": "Apple",
     "color": "Space Grey",
     "internal_memory": 64,
-    "price": 51199.0,
+    "price": 51199.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/2/j/apple-iphone-6-original-imaeymdqs5gm5xkz.jpeg",
     "stars": 4.5,
     "ratings": 160
@@ -30,7 +30,7 @@
     "brand": "Apple",
     "color": "Gold",
     "internal_memory": 128,
-    "price": 63499.0,
+    "price": 63499.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/h/h/g/apple-iphone-6-original-imaeyny5hqffnnbn.jpeg",
     "stars": 4.5,
     "ratings": 12
@@ -42,7 +42,7 @@
     "brand": "Apple",
     "color": "Space Grey",
     "internal_memory": 16,
-    "price": 51699.0,
+    "price": 51699.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/h/z/d/apple-iphone-6-plus-original-imaeymdqfzw2zzhw.jpeg",
     "stars": 4.5,
     "ratings": 94
@@ -54,7 +54,7 @@
     "brand": "Apple",
     "color": "Space Grey",
     "internal_memory": 64,
-    "price": 64237.0,
+    "price": 64237.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/h/z/d/apple-iphone-6-plus-original-imaeymdqfzw2zzhw.jpeg",
     "stars": 4.5,
     "ratings": 72
@@ -66,7 +66,7 @@
     "brand": "Apple",
     "color": "Gold",
     "internal_memory": 16,
-    "price": 30250.0,
+    "price": 30250.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/4/u/g/apple-iphone-5s-original-imadpppc9k3gzdjz.jpeg",
     "stars": 4.0,
     "ratings": 2747
@@ -78,7 +78,7 @@
     "brand": "Apple",
     "color": "Yellow",
     "internal_memory": 16,
-    "price": 33900,
+    "price": 33900.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/q/f/r/apple-iphone-5c-original-imadpnhyw2qnxkh5.jpeg",
     "stars": 4.0,
     "ratings": 206
@@ -90,7 +90,7 @@
     "brand": "Apple",
     "color": "White",
     "internal_memory": 16,
-    "price": 25999.0,
+    "price": 25999.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/r/z/u/apple-iphone-5-original-imadknfx9gnf2huq.jpeg",
     "stars": 4.0,
     "ratings": 371
@@ -114,7 +114,7 @@
     "brand": "Apple",
     "color": "White",
     "internal_memory": 8,
-    "price": 11999.0,
+    "price": 11999.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/e/y/apple-iphone-4-original-imadnauwq5hz2ahr.jpeg",
     "stars": 3.5,
     "ratings": 574
@@ -126,7 +126,7 @@
     "brand": "Motorola",
     "color": "Black",
     "internal_memory": 16,
-    "price": 12999.0,
+    "price": 12999.00,
     "thumbnail": "http://rukmini1.flixcart.com/image/220/220/mobile/w/t/n/motorola-moto-g-3rd-generation-ap3560ae7k8-original-imae9h4h8gkbpq56.jpeg",
     "stars": 4.0,
     "ratings": 8186
@@ -138,7 +138,7 @@
     "brand": "Motorola",
     "color": "Black",
     "internal_memory": 16,
-    "price": 9999.0,
+    "price": 9999.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/r/f/c/motorola-xt1068-original-imadzmftdsmnqx3k.jpeg",
     "stars": 4.0,
     "ratings": 41622
@@ -150,7 +150,7 @@
     "brand": "Motorola",
     "color": "White",
     "internal_memory": 16,
-    "price": 18499.0,
+    "price": 18499.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/h/a/motorola-moto-x-play-xt1562-original-imaeb7fcpgftfvfq.jpeg",
     "stars": 4.5,
     "ratings": 103
@@ -162,7 +162,7 @@
     "brand": "Motorola",
     "color": "Black",
     "internal_memory": 32,
-    "price": 19999.0,
+    "price": 19999.00,
     "thumbnail": "http://rukmini1.flixcart.com/image/220/220/mobile/9/k/q/motorola-moto-x-play-xt1562-original-imaeb7fdsmje8bt5.jpeg",
     "stars": 4.5,
     "ratings": 103
@@ -174,7 +174,7 @@
     "brand": "Motorola",
     "color": "Black",
     "internal_memory": 64,
-    "price": 41999.0,
+    "price": 41999.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/c/v/x/motorola-moto-turbo-xt1225-original-imae5fyxgh7qy6ag.jpeg",
     "stars": 4.0,
     "ratings": 220

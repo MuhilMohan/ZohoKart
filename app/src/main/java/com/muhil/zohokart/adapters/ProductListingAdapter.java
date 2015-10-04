@@ -10,14 +10,11 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
-import com.muhil.zohokart.models.Phone;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.security.ProtectionDomain;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -28,6 +25,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
     List<Product> productList;
     Context context;
     DBHelper dbHelper;
+    DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     public ProductListingAdapter(List<Product> productList, Context context) {
 
@@ -50,12 +48,11 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         holder.productListItemView.setTag(productList.get(position));
         holder.title.setText(productList.get(position).getTitle());
         holder.description.setText(productList.get(position).getDescription());
-        holder.price.setText("Rs. " + String.valueOf(productList.get(position).getPrice()));
+        holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(productList.get(position).getPrice())));
         Picasso.with(context).load(productList.get(position).getThumbnail()).into(holder.displayImage);
-        if (dbHelper.checkWishlist(productList.get(position).getId())){
+        if (dbHelper.checkWishlist(productList.get(position).getId())) {
             holder.wishListButton.setChecked(true);
-        }
-        else {
+        } else {
             holder.wishListButton.setChecked(false);
         }
 
@@ -66,7 +63,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         return productList.size();
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder{
+    class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, price, description;
         ImageView displayImage;

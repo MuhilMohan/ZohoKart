@@ -328,4 +328,35 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return products;
     }
+
+
+    public List<Product> getProductsForProductIds(List<Integer> productIds) {
+        List<Product> products = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        if (!productIds.isEmpty()) {
+            for (Integer productId : productIds) {
+                Cursor cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail, " +
+                        "price, stars, ratings from products where _id = ?", new String[]{String.valueOf(productId)});
+                Log.d("CART_CURSOR", String.valueOf(cursor.getCount()));
+                while (cursor.moveToNext()) {
+                    int id = cursor.getInt(0);
+                    int categoryId = cursor.getInt(1);
+                    String brand = cursor.getString(2);
+                    String title = cursor.getString(3);
+                    String description = cursor.getString(4);
+                    String thumbnail = cursor.getString(5);
+                    double price = cursor.getDouble(6);
+                    double stars = cursor.getDouble(7);
+                    int ratings = cursor.getInt(8);
+
+                    Product product = new Product(id, categoryId, brand, title, description, thumbnail, price, stars, ratings);
+                    products.add(product);
+                }
+                cursor.close();
+            }
+        } else {
+            return null;
+        }
+        return products;
+    }
 }

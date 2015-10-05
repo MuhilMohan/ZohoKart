@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "banner": "http://rukmini1.flixcart.com/www/720/280/promos/new/1441502349781-form-data-image-720-280-copy-63.jpg",
+    "product_ids": [
+      1012
+    ]
+  },
+  {
+    "id": 2,
+    "banner": "http://rukmini1.flixcart.com/www/720/280/promos/new/1443617612435-form-data-image-720-280-copy-83.jpg",
+    "product_ids": [
+      1016,
+      1017
+    ]
+  }
+]

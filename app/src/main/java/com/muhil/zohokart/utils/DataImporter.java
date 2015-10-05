@@ -1,6 +1,7 @@
 package com.muhil.zohokart.utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -9,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.specification.SpecificationGroup;
 
@@ -28,6 +30,7 @@ public class DataImporter {
         this.context = context;
     }
 
+    @SuppressLint("NewApi")
     private String getJsonContentAsString(String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream = context.getAssets().open(fileName + ".json");
@@ -76,19 +79,28 @@ public class DataImporter {
             records = dbHelper.addProducts(products);
             Log.d("DB", "Number of products in DB = " + records);
 
-            String specificationsAsString = getJsonContentAsString("specifications");
-            Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {
-            }.getType());
-
-            for (Map.Entry<String, List<SpecificationGroup>> entry : specifications.entrySet()) {
-                DataHolder.specifications.put(entry.getKey(), entry.getValue());
-            }
-
-            Log.d("JSON", "Number of product specfications = " + DataHolder.specifications.size());
-
         } else {
             Log.d("DB", "Data already imported");
         }
 
+        String specificationsAsString = getJsonContentAsString("specifications");
+        Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {
+        }.getType());
+
+        for (Map.Entry<String, List<SpecificationGroup>> entry : specifications.entrySet()) {
+            DataHolder.specifications.put(entry.getKey(), entry.getValue());
+        }
+
+        Log.d("JSON", "Number of product specfications = " + DataHolder.specifications.size());
+
+        String promotionBannersAsString = getJsonContentAsString("promotion_banners");
+        List<PromotionBanner> promotionBanners = gson.fromJson(promotionBannersAsString, new TypeToken<List<PromotionBanner>>() {
+        }.getType());
+
+        for (PromotionBanner promotionBanner : promotionBanners) {
+            DataHolder.promotionBanners.add(promotionBanner);
+        }
+
+        Log.d("JSON", "Number of promotion banners = " + DataHolder.promotionBanners.size());
     }
 }

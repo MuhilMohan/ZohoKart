@@ -134,14 +134,14 @@
   {
     "id": 1012,
     "category_id": 100,
-    "name": "Moto G(2nd Generation)",
+    "name": "Moto X(2nd Generation)",
     "brand": "Motorola",
     "color": "Black",
     "internal_memory": 16,
-    "price": 9999.00,
-    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/r/f/c/motorola-xt1068-original-imadzmftdsmnqx3k.jpeg",
+    "price": 19999.00,
+    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/f/9/7/motorola-moto-x-2nd-generation-xt1092-original-imae8qefscehtzz3.jpeg",
     "stars": 4.0,
-    "ratings": 41622
+    "ratings": 1323
   },
   {
     "id": 1013,
@@ -178,5 +178,29 @@
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/c/v/x/motorola-moto-turbo-xt1225-original-imae5fyxgh7qy6ag.jpeg",
     "stars": 4.0,
     "ratings": 220
+  },
+  {
+    "id": 1016,
+    "category_id": 100,
+    "name": "Mi 4i",
+    "brand": "Xiaomi",
+    "color": "Black",
+    "internal_memory": 16,
+    "price": 12999.00,
+    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/n/t/s/mi-mi-4i-mzb4300in-original-imae7ndt3wpak7jj.jpeg",
+    "stars": 4.0,
+    "ratings": 9651
+  },
+  {
+    "id": 1017,
+    "category_id": 100,
+    "name": "Mi 4",
+    "brand": "White",
+    "color": "Black",
+    "internal_memory": 64,
+    "price": 17999.00,
+    "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/p/g/j/mi-mi4-64gb-mzb4240in-original-imae4qwz5jthgnd7.jpeg",
+    "stars": 4.0,
+    "ratings": 1178
   }
 ]

@@ -47,13 +47,21 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     }
 
     @Override
-    public void onBindViewHolder(WishlistAdapter.WishlistViewHolder holder, int position) {
+    public void onBindViewHolder(final WishlistAdapter.WishlistViewHolder holder, int position) {
 
         holder.removeProductView.setTag(wishlist.get(position));
+        holder.addToCart.setTag(wishlist.get(position));
         holder.title.setText(wishlist.get(position).getTitle());
         holder.description.setText(wishlist.get(position).getDescription());
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(wishlist.get(position).getPrice())));
         Picasso.with(context).load(wishlist.get(position).getThumbnail()).into(holder.displayImage);
+
+        if (dbHelper.checkInCart(wishlist.get(position).getId())){
+
+            holder.addToCart.setVisibility(View.GONE);
+            holder.goToCart.setVisibility(View.VISIBLE);
+
+        }
 
         holder.removeProductView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +73,28 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                     int position = wishlist.indexOf(product);
                     wishlist.remove(position);
                     notifyItemRemoved(position);
-                    if (wishlist.size() == 0){
+                    if (wishlist.size() == 0) {
                         wishlistFragment.switchViewElement();
                     }
-                } else {
+                }
+                else {
                     Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        holder.addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Product product = (Product) v.getTag();
+                if (dbHelper.addToCart(product.getId())) {
+                    Toast.makeText(context, "product added to cart.", Toast.LENGTH_SHORT).show();
+                    v.setVisibility(View.GONE);
+                    holder.goToCart.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(context, "error while adding to cart.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -86,7 +109,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         TextView title, price, description;
         ImageView displayImage;
-        FrameLayout removeProductView;
+        FrameLayout removeProductView, addToCart, goToCart;
 
         public WishlistViewHolder(View itemView) {
             super(itemView);
@@ -96,6 +119,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.displayImage);
             removeProductView = (FrameLayout) itemView.findViewById(R.id.removeProduct);
+            addToCart = (FrameLayout) itemView.findViewById(R.id.add_to_cart_action);
+            goToCart = (FrameLayout) itemView.findViewById(R.id.go_to_cart_action);
+
 
         }
     }

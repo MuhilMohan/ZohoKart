@@ -1,12 +1,13 @@
 package com.muhil.zohokart.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -24,14 +25,16 @@ import java.util.List;
  */
 public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductViewHolder> {
 
-    List<Product> productList;
+    List<Product> products;
     Context context;
     DBHelper dbHelper;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
+    double stars;
+    ImageView fullStar, halfStar, emptyStar;
 
-    public ProductListingAdapter(List<Product> productList, Context context) {
+    public ProductListingAdapter(List<Product> products, Context context) {
 
-        this.productList = productList;
+        this.products = products;
         this.context = context;
         dbHelper = new DBHelper(context);
 
@@ -47,12 +50,41 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
     @Override
     public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, final int position) {
 
-        holder.wishListButton.setTag(productList.get(position));
-        holder.title.setText(productList.get(position).getTitle());
-        holder.description.setText(productList.get(position).getDescription());
-        holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(productList.get(position).getPrice())));
-        Picasso.with(context).load(productList.get(position).getThumbnail()).into(holder.displayImage);
-        if (dbHelper.checkWishlist(productList.get(position).getId())) {
+        holder.wishListButton.setTag(products.get(position));
+        holder.title.setText(products.get(position).getTitle());
+        holder.description.setText(products.get(position).getDescription());
+        holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(products.get(position).getPrice())));
+        Picasso.with(context).load(products.get(position).getThumbnail()).into(holder.displayImage);
+        holder.productRating.setText(String.valueOf(products.get(position).getRatings()) + " Ratings");
+        stars = products.get(position).getStars();
+
+        holder.productStars.removeAllViews();
+        for (int i = 0; i < 5; i++) {
+
+            if (stars >= 1){
+                fullStar = new ImageView(context);
+                fullStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                fullStar.setImageResource(R.mipmap.ic_star_black_18dp);
+                holder.productStars.addView(fullStar);
+                stars = stars-1;
+            }
+            else if (stars > 0){
+                halfStar = new ImageView(context);
+                halfStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                halfStar.setImageResource(R.mipmap.ic_star_half_black_18dp);
+                holder.productStars.addView(halfStar);
+                stars = stars-0.5;
+            }
+            else {
+                emptyStar = new ImageView(context);
+                emptyStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                emptyStar.setImageResource(R.mipmap.ic_star_border_black_18dp);
+                holder.productStars.addView(emptyStar);
+            }
+
+        }
+
+        if (dbHelper.checkWishlist(products.get(position).getId())) {
             holder.wishListButton.setChecked(true);
         } else {
             holder.wishListButton.setChecked(false);
@@ -88,14 +120,15 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return products.size();
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, price, description;
+        TextView title, price, description, productRating;
         ImageView displayImage;
         ToggleButton wishListButton;
+        LinearLayout productStars;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -105,6 +138,8 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.displayImage);
             wishListButton = (ToggleButton) itemView.findViewById(R.id.wishListToggle);
+            productStars = (LinearLayout) itemView.findViewById(R.id.product_stars);
+            productRating = (TextView) itemView.findViewById(R.id.product_rating);
 
         }
     }

@@ -6,7 +6,7 @@
     tools:context="com.muhil.zohokart.fragments.ProductListFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/productList"
+        android:id="@+id/products"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

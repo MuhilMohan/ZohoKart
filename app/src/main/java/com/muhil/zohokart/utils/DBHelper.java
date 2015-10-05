@@ -226,6 +226,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String thumbnail = cursor.getString(5);
             double price = cursor.getDouble(6);
             double stars = cursor.getDouble(7);
+            Log.d("STARS", String.valueOf(stars));
             int ratings = cursor.getInt(8);
 
             Product product = new Product(id, categoryId, brand, title, description, thumbnail, price, stars, ratings);

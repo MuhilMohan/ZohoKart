@@ -58,7 +58,7 @@ public class ProductListFragment extends Fragment {
         Bundle bundle = getArguments();
         dbHelper = new DBHelper(getActivity());
         productList = dbHelper.getProductsForSubCategory(bundle.getInt("sub_category_id"));
-        recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.productList);
+        recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.products);
         wishlistButton = (ToggleButton) fragmentLayout.findViewById(R.id.wishListToggle);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

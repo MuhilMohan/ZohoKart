@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 import com.squareup.picasso.Picasso;
@@ -27,11 +28,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     List<Product> wishlist;
     Context context;
+    WishlistFragment wishlistFragment;
     DBHelper dbHelper;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
-    public WishlistAdapter(Context context, List<Product> wishlist) {
+    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment) {
         this.context = context;
+        this.wishlistFragment = wishlistFragment;
         this.wishlist = wishlist;
         dbHelper = new DBHelper(context);
     }
@@ -60,8 +63,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 if (dbHelper.removeFromWishList(product.getId())) {
                     Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
                     int position = wishlist.indexOf(product);
-                    wishlist.remove(product);
+                    wishlist.remove(position);
                     notifyItemRemoved(position);
+                    if (wishlist.size() == 0){
+                        wishlistFragment.switchViewElement();
+                    }
                 } else {
                     Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
                 }

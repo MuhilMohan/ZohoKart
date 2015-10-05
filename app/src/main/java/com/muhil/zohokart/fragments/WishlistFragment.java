@@ -45,15 +45,16 @@ public class WishlistFragment extends Fragment {
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.emptyText);
         if (wishlist != null){
 
-            wishlistAdapter = new WishlistAdapter(getActivity(), wishlist);
-            wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            wishlistRecyclerView.setAdapter(wishlistAdapter);
+            if (wishlist.size() > 0){
+                wishlistAdapter = new WishlistAdapter(getActivity(), wishlist, WishlistFragment.this);
+                wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                wishlistRecyclerView.setAdapter(wishlistAdapter);
+            }
 
         }
         else {
 
-            wishlistRecyclerView.setVisibility(View.GONE);
-            emptyTextView.setVisibility(View.VISIBLE);
+            switchViewElement();
 
         }
 
@@ -61,5 +62,11 @@ public class WishlistFragment extends Fragment {
         return wishlistFragment;
     }
 
+    public void switchViewElement(){
+
+        wishlistRecyclerView.setVisibility(View.GONE);
+        emptyTextView.setVisibility(View.VISIBLE);
+
+    }
 
 }

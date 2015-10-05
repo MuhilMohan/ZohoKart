@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table accounts(name text, email text not null primary key, password text, phone_number text, date_of_birth date)");
         Log.d("DB", "accounts table created");
         db.execSQL("create table wishlist (_id integer not null primary key, added_on datetime default current_timestamp)");
-
+        db.execSQL("create table cart (_id integer not null primary key, quantity integer default 1, added_on datetime default current_timestamp)");
     }
 
     @Override
@@ -113,11 +113,9 @@ public class DBHelper extends SQLiteOpenHelper {
         boolean result = cursor.moveToNext();
         cursor.close();
         return result;
-
     }
 
     public Account getAccountIfAvailable(String email, String password) {
-
         Account account = new Account();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ? " +
@@ -138,11 +136,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return account;
-
     }
 
     public boolean checkWishlist(int productId) {
-
         boolean result;
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist where _id = ?",
@@ -153,8 +149,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addToWishlist(int productId) {
+    public boolean checkInCart(int productId) {
+        boolean result;
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart where _id = ?",
+                new String[]{String.valueOf(productId)});
+        result = cursor.getCount() == 1;
+        cursor.close();
+        return result;
+    }
 
+    public boolean addToWishlist(int productId) {
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         contentValues.put("_id", productId);
@@ -162,12 +167,24 @@ public class DBHelper extends SQLiteOpenHelper {
         return rowID != -1;
     }
 
-    public boolean removeFromWishList(int productId) {
+    public boolean addToCart(int productId) {
+        ContentValues contentValues = new ContentValues();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        contentValues.put("_id", productId);
+        Long rowID = sqLiteDatabase.insert("cart", null, contentValues);
+        return rowID != -1;
+    }
 
+    public boolean removeFromWishList(int productId) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         int rowsAffected = sqLiteDatabase.delete("wishlist", "_id = ? ", new String[]{String.valueOf(productId)});
         return rowsAffected != -1;
+    }
 
+    public boolean removeFromCart(int productId) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        int rowsAffected = sqLiteDatabase.delete("cart", "_id = ? ", new String[]{String.valueOf(productId)});
+        return rowsAffected != -1;
     }
 
     public int numberOfRows() {
@@ -251,6 +268,44 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail, " +
                         "price, stars, ratings from products where _id = ?", new String[]{String.valueOf(productId)});
                 Log.d("WISHLIST_CURSOR", String.valueOf(cursor.getCount()));
+                while (cursor.moveToNext()) {
+                    int id = cursor.getInt(0);
+                    int categoryId = cursor.getInt(1);
+                    String brand = cursor.getString(2);
+                    String title = cursor.getString(3);
+                    String description = cursor.getString(4);
+                    String thumbnail = cursor.getString(5);
+                    double price = cursor.getDouble(6);
+                    double stars = cursor.getDouble(7);
+                    int ratings = cursor.getInt(8);
+
+                    Product product = new Product(id, categoryId, brand, title, description, thumbnail, price, stars, ratings);
+                    products.add(product);
+                }
+
+            }
+        } else {
+            return null;
+        }
+        cursor.close();
+        return products;
+    }
+
+    public List<Product> getProductsFromCart() {
+        List<Product> products = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart order by added_on asc", null);
+        Log.d("CART_CURSOR", String.valueOf(cursor.getCount()));
+        List<Integer> productsInCart = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            productsInCart.add(id);
+        }
+        if (!productsInCart.isEmpty()) {
+            for (Integer productId : productsInCart) {
+                cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail, " +
+                        "price, stars, ratings from products where _id = ?", new String[]{String.valueOf(productId)});
+                Log.d("CART_CURSOR", String.valueOf(cursor.getCount()));
                 while (cursor.moveToNext()) {
                     int id = cursor.getInt(0);
                     int categoryId = cursor.getInt(1);

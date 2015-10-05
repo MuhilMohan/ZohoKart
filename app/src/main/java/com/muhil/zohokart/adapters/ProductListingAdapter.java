@@ -136,8 +136,8 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
-            displayImage = (ImageView) itemView.findViewById(R.id.displayImage);
-            wishListButton = (ToggleButton) itemView.findViewById(R.id.wishListToggle);
+            displayImage = (ImageView) itemView.findViewById(R.id.display_image);
+            wishListButton = (ToggleButton) itemView.findViewById(R.id.wishlist_toggle);
             productStars = (LinearLayout) itemView.findViewById(R.id.product_stars);
             productRating = (TextView) itemView.findViewById(R.id.product_rating);
 

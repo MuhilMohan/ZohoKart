@@ -78,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             name = (TextView) itemView.findViewById(R.id.title);
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.displayImage);
-            wishListButton = (ToggleButton) itemView.findViewById(R.id.wishListToggle);
+            wishListButton = (ToggleButton) itemView.findViewById(R.id.wishlist_toggle);
 
         }
     }

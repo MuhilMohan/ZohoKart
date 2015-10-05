@@ -28,6 +28,7 @@ public class WishlistFragment extends Fragment {
     DBHelper dbHelper;
     List<Product> wishlist;
     WishlistAdapter wishlistAdapter;
+    LinearLayout bulk_actions;
     TextView emptyTextView;
 
     public WishlistFragment() {
@@ -43,6 +44,7 @@ public class WishlistFragment extends Fragment {
         wishlist = dbHelper.getProductsFromWishList();
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.emptyText);
+        bulk_actions = (LinearLayout) wishlistFragment.findViewById(R.id.bulk_processing_actions);
         if (wishlist != null){
 
             if (wishlist.size() > 0){
@@ -65,6 +67,7 @@ public class WishlistFragment extends Fragment {
     public void switchViewElement(){
 
         wishlistRecyclerView.setVisibility(View.GONE);
+        bulk_actions.setVisibility(View.GONE);
         emptyTextView.setVisibility(View.VISIBLE);
 
     }

@@ -94,5 +94,101 @@
         }
       ]
     }
+  ],
+  "1012": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "Android KitKat 4.4"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "5.2 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1920x1080 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "144 gm"
+        }
+      ]
+    }
   ]
 }

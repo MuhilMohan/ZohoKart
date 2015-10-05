@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,20 +46,22 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(WishlistAdapter.WishlistViewHolder holder, int position) {
 
-        holder.deleteButton.setTag(wishlist.get(position));
+        holder.removeProductView.setTag(wishlist.get(position));
         holder.title.setText(wishlist.get(position).getTitle());
         holder.description.setText(wishlist.get(position).getDescription());
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(wishlist.get(position).getPrice())));
         Picasso.with(context).load(wishlist.get(position).getThumbnail()).into(holder.displayImage);
 
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+        holder.removeProductView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Product product = (Product) v.getTag();
                 if (dbHelper.removeFromWishList(product.getId())) {
-                    notifyDataSetChanged();
                     Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
+                    int position = wishlist.indexOf(product);
+                    wishlist.remove(product);
+                    notifyItemRemoved(position);
                 } else {
                     Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
                 }
@@ -77,7 +80,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         TextView title, price, description;
         ImageView displayImage;
-        ImageButton deleteButton;
+        FrameLayout removeProductView;
 
         public WishlistViewHolder(View itemView) {
             super(itemView);
@@ -86,7 +89,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.displayImage);
-            deleteButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
+            removeProductView = (FrameLayout) itemView.findViewById(R.id.removeProduct);
 
         }
     }

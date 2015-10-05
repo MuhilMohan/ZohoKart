@@ -239,6 +239,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<Product> products = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist order by added_on asc", null);
+        Log.d("WISHLIST_CURSOR", String.valueOf(cursor.getCount()));
         List<Integer> productsInWishList = new ArrayList<>();
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
@@ -247,7 +248,8 @@ public class DBHelper extends SQLiteOpenHelper {
         if (!productsInWishList.isEmpty()) {
             for (Integer productId : productsInWishList) {
                 cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail, " +
-                        "price, stars, ratings from products where category_id = ?", new String[]{String.valueOf(productId)});
+                        "price, stars, ratings from products where _id = ?", new String[]{String.valueOf(productId)});
+                Log.d("WISHLIST_CURSOR", String.valueOf(cursor.getCount()));
                 while (cursor.moveToNext()) {
                     int id = cursor.getInt(0);
                     int categoryId = cursor.getInt(1);

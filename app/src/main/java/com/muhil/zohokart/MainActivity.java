@@ -21,6 +21,7 @@ import com.muhil.zohokart.adapters.RecyclerViewAdapter;
 import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
+import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Phone;
 import com.muhil.zohokart.models.Product;
@@ -143,6 +144,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         else if (id == R.id.action_login){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+        }
+        else if (id == R.id.wish_list){
+            WishlistFragment wishlistFragment = new WishlistFragment();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentHolder, wishlistFragment, "wish_list");
+            fragmentTransaction.commit();
         }
 
         return super.onOptionsItemSelected(item);

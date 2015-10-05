@@ -8,9 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.WishlistAdapter;
+import com.muhil.zohokart.decorators.DividerItemDecoration;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 
@@ -25,9 +28,9 @@ public class WishlistFragment extends Fragment {
     DBHelper dbHelper;
     List<Product> wishlist;
     WishlistAdapter wishlistAdapter;
+    TextView emptyTextView;
 
     public WishlistFragment() {
-        // Required empty public constructor
     }
 
 
@@ -36,11 +39,23 @@ public class WishlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        dbHelper = new DBHelper(getActivity());
         wishlist = dbHelper.getProductsFromWishList();
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
-        wishlistAdapter = new WishlistAdapter(getActivity(), wishlist);
-        wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        wishlistRecyclerView.setAdapter(wishlistAdapter);
+        emptyTextView = (TextView) wishlistFragment.findViewById(R.id.emptyText);
+        if (wishlist != null){
+
+            wishlistAdapter = new WishlistAdapter(getActivity(), wishlist);
+            wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            wishlistRecyclerView.setAdapter(wishlistAdapter);
+
+        }
+        else {
+
+            wishlistRecyclerView.setVisibility(View.GONE);
+            emptyTextView.setVisibility(View.VISIBLE);
+
+        }
 
 
         return wishlistFragment;

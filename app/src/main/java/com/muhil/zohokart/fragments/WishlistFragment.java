@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.WishlistAdapter;
-import com.muhil.zohokart.decorators.DividerItemDecoration;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 
@@ -26,7 +25,7 @@ public class WishlistFragment extends Fragment {
 
     RecyclerView wishlistRecyclerView;
     DBHelper dbHelper;
-    List<Product> wishlist;
+    List<Product> productsInWishlist;
     WishlistAdapter wishlistAdapter;
     LinearLayout bulk_actions;
     TextView emptyTextView;
@@ -41,14 +40,14 @@ public class WishlistFragment extends Fragment {
         // Inflate the layout for this fragment
         View wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
         dbHelper = new DBHelper(getActivity());
-        wishlist = dbHelper.getProductsFromWishList();
+        productsInWishlist = dbHelper.getProductsFromWishList();
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.emptyText);
-        bulk_actions = (LinearLayout) wishlistFragment.findViewById(R.id.bulk_processing_actions);
-        if (wishlist != null){
+        if (productsInWishlist != null){
 
-            if (wishlist.size() > 0){
-                wishlistAdapter = new WishlistAdapter(getActivity(), wishlist, WishlistFragment.this);
+            if (productsInWishlist.size() > 0){
+
+                wishlistAdapter = new WishlistAdapter(getActivity(), productsInWishlist, WishlistFragment.this);
                 wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 wishlistRecyclerView.setAdapter(wishlistAdapter);
             }
@@ -67,7 +66,6 @@ public class WishlistFragment extends Fragment {
     public void switchViewElement(){
 
         wishlistRecyclerView.setVisibility(View.GONE);
-        bulk_actions.setVisibility(View.GONE);
         emptyTextView.setVisibility(View.VISIBLE);
 
     }

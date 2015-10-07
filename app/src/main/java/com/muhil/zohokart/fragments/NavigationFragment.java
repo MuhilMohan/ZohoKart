@@ -1,6 +1,7 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -116,14 +118,19 @@ public class NavigationFragment extends Fragment {
 
                             expand(subMenuTag);
                             dropdown = (ToggleButton) v.findViewById(R.id.dropdown);
-                            dropdown.setChecked(true);
+                            ObjectAnimator animator = ObjectAnimator.ofFloat(dropdown, "rotationX", 0.0f, 180f);
+                            animator.setDuration(200);
+                            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                            animator.start();
 
 
                         } else if (subMenuTag.getVisibility() == View.VISIBLE) {
 
                             collapse(subMenuTag);
                             dropdown = (ToggleButton) v.findViewById(R.id.dropdown);
-                            dropdown.setChecked(false);
+                            ObjectAnimator animator = ObjectAnimator.ofFloat(dropdown, "rotationX", 180f, 360f);
+                            animator.setDuration(200);
+                            animator.start();
 
                         }
 
@@ -164,7 +171,7 @@ public class NavigationFragment extends Fragment {
         };
 
         // 1dp/ms
-        a.setDuration(500);
+        a.setDuration(200);
         v.startAnimation(a);
     }
 
@@ -190,7 +197,7 @@ public class NavigationFragment extends Fragment {
         };
 
         // 1dp/ms
-        a.setDuration(500);
+        a.setDuration(200);
         v.startAnimation(a);
     }
 

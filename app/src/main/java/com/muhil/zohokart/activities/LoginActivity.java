@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 
                 if (passwordString.length() > 4){
                     
-                    if(dbHelper.hasAccount(emailString)){
+                    if(dbHelper.hasAccount(emailString) ){
                         
                         if ((account = dbHelper.getAccountIfAvailable(emailString, passwordString)) != null){
 

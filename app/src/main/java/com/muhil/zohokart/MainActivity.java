@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.adapters.RecyclerViewAdapter;
+import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
@@ -149,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             WishlistFragment wishlistFragment = new WishlistFragment();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentHolder, wishlistFragment, "wish_list");
+            fragmentTransaction.commit();
+        }
+        else if (id == R.id.cart_icon){
+            CartFragment cartFragment = new CartFragment();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentHolder, cartFragment, "cart");
             fragmentTransaction.commit();
         }
 

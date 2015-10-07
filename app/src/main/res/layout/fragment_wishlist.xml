@@ -16,97 +16,10 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="#FFF"
-        android:id="@+id/bulk_processing_actions"
-        android:visibility="visible">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#BDBDBD">
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@mipmap/ic_add_shopping_cart_black_18dp"
-                        android:layout_gravity="center"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="10dp"
-                        android:text="ADD ALL TO CART"
-                        android:textSize="12sp"
-                        android:layout_gravity="center_horizontal|bottom"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <TextView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#9E9E9E"/>
-
-            <FrameLayout
-                android:id="@+id/removeProduct"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_gravity="center_horizontal">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@mipmap/ic_fa_trash_o"
-                        android:layout_gravity="center"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="REMOVE ALL"
-                        android:textSize="12sp"
-                        android:layout_gravity="center"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wishlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bulk_processing_actions"
         android:visibility="visible" />
 
 </RelativeLayout>

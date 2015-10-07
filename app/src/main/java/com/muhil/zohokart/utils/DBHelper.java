@@ -187,6 +187,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return rowsAffected != -1;
     }
 
+    public void updateQuantityOfProductInCart(int quantity, int productId){
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("quantity", quantity);
+        sqLiteDatabase.update("cart", contentValues, "_id = ? ", new String[]{String.valueOf(productId)});
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart where _id=?", new String[]{String.valueOf(productId)});
+        if (cursor.moveToNext()){
+            Log.d("QUANTITY", String.valueOf(cursor.getInt(1)));
+        }
+        cursor.close();
+    }
+
     public int numberOfRows() {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         return (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, "categories");

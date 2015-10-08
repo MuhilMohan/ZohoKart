@@ -1,17 +1,21 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Product;
@@ -68,7 +72,10 @@ public class CartFragment extends Fragment
     @Override
     public void onResume() {
 
-        updateGrandTotal();
+        if (productsInCart != null && productsInCart.size() > 0)
+        {
+            updateGrandTotal();
+        }
 
         super.onResume();
     }
@@ -100,40 +107,95 @@ public class CartFragment extends Fragment
                     cardView.setId(product.getId());
                     ((TextView) cardView.findViewById(R.id.title)).setText(product.getTitle());
                     ((TextView) cardView.findViewById(R.id.description)).setText(product.getDescription());
-                    ((TextView) cardView.findViewById(R.id.price)).setText("Rs. "+decimalFormat.format(product.getPrice()));
+                    ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format(product.getPrice()));
                     ((EditText) cardView.findViewById(R.id.quantity)).setText(String.valueOf(1));
                     (cardView.findViewById(R.id.quantity)).setTag(product);
-                    ((TextView) cardView.findViewById(R.id.total_price)).setText("Rs. "+decimalFormat.format(product.getPrice()));
+                    ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(product.getPrice()));
                     Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
+                    if (dbHelper.checkWishlist(product.getId())){
+                        (cardView.findViewById(R.id.move_to_wishlist)).setVisibility(View.GONE);
+                        (cardView.findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);
+                    }
+
 
                     (cardView.findViewById(R.id.quantity)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View v, boolean hasFocus) {
 
-                            if (!v.hasFocus()){
+                            if (!hasFocus) {
 
-                                try
-                                {
+                                try {
 
-                                    if (!(((EditText) v).getText().toString().equals("")))
-                                    {
+                                    if (!(((EditText) v).getText().toString().equals(""))) {
                                         quantity = Integer.parseInt(((EditText) v).getText().toString());
-                                        ((TextView) (cardView).findViewById(R.id.total_price)).setText("Rs. "+decimalFormat.format(Double.parseDouble((((TextView) cardView.findViewById(R.id.price)).getText().toString())) * quantity));
+                                        ((TextView) (productsInCartContent.findViewById(product.getId())).findViewById(R.id.total_price)).setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
                                         dbHelper.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId());
                                         updateGrandTotal();
 
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         ((EditText) v).setText(String.valueOf(1));
                                     }
 
-                                }
-                                catch (NumberFormatException numberFormatException)
-                                {
+                                } catch (NumberFormatException numberFormatException) {
+                                    numberFormatException.printStackTrace();
                                 }
 
                             }
+
+                        }
+                    });
+
+                    (cardView).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            (v.findViewById(R.id.quantity)).clearFocus();
+                            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                        }
+                    });
+
+                    (cardView.findViewById(R.id.remove_from_cart)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            dbHelper.removeFromCart(product.getId());
+                            productsInCart.remove(product);
+                            if (productsInCart.size() == 0){
+                                switchViewElement();
+                            }
+                            ((TextView) cartFragmentLayout.findViewById(R.id.cart_list_count)).setText("("+productsInCart.size()+")");
+                            productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
+                            updateGrandTotal();
+                            Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                    (cardView.findViewById(R.id.move_to_wishlist)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (dbHelper.addToWishlist(product.getId())){
+                                if (dbHelper.removeFromCart(product.getId())){
+                                    Toast.makeText(getActivity(), "Product added to wishlist.", Toast.LENGTH_SHORT).show();
+                                    (v).setVisibility(View.GONE);
+                                    ((productsInCartContent.findViewById(product.getId())).findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);
+                                }
+                            }
+                            else {
+                                Toast.makeText(getActivity(), "Product already exists in wishlist.", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    (cardView.findViewById(R.id.go_to_wishlist)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            WishlistFragment wishlistFragment = new WishlistFragment();
+                            FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.fragmentHolder, wishlistFragment, "wishlist");
+                            fragmentTransaction.commit();
 
                         }
                     });
@@ -167,7 +229,7 @@ public class CartFragment extends Fragment
         for (Product product : productsInCart)
         {
             View view = productsInCartContent.findViewById(product.getId());
-            grandTotal = grandTotal + (product.getPrice() * Double.parseDouble(((EditText) view.findViewById(R.id.quantity)).getText().toString()));
+            grandTotal = grandTotal + (Double.parseDouble(((TextView) view.findViewById(R.id.total_price)).getText().toString()));
         }
 
         ((TextView) getView().findViewById(R.id.grand_total)).setText(String.valueOf(decimalFormat.format(grandTotal)));

@@ -1,5 +1,6 @@
 package com.muhil.zohokart.adapters;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
@@ -95,6 +97,18 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 } else {
                     Toast.makeText(context, "error while adding to cart.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        holder.goToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CartFragment cartFragment = new CartFragment();
+                FragmentTransaction fragmentTransaction = wishlistFragment.getActivity().getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentHolder, cartFragment, "cart");
+                fragmentTransaction.commit();
+
             }
         });
 

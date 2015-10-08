@@ -45,6 +45,16 @@
             android:layout_toRightOf="@+id/display_image"
             android:layout_below="@+id/description"
             android:layout_marginTop="11dp"
+            android:text="Rs. "
+            android:textSize="14sp"
+            android:id="@+id/price_rs_tag"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/price_rs_tag"
+            android:layout_below="@+id/description"
+            android:layout_marginTop="11dp"
             android:text="Price"
             android:textSize="14sp"
             android:id="@+id/price"/>
@@ -63,10 +73,10 @@
 
         <EditText
             android:inputType="number"
-            android:layout_width="40dp"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/multiplier"
             android:layout_below="@+id/description"
-            android:layout_height="wrap_content"
             android:id="@+id/quantity"
             android:textSize="14sp"/>
 
@@ -97,6 +107,17 @@
             android:layout_toRightOf="@+id/equals"
             android:layout_below="@+id/quantity"
             android:layout_marginTop="11dp"
+            android:text="Rs. "
+            android:textSize="14sp"
+            android:textColor="#F44336"
+            android:id="@+id/total_price_rs_tag"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/total_price_rs_tag"
+            android:layout_below="@+id/quantity"
+            android:layout_marginTop="11dp"
             android:text="text"
             android:textSize="14sp"
             android:textColor="#F44336"
@@ -117,10 +138,9 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:id="@+id/move_to_wishlist">
 
@@ -134,17 +154,16 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@mipmap/ic_fa_heart_red"
+                    android:src="@mipmap/ic_fa_heart_o"
                     android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:id="@+id/go_to_wishlist"
                 android:visibility="gone">
@@ -172,10 +191,9 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:id="@+id/remove_from_cart">
 

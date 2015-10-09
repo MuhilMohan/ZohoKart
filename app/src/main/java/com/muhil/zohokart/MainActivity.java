@@ -140,13 +140,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         else if (id == R.id.wish_list){
             WishlistFragment wishlistFragment = new WishlistFragment();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentHolder, wishlistFragment, "wish_list");
+            fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wish_list");
             fragmentTransaction.commit();
         }
         else if (id == R.id.cart_icon){
             CartFragment cartFragment = new CartFragment();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentHolder, cartFragment, "cart");
+            fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
             fragmentTransaction.commit();
         }
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         Log.d("TRANSACTION", "enetered transaction bay");
         ProductListFragment productListFragment = ProductListFragment.getInstance(subCategoryId);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentHolder, productListFragment, "product_list");
+        fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
         fragmentTransaction.commit();
         Log.d("TRANSACTION", "commit done.");
 

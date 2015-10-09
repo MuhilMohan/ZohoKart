@@ -108,7 +108,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
                 CartFragment cartFragment = new CartFragment();
                 FragmentTransaction fragmentTransaction = wishlistFragment.getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentHolder, cartFragment, "cart");
+                fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
                 fragmentTransaction.commit();
 
             }

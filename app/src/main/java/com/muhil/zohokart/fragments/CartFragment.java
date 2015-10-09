@@ -195,7 +195,7 @@ public class CartFragment extends Fragment
                         public void onClick(View v) {
                             WishlistFragment wishlistFragment = new WishlistFragment();
                             FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragmentHolder, wishlistFragment, "wishlist");
+                            fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
                             fragmentTransaction.commit();
 
                         }

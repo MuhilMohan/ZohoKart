@@ -12,6 +12,7 @@ import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
 
@@ -31,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String CREATE_ACCOUNTS_TABLE = "CREATE TABLE " + Account.TABLE_NAME + " ( " + Account.NAME + " TEXT, " + Account.EMAIL + " TEXT PRIMARY KEY, " + Account.PASSWORD + " TEXT, " + Account.PHONE_NUMBER + " TEXT, " + Account.DATE_OF_BIRTH + " DATE )";
     public static String CREATE_WISHLIST_TABLE = "CREATE TABLE " + Wishlist.TABLE_NAME + " ( " + Wishlist.PRODUCT_ID + " INTEGER, " + Wishlist.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
     public static String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + " ( " + Cart.PRODUCT_ID + " INTEGER, " + Cart.QUANTITY + " INTEGER DEFAULT 1, " + Cart.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
+    public static String CREATE_PROMOTION_BANNER_TABLE = "CREATE TABLE " + PromotionBanner.TABLE_NAME + " ( " + PromotionBanner._ID + " INTEGER, " + PromotionBanner.BANNER_URL + " TEXT, " + PromotionBanner.PRODUCTS_RELATED + " TEXT )";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,168 +48,12 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DB", "accounts table created");
         db.execSQL(CREATE_WISHLIST_TABLE);
         db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_PROMOTION_BANNER_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-    }
-
-    public int addCategories(List<Category> categories) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        for (Category category : categories) {
-            ContentValues contentValue = new ContentValues();
-            contentValue.put("_id", category.getId());
-            contentValue.put("name", category.getName());
-            sqLiteDatabase.insert("categories", null, contentValue);
-        }
-        sqLiteDatabase = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, "categories");
-    }
-
-    public int addSubCategories(List<SubCategory> subCategories) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        for (SubCategory subCategory : subCategories) {
-            ContentValues contentValue = new ContentValues();
-            contentValue.put("_id", subCategory.getId());
-            contentValue.put("category_id", subCategory.getCategoryId());
-            contentValue.put("name", subCategory.getName());
-            sqLiteDatabase.insert("sub_categories", null, contentValue);
-        }
-        sqLiteDatabase = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, "sub_categories");
-    }
-
-    public int addProducts(List<Product> products) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        for (Product product : products) {
-            ContentValues contentValue = new ContentValues();
-            contentValue.put("_id", product.getId());
-            contentValue.put("sub_category_id", product.getSubCategoryId());
-            contentValue.put("brand", product.getBrand());
-            contentValue.put("title", product.getTitle());
-            contentValue.put("description", product.getDescription());
-            contentValue.put("thumbnail", product.getThumbnail());
-            contentValue.put("price", product.getPrice());
-            contentValue.put("stars", product.getStars());
-            contentValue.put("ratings", product.getRatings());
-
-            sqLiteDatabase.insert("products", null, contentValue);
-        }
-        sqLiteDatabase = this.getReadableDatabase();
-        return (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, "products");
-    }
-
-
-    public boolean hasAccount(String email) {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ?",
-                new String[]{email});
-        boolean result = cursor.moveToNext();
-        cursor.close();
-        return result;
-    }
-
-    public boolean addAccount(Account account) {
-        ContentValues contentValues = new ContentValues();
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        contentValues.put("name", account.getName());
-        contentValues.put("email", account.getEmail());
-        contentValues.put("password", account.getPassword());
-        contentValues.put("phone_number", account.getPhoneNumber());
-        contentValues.put("date_of_birth", account.getDateOfBirth());
-        sqLiteDatabase.insert("accounts", null, contentValues);
-
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ?",
-                new String[]{account.getEmail()});
-        boolean result = cursor.moveToNext();
-        cursor.close();
-        return result;
-    }
-
-    public Account getAccountIfAvailable(String email, String password) {
-        Account account = new Account();
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from accounts where email = ? " +
-                "and password = ? ", new String[]{email, password});
-        if (cursor.getCount() == 1) {
-
-            while (cursor.moveToNext()) {
-                account.setName(cursor.getString(0));
-                account.setEmail(email);
-                account.setPassword(password);
-                account.setPhoneNumber(cursor.getString(3));
-                account.setDateOfBirth(cursor.getString(4));
-            }
-
-        } else {
-            return null;
-        }
-
-        cursor.close();
-        return account;
-    }
-
-    public boolean checkWishlist(int productId) {
-        boolean result;
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist where product_id = ?",
-                new String[]{String.valueOf(productId)});
-        result = cursor.getCount() == 1;
-        cursor.close();
-        return result;
-
-    }
-
-    public boolean checkInCart(int productId) {
-        boolean result;
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart where product_id = ?",
-                new String[]{String.valueOf(productId)});
-        result = cursor.getCount() == 1;
-        cursor.close();
-        return result;
-    }
-
-    public boolean addToWishlist(int productId) {
-        ContentValues contentValues = new ContentValues();
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        contentValues.put("product_id", productId);
-        Long rowID = sqLiteDatabase.insert("wishlist", null, contentValues);
-        return rowID != -1;
-    }
-
-    public boolean addToCart(int productId) {
-        ContentValues contentValues = new ContentValues();
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        contentValues.put("_id", productId);
-        Long rowID = sqLiteDatabase.insert("cart", null, contentValues);
-        return rowID != -1;
-    }
-
-    public boolean removeFromWishList(int productId) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        int rowsAffected = sqLiteDatabase.delete("wishlist", "product_id = ? ", new String[]{String.valueOf(productId)});
-        return rowsAffected != -1;
-    }
-
-    public boolean removeFromCart(int productId) {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        int rowsAffected = sqLiteDatabase.delete("cart", "_id = ? ", new String[]{String.valueOf(productId)});
-        return rowsAffected != -1;
-    }
-
-    public void updateQuantityOfProductInCart(int quantity, int productId){
-
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("quantity", quantity);
-        sqLiteDatabase.update("cart", contentValues, "_id = ? ", new String[]{String.valueOf(productId)});
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart where _id=?", new String[]{String.valueOf(productId)});
-        if (cursor.moveToNext()){
-            Log.d("QUANTITY", String.valueOf(cursor.getInt(1)));
-        }
-        cursor.close();
     }
 
     public int numberOfRows() {

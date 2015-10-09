@@ -10,10 +10,13 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
 
@@ -338,4 +341,52 @@ public class ZohokartDAO {
         Uri insertedUri = context.getContentResolver().insert(Account.CONTENT_URI, contentValues);
         return insertedUri != null;
     }
+
+    public int addBanners(List<PromotionBanner> banners)
+    {
+        Gson gson = new Gson();
+        ContentProviderResult[] contentProviderResults = null;
+        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
+
+        for (PromotionBanner banner : banners) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PromotionBanner._ID, banner.getId());
+            contentValues.put(PromotionBanner.BANNER_URL, banner.getBanner());
+            String productIdListString = gson.toJson(banner.getProductIds());
+            contentValues.put(PromotionBanner.PRODUCTS_RELATED, productIdListString);
+            contentProviderOperations.add(ContentProviderOperation.newInsert(PromotionBanner.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
+        }
+
+        try {
+            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
+        } catch (RemoteException | OperationApplicationException e) {
+            Log.e("DAO", "Error adding categories ", e);
+        }
+
+        return contentProviderResults != null ? contentProviderResults.length : 0;
+    }
+
+    public List<PromotionBanner> getBanners()
+    {
+        Gson gson = new Gson();
+        List<PromotionBanner> banners = new ArrayList<>();
+        try (Cursor cursor = context.getContentResolver().query(
+                PromotionBanner.CONTENT_URI, PromotionBanner.PROJECTION, null, null, null)) {
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    int id = cursor.getInt(cursor.getColumnIndex(PromotionBanner._ID));
+                    String banner_url = cursor.getString(cursor.getColumnIndex(PromotionBanner.BANNER_URL));
+                    String productsIdsJsonString = cursor.getString(cursor.getColumnIndex(PromotionBanner.PRODUCTS_RELATED));
+                    List<Integer> productIds = gson.fromJson(productsIdsJsonString, new TypeToken<List<Integer>>() {
+                    }.getType());
+                    PromotionBanner banner = new PromotionBanner(id, banner_url, productIds);
+                    banners.add(banner);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("DAO", "Error fetching banners", e);
+        }
+        return banners;
+    }
+
 }

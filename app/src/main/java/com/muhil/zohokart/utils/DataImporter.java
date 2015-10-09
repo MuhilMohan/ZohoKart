@@ -48,6 +48,7 @@ public class DataImporter {
 
     public void importData() {
         Gson gson = new Gson();
+        int records;
         dbHelper = new DBHelper(context);
         zohokartDAO = new ZohokartDAO(context);
         int recordsInDatabase = dbHelper.numberOfRows();
@@ -57,7 +58,7 @@ public class DataImporter {
             List<Category> categories = gson.fromJson(categoriesAsString, new TypeToken<List<Category>>() {}.getType());
 
             Log.d("JSON", "Number of categories from JSON = " + categories.size());
-            int records = zohokartDAO.addCategories(categories);
+            records = zohokartDAO.addCategories(categories);
             Log.d("DB", "Number of categories in DB = " + records);
 
             String subCategoriesAsString = getJsonContentAsString("metadata/sub-categories");
@@ -99,10 +100,11 @@ public class DataImporter {
         List<PromotionBanner> promotionBanners = gson.fromJson(promotionBannersAsString, new TypeToken<List<PromotionBanner>>() {
         }.getType());
 
-        for (PromotionBanner promotionBanner : promotionBanners) {
-            DataHolder.promotionBanners.add(promotionBanner);
-        }
+        Log.d("JSON", "Number of promotion banners = " + promotionBanners.size());
 
-        Log.d("JSON", "Number of promotion banners = " + DataHolder.promotionBanners.size());
+        records = zohokartDAO.addBanners(promotionBanners);
+
+        Log.d("JSON", "Number of promotion banners in db = " + records);
+
     }
 }

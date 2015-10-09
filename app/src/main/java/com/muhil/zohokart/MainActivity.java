@@ -1,5 +1,6 @@
 package com.muhil.zohokart;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.fragments.CartFragment;
+import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
 import com.muhil.zohokart.fragments.WishlistFragment;

@@ -15,6 +15,7 @@ import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
 
@@ -38,6 +39,8 @@ public class ZohokartContentProvider extends ContentProvider {
     private static final int WISHLIST_ID = 10;
     private static final int CART = 11;
     private static final int CART_ID = 12;
+    private static final int PROMOTION_BANNERS = 13;
+    private static final int PROMOTION_BANNERS_ID = 14;
     private static final UriMatcher uriMatcher;
 
     static {
@@ -55,6 +58,8 @@ public class ZohokartContentProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, Wishlist.TABLE_NAME + "/#", WISHLIST_ID);
         uriMatcher.addURI(AUTHORITY, Cart.TABLE_NAME, CART);
         uriMatcher.addURI(AUTHORITY, Cart.TABLE_NAME + "/#", CART_ID);
+        uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME, PROMOTION_BANNERS);
+        uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME + "/#", PROMOTION_BANNERS_ID);
 
     }
 
@@ -123,6 +128,14 @@ public class ZohokartContentProvider extends ContentProvider {
                 sqLiteQueryBuilder.appendWhere(Cart.PRODUCT_ID + " = " + uri.getLastPathSegment());
                 break;
 
+            case PROMOTION_BANNERS:
+                sqLiteQueryBuilder.setTables(PromotionBanner.TABLE_NAME);
+                break;
+            case PROMOTION_BANNERS_ID:
+                sqLiteQueryBuilder.setTables(PromotionBanner.TABLE_NAME);
+                sqLiteQueryBuilder.appendWhere(PromotionBanner._ID + " = " + uri.getLastPathSegment());
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -175,6 +188,12 @@ public class ZohokartContentProvider extends ContentProvider {
             case CART_ID:
                 return Cart.CONTENT_ITEM_TYPE;
 
+            case PROMOTION_BANNERS:
+                return PromotionBanner.CONTENT_TYPE;
+
+            case PROMOTION_BANNERS_ID:
+                return PromotionBanner.CONTENT_ITEM_TYPE;
+
             default:
                 return null;
 
@@ -186,7 +205,7 @@ public class ZohokartContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
 
         if ((uriMatcher.match(uri) != CATEGORIES_ID) && (uriMatcher.match(uri) != SUB_CATEGORIES_ID) && (uriMatcher.match(uri) != PRODUCTS_ID) && (uriMatcher.match(uri) != ACCOUNTS_EMAIL)
-                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID)){
+                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)){
 
             long result = 0;
             SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
@@ -214,6 +233,10 @@ public class ZohokartContentProvider extends ContentProvider {
 
                 case CART:
                     result = sqLiteDatabase.insert(Cart.TABLE_NAME, null, values);
+                    break;
+
+                case PROMOTION_BANNERS:
+                    result = sqLiteDatabase.insert(PromotionBanner.TABLE_NAME, null, values);
                     break;
 
                 default:
@@ -245,7 +268,7 @@ public class ZohokartContentProvider extends ContentProvider {
         int deleteCount = 0;
         String where;
 
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
 
             case CATEGORIES:
                 deleteCount = sqLiteDatabase.delete(Category.TABLE_NAME, selection, selectionArgs);
@@ -319,6 +342,18 @@ public class ZohokartContentProvider extends ContentProvider {
                 deleteCount = sqLiteDatabase.delete(Cart.TABLE_NAME, where, selectionArgs);
                 break;
 
+            case PROMOTION_BANNERS:
+                deleteCount = sqLiteDatabase.delete(PromotionBanner.TABLE_NAME, selection, selectionArgs);
+                break;
+            case PROMOTION_BANNERS_ID:
+                String promotionBannerId = uri.getLastPathSegment();
+                where = PromotionBanner._ID + " = " + promotionBannerId;
+                if (!TextUtils.isEmpty(selection)){
+                    where += " AND " + selection;
+                }
+                deleteCount = sqLiteDatabase.delete(PromotionBanner.TABLE_NAME, where, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -383,7 +418,7 @@ public class ZohokartContentProvider extends ContentProvider {
                 break;
             case ACCOUNTS_EMAIL:
                 String accountEmail = uri.getLastPathSegment();
-                where = Account.EMAIL + " = " + accountEmail;
+                where = Account.EMAIL + " = '" + accountEmail + "'";
                 if (!TextUtils.isEmpty(selection)){
                     where += " AND " + selection;
                 }
@@ -414,6 +449,18 @@ public class ZohokartContentProvider extends ContentProvider {
                 updateCount = sqLiteDatabase.update(Cart.TABLE_NAME, values, where, selectionArgs);
                 break;
 
+            case PROMOTION_BANNERS:
+                updateCount = sqLiteDatabase.update(PromotionBanner.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case PROMOTION_BANNERS_ID:
+                String promotionBannerId = uri.getLastPathSegment();
+                where = PromotionBanner._ID + " = " + promotionBannerId;
+                if (!TextUtils.isEmpty(selection)){
+                    where += " AND " + selection;
+                }
+                updateCount = sqLiteDatabase.update(PromotionBanner.TABLE_NAME, values, where, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unspported URI : " + uri);
 
@@ -429,8 +476,4 @@ public class ZohokartContentProvider extends ContentProvider {
 
     }
 
-    @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
-        return super.bulkInsert(uri, values);
-    }
 }

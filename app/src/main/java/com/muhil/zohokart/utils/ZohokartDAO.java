@@ -241,6 +241,24 @@ public class ZohokartDAO {
         return products;
     }
 
+
+    public List<Product> getProductsForProductIds(List<Integer> productIds) {
+        List<Product> products = new ArrayList<>();
+        if (productIds != null && !productIds.isEmpty()) {
+            for (Integer productId : productIds) {
+                try (Cursor cursor = context.getContentResolver().query(
+                        Uri.parse(Product.CONTENT_URI + "/" + productId), Product.PROJECTION, null, null, null)) {
+                    if (cursor != null) {
+                        while (cursor.moveToNext()) {
+                            products.add(getProductFromCursor(cursor));
+                        }
+                    }
+                }
+            }
+        }
+        return products;
+    }
+
     public boolean checkInWishlist(int productId) {
 
         boolean result = false;

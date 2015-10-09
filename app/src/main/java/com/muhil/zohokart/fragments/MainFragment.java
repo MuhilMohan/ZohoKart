@@ -34,7 +34,14 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        View rootView = getView();
 
         zohokartDAO = new ZohokartDAO(getActivity());
         bannerPager = (ViewPager) rootView.findViewById(R.id.banner_pager);
@@ -42,8 +49,5 @@ public class MainFragment extends Fragment {
         bannerPagerAdapter = new BannerPagerAdapter(getFragmentManager(), banners);
         bannerPager.setAdapter(bannerPagerAdapter);
 
-        return rootView;
     }
-
-
 }

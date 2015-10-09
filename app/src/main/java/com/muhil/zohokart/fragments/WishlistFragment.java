@@ -52,6 +52,11 @@ public class WishlistFragment extends Fragment {
                 wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 wishlistRecyclerView.setAdapter(wishlistAdapter);
             }
+            else {
+
+                switchViewElement();
+
+            }
 
         }
         else {

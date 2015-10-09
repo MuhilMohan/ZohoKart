@@ -80,6 +80,16 @@ public class DataImporter {
             records = zohokartDAO.addProducts(products);
             Log.d("DB", "Number of products in DB = " + records);
 
+            String promotionBannersAsString = getJsonContentAsString("promotion_banners");
+            List<PromotionBanner> promotionBanners = gson.fromJson(promotionBannersAsString, new TypeToken<List<PromotionBanner>>() {
+            }.getType());
+
+            Log.d("JSON", "Number of promotion banners = " + promotionBanners.size());
+
+            records = zohokartDAO.addBanners(promotionBanners);
+
+            Log.d("JSON", "Number of promotion banners in db = " + records);
+
         }
         else
         {
@@ -95,16 +105,6 @@ public class DataImporter {
         }
 
         Log.d("JSON", "Number of product specfications = " + DataHolder.specifications.size());
-
-        String promotionBannersAsString = getJsonContentAsString("promotion_banners");
-        List<PromotionBanner> promotionBanners = gson.fromJson(promotionBannersAsString, new TypeToken<List<PromotionBanner>>() {
-        }.getType());
-
-        Log.d("JSON", "Number of promotion banners = " + promotionBanners.size());
-
-        records = zohokartDAO.addBanners(promotionBanners);
-
-        Log.d("JSON", "Number of promotion banners in db = " + records);
 
     }
 }

@@ -15,6 +15,7 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.WishlistAdapter;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.List;
 
@@ -24,11 +25,11 @@ import java.util.List;
 public class WishlistFragment extends Fragment {
 
     RecyclerView wishlistRecyclerView;
-    DBHelper dbHelper;
     List<Product> productsInWishlist;
     WishlistAdapter wishlistAdapter;
-    LinearLayout bulk_actions;
     TextView emptyTextView;
+
+    ZohokartDAO zohokartDAO;
 
     public WishlistFragment() {
     }
@@ -39,8 +40,8 @@ public class WishlistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
-        dbHelper = new DBHelper(getActivity());
-        productsInWishlist = dbHelper.getProductsFromWishList();
+        zohokartDAO = new ZohokartDAO(getActivity());
+        productsInWishlist = zohokartDAO.getProductsFromWishlist();
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.emptyText);
         if (productsInWishlist != null){
@@ -58,7 +59,6 @@ public class WishlistFragment extends Fragment {
             switchViewElement();
 
         }
-
 
         return wishlistFragment;
     }

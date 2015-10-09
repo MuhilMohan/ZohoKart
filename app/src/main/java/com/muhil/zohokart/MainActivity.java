@@ -8,25 +8,17 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ToggleButton;
 
 import com.muhil.zohokart.activities.LoginActivity;
-import com.muhil.zohokart.adapters.RecyclerViewAdapter;
 import com.muhil.zohokart.fragments.CartFragment;
-import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Account;
-import com.muhil.zohokart.models.Phone;
-import com.muhil.zohokart.models.Product;
-import com.muhil.zohokart.utils.DBHelper;
 import com.muhil.zohokart.utils.DataImporter;
 
 import org.json.JSONException;
@@ -34,15 +26,11 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator {
 
-    RecyclerView recyclerView;
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     DataImporter dataImporter;
     SharedPreferences sharedPreferences;
     NavigationFragment navigationFragment;
-    ToggleButton wishlistButton;
-
-    DBHelper dbHelper;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -101,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 account.setName(jsonObject.getString("name"));
+
             }
             catch (JSONException e){
                 e.printStackTrace();

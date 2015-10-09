@@ -1,9 +1,25 @@
 package com.muhil.zohokart.models;
 
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
 import com.google.gson.annotations.SerializedName;
+import com.muhil.zohokart.utils.ZohokartContentProvider;
 
 public class SubCategory {
+
+    public static final String TABLE_NAME = "sub_categories";
+    public static final String _ID = "_id";
+    public static final String CATEGORY_ID = "category_id";
+    public static final String NAME = "name";
+
+    public static final String[] PROJECTION = {_ID, CATEGORY_ID, NAME};
+
+    public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
+
+    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/com.muhil.zohokart.models.SubCategory";
+    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/com.muhil.zohokart.models.SubCategory";
 
     private int id;
     @SerializedName("category_id")

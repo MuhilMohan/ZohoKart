@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Mobile implements IProduct {
 
     private int id;
-    @SerializedName("category_id")
+    @SerializedName("sub_category_id")
     private int categoryId;
     private String name;
     private String brand;

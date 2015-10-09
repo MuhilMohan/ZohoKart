@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Product;
-import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -31,7 +31,7 @@ import java.util.List;
 public class CartFragment extends Fragment
 {
 
-    DBHelper dbHelper;
+    ZohokartDAO zohokartDAO;
     List<Product> productsInCart;
     LinearLayout emptyCartHolder, productsInCartContent;
     ScrollView cartContent;
@@ -56,8 +56,8 @@ public class CartFragment extends Fragment
 
         // Inflate the layout for this fragment
         cartFragmentLayout =  inflater.inflate(R.layout.fragment_cart, container, false);
-        dbHelper = new DBHelper(getActivity());
-        productsInCart = dbHelper.getProductsFromCart();
+        zohokartDAO = new ZohokartDAO(getActivity());
+        productsInCart = zohokartDAO.getProductsFromCart();
         emptyCartHolder = (LinearLayout) cartFragmentLayout.findViewById(R.id.empty_cart_holder);
         cartContent = (ScrollView) cartFragmentLayout.findViewById(R.id.cart_content);
         productsInCartContent = (LinearLayout) cartFragmentLayout.findViewById(R.id.cart_list);
@@ -112,7 +112,7 @@ public class CartFragment extends Fragment
                     (cardView.findViewById(R.id.quantity)).setTag(product);
                     ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(product.getPrice()));
                     Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
-                    if (dbHelper.checkWishlist(product.getId())){
+                    if (zohokartDAO.checkInWishlist(product.getId())){
                         (cardView.findViewById(R.id.move_to_wishlist)).setVisibility(View.GONE);
                         (cardView.findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);
                     }
@@ -129,9 +129,10 @@ public class CartFragment extends Fragment
                                     if (!(((EditText) v).getText().toString().equals(""))) {
                                         quantity = Integer.parseInt(((EditText) v).getText().toString());
                                         ((TextView) (productsInCartContent.findViewById(product.getId())).findViewById(R.id.total_price)).setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
-                                        dbHelper.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId());
-                                        updateGrandTotal();
-
+                                        if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId())){
+                                            updateGrandTotal();
+                                            Toast.makeText(getActivity(), "Quantity updated.", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
                                         ((EditText) v).setText(String.valueOf(1));
                                     }
@@ -158,7 +159,7 @@ public class CartFragment extends Fragment
                         @Override
                         public void onClick(View v) {
 
-                            dbHelper.removeFromCart(product.getId());
+                            zohokartDAO.removeFromCart(product.getId());
                             productsInCart.remove(product);
                             if (productsInCart.size() == 0){
                                 switchViewElement();
@@ -175,8 +176,8 @@ public class CartFragment extends Fragment
                         @Override
                         public void onClick(View v) {
 
-                            if (dbHelper.addToWishlist(product.getId())){
-                                if (dbHelper.removeFromCart(product.getId())){
+                            if (zohokartDAO.addToWishlist(product.getId())){
+                                if (zohokartDAO.removeFromCart(product.getId())){
                                     Toast.makeText(getActivity(), "Product added to wishlist.", Toast.LENGTH_SHORT).show();
                                     (v).setVisibility(View.GONE);
                                     ((productsInCartContent.findViewById(product.getId())).findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);

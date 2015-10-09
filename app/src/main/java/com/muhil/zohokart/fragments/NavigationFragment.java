@@ -3,19 +3,14 @@ package com.muhil.zohokart.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +19,7 @@ import android.widget.ToggleButton;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.SubCategory;
-import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +39,8 @@ public class NavigationFragment extends Fragment {
     Map<Integer, List<SubCategory>> subCategoriesByCategory;
     Communicator communicator;
 
+    ZohokartDAO zohokartDAO;
+
     public NavigationFragment() {
         // Required empty public constructor
     }
@@ -57,6 +54,7 @@ public class NavigationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_navigation, container, false);
+        zohokartDAO = new ZohokartDAO(getActivity());
         return view;
     }
 
@@ -66,10 +64,9 @@ public class NavigationFragment extends Fragment {
 
         View view = getView();
         menuLinearLayout = (LinearLayout) view.findViewById(R.id.navigation_linear_layout);
-        DBHelper dbHelper = new DBHelper(getActivity());
-        categories = dbHelper.getCategories();
+        categories = zohokartDAO.getCategories();
         Log.d("NAV", "number of categories from db = " + categories.size());
-        subCategoriesByCategory = dbHelper.getSubCategoriesByCategory();
+        subCategoriesByCategory = zohokartDAO.getSubCategoriesByCategory();
         Log.d("NAV", "number of sub-categories from db = " + subCategoriesByCategory.size());
         for (Map.Entry<Integer, List<SubCategory>> entry : subCategoriesByCategory.entrySet()) {
             List<SubCategory> subCategories = entry.getValue();
@@ -170,7 +167,6 @@ public class NavigationFragment extends Fragment {
 
         };
 
-        // 1dp/ms
         a.setDuration(200);
         v.startAnimation(a);
     }
@@ -196,7 +192,6 @@ public class NavigationFragment extends Fragment {
             }
         };
 
-        // 1dp/ms
         a.setDuration(200);
         v.startAnimation(a);
     }

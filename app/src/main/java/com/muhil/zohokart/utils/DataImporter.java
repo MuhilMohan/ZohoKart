@@ -25,6 +25,7 @@ public class DataImporter {
 
     Context context;
     DBHelper dbHelper;
+    ZohokartDAO zohokartDAO;
 
     public DataImporter(Context context) {
         this.context = context;
@@ -48,38 +49,39 @@ public class DataImporter {
     public void importData() {
         Gson gson = new Gson();
         dbHelper = new DBHelper(context);
+        zohokartDAO = new ZohokartDAO(context);
         int recordsInDatabase = dbHelper.numberOfRows();
-        if (recordsInDatabase <= 0) {
+        if (recordsInDatabase <= 0)
+        {
             String categoriesAsString = getJsonContentAsString("metadata/categories");
-            List<Category> categories = gson.fromJson(categoriesAsString, new TypeToken<List<Category>>() {
-            }.getType());
+            List<Category> categories = gson.fromJson(categoriesAsString, new TypeToken<List<Category>>() {}.getType());
 
             Log.d("JSON", "Number of categories from JSON = " + categories.size());
-            int records = dbHelper.addCategories(categories);
+            int records = zohokartDAO.addCategories(categories);
             Log.d("DB", "Number of categories in DB = " + records);
 
             String subCategoriesAsString = getJsonContentAsString("metadata/sub-categories");
-            List<SubCategory> subCategories = gson.fromJson(subCategoriesAsString,
-                    new TypeToken<List<SubCategory>>() {
-                    }.getType());
+            List<SubCategory> subCategories = gson.fromJson(subCategoriesAsString, new TypeToken<List<SubCategory>>() {}.getType());
 
-            Log.d("JSON", "Number of sub_categories from JSON = " + categories.size());
-            records = dbHelper.addSubCategories(subCategories);
+            Log.d("JSON", "Number of sub_categories from JSON = " + subCategories.size());
+            records = zohokartDAO.addSubCategories(subCategories);
             Log.d("DB", "Number of sub_categories in DB = " + records);
 
             String mobilesAsString = getJsonContentAsString("products/mobiles");
-            List<Mobile> mobiles = gson.fromJson(mobilesAsString, new TypeToken<List<Mobile>>() {
-            }.getType());
+            List<Mobile> mobiles = gson.fromJson(mobilesAsString, new TypeToken<List<Mobile>>() {}.getType());
 
             Log.d("JSON", "Number of mobiles from JSON = " + mobiles.size());
             List<Product> products = new ArrayList<>();
-            for (Mobile mobile : mobiles) {
+            for (Mobile mobile : mobiles)
+            {
                 products.add(mobile.getProduct());
             }
-            records = dbHelper.addProducts(products);
+            records = zohokartDAO.addProducts(products);
             Log.d("DB", "Number of products in DB = " + records);
 
-        } else {
+        }
+        else
+        {
             Log.d("DB", "Data already imported");
         }
 

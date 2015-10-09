@@ -1,7 +1,6 @@
 package com.muhil.zohokart.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Product;
-import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -25,9 +24,10 @@ import java.util.List;
  */
 public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductViewHolder> {
 
+    ZohokartDAO zohokartDAO;
+
     List<Product> products;
     Context context;
-    DBHelper dbHelper;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     double stars;
     ImageView fullStar, halfStar, emptyStar;
@@ -36,7 +36,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
         this.products = products;
         this.context = context;
-        dbHelper = new DBHelper(context);
+        zohokartDAO = new ZohokartDAO(context);
 
     }
 
@@ -84,7 +84,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
         }
 
-        if (dbHelper.checkWishlist(products.get(position).getId())) {
+        if (zohokartDAO.checkInWishlist(products.get(position).getId())) {
             holder.wishListButton.setChecked(true);
         } else {
             holder.wishListButton.setChecked(false);
@@ -98,14 +98,14 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
                 Product product = (Product) toggleButton.getTag();
 
                 if (toggleButton.isChecked()) {
-                    if (dbHelper.addToWishlist(product.getId())) {
+                    if (zohokartDAO.addToWishlist(product.getId())) {
                         Toast.makeText(context, "Product added to wishlist", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
                         toggleButton.setChecked(false);
                     }
                 } else {
-                    if (dbHelper.removeFromWishList(product.getId())) {
+                    if (zohokartDAO.removeFromWishList(product.getId())) {
                         Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();

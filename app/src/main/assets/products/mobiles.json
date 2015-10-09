@@ -1,7 +1,7 @@
 [
   {
     "id": 1001,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 6",
     "brand": "Apple",
     "color": "Gold",
@@ -13,7 +13,7 @@
   },
   {
     "id": 1002,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 6",
     "brand": "Apple",
     "color": "Space Grey",
@@ -25,7 +25,7 @@
   },
   {
     "id": 1003,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 6",
     "brand": "Apple",
     "color": "Gold",
@@ -37,7 +37,7 @@
   },
   {
     "id": 1004,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 6 Plus",
     "brand": "Apple",
     "color": "Space Grey",
@@ -49,7 +49,7 @@
   },
   {
     "id": 1005,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 6 Plus",
     "brand": "Apple",
     "color": "Space Grey",
@@ -61,7 +61,7 @@
   },
   {
     "id": 1006,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 5s",
     "brand": "Apple",
     "color": "Gold",
@@ -73,7 +73,7 @@
   },
   {
     "id": 1007,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 5C",
     "brand": "Apple",
     "color": "Yellow",
@@ -85,7 +85,7 @@
   },
   {
     "id": 1008,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 5",
     "brand": "Apple",
     "color": "White",
@@ -97,7 +97,7 @@
   },
   {
     "id": 1009,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 4S",
     "brand": "Apple",
     "color": "Black",
@@ -109,7 +109,7 @@
   },
   {
     "id": 1010,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Apple iPhone 4",
     "brand": "Apple",
     "color": "White",
@@ -121,7 +121,7 @@
   },
   {
     "id": 1011,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Moto G(3rd Generation)",
     "brand": "Motorola",
     "color": "Black",
@@ -133,7 +133,7 @@
   },
   {
     "id": 1012,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Moto X(2nd Generation)",
     "brand": "Motorola",
     "color": "Black",
@@ -145,7 +145,7 @@
   },
   {
     "id": 1013,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Moto X Play",
     "brand": "Motorola",
     "color": "White",
@@ -157,7 +157,7 @@
   },
   {
     "id": 1014,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Moto X Play",
     "brand": "Motorola",
     "color": "Black",
@@ -169,7 +169,7 @@
   },
   {
     "id": 1015,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Moto Turbo",
     "brand": "Motorola",
     "color": "Black",
@@ -181,7 +181,7 @@
   },
   {
     "id": 1016,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Mi 4i",
     "brand": "Xiaomi",
     "color": "Black",
@@ -193,10 +193,10 @@
   },
   {
     "id": 1017,
-    "category_id": 100,
+    "sub_category_id": 100,
     "name": "Mi 4",
-    "brand": "White",
-    "color": "Black",
+    "brand": "Xiaomi",
+    "color": "White",
     "internal_memory": 64,
     "price": 17999.00,
     "thumbnail": "http://rukmini4.flixcart.com/image/220/220/mobile/p/g/j/mi-mi4-64gb-mzb4240in-original-imae4qwz5jthgnd7.jpeg",

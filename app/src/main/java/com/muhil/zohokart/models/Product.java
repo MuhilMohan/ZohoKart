@@ -1,8 +1,32 @@
 package com.muhil.zohokart.models;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
+import com.muhil.zohokart.utils.ZohokartContentProvider;
+
 public class Product {
+
+    public static final String TABLE_NAME = "products";
+    public static final String _ID = "_id";
+    public static final String SUB_CATEGORY_ID = "sub_category_id";
+    public static final String BRAND = "brand";
+    public static final String TITLE = "title";
+    public static final String DESCRIPTION = "description";
+    public static final String THUMBNAIL = "thumbnail";
+    public static final String PRICE = "price";
+    public static final String STARS = "stars";
+    public static final String RATINGS = "ratings";
+
+    public static final String[] PROJECTION = {_ID, SUB_CATEGORY_ID, BRAND, TITLE, DESCRIPTION, THUMBNAIL, PRICE, STARS, RATINGS};
+
+    public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
+
+    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/com.muhil.zohokart.models.Product";
+    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/com.muhil.zohokart.models.Product";
+
     private int id;
-    private int categoryId;
+    private int subCategoryId;
     private String brand;
     private String title;
     private String description;
@@ -11,9 +35,9 @@ public class Product {
     private double stars;
     private int ratings;
 
-    public Product(int id, int categoryId, String brand, String title, String description, String thumbnail, double price, double stars, int ratings) {
+    public Product(int id, int subCategoryId, String brand, String title, String description, String thumbnail, double price, double stars, int ratings) {
         this.id = id;
-        this.categoryId = categoryId;
+        this.subCategoryId = subCategoryId;
         this.brand = brand;
         this.title = title;
         this.description = description;
@@ -27,7 +51,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", categoryId=" + categoryId +
+                ", categoryId=" + subCategoryId +
                 ", brand='" + brand + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -42,8 +66,8 @@ public class Product {
         return id;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public int getSubCategoryId() {
+        return subCategoryId;
     }
 
     public String getBrand() {

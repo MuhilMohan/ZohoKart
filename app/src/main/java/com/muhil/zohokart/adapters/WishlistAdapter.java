@@ -18,6 +18,7 @@ import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -28,17 +29,18 @@ import java.util.List;
  */
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder> {
 
+    ZohokartDAO zohokartDAO;
+
     List<Product> wishlist;
     Context context;
     WishlistFragment wishlistFragment;
-    DBHelper dbHelper;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment) {
         this.context = context;
         this.wishlistFragment = wishlistFragment;
         this.wishlist = wishlist;
-        dbHelper = new DBHelper(context);
+        zohokartDAO = new ZohokartDAO(context);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(wishlist.get(position).getPrice())));
         Picasso.with(context).load(wishlist.get(position).getThumbnail()).into(holder.displayImage);
 
-        if (dbHelper.checkInCart(wishlist.get(position).getId())){
+        if (zohokartDAO.checkInCart(wishlist.get(position).getId())){
 
             holder.addToCart.setVisibility(View.GONE);
             holder.goToCart.setVisibility(View.VISIBLE);
@@ -70,7 +72,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v) {
 
                 Product product = (Product) v.getTag();
-                if (dbHelper.removeFromWishList(product.getId())) {
+                if (zohokartDAO.removeFromWishList(product.getId())) {
                     Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
                     int position = wishlist.indexOf(product);
                     wishlist.remove(position);
@@ -90,7 +92,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             @Override
             public void onClick(View v) {
                 Product product = (Product) v.getTag();
-                if (dbHelper.addToCart(product.getId())) {
+                if (zohokartDAO.addToCart(product.getId())) {
                     Toast.makeText(context, "product added to cart.", Toast.LENGTH_SHORT).show();
                     v.setVisibility(View.GONE);
                     holder.goToCart.setVisibility(View.VISIBLE);

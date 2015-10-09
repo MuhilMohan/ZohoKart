@@ -9,9 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.muhil.zohokart.models.Account;
+import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.SubCategory;
+import com.muhil.zohokart.models.Wishlist;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,27 +22,35 @@ import java.util.Map;
 
 public class DBHelper extends SQLiteOpenHelper {
 
+    public static String DATABASE_NAME = "zohokart";
+    public static int DATABASE_VERSION = 1;
+
+    public static String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + Category.TABLE_NAME + " ( " + Category._ID + " INTEGER PRIMARY KEY NOT NULL, " + Category.NAME + " TEXT )";
+    public static String CREATE_SUB_CATEGORIES_TABLE = "CREATE TABLE " + SubCategory.TABLE_NAME + " ( " + SubCategory._ID + " INTEGER PRIMARY KEY NOT NULL, " + SubCategory.CATEGORY_ID + " INTEGER, " + SubCategory.NAME + " TEXT )";
+    public static String CREATE_PRODUCTS_TABLE = "CREATE TABLE " + Product.TABLE_NAME + " ( " + Product._ID + " INTEGER, " + Product.SUB_CATEGORY_ID + " INTEGER, " + Product.BRAND + " TEXT, " + Product.TITLE + " TEXT, " + Product.DESCRIPTION + " TEXT, " + Product.THUMBNAIL + " TEXT, " + Product.PRICE + " REAL, " + Product.STARS + " REAL, " + Product.RATINGS + " INTEGER, PRIMARY KEY ( " + Product._ID + " , " + Product.SUB_CATEGORY_ID + " ))";
+    public static String CREATE_ACCOUNTS_TABLE = "CREATE TABLE " + Account.TABLE_NAME + " ( " + Account.NAME + " TEXT, " + Account.EMAIL + " TEXT PRIMARY KEY, " + Account.PASSWORD + " TEXT, " + Account.PHONE_NUMBER + " TEXT, " + Account.DATE_OF_BIRTH + " DATE )";
+    public static String CREATE_WISHLIST_TABLE = "CREATE TABLE " + Wishlist.TABLE_NAME + " ( " + Wishlist.PRODUCT_ID + " INTEGER, " + Wishlist.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
+    public static String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + " ( " + Cart.PRODUCT_ID + " INTEGER, " + Cart.QUANTITY + " INTEGER DEFAULT 1, " + Cart.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
+
     public DBHelper(Context context) {
-        super(context, "zohocart", null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("DB", "Creating tables");
-        db.execSQL("create table categories (_id integer primary key not null, name text)");
-        db.execSQL("create table sub_categories (_id integer primary key not null, category_id integer, name text)");
-        db.execSQL("create table products (_id integer, category_id integer, brand text, title text, description text, thumbnail text, price real, stars real, ratings integer, primary key (_id, category_id))");
-        db.execSQL("create table accounts(name text, email text not null primary key, password text, phone_number text, date_of_birth date)");
+        db.execSQL(CREATE_CATEGORIES_TABLE);
+        db.execSQL(CREATE_SUB_CATEGORIES_TABLE);
+        db.execSQL(CREATE_PRODUCTS_TABLE);
+        db.execSQL(CREATE_ACCOUNTS_TABLE);
         Log.d("DB", "accounts table created");
-        db.execSQL("create table wishlist (_id integer not null primary key, added_on datetime default current_timestamp)");
-        db.execSQL("create table cart (_id integer not null primary key, quantity integer default 1, added_on datetime default current_timestamp)");
+        db.execSQL(CREATE_WISHLIST_TABLE);
+        db.execSQL(CREATE_CART_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("DB", "Dropping tables");
-        db.execSQL("drop table if exists categories");
-        db.execSQL("drop table if exists sub_categories");
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
     }
 
     public int addCategories(List<Category> categories) {
@@ -73,7 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
         for (Product product : products) {
             ContentValues contentValue = new ContentValues();
             contentValue.put("_id", product.getId());
-            contentValue.put("category_id", product.getCategoryId());
+            contentValue.put("sub_category_id", product.getSubCategoryId());
             contentValue.put("brand", product.getBrand());
             contentValue.put("title", product.getTitle());
             contentValue.put("description", product.getDescription());
@@ -141,7 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean checkWishlist(int productId) {
         boolean result;
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist where _id = ?",
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from wishlist where product_id = ?",
                 new String[]{String.valueOf(productId)});
         result = cursor.getCount() == 1;
         cursor.close();
@@ -152,7 +162,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean checkInCart(int productId) {
         boolean result;
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart where _id = ?",
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from cart where product_id = ?",
                 new String[]{String.valueOf(productId)});
         result = cursor.getCount() == 1;
         cursor.close();
@@ -162,7 +172,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean addToWishlist(int productId) {
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        contentValues.put("_id", productId);
+        contentValues.put("product_id", productId);
         Long rowID = sqLiteDatabase.insert("wishlist", null, contentValues);
         return rowID != -1;
     }
@@ -177,7 +187,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean removeFromWishList(int productId) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        int rowsAffected = sqLiteDatabase.delete("wishlist", "_id = ? ", new String[]{String.valueOf(productId)});
+        int rowsAffected = sqLiteDatabase.delete("wishlist", "product_id = ? ", new String[]{String.valueOf(productId)});
         return rowsAffected != -1;
     }
 
@@ -244,8 +254,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Product> getProductsForSubCategory(int subCategoryId) {
         List<Product> products = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail," +
-                        " price, stars, ratings from products where category_id = ? ",
+        Cursor cursor = sqLiteDatabase.rawQuery("select _id, sub_category_id, brand, title, description, thumbnail," +
+                        " price, stars, ratings from products where sub_category_id = ? ",
                 new String[]{String.valueOf(subCategoryId)});
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
@@ -278,7 +288,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if (!productsInWishList.isEmpty()) {
             for (Integer productId : productsInWishList) {
-                cursor = sqLiteDatabase.rawQuery("select _id, category_id, brand, title, description, thumbnail, " +
+                cursor = sqLiteDatabase.rawQuery("select _id, sub_category_id, brand, title, description, thumbnail, " +
                         "price, stars, ratings from products where _id = ?", new String[]{String.valueOf(productId)});
                 Log.d("WISHLIST_CURSOR", String.valueOf(cursor.getCount()));
                 while (cursor.moveToNext()) {

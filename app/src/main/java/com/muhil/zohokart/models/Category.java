@@ -1,6 +1,23 @@
 package com.muhil.zohokart.models;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+
+import com.muhil.zohokart.utils.ZohokartContentProvider;
+
 public class Category {
+
+    public static final String TABLE_NAME = "categories";
+    public static final String _ID = "_id";
+    public static final String NAME = "name";
+
+    public static final String[] PROJECTION = {_ID, NAME};
+
+    public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
+
+    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/com.muhil.zohokart.models.Category";
+    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/com.muhil.zohokart.models.Category";
+
     private int id;
     private String name;
 

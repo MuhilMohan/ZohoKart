@@ -21,18 +21,20 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.DatePickerFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    ZohokartDAO zohokartDAO;
+
     EditText name, email, password, phoneNumber;
     TextView dateOfBirth;
     ImageButton closeButton;
     Button registrationButton;
     boolean registrationResult;
-    DBHelper dbHelper;
     String nameString, emailString, passwordString, phoneNumberString, dateOfBirthString;
     TextView hideTextButton, showTextButton;
 
@@ -115,7 +117,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                dbHelper = new DBHelper(RegistrationActivity.this);
+                zohokartDAO = new ZohokartDAO(RegistrationActivity.this);
                 Account account = new Account();
 
                 nameString = name.getText().toString();
@@ -137,14 +139,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         if (passwordString.length() > 4){
                             
-                            if(!dbHelper.hasAccount(emailString)){
+                            if(!zohokartDAO.hasAccount(emailString)){
 
                                 account.setName(nameString);
                                 account.setEmail(emailString);
                                 account.setPassword(passwordString);
                                 account.setPhoneNumber(phoneNumberString);
                                 account.setDateOfBirth(dateOfBirthString);
-                                registrationResult = dbHelper.addAccount(account);
+                                registrationResult = zohokartDAO.addAccount(account);
 
                                 if(registrationResult){
                                     Toast.makeText(RegistrationActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();

@@ -18,11 +18,15 @@ import android.widget.Toast;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.ZohokartDAO;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
+
+    ZohokartDAO zohokartDAO;
 
     SharedPreferences loggedAccountHolder;
     SharedPreferences.Editor editor;
@@ -30,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgotTextButton, hideTextButton, showTextButton;
     EditText email, password;
     String emailString, passwordString;
-    DBHelper dbHelper;
     Account account;
 
     String preferenceName = "logged_account";
@@ -153,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
         emailString = email.getText().toString();
         passwordString = password.getText().toString();
         
-        dbHelper = new DBHelper(this);
+        zohokartDAO = new ZohokartDAO(this);
 
         if((emailString != null && !emailString.equals("")) && (!passwordString.equals(""))) {
 
@@ -167,14 +170,15 @@ public class LoginActivity extends AppCompatActivity {
                 
                 if (passwordString.length() > 4){
                     
-                    if(dbHelper.hasAccount(emailString) ){
+                    if(zohokartDAO.hasAccount(emailString) ){
                         
-                        if ((account = dbHelper.getAccountIfAvailable(emailString, passwordString)) != null){
+                        if ((account = zohokartDAO.getAccountIfAvailable(emailString, passwordString)) != null){
 
                             Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
                             loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                             editor = loggedAccountHolder.edit();
                             JSONObject jsonObject = new JSONObject();
+                            JSONArray jsonArray = new JSONArray();
 
                             try {
                                 jsonObject.put("name", account.getName());

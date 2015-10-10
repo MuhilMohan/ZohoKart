@@ -21,10 +21,13 @@ import com.muhil.zohokart.fragments.NavigationFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Account;
+import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DataImporter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator {
 
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
 
         Account account = new Account();
-        String jsonString = sharedPreferences.getString("logged_account","");
+        String jsonString = sharedPreferences.getString("logged_account", "");
         if (jsonString!=null && !jsonString.equals("")){
 
             try {
@@ -176,13 +179,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
-    public void sendSubCategoryId(int subCategoryId) {
+    public void sendProductList(String products) {
+
         Log.d("TRANSACTION", "enetered transaction bay");
-        ProductListFragment productListFragment = ProductListFragment.getInstance(subCategoryId);
+        ProductListFragment productListFragment = ProductListFragment.getInstance(products);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
         fragmentTransaction.commit();
         Log.d("TRANSACTION", "commit done.");
 
     }
+
 }

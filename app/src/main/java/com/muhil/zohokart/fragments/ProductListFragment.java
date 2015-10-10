@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductListingAdapter;
@@ -29,21 +31,20 @@ import java.util.List;
  */
 public class ProductListFragment extends Fragment {
 
+    Gson gson;
     List<Product> productList;
     RecyclerView recyclerView;
     ProductListingAdapter productListingAdapter;
-
-    ZohokartDAO zohokartDAO;
 
     public ProductListFragment() {
         // Required empty public constructor
     }
 
-    public static ProductListFragment getInstance(int subCategoryId){
+    public static ProductListFragment getInstance(String products){
 
         ProductListFragment productListFragment = new ProductListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("sub_category_id", subCategoryId);
+        bundle.putString("products", products);
         productListFragment.setArguments(bundle);
         return productListFragment;
 
@@ -53,10 +54,10 @@ public class ProductListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        gson = new Gson();
         View fragmentLayout =  inflater.inflate(R.layout.fragment_product_list, container, false);
-        zohokartDAO = new ZohokartDAO(getActivity());
         Bundle bundle = getArguments();
-        productList = zohokartDAO.getProductsForSubCategory(bundle.getInt("sub_category_id"));
+        productList = gson.fromJson(bundle.getString("products"), new TypeToken<List<Product>>() {}.getType());
         recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.products);
 
         if (productList.size() > 0){

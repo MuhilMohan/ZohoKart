@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.gson.Gson;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
@@ -30,12 +32,14 @@ import java.util.Map;
  */
 public class NavigationFragment extends Fragment {
 
+    Gson gson;
     LinearLayout menuLinearLayout, subCategoriesMenu;
     TextView subCategoryName, categoryName;
     View subCategoryMenuItem,categoryMenuItem;
     ToggleButton dropdown;
     List<Category> categories;
     List<SubCategory> subCategories;
+    List<Product> products;
     Map<Integer, List<SubCategory>> subCategoriesByCategory;
     Communicator communicator;
 
@@ -55,6 +59,7 @@ public class NavigationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_navigation, container, false);
         zohokartDAO = new ZohokartDAO(getActivity());
+        gson = new Gson();
         return view;
     }
 
@@ -96,7 +101,9 @@ public class NavigationFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             SubCategory subCategory = (SubCategory) v.getTag();
-                            communicator.sendSubCategoryId(subCategory.getId());
+                            products = zohokartDAO.getProductsForSubCategory(subCategory.getId());
+                            String productListString = gson.toJson(products);
+                            communicator.sendProductList(productListString);
                             Toast.makeText(getActivity(), "Sub-category id: " + subCategory.getId(), Toast.LENGTH_SHORT).show();
                             communicator.closeDrawer();
                         }
@@ -198,7 +205,7 @@ public class NavigationFragment extends Fragment {
 
     public interface Communicator {
         void closeDrawer();
-        void sendSubCategoryId(int subCategoryId);
+        void sendProductList(String products);
     }
 
 }

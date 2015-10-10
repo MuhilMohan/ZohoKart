@@ -23,7 +23,7 @@ public class BannerPagerAdapter extends FragmentPagerAdapter
 
     @Override
     public Fragment getItem(int position) {
-        return BannerFragment.getInstance(banners.get(position).getBanner());
+        return BannerFragment.getInstance(banners.get(position).getBanner(), banners.get(position).getProductIds());
     }
 
     @Override

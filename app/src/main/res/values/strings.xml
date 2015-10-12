@@ -10,4 +10,5 @@
     <string name="sign_up_string"><u>New to Zohokart? Sign up</u></string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="sign_in_string"><u>Have an account? Sign in</u></string>
+    <string name="title_activity_product_detail">ProductDetailActivity</string>
 </resources>

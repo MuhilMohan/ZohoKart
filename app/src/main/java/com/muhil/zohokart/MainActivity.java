@@ -72,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        MainFragment mainFragment = new MainFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
+        fragmentTransaction.commit();
+
     }
 
     @Override

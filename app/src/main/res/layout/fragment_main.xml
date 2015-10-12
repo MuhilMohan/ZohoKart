@@ -1,13 +1,39 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="com.muhil.zohokart.fragments.MainFragment">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/banner_pager"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="126dp" />
+        android:layout_height="126dp">
 
-</RelativeLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/banner_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="126dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#FFF"
+            android:alpha="0.6">
+
+            <LinearLayout
+                android:id="@+id/view_pager_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

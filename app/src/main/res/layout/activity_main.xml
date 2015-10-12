@@ -17,20 +17,15 @@
             layout="@layout/app_bar"
             android:id="@+id/app_bar" />
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/fragment_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/app_bar"
-            android:orientation="horizontal">
+            android:layout_below="@id/app_bar">
 
-            <fragment
-                android:id="@+id/fragment_holder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:name="com.muhil.zohokart.fragments.MainFragment"
-                tools:layout="@layout/fragment_main" />
 
-        </LinearLayout>
+
+        </FrameLayout>
 
     </RelativeLayout>
 

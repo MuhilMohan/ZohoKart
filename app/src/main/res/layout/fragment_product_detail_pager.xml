@@ -54,9 +54,10 @@
 
                 <ImageView
                     android:id="@+id/product_thumbnail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
                     android:layout_gravity="center"
+                    android:adjustViewBounds="true"
                     android:src="@mipmap/ic_phone_iphone_black_24dp"/>
 
             </FrameLayout>
@@ -160,7 +161,8 @@
                 android:id="@+id/warranty_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/warranty_header" />
+                android:layout_below="@id/warranty_header"
+                android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/horizon_divider_3"

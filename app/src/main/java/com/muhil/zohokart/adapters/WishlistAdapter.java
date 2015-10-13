@@ -1,23 +1,22 @@
 package com.muhil.zohokart.adapters;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Product;
-import com.muhil.zohokart.utils.DBHelper;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
@@ -27,20 +26,23 @@ import java.util.List;
 /**
  * Created by muhil-ga42 on 04/10/15.
  */
-public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder> {
-
+public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder>
+{
     ZohokartDAO zohokartDAO;
 
-    List<Product> wishlist;
+    public List<Product> wishlist;
     Context context;
     WishlistFragment wishlistFragment;
+    FragmentManager fragmentManager;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
-    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment) {
+    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment, FragmentManager fragmentManager) {
         this.context = context;
         this.wishlistFragment = wishlistFragment;
         this.wishlist = wishlist;
+        this.fragmentManager = fragmentManager;
         zohokartDAO = new ZohokartDAO(context);
+
     }
 
     @Override
@@ -69,22 +71,39 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         holder.removeProductView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                final Product product = (Product) v.getTag();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("");
+                alertDialogBuilder.setMessage("Are you sure?");
 
-                Product product = (Product) v.getTag();
-                if (zohokartDAO.removeFromWishList(product.getId())) {
-                    Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
-                    int position = wishlist.indexOf(product);
-                    wishlist.remove(position);
-                    notifyItemRemoved(position);
-                    if (wishlist.size() == 0) {
-                        wishlistFragment.switchViewElement();
+                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (zohokartDAO.removeFromWishList(product.getId())) {
+                            Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
+                            int position = wishlist.indexOf(product);
+                            wishlist.remove(position);
+                            notifyItemRemoved(position);
+                            if (wishlist.size() == 0) {
+                                wishlistFragment.switchViewElement();
+                            }
+                        } else {
+                            dialog.dismiss();
+                            Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
-                }
-                else {
-                    Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
-                }
+                });
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
+                alertDialogBuilder.show();
             }
         });
 
@@ -109,6 +128,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 CartFragment cartFragment = new CartFragment();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = wishlistFragment.getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
+                fragmentTransaction.addToBackStack("cart_fragment");
                 fragmentTransaction.commit();
 
             }

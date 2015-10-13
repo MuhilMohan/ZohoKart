@@ -65,6 +65,8 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         ((TextView) rootView.findViewById(R.id.description)).setText(product.getDescription());
         ((TextView) rootView.findViewById(R.id.price)).setText(String.valueOf(decimalFormat.format(product.getPrice())));
         ((TextView) rootView.findViewById(R.id.rating)).setText(String.valueOf(product.getRatings()) + " Ratings");
+        ((TextView) rootView.findViewById(R.id.warranty_text)).setText(product.getWarranty());
+
         imageView = (ImageView) rootView.findViewById(R.id.product_thumbnail);
         Picasso.with(getActivity()).load(product.getThumbnail()).into(imageView);
 

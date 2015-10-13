@@ -19,8 +19,9 @@ public class Product implements Parcelable {
     public static final String PRICE = "price";
     public static final String STARS = "stars";
     public static final String RATINGS = "ratings";
+    public static final String WARRANTY = "warranty";
 
-    public static final String[] PROJECTION = {_ID, SUB_CATEGORY_ID, BRAND, TITLE, DESCRIPTION, THUMBNAIL, PRICE, STARS, RATINGS};
+    public static final String[] PROJECTION = {_ID, SUB_CATEGORY_ID, BRAND, TITLE, DESCRIPTION, THUMBNAIL, PRICE, STARS, RATINGS, WARRANTY};
 
     public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
 
@@ -36,8 +37,9 @@ public class Product implements Parcelable {
     private double price;
     private double stars;
     private int ratings;
+    private String warranty;
 
-    public Product(int id, int subCategoryId, String brand, String title, String description, String thumbnail, double price, double stars, int ratings) {
+    public Product(int id, int subCategoryId, String brand, String title, String description, String thumbnail, double price, double stars, int ratings, String warranty) {
         this.id = id;
         this.subCategoryId = subCategoryId;
         this.brand = brand;
@@ -47,7 +49,33 @@ public class Product implements Parcelable {
         this.price = price;
         this.stars = stars;
         this.ratings = ratings;
+        this.warranty = warranty;
     }
+
+    protected Product(Parcel in) {
+        id = in.readInt();
+        subCategoryId = in.readInt();
+        brand = in.readString();
+        title = in.readString();
+        description = in.readString();
+        thumbnail = in.readString();
+        price = in.readDouble();
+        stars = in.readDouble();
+        ratings = in.readInt();
+        warranty = in.readString();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     @Override
     public String toString() {
@@ -61,6 +89,7 @@ public class Product implements Parcelable {
                 ", price=" + price +
                 ", stars=" + stars +
                 ", ratings=" + ratings +
+                ", warranty=" + warranty +
                 '}';
     }
 
@@ -100,6 +129,10 @@ public class Product implements Parcelable {
         return ratings;
     }
 
+    public String getWarranty() {
+        return warranty;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -116,5 +149,6 @@ public class Product implements Parcelable {
         dest.writeDouble(price);
         dest.writeDouble(stars);
         dest.writeInt(ratings);
+        dest.writeString(warranty);
     }
 }

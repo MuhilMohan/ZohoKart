@@ -52,7 +52,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         gson = new Gson();
         View fragmentLayout =  inflater.inflate(R.layout.fragment_product_list, container, false);
@@ -65,7 +66,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             RecyclerView.ItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL);
             recyclerView.addItemDecoration(divider);
-            productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager());
+            productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager(), fragmentLayout);
             recyclerView.setAdapter(productListingAdapter);
 
         }

@@ -17,11 +17,12 @@ public class Mobile implements IProduct {
     private String thumbnail;
     private double stars;
     private int ratings;
+    private String warranty;
 
     public Mobile() {
     }
 
-    public Mobile(int id, int categoryId, String name, String brand, String color, int internalMemory, double price, String thumbnail, double stars, int ratings) {
+    public Mobile(int id, int categoryId, String name, String brand, String color, int internalMemory, double price, String thumbnail, double stars, int ratings, String warranty) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
@@ -32,6 +33,8 @@ public class Mobile implements IProduct {
         this.thumbnail = thumbnail;
         this.stars = stars;
         this.ratings = ratings;
+        this.warranty = warranty;
+
     }
 
     @Override
@@ -80,10 +83,16 @@ public class Mobile implements IProduct {
     }
 
     @Override
+    public String getWarranty() {
+        return warranty;
+    }
+
+
+    @Override
     public Product getProduct() {
         return new Product(this.getId(), this.getCategoryId(), this.getBrand(),
                 this.getTitle(), this.getDescription(), this.getThumbnail(), this.getPrice(),
-                this.getStars(), this.getRatings());
+                this.getStars(), this.getRatings(), this.getWarranty());
     }
 
 

@@ -46,25 +46,21 @@ public class WishlistFragment extends android.support.v4.app.Fragment {
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.emptyText);
         if (productsInWishlist != null){
 
-            if (productsInWishlist.size() > 0){
-
-                wishlistAdapter = new WishlistAdapter(getActivity(), productsInWishlist, WishlistFragment.this);
+            if (productsInWishlist.size() > 0)
+            {
+                wishlistAdapter = new WishlistAdapter(getActivity(), productsInWishlist, WishlistFragment.this, getActivity().getSupportFragmentManager());
                 wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 wishlistRecyclerView.setAdapter(wishlistAdapter);
             }
-            else {
-
+            else
+            {
                 switchViewElement();
-
             }
-
         }
-        else {
-
+        else
+        {
             switchViewElement();
-
         }
-
         return wishlistFragment;
     }
 

@@ -21,6 +21,8 @@ public interface IProduct {
 
     int getRatings();
 
+    String getWarranty();
+
     Product getProduct();
 
 }

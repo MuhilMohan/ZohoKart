@@ -3,6 +3,8 @@ package com.muhil.zohokart.adapters;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +40,15 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     android.support.v4.app.FragmentTransaction fragmentTransaction;
 
+    View parentView;
 
-    public ProductListingAdapter(List<Product> products, Context context, android.support.v4.app.FragmentManager fragmentManager) {
+    public ProductListingAdapter(List<Product> products, Context context, android.support.v4.app.FragmentManager fragmentManager, View parentView) {
 
         this.products = products;
         this.context = context;
         zohokartDAO = new ZohokartDAO(context);
         this.fragmentManager = fragmentManager;
+        this.parentView = parentView;
 
     }
 
@@ -98,25 +102,36 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             holder.wishListButton.setChecked(false);
         }
 
-        holder.wishListButton.setOnClickListener(new View.OnClickListener() {
+        holder.wishListButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
                 ToggleButton toggleButton = (ToggleButton) v;
                 Product product = (Product) toggleButton.getTag();
 
-                if (toggleButton.isChecked()) {
-                    if (zohokartDAO.addToWishlist(product.getId())) {
-                        Toast.makeText(context, "Product added to wishlist", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
+                if (toggleButton.isChecked())
+                {
+                    if (zohokartDAO.addToWishlist(product.getId()))
+                    {
+                        getSnackbar("Added to wishlist").show();
+                    }
+                    else
+                    {
+                        getSnackbar("Error while adding to wishlist").show();
                         toggleButton.setChecked(false);
                     }
-                } else {
-                    if (zohokartDAO.removeFromWishList(product.getId())) {
-                        Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    if (zohokartDAO.removeFromWishList(product.getId()))
+                    {
+                        getSnackbar("Removed from wishlist").show();
+                    }
+                    else
+                    {
+                       getSnackbar("Error while removing from wishlist").show();
                         toggleButton.setChecked(true);
                     }
                 }
@@ -124,6 +139,16 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             }
         });
 
+
+
+    }
+
+    public Snackbar getSnackbar(String textToDisplay)
+    {
+        Snackbar snackbar = Snackbar.make(parentView, textToDisplay, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
+        return snackbar;
     }
 
     @Override
@@ -162,6 +187,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             ProductDetailFragment productDetailFragment = (ProductDetailFragment) ProductDetailFragment.getInstance(position, products);
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, "product_detail_page");
+            fragmentTransaction.addToBackStack("product_detail_page_fragment");
             fragmentTransaction.commit();
 
         }

@@ -3,8 +3,10 @@ package com.muhil.zohokart.fragments;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,16 +161,40 @@ public class CartFragment extends android.support.v4.app.Fragment
                         @Override
                         public void onClick(View v) {
 
-                            zohokartDAO.removeFromCart(product.getId());
-                            productsInCart.remove(product);
-                            if (productsInCart.size() == 0){
-                                switchViewElement();
-                            }
-                            ((TextView) cartFragmentLayout.findViewById(R.id.cart_list_count)).setText("("+productsInCart.size()+")");
-                            productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
-                            updateGrandTotal();
-                            Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                            alertDialogBuilder.setTitle("");
+                            alertDialogBuilder.setMessage("Are you sure?");
 
+                            alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (zohokartDAO.removeFromCart(product.getId())) {
+                                        Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
+                                        int position = productsInCart.indexOf(product);
+                                        productsInCart.remove(position);
+
+                                        ((TextView) cartFragmentLayout.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
+                                        productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
+                                        updateGrandTotal();
+
+                                        if (productsInCart.size() == 0) {
+                                            switchViewElement();
+                                        }
+                                    } else {
+                                        dialog.dismiss();
+                                        Toast.makeText(getActivity(), "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            alertDialogBuilder.show();
                         }
                     });
 
@@ -196,6 +222,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                             WishlistFragment wishlistFragment = new WishlistFragment();
                             android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
+                            fragmentTransaction.addToBackStack("wishlist_fragment");
                             fragmentTransaction.commit();
 
                         }

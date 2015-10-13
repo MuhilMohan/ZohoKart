@@ -73,8 +73,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         MainFragment mainFragment = new MainFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
+        fragmentTransaction.addToBackStack("main_fragment");
         fragmentTransaction.commit();
 
     }
@@ -190,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         ProductListFragment productListFragment = ProductListFragment.getInstance(products);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
+        fragmentTransaction.addToBackStack("product_list_fragment");
         fragmentTransaction.commit();
         Log.d("TRANSACTION", "commit done.");
 

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CartFragment extends Fragment
+public class CartFragment extends android.support.v4.app.Fragment
 {
 
     ZohokartDAO zohokartDAO;
@@ -194,7 +194,7 @@ public class CartFragment extends Fragment
                         @Override
                         public void onClick(View v) {
                             WishlistFragment wishlistFragment = new WishlistFragment();
-                            FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                            android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
                             fragmentTransaction.commit();
 

@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     SharedPreferences sharedPreferences;
     NavigationFragment navigationFragment;
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+    android.support.v4.app.FragmentManager fragmentManager;
+    android.support.v4.app.FragmentTransaction fragmentTransaction;
 
     public static final int ACTION_ACCOUNT_NAME = 1000;
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
         sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         dataImporter = new DataImporter(this);
         dataImporter.importData();

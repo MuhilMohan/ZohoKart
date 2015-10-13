@@ -1,5 +1,7 @@
 package com.muhil.zohokart.adapters;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.fragments.ProductDetailFragment;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
@@ -28,15 +31,20 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     List<Product> products;
     Context context;
+    android.support.v4.app.FragmentManager fragmentManager;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     double stars;
     ImageView fullStar, halfStar, emptyStar;
 
-    public ProductListingAdapter(List<Product> products, Context context) {
+    android.support.v4.app.FragmentTransaction fragmentTransaction;
+
+
+    public ProductListingAdapter(List<Product> products, Context context, android.support.v4.app.FragmentManager fragmentManager) {
 
         this.products = products;
         this.context = context;
         zohokartDAO = new ZohokartDAO(context);
+        this.fragmentManager = fragmentManager;
 
     }
 
@@ -123,12 +131,13 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         return products.size();
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder {
+    class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, price, description, productRating;
         ImageView displayImage;
         ToggleButton wishListButton;
         LinearLayout productStars;
+        Context context;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -140,6 +149,20 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
             wishListButton = (ToggleButton) itemView.findViewById(R.id.wishlist_toggle);
             productStars = (LinearLayout) itemView.findViewById(R.id.product_stars);
             productRating = (TextView) itemView.findViewById(R.id.product_rating);
+
+            itemView.setOnClickListener(this);
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getLayoutPosition();
+            ProductDetailFragment productDetailFragment = (ProductDetailFragment) ProductDetailFragment.getInstance(position, products);
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, "product_detail_page");
+            fragmentTransaction.commit();
 
         }
     }

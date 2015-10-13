@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WishlistFragment extends Fragment {
+public class WishlistFragment extends android.support.v4.app.Fragment {
 
     RecyclerView wishlistRecyclerView;
     List<Product> productsInWishlist;

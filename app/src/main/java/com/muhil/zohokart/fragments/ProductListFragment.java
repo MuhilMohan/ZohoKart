@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends Fragment {
+public class ProductListFragment extends android.support.v4.app.Fragment {
 
     Gson gson;
     List<Product> productList;
@@ -65,7 +65,7 @@ public class ProductListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             RecyclerView.ItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL);
             recyclerView.addItemDecoration(divider);
-            productListingAdapter = new ProductListingAdapter(productList, getActivity());
+            productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager());
             recyclerView.setAdapter(productListingAdapter);
 
         }

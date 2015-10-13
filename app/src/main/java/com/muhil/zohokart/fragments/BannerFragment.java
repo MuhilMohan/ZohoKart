@@ -2,14 +2,19 @@ package com.muhil.zohokart.fragments;
 
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
@@ -25,26 +30,27 @@ import java.util.Objects;
  */
 public class BannerFragment extends android.support.v4.app.Fragment {
 
-    ImageView bannerImage;
-    ArrayList<Integer> productsIds;
-    List<Product> products;
+    ViewPager bannerPager;
     ZohokartDAO zohokartDAO;
-    Gson gson;
+    PromotionBanner currentBanner;
+
+    List<PromotionBanner> banners;
+
+    public static android.support.v4.app.Fragment getInstance(PromotionBanner promotionBanner){
+
+        BannerFragment bannerFragment = new BannerFragment();
+        Bundle bundle = new Bundle();
+        Gson gson = new Gson();
+        String bannerString = gson.toJson(promotionBanner);
+        bundle.putString("banner", bannerString);
+        bannerFragment.setArguments(bundle);
+        return bannerFragment;
+
+    }
 
     public BannerFragment() {
         // Required empty public constructor
     }
-
-    public static android.support.v4.app.Fragment getInstance(String banner_url, List<Integer> productIds)
-    {
-        android.support.v4.app.Fragment bannerFragment = new BannerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(PromotionBanner.BANNER_URL, banner_url);
-        bundle.putIntegerArrayList(PromotionBanner.PRODUCTS_RELATED, (ArrayList<Integer>) productIds);
-        bannerFragment.setArguments(bundle);
-        return bannerFragment;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,39 +59,13 @@ public class BannerFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         ViewGroup bannerFragment = (ViewGroup) inflater.inflate(R.layout.fragment_banner, container, false);
 
-        zohokartDAO = new ZohokartDAO(getActivity());
-        gson = new Gson();
-
-        final Bundle fragmentArguments = getArguments();
-        String banner_url = fragmentArguments.getString(PromotionBanner.BANNER_URL);
-
-        bannerImage = (ImageView) bannerFragment.findViewById(R.id.banner_holder);
-        bannerImage.setTag(fragmentArguments.getIntegerArrayList(PromotionBanner.PRODUCTS_RELATED));
-        Picasso.with(getActivity()).load(banner_url).into(bannerImage);
-
-        bannerImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Object prodcutIdsObject = v.getTag();
-                productsIds = (ArrayList<Integer>) prodcutIdsObject;
-                products = zohokartDAO.getProductsForProductIds(productsIds);
-
-                if (products.size() > 1) {
-
-                    String productsString = gson.toJson(products);
-                    ProductListFragment productListFragment = ProductListFragment.getInstance(productsString);
-                    FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
-                    fragmentTransaction.commit();
-
-                }
-
-            }
-        });
+        Gson gson = new Gson();
+        currentBanner = gson.fromJson(getArguments().getString("banner"), new TypeToken<PromotionBanner>() {}.getType());
+        ImageView bannerImage = (ImageView) bannerFragment.findViewById(R.id.banner_image);
+        Picasso.with(getActivity()).load(currentBanner.getBanner()).into(bannerImage);
+        bannerImage.setTag(currentBanner.getProductIds());
 
         return bannerFragment;
     }
-
 
 }

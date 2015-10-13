@@ -2,10 +2,12 @@ package com.muhil.zohokart.models;
 
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.muhil.zohokart.utils.ZohokartContentProvider;
 
-public class Product {
+public class Product implements Parcelable {
 
     public static final String TABLE_NAME = "products";
     public static final String _ID = "_id";
@@ -96,5 +98,23 @@ public class Product {
 
     public int getRatings() {
         return ratings;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(subCategoryId);
+        dest.writeString(brand);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(thumbnail);
+        dest.writeDouble(price);
+        dest.writeDouble(stars);
+        dest.writeInt(ratings);
     }
 }

@@ -15,6 +15,8 @@ import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
+import com.muhil.zohokart.models.specification.Specification;
+import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String CREATE_ACCOUNTS_TABLE = "CREATE TABLE " + Account.TABLE_NAME + " ( " + Account.NAME + " TEXT, " + Account.EMAIL + " TEXT PRIMARY KEY, " + Account.PASSWORD + " TEXT, " + Account.PHONE_NUMBER + " TEXT, " + Account.DATE_OF_BIRTH + " DATE )";
     public static String CREATE_WISHLIST_TABLE = "CREATE TABLE " + Wishlist.TABLE_NAME + " ( " + Wishlist.PRODUCT_ID + " INTEGER, " + Wishlist.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
     public static String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + " ( " + Cart.PRODUCT_ID + " INTEGER, " + Cart.QUANTITY + " INTEGER DEFAULT 1, " + Cart.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP )";
+    public static String CREATE_SPECIFICATION_TABLE = "CREATE TABLE " + SpecificationGroup.TABLE_NAME + " ( " + SpecificationGroup.PRODUCT_ID + " INTEGER, " + SpecificationGroup.GROUP_NAME + " TEXT, " + SpecificationGroup.SPECIFICATIONS + " TEXT )";
     public static String CREATE_PROMOTION_BANNER_TABLE = "CREATE TABLE " + PromotionBanner.TABLE_NAME + " ( " + PromotionBanner._ID + " INTEGER, " + PromotionBanner.BANNER_URL + " TEXT, " + PromotionBanner.PRODUCTS_RELATED + " TEXT )";
 
     public DBHelper(Context context) {
@@ -48,6 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DB", "accounts table created");
         db.execSQL(CREATE_WISHLIST_TABLE);
         db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_SPECIFICATION_TABLE);
         db.execSQL(CREATE_PROMOTION_BANNER_TABLE);
     }
 

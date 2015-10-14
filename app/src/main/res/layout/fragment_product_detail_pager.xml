@@ -183,14 +183,17 @@
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
-            <ImageButton
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/specifications_holder"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_below="@id/horizon_divider_3"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_fa_trash_o"
-                android:background="#FFF"/>
+                android:layout_margin="10dp"
+                android:layout_below="@id/specifications"
+                android:orientation="vertical">
+
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/horizon_divider_4"
@@ -198,7 +201,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_below="@id/specifications"
+                android:layout_below="@id/specifications_holder"
                 android:background="#BDBDBD"/>
 
             <TextView

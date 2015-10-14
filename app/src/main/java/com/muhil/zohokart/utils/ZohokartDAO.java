@@ -19,11 +19,14 @@ import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
+import com.muhil.zohokart.models.specification.Specification;
+import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ZohokartDAO {
 
@@ -518,4 +521,70 @@ public class ZohokartDAO {
         return banners;
     }
 
+
+    public int addSpecifications(Map<String, List<SpecificationGroup>> specifications) {
+
+        Gson gson = new Gson();
+        ContentProviderResult[] contentProviderResults = null;
+        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
+        ContentValues contentValues = new ContentValues();
+        String specificationString;
+
+        for (Map.Entry<String, List<SpecificationGroup>> specificationEntry: specifications.entrySet()) {
+
+            contentValues.put(SpecificationGroup.PRODUCT_ID, Integer.parseInt(specificationEntry.getKey().trim()));
+
+            for (SpecificationGroup specificationGroup: specificationEntry.getValue())
+            {
+
+                contentValues.put(SpecificationGroup.GROUP_NAME, specificationGroup.getName());
+                specificationString = gson.toJson(specificationGroup.getSpecifications());
+                contentValues.put(SpecificationGroup.SPECIFICATIONS, specificationString);
+                contentProviderOperations.add(ContentProviderOperation.newInsert(SpecificationGroup.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
+
+            }
+
+        }
+        try
+        {
+            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
+        }
+        catch (RemoteException | OperationApplicationException e)
+        {
+            Log.e("DAO", "Error adding categories ", e);
+        }
+
+        return contentProviderResults != null ? contentProviderResults.length : 0;
+
+    }
+
+    public Map<String, List<Specification>> getSpecificationsByProductId(int productId)
+    {
+
+        Map<String, List<Specification>> specificationMap = new TreeMap<>();
+        Gson gson = new Gson();
+        List<Specification> specifications;
+        try (Cursor cursor = context.getContentResolver().query(
+                Uri.parse(SpecificationGroup.CONTENT_URI + "/" + productId), SpecificationGroup.PROJECTION, null, null, null))
+        {
+
+            while (cursor.moveToNext())
+            {
+                if (cursor.getInt(cursor.getColumnIndex(SpecificationGroup.PRODUCT_ID)) == productId)
+                {
+                    specifications = gson.fromJson(cursor.getString(cursor.getColumnIndex(SpecificationGroup.SPECIFICATIONS)), new TypeToken<List<Specification>>(){}.getType());
+                    specificationMap.put(cursor.getString(cursor.getColumnIndex(SpecificationGroup.GROUP_NAME)), specifications);
+                }
+            }
+
+            Log.d("Cursor", String.valueOf(cursor.getCount()));
+
+        }
+        catch (Exception e)
+        {
+            Log.e("DAO", "Error fetching specifications", e);
+        }
+
+        return specificationMap;
+    }
 }

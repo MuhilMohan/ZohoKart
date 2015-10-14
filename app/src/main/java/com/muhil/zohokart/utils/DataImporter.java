@@ -100,11 +100,9 @@ public class DataImporter {
         Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {
         }.getType());
 
-        for (Map.Entry<String, List<SpecificationGroup>> entry : specifications.entrySet()) {
-            DataHolder.specifications.put(entry.getKey(), entry.getValue());
-        }
+        records = zohokartDAO.addSpecifications(specifications);
 
-        Log.d("JSON", "Number of product specfications = " + DataHolder.specifications.size());
+        Log.d("JSON", "Number of product specfications = " + records);
 
     }
 }

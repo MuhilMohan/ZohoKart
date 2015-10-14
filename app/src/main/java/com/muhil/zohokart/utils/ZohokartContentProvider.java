@@ -18,6 +18,7 @@ import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
+import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 /**
  * Created by muhil-ga42 on 08/10/15.
@@ -39,8 +40,10 @@ public class ZohokartContentProvider extends ContentProvider {
     private static final int WISHLIST_ID = 10;
     private static final int CART = 11;
     private static final int CART_ID = 12;
-    private static final int PROMOTION_BANNERS = 13;
-    private static final int PROMOTION_BANNERS_ID = 14;
+    private static final int SPECIFICATION = 13;
+    private static final int SPECIFICATION_ID = 14;
+    private static final int PROMOTION_BANNERS = 15;
+    private static final int PROMOTION_BANNERS_ID = 16;
     private static final UriMatcher uriMatcher;
 
     static {
@@ -58,6 +61,8 @@ public class ZohokartContentProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, Wishlist.TABLE_NAME + "/#", WISHLIST_ID);
         uriMatcher.addURI(AUTHORITY, Cart.TABLE_NAME, CART);
         uriMatcher.addURI(AUTHORITY, Cart.TABLE_NAME + "/#", CART_ID);
+        uriMatcher.addURI(AUTHORITY, SpecificationGroup.TABLE_NAME, SPECIFICATION);
+        uriMatcher.addURI(AUTHORITY, SpecificationGroup.TABLE_NAME + "/#", SPECIFICATION_ID);
         uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME, PROMOTION_BANNERS);
         uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME + "/#", PROMOTION_BANNERS_ID);
 
@@ -128,6 +133,14 @@ public class ZohokartContentProvider extends ContentProvider {
                 sqLiteQueryBuilder.appendWhere(Cart.PRODUCT_ID + " = " + uri.getLastPathSegment());
                 break;
 
+            case SPECIFICATION:
+                sqLiteQueryBuilder.setTables(SpecificationGroup.TABLE_NAME);
+                break;
+            case SPECIFICATION_ID:
+                sqLiteQueryBuilder.setTables(SpecificationGroup.TABLE_NAME);
+                sqLiteQueryBuilder.appendWhere(SpecificationGroup.PRODUCT_ID + " = " + uri.getLastPathSegment());
+                break;
+
             case PROMOTION_BANNERS:
                 sqLiteQueryBuilder.setTables(PromotionBanner.TABLE_NAME);
                 break;
@@ -188,6 +201,12 @@ public class ZohokartContentProvider extends ContentProvider {
             case CART_ID:
                 return Cart.CONTENT_ITEM_TYPE;
 
+            case SPECIFICATION:
+                return SpecificationGroup.CONTENT_TYPE;
+
+            case SPECIFICATION_ID:
+                return SpecificationGroup.CONTENT_ITEM_TYPE;
+
             case PROMOTION_BANNERS:
                 return PromotionBanner.CONTENT_TYPE;
 
@@ -205,9 +224,9 @@ public class ZohokartContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
 
         if ((uriMatcher.match(uri) != CATEGORIES_ID) && (uriMatcher.match(uri) != SUB_CATEGORIES_ID) && (uriMatcher.match(uri) != PRODUCTS_ID) && (uriMatcher.match(uri) != ACCOUNTS_EMAIL)
-                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)){
+                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)){
 
-            long result = 0;
+            long result;
             SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
             switch (uriMatcher.match(uri)){
 
@@ -233,6 +252,10 @@ public class ZohokartContentProvider extends ContentProvider {
 
                 case CART:
                     result = sqLiteDatabase.insert(Cart.TABLE_NAME, null, values);
+                    break;
+
+                case SPECIFICATION:
+                    result = sqLiteDatabase.insert(SpecificationGroup.TABLE_NAME, null, values);
                     break;
 
                 case PROMOTION_BANNERS:

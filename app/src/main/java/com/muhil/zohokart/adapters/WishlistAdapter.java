@@ -62,14 +62,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(wishlist.get(position).getPrice())));
         Picasso.with(context).load(wishlist.get(position).getThumbnail()).into(holder.displayImage);
 
-        if (zohokartDAO.checkInCart(wishlist.get(position).getId())){
+        if (zohokartDAO.checkInCart(wishlist.get(position).getId()))
+        {
 
             holder.addToCart.setVisibility(View.GONE);
             holder.goToCart.setVisibility(View.VISIBLE);
 
         }
 
-        holder.removeProductView.setOnClickListener(new View.OnClickListener() {
+        holder.removeProductView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -78,18 +80,24 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 alertDialogBuilder.setTitle("");
                 alertDialogBuilder.setMessage("Are you sure?");
 
-                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (zohokartDAO.removeFromWishList(product.getId())) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        if (zohokartDAO.removeFromWishList(product.getId()))
+                        {
                             Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
                             int position = wishlist.indexOf(product);
                             wishlist.remove(position);
                             notifyItemRemoved(position);
-                            if (wishlist.size() == 0) {
+                            if (wishlist.size() == 0)
+                            {
                                 wishlistFragment.switchViewElement();
                             }
-                        } else {
+                        }
+                        else
+                        {
                             dialog.dismiss();
                             Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
                         }

@@ -16,15 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:elevation="4dp">
 
         <LinearLayout
+            android:id="@+id/add_to_cart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="#eeeeee">
+            android:background="#eeeeee"
+            android:clickable="true">
 
             <ImageView
                 android:layout_width="24dp"
@@ -37,6 +40,31 @@
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center"
                 android:text="+ Cart"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/go_to_cart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="#eeeeee"
+            android:clickable="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_shopping_cart_black_18dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:text="-> Cart"/>
 
         </LinearLayout>
 

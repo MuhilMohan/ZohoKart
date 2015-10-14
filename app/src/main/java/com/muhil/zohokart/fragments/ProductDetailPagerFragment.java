@@ -1,8 +1,10 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,11 +124,11 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                 {
                     if (zohokartDAO.addToWishlist(product.getId()))
                     {
-                        Toast.makeText(getActivity(), "Product added to wishlist", Toast.LENGTH_SHORT).show();
+                        getSnackbar("Added to wishlist").show();
                     }
                     else
                     {
-                        Toast.makeText(getActivity(), "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
+                        getSnackbar("Error while adding to wishlist").show();
                         ((ToggleButton) v).setChecked(false);
                     }
                 }
@@ -134,11 +136,10 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                 {
                     if (zohokartDAO.removeFromWishList(product.getId()))
                     {
-                        Toast.makeText(getActivity(), "Product removed from wishlist", Toast.LENGTH_SHORT).show();
-                    }
-                    else
+                        getSnackbar("Removed from wishlist").show();
+                    } else
                     {
-                        Toast.makeText(getActivity(), "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                        getSnackbar("Error while removing from wishlist").show();
                         ((ToggleButton) v).setChecked(true);
                     }
                 }
@@ -149,5 +150,12 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         return rootView;
     }
 
+    public Snackbar getSnackbar(String textToDisplay)
+    {
+        Snackbar snackbar = Snackbar.make(rootView, textToDisplay, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
+        return snackbar;
+    }
 
 }

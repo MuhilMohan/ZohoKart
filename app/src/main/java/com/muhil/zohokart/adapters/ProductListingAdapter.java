@@ -156,6 +156,13 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         return products.size();
     }
 
+    public void updateDataSet(List<Product> newProductDataSet)
+    {
+        this.products = newProductDataSet;
+        notifyDataSetChanged();
+
+    }
+
     class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView title, price, description, productRating;

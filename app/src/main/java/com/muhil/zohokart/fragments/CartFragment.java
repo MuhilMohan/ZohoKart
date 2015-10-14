@@ -72,22 +72,19 @@ public class CartFragment extends android.support.v4.app.Fragment
     }
 
     @Override
-    public void onResume() {
-
+    public void onResume()
+    {
         if (productsInCart != null && productsInCart.size() > 0)
         {
             updateGrandTotal();
         }
-
         super.onResume();
     }
 
     private void switchViewElement()
     {
-
         cartContent.setVisibility(View.GONE);
         emptyCartHolder.setVisibility(View.VISIBLE);
-
     }
 
     private void populateProductList()
@@ -110,7 +107,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                     ((TextView) cardView.findViewById(R.id.title)).setText(product.getTitle());
                     ((TextView) cardView.findViewById(R.id.description)).setText(product.getDescription());
                     ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format(product.getPrice()));
-                    ((EditText) cardView.findViewById(R.id.quantity)).setText(String.valueOf(1));
+                    ((EditText) cardView.findViewById(R.id.quantity)).setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(product.getId())));
                     (cardView.findViewById(R.id.quantity)).setTag(product);
                     ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(product.getPrice()));
                     Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
@@ -182,7 +179,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                         }
                                     } else {
                                         dialog.dismiss();
-                                        Toast.makeText(getActivity(), "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "error while removing from cart.", Toast.LENGTH_SHORT).show();
                                     }
 
                                 }

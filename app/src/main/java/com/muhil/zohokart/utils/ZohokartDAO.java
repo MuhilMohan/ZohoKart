@@ -339,6 +339,26 @@ public class ZohokartDAO {
         return (updateCount == 1);
     }
 
+    public int getQuantityofProductInCart(int productId)
+    {
+        int result = 0;
+        if (checkInCart(productId))
+        {
+            try (Cursor cursor = context.getContentResolver().query(
+                    Uri.parse(Cart.CONTENT_URI + "/" + productId), Cart.PROJECTION, null, null, null))
+            {
+                if (cursor != null && (cursor.getCount() == 1))
+                {
+                    while (cursor.moveToNext())
+                    {
+                        result = cursor.getInt(cursor.getColumnIndex(Cart.QUANTITY));
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     public boolean removeFromCart(int productId)
     {
         int deleteCount = context.getContentResolver().delete(Uri.parse(Cart.CONTENT_URI + "/" + productId), null, null);

@@ -24,10 +24,16 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
+            android:orientation="horizontal"
             android:background="#EEEEEE">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/ic_filter_list_black_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:text="FILTER"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -46,16 +52,29 @@
             android:background="#EEEEEE"
             android:clickable="true"
             android:orientation="vertical">
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SORT"
-                android:textSize="16sp"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/sort_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/ic_sort_black_24dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="SORT"
+                    android:textSize="16sp"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/selected_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="8sp"
+                android:text="samle"
                 android:textStyle="italic"
                 android:visibility="gone"/>
         </LinearLayout>
@@ -64,15 +83,6 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#BDBDBD"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="#EEEEEE">
-
-        </LinearLayout>
 
     </LinearLayout>
 

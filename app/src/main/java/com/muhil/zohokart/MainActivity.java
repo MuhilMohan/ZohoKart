@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         searchView = (SearchView) mSearchMenuItem.getActionView();
         int searchImgId = android.support.v7.appcompat.R.id.search_button;
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
-        v.setImageResource(R.mipmap.ic_add_shopping_cart_black_18dp);
+        v.setImageResource(R.mipmap.ic_youtube_searched_for_white_24dp);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -128,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             }
         });
 
-        MenuItem menuItem = null;
         Account account = new Account();
         String jsonString = sharedPreferences.getString("logged_account", "");
         if (jsonString!=null && !jsonString.equals("")){
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 e.printStackTrace();
             }
 
-            if ((menuItem = menu.findItem(ACTION_ACCOUNT_NAME)) == null){
+            if (( menu.findItem(ACTION_ACCOUNT_NAME)) == null){
 
                 menu.findItem(R.id.action_login).setVisible(false);
                 menu.add(0, ACTION_ACCOUNT_NAME, 200, account.getName());
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else {
 
-            if ((menuItem = menu.findItem(ACTION_ACCOUNT_NAME)) != null){
+            if (( menu.findItem(ACTION_ACCOUNT_NAME)) != null){
 
                 menu.removeItem(ACTION_ACCOUNT_NAME);
                 menu.findItem(R.id.action_login).setVisible(true);
@@ -195,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
             fragmentTransaction.addToBackStack("cart_fragment");
             fragmentTransaction.commit();
+        }
+        else if (id == R.id.menu_search){
         }
 
         return super.onOptionsItemSelected(item);

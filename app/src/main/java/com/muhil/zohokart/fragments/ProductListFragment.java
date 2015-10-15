@@ -1,7 +1,9 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -46,6 +48,9 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
     ProductListingAdapter productListingAdapter;
     String[] sortingItems;
     View fragmentLayout;
+    TextView textView;
+    LinearLayout vertLayout;
+
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -122,6 +127,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
                 (fragmentLayout.findViewById(R.id.sort_action)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                         alertDialogBuilder.setTitle("Sort by");
                         alertDialogBuilder.setItems(sortingItems, new DialogInterface.OnClickListener() {

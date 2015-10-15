@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +92,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                             int position = wishlist.indexOf(product);
                             wishlist.remove(position);
                             notifyItemRemoved(position);
+                            wishlistFragment.updateWishlistCount(wishlist.size());
                             if (wishlist.size() == 0)
                             {
                                 wishlistFragment.switchViewElement();
@@ -153,7 +155,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         TextView title, price, description;
         ImageView displayImage;
-        FrameLayout removeProductView, addToCart, goToCart;
+        LinearLayout removeProductView, addToCart, goToCart;
 
         public WishlistViewHolder(View itemView) {
             super(itemView);
@@ -161,10 +163,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
-            displayImage = (ImageView) itemView.findViewById(R.id.displayImage);
-            removeProductView = (FrameLayout) itemView.findViewById(R.id.removeProduct);
-            addToCart = (FrameLayout) itemView.findViewById(R.id.add_to_cart_action);
-            goToCart = (FrameLayout) itemView.findViewById(R.id.go_to_cart_action);
+            displayImage = (ImageView) itemView.findViewById(R.id.display_image);
+            removeProductView = (LinearLayout) itemView.findViewById(R.id.removeProduct);
+            addToCart = (LinearLayout) itemView.findViewById(R.id.add_to_cart_action);
+            goToCart = (LinearLayout) itemView.findViewById(R.id.go_to_cart_action);
 
 
         }

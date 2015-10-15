@@ -28,6 +28,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment {
     List<Product> productsInWishlist;
     WishlistAdapter wishlistAdapter;
     TextView emptyTextView;
+    View wishlistFragment;
 
     ZohokartDAO zohokartDAO;
 
@@ -39,7 +40,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
         zohokartDAO = new ZohokartDAO(getActivity());
         productsInWishlist = zohokartDAO.getProductsFromWishlist();
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
@@ -48,6 +49,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment {
 
             if (productsInWishlist.size() > 0)
             {
+                updateWishlistCount(productsInWishlist.size());
                 wishlistAdapter = new WishlistAdapter(getActivity(), productsInWishlist, WishlistFragment.this, getActivity().getSupportFragmentManager());
                 wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 wishlistRecyclerView.setAdapter(wishlistAdapter);
@@ -69,6 +71,11 @@ public class WishlistFragment extends android.support.v4.app.Fragment {
         wishlistRecyclerView.setVisibility(View.GONE);
         emptyTextView.setVisibility(View.VISIBLE);
 
+    }
+
+    public void updateWishlistCount(int count)
+    {
+        ((TextView) wishlistFragment.findViewById(R.id.wishlist_count)).setText("(" + count + ")");
     }
 
 }

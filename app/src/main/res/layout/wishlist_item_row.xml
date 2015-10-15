@@ -1,184 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
-    android:layout_margin="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    card_view:cardElevation="4dp"
     card_view:cardBackgroundColor="#FFF"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-                <ImageView
-                    android:id="@+id/displayImage"
-                    android:layout_width="90dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_phone_iphone_black_24dp"/>
-            </FrameLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:text="phone name"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="color and storage"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:id="@+id/price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="price"
-                        android:textSize="16sp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        <ImageView
+            android:layout_width="57dp"
+            android:layout_height="130dp"
+            android:layout_margin="20dp"
+            android:src="@mipmap/ic_phone_iphone_black_24dp"
+            android:id="@+id/display_image"/>
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/display_image"
+            android:layout_marginTop="20dp"
+            android:text="Title"
+            android:textSize="14sp"
+            android:id="@+id/title"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/display_image"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="7dp"
+            android:text="Color and storage"
+            android:textSize="12sp"
+            android:id="@+id/description"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/display_image"
+            android:layout_below="@+id/description"
+            android:layout_marginTop="11dp"
+            android:text="Price"
+            android:textSize="14sp"
+            android:id="@+id/price"/>
+
+        <TextView
+            android:id="@id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_below="@id/display_image"
             android:background="#E0E0E0"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
             android:orientation="horizontal">
 
-            <FrameLayout
-                android:id="@+id/add_to_cart_action"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:id="@+id/add_to_cart_action">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:text="ADD TO" />
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@mipmap/ic_add_shopping_cart_black_18dp"
-                        android:layout_gravity="center_vertical"/>
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@mipmap/ic_add_shopping_cart_black_18dp"
+                    android:layout_gravity="center_vertical"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="ADD TO CART"
-                        android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/go_to_cart_action"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:id="@+id/go_to_cart_action"
                 android:visibility="gone">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="GO TO"
+                    android:layout_gravity="center_vertical"/>
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@mipmap/ic_shopping_cart_black_18dp"
-                        android:layout_gravity="center_vertical"/>
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@mipmap/ic_shopping_cart_black_18dp"
+                    android:layout_gravity="center_vertical"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="GO TO CART"
-                        android:layout_gravity="center_vertical"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#E0E0E0"/>
+                android:layout_height="40dp"
+                android:background="#9E9E9E"
+                android:id="@+id/divider_vertical"/>
 
-            <FrameLayout
-                android:id="@+id/removeProduct"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:id="@+id/removeProduct">
 
-                <LinearLayout
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@mipmap/ic_fa_trash_o"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_height="wrap_content"
+                    android:text="REMOVE"
+                    android:layout_gravity="center_vertical"/>
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@mipmap/ic_fa_trash_o"
-                        android:layout_gravity="center_vertical"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="REMOVE"
-                        android:layout_gravity="center_vertical"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
+
 
 </android.support.v7.widget.CardView>

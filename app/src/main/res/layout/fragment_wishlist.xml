@@ -5,12 +5,37 @@
     tools:context="com.muhil.zohokart.fragments.WishlistFragment"
     android:background="#E0E0E0">
 
+    <LinearLayout
+        android:id="@+id/wishlist_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:text="Cart"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/wishlist_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="italic"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/emptyText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:text="no products in wishlist"
         android:textSize="18sp"
@@ -20,6 +45,7 @@
         android:id="@+id/wishlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/wishlist_header"
         android:visibility="visible" />
 
 </RelativeLayout>

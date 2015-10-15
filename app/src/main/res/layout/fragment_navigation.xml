@@ -1,4 +1,4 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,11 +7,19 @@
     android:background="#FFF"
     tools:context="com.muhil.recylcerviewdemo.NavigationFragment">
 
+    <ProgressBar
+        android:id="@+id/navigation_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <ScrollView
+        android:id="@+id/navigation_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        >
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/navigation_linear_layout"
@@ -28,8 +36,16 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="HOME"
+                android:background="#E0E0E0"
+                android:textSize="18sp"/>
+
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>

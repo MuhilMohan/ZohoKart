@@ -2,16 +2,17 @@ package com.muhil.zohokart.fragments;
 
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.gson.Gson;
@@ -82,7 +83,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         ((LinearLayout) rootView.findViewById(R.id.stars)).removeAllViews();
 
         fillStars();
-        fillSpecifications(product.getId());
 
         if (zohokartDAO.checkInWishlist(product.getId()))
         {
@@ -95,7 +95,23 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
 
         (rootView.findViewById(R.id.wishlist_icon)).setOnClickListener(this);
 
+        (rootView.findViewById(R.id.specifications)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SpecificationFragment specificationFragment = SpecificationFragment.getInstance(product);
+                specificationFragment.show(getActivity().getFragmentManager(), "specifications");
+            }
+        });
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+
     }
 
     public Snackbar getSnackbar(String textToDisplay)
@@ -168,34 +184,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
             }
 
         }
-    }
-
-    private void fillSpecifications(int productId)
-    {
-        specificationGroup = zohokartDAO.getSpecificationsByProductId(productId);
-
-        for (Map.Entry<String, List<Specification>> specificationEntry: specificationGroup.entrySet())
-        {
-
-            specificationGroupName = new TextView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            specificationGroupName.setLayoutParams(params);
-            specificationGroupName.setPadding(4, 4, 4, 4);
-            specificationGroupName.setBackgroundColor(Color.parseColor("#BDBDBD"));
-            specificationGroupName.setText(specificationEntry.getKey());
-            ((ViewGroup) rootView.findViewById(R.id.specifications_holder)).addView(specificationGroupName);
-
-            for (Specification specification : specificationEntry.getValue())
-            {
-                layoutInflater = LayoutInflater.from(getActivity());
-                specificationView = layoutInflater.inflate(R.layout.specification_item, ((ViewGroup) rootView.findViewById(R.id.specifications_holder)), false);
-                ((TextView) specificationView.findViewById(R.id.specification_key)).setText(specification.getKey());
-                ((TextView) specificationView.findViewById(R.id.specification_value)).setText(specification.getValue());
-                ((ViewGroup) rootView.findViewById(R.id.specifications_holder)).addView(specificationView);
-            }
-
-        }
-
     }
 
 }

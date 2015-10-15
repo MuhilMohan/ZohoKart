@@ -72,6 +72,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
 
         productDetailPager.setAdapter(productDetailPagerAdapter);
         productDetailPager.setCurrentItem(currentPosition);
+        productDetailPager.setOffscreenPageLimit(3);
 
         checkInCart(currentPosition);
 

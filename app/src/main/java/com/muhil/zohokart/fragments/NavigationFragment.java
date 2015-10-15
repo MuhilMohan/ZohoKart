@@ -3,15 +3,18 @@ package com.muhil.zohokart.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -25,6 +28,7 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
 
 
 /**
@@ -35,11 +39,9 @@ public class NavigationFragment extends Fragment {
     Gson gson;
     LinearLayout menuLinearLayout, subCategoriesMenu;
     TextView subCategoryName, categoryName;
-    View subCategoryMenuItem,categoryMenuItem;
-    ToggleButton dropdown;
+    View subCategoryMenuItem,categoryMenuItem, view;
     List<Category> categories;
     List<SubCategory> subCategories;
-    List<Product> products;
     Map<Integer, List<SubCategory>> subCategoriesByCategory;
     Communicator communicator;
 
@@ -67,85 +69,8 @@ public class NavigationFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        View view = getView();
-        menuLinearLayout = (LinearLayout) view.findViewById(R.id.navigation_linear_layout);
-        categories = zohokartDAO.getCategories();
-        Log.d("NAV", "number of categories from db = " + categories.size());
-        subCategoriesByCategory = zohokartDAO.getSubCategoriesByCategory();
-        Log.d("NAV", "number of sub-categories from db = " + subCategoriesByCategory.size());
-        for (Map.Entry<Integer, List<SubCategory>> entry : subCategoriesByCategory.entrySet()) {
-            List<SubCategory> subCategories = entry.getValue();
-            for (SubCategory subCategory : subCategories) {
-                Log.d("NAV", subCategory.toString());
-            }
-        }
-        for (Category category : categories) {
-
-            categoryMenuItem = View.inflate(getActivity(), R.layout.navigation_menu_row, null);
-            categoryName = (TextView) categoryMenuItem.findViewById(R.id.categoryName);
-            categoryName.setText(category.getName());
-
-            if ((subCategories = subCategoriesByCategory.get(category.getId())) != null){
-                subCategoriesMenu = new LinearLayout(getActivity());
-                subCategoriesMenu.setOrientation(LinearLayout.VERTICAL);
-                subCategoriesMenu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                subCategoriesMenu.setVisibility(View.GONE);
-                for (SubCategory subCategory : subCategories) {
-                    subCategoryMenuItem = View.inflate(getActivity(), R.layout.navigation_menu_item_row, null);
-                    subCategoryName = (TextView) subCategoryMenuItem.findViewById(R.id.subCategoryItem);
-                    subCategoryName.setText(subCategory.getName());
-                    subCategoryMenuItem.setTag(subCategory);
-                    subCategoryMenuItem.setId(subCategory.getId());
-
-                    subCategoryMenuItem.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SubCategory subCategory = (SubCategory) v.getTag();
-                            products = zohokartDAO.getProductsForSubCategory(subCategory.getId());
-                            String productListString = gson.toJson(products);
-                            communicator.sendProductList(productListString);
-                            Toast.makeText(getActivity(), "Sub-category id: " + subCategory.getId(), Toast.LENGTH_SHORT).show();
-                            communicator.closeDrawer();
-                        }
-                    });
-
-                    subCategoriesMenu.addView(subCategoryMenuItem);
-                }
-                categoryMenuItem.setTag(subCategoriesMenu);
-
-                categoryMenuItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        final LinearLayout subMenuTag = (LinearLayout) v.getTag();
-                        if (subMenuTag.getVisibility() == View.GONE) {
-
-                            expand(subMenuTag);
-                            dropdown = (ToggleButton) v.findViewById(R.id.dropdown);
-                            ObjectAnimator animator = ObjectAnimator.ofFloat(dropdown, "rotationX", 0.0f, 180f);
-                            animator.setDuration(200);
-                            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                            animator.start();
-
-
-                        } else if (subMenuTag.getVisibility() == View.VISIBLE) {
-
-                            collapse(subMenuTag);
-                            dropdown = (ToggleButton) v.findViewById(R.id.dropdown);
-                            ObjectAnimator animator = ObjectAnimator.ofFloat(dropdown, "rotationX", 180f, 360f);
-                            animator.setDuration(200);
-                            animator.start();
-
-                        }
-
-                    }
-                });
-
-                menuLinearLayout.addView(categoryMenuItem);
-                menuLinearLayout.addView(subCategoriesMenu);
-
-            }
-        }
+        view = getView();
+        new NavigationAsyncTask().execute();
 
     }
 
@@ -205,7 +130,79 @@ public class NavigationFragment extends Fragment {
 
     public interface Communicator {
         void closeDrawer();
-        void sendProductList(String products);
+        void sendProductList(int subCategoryId);
+    }
+
+    class NavigationAsyncTask extends AsyncTask<Void, Void, Void>
+    {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            (view.findViewById(R.id.navigation_progress)).setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            categories = zohokartDAO.getCategories();
+            Log.d("NAV", "number of categories from db = " + categories.size());
+            subCategoriesByCategory = zohokartDAO.getSubCategoriesByCategory();
+            Log.d("NAV", "number of sub-categories from db = " + subCategoriesByCategory.size());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            menuLinearLayout = (LinearLayout) view.findViewById(R.id.navigation_linear_layout);
+
+            for (Category category : categories) {
+
+                categoryMenuItem = View.inflate(getActivity(), R.layout.navigation_menu_row, null);
+                categoryName = (TextView) categoryMenuItem.findViewById(R.id.categoryName);
+                categoryName.setText(category.getName());
+
+                if ((subCategories = subCategoriesByCategory.get(category.getId())) != null){
+                    subCategoriesMenu = new LinearLayout(getActivity());
+                    subCategoriesMenu.setOrientation(LinearLayout.VERTICAL);
+                    subCategoriesMenu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    subCategoriesMenu.setVisibility(View.VISIBLE);
+                    for (SubCategory subCategory : subCategories) {
+                        subCategoryMenuItem = View.inflate(getActivity(), R.layout.navigation_menu_item_row, null);
+                        subCategoryName = (TextView) subCategoryMenuItem.findViewById(R.id.subCategoryItem);
+                        subCategoryName.setText(subCategory.getName());
+                        subCategoryMenuItem.setTag(subCategory);
+                        subCategoryMenuItem.setId(subCategory.getId());
+
+                        subCategoryMenuItem.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SubCategory subCategory = (SubCategory) v.getTag();
+                                communicator.sendProductList(subCategory.getId());
+                                Toast.makeText(getActivity(), "Sub-category id: " + subCategory.getId(), Toast.LENGTH_SHORT).show();
+                                communicator.closeDrawer();
+                            }
+                        });
+
+                        subCategoriesMenu.addView(subCategoryMenuItem);
+                    }
+                    categoryMenuItem.setTag(subCategoriesMenu);
+
+                    menuLinearLayout.addView(categoryMenuItem);
+                    menuLinearLayout.addView(subCategoriesMenu);
+
+                }
+            }
+
+            (view.findViewById(R.id.navigation_scroll)).setVisibility(View.VISIBLE);
+            (view.findViewById(R.id.navigation_progress)).setVisibility(View.GONE);
+
+        }
     }
 
 }

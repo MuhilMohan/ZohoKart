@@ -95,6 +95,967 @@
       ]
     }
   ],
+  "1002": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1003": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1004": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1005": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1006": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1007": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1008": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1009": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+  "1010": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
+
+  "1011": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+        },
+        {
+          "key": "OS",
+          "value": "iOS 9"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "4.7 inches"
+        },
+        {
+          "key": "HD",
+          "value": "FullHD"
+        },
+        {
+          "key": "Resolution",
+          "value": "1334x750 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "Memory",
+          "value": "1GB RAM"
+        },
+        {
+          "key": "Internal",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Rear Camera",
+          "value": "Yes, 8MP"
+        },
+        {
+          "key": "Front Facing Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "129 gm"
+        }
+      ]
+    }
+  ],
   "1012": [
     {
       "name": "General",

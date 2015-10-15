@@ -587,4 +587,28 @@ public class ZohokartDAO {
 
         return specificationMap;
     }
+
+    public List<Product> getProductsBySearchString(String queryString)
+    {
+        List<Product> products = new ArrayList<>();
+        try (Cursor cursor = context.getContentResolver().query(
+                Product.CONTENT_URI, Product.PROJECTION, Product.TITLE + " LIKE ?",
+                new String[]{String.valueOf("%" + queryString + "%")}, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    products.add(getProductFromCursor(cursor));
+                }
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.e("DAO", "Error getting products for a sub category");
+        }
+        return products;
+    }
+
 }

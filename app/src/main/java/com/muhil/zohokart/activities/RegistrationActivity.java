@@ -26,7 +26,8 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity
+{
 
     ZohokartDAO zohokartDAO;
 
@@ -44,7 +45,8 @@ public class RegistrationActivity extends AppCompatActivity {
     public String preferenceName = "logged_account";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
@@ -79,29 +81,29 @@ public class RegistrationActivity extends AppCompatActivity {
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
         dateOfBirth = (TextView) findViewById(R.id.dateOfBirth);
 
-        password.addTextChangedListener(new TextWatcher() {
+        password.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
 
             }
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if ( s.length() != 0 ) {
-
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if ( s.length() != 0 )
+                {
                     showTextButton.setVisibility(View.VISIBLE);
-
                 }
-                else {
+                else
+                {
                     showTextButton.setVisibility(View.GONE);
                     hideTextButton.setVisibility(View.GONE);
                 }
-
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
 
             }
         });
@@ -127,20 +129,21 @@ public class RegistrationActivity extends AppCompatActivity {
                 dateOfBirthString = dateOfBirth.getText().toString();
 
                 if((nameString!=null && !nameString.equals("")) && (emailString!=null && !emailString.equals("")) && (passwordString!=null && !passwordString.equals("")) &&
-                (phoneNumberString!=null && !phoneNumberString.equals("")) && (dateOfBirthString!=null && !dateOfBirthString.equals(""))){
-
+                (phoneNumberString!=null && !phoneNumberString.equals("")) && (dateOfBirthString!=null && !dateOfBirthString.equals("")))
+                {
                     int atPosition=emailString.indexOf('@');
                     int lastDotPosition=emailString.lastIndexOf('.');
 
-                    if(atPosition==-1 || lastDotPosition==-1 || (atPosition+2)>=lastDotPosition){
+                    if(atPosition==-1 || lastDotPosition==-1 || (atPosition+2)>=lastDotPosition)
+                    {
                         Toast.makeText(RegistrationActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
                     }
-                    else{
-
-                        if (passwordString.length() > 4){
-                            
-                            if(!zohokartDAO.hasAccount(emailString)){
-
+                    else
+                    {
+                        if (passwordString.length() > 4)
+                        {
+                            if(!zohokartDAO.hasAccount(emailString))
+                            {
                                 account.setName(nameString);
                                 account.setEmail(emailString);
                                 account.setPassword(passwordString);
@@ -148,73 +151,75 @@ public class RegistrationActivity extends AppCompatActivity {
                                 account.setDateOfBirth(dateOfBirthString);
                                 registrationResult = zohokartDAO.addAccount(account);
 
-                                if(registrationResult){
+                                if(registrationResult)
+                                {
                                     Toast.makeText(RegistrationActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
                                     loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                                     editor = loggedAccountHolder.edit();
                                     JSONObject jsonObject = new JSONObject();
 
-                                    try {
+                                    try
+                                    {
                                         jsonObject.put("name", account.getName());
                                         jsonObject.put("email", account.getEmail());
                                         jsonObject.put("password", account.getPassword());
                                         jsonObject.put("phone_number", account.getPhoneNumber());
                                         jsonObject.put("date_of_birth", account.getDateOfBirth());
-                                    } catch (JSONException e) {
+                                    }
+                                    catch (JSONException e)
+                                    {
                                         e.printStackTrace();
                                     }
-
                                     editor.putString("logged_account", jsonObject.toString());
                                     editor.commit();
                                     finish();
                                     Toast.makeText(RegistrationActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
                                 }
-                                else {
+                                else
+                                {
                                     Toast.makeText(RegistrationActivity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
                                 }
-                                
                             }
-                            else {
-
+                            else
+                            {
                                 Toast.makeText(RegistrationActivity.this, "Email already registered.", Toast.LENGTH_SHORT).show();
-                                
                             }
 
                         }
-                        else {
+                        else
+                        {
                             Toast.makeText(RegistrationActivity.this, "Password too short.", Toast.LENGTH_SHORT).show();
                         }
-
                     }
-
                 }
-                else{
-
+                else
+                {
                     Toast.makeText(RegistrationActivity.this, "Please fill in all the details.", Toast.LENGTH_SHORT).show();
-
                 }
-
             }
         });
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_registration, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
 
@@ -226,17 +231,15 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void OnShowCalendarClicked(View view) {
-
+    public void OnShowCalendarClicked(View view)
+    {
         DialogFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getFragmentManager(), "DatePicker");
-
     }
 
-    public void onSigninClicked(View view) {
-
+    public void onSigninClicked(View view)
+    {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
-
     }
 }

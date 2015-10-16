@@ -28,7 +28,8 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpecificationFragment extends DialogFragment {
+public class SpecificationFragment extends DialogFragment
+{
 
     Gson gson;
     View rootView, specificationView;
@@ -47,25 +48,26 @@ public class SpecificationFragment extends DialogFragment {
         bundle.putString("product", productString);
         specificationFragment.setArguments(bundle);
         return specificationFragment;
-
     }
 
-    public SpecificationFragment() {
+    public SpecificationFragment()
+    {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         zohokartDAO = new ZohokartDAO(getActivity());
         gson = new Gson();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_specification, container, false);
         product = gson.fromJson(getArguments().getString("product"), new TypeToken<Product>() {}.getType());
@@ -80,41 +82,26 @@ public class SpecificationFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setTitle("Specifications...");
-        dialog.setCanceledOnTouchOutside(true);
-
-
-
+        dialog.setTitle("Specifications");
         return dialog;
-    }
-
-    @Override
-    public void onResume() {
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-
-        super.onResume();
-
     }
 
     class SpecificationAsyncTask extends AsyncTask<Integer, View, Map<String, List<Specification>>>
     {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
             (rootView.findViewById(R.id.specs_progress)).setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected Map<String, List<Specification>> doInBackground(Integer... params) {
-
+        protected Map<String, List<Specification>> doInBackground(Integer... params)
+        {
             return zohokartDAO.getSpecificationsByProductId(params[0]);
         }
 
@@ -124,10 +111,10 @@ public class SpecificationFragment extends DialogFragment {
         }
 
         @Override
-        protected void onPostExecute(Map<String, List<Specification>> aVoid) {
+        protected void onPostExecute(Map<String, List<Specification>> aVoid)
+        {
             super.onPostExecute(aVoid);
             specificationGroup = aVoid;
-
             for (Map.Entry<String, List<Specification>> specificationEntry: specificationGroup.entrySet())
             {
 
@@ -156,5 +143,4 @@ public class SpecificationFragment extends DialogFragment {
 
         }
     }
-
 }

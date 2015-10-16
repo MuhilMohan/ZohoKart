@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#E0E0E0">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#BDBDBD"/>
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="8dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    card_view:cardBackgroundColor="#FFF">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0">
 
         <TextView
-            android:id="@+id/categoryName"
+            android:id="@+id/category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:gravity="center_vertical"
-            android:text="sample"
+            android:padding="8dp"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:clickable="false"/>
 
-        <ImageView
-            android:id="@+id/dropdown"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="16dp"
-            android:src="@mipmap/ic_expand_more_black_24dp"
-            android:clickable="false"/>
+        <LinearLayout
+            android:id="@+id/sub_category_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/category_name"
+            android:orientation="vertical"
+            android:background="#FFF">
+
+        </LinearLayout>
 
     </RelativeLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

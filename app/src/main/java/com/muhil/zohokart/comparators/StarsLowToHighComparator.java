@@ -10,7 +10,8 @@ import java.util.Comparator;
 public class StarsLowToHighComparator implements Comparator
 {
     @Override
-    public int compare(Object lhs, Object rhs) {
+    public int compare(Object lhs, Object rhs)
+    {
         Product firstProduct = (Product) lhs;
         Product secondProduct = (Product) rhs;
 

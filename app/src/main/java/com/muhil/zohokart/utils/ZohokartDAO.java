@@ -24,11 +24,13 @@ import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ZohokartDAO {
+public class ZohokartDAO
+{
 
     Context context;
 
@@ -36,78 +38,32 @@ public class ZohokartDAO {
         this.context = context;
     }
 
-    public int addCategories(List<Category> categories) {
+    // ***** Data access methods for Categories *****
 
+    // ***** add categories *****
+    public int addCategories(List<Category> categories)
+    {
         ContentProviderResult[] contentProviderResults = null;
         ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
-
-        for (Category category : categories) {
+        for (Category category : categories)
+        {
             ContentValues contentValues = new ContentValues();
             contentValues.put(Category._ID, category.getId());
             contentValues.put(Category.NAME, category.getName());
             contentProviderOperations.add(ContentProviderOperation.newInsert(Category.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
-
         }
-
-        try {
+        try
+        {
             contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        } catch (RemoteException | OperationApplicationException e) {
+        }
+        catch (RemoteException | OperationApplicationException e)
+        {
             Log.e("DAO", "Error adding categories ", e);
         }
-
         return contentProviderResults != null ? contentProviderResults.length : 0;
     }
 
-    public int addSubCategories(List<SubCategory> subCategories) {
-
-        ContentProviderResult[] contentProviderResults = null;
-        ContentValues contentValues = new ContentValues();
-        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
-
-        for (SubCategory subCategory : subCategories) {
-            contentValues.put(SubCategory._ID, subCategory.getId());
-            contentValues.put(SubCategory.CATEGORY_ID, subCategory.getCategoryId());
-            contentValues.put(SubCategory.NAME, subCategory.getName());
-            contentProviderOperations.add(ContentProviderOperation.newInsert(SubCategory.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
-        }
-
-        try {
-            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        } catch (RemoteException | OperationApplicationException e) {
-            Log.e("DAO", "Error adding sub categories ", e);
-        }
-
-        return contentProviderResults != null ? contentProviderResults.length : 0;
-    }
-
-    public int addProducts(List<Product> products) {
-        ContentProviderResult[] contentProviderResults = null;
-        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
-
-        for (Product product : products) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(Product._ID, product.getId());
-            contentValues.put(Product.SUB_CATEGORY_ID, product.getSubCategoryId());
-            contentValues.put(Product.BRAND, product.getBrand());
-            contentValues.put(Product.TITLE, product.getTitle());
-            contentValues.put(Product.DESCRIPTION, product.getDescription());
-            contentValues.put(Product.THUMBNAIL, product.getThumbnail());
-            contentValues.put(Product.PRICE, product.getPrice());
-            contentValues.put(Product.STARS, product.getStars());
-            contentValues.put(Product.RATINGS, product.getRatings());
-            contentValues.put(Product.WARRANTY, product.getWarranty());
-            contentProviderOperations.add(ContentProviderOperation.newInsert(Product.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
-        }
-
-        try {
-            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        } catch (RemoteException | OperationApplicationException e) {
-            Log.e("DAO", "Error adding products ", e);
-        }
-
-        return contentProviderResults != null ? contentProviderResults.length : 0;
-    }
-
+    // ***** returns categories *****
     public List<Category> getCategories()
     {
         List<Category> categories = new ArrayList<>();
@@ -132,6 +88,39 @@ public class ZohokartDAO {
         return categories;
     }
 
+    // ***** categories methods ends *****
+
+    // ***** subCategories methods starts *****
+
+    // ***** Data access methods for SubCategories *****
+    public int addSubCategories(List<SubCategory> subCategories)
+    {
+
+        ContentProviderResult[] contentProviderResults = null;
+        ContentValues contentValues = new ContentValues();
+        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
+
+        for (SubCategory subCategory : subCategories)
+        {
+            contentValues.put(SubCategory._ID, subCategory.getId());
+            contentValues.put(SubCategory.CATEGORY_ID, subCategory.getCategoryId());
+            contentValues.put(SubCategory.NAME, subCategory.getName());
+            contentProviderOperations.add(ContentProviderOperation.newInsert(SubCategory.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
+        }
+
+        try
+        {
+            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
+        }
+        catch (RemoteException | OperationApplicationException e)
+        {
+            Log.e("DAO", "Error adding sub categories ", e);
+        }
+
+        return contentProviderResults != null ? contentProviderResults.length : 0;
+    }
+
+    //***** get SubCategories by categories *****
     public Map<Integer, List<SubCategory>> getSubCategoriesByCategory()
     {
         Map<Integer, List<SubCategory>> subCategoriesBycategory = new HashMap<>();
@@ -166,6 +155,44 @@ public class ZohokartDAO {
         return subCategoriesBycategory;
     }
 
+    // ***** SubCategories methods ends *****
+
+    // ***** Product access methods *****
+
+    // ***** adds products to db *****
+    public int addProducts(List<Product> products)
+    {
+        ContentProviderResult[] contentProviderResults = null;
+        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
+
+        for (Product product : products)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Product._ID, product.getId());
+            contentValues.put(Product.SUB_CATEGORY_ID, product.getSubCategoryId());
+            contentValues.put(Product.BRAND, product.getBrand());
+            contentValues.put(Product.TITLE, product.getTitle());
+            contentValues.put(Product.DESCRIPTION, product.getDescription());
+            contentValues.put(Product.THUMBNAIL, product.getThumbnail());
+            contentValues.put(Product.PRICE, product.getPrice());
+            contentValues.put(Product.STARS, product.getStars());
+            contentValues.put(Product.RATINGS, product.getRatings());
+            contentValues.put(Product.WARRANTY, product.getWarranty());
+            contentProviderOperations.add(ContentProviderOperation.newInsert(Product.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
+        }
+
+        try
+        {
+            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
+        }
+        catch (RemoteException | OperationApplicationException e)
+        {
+            Log.e("DAO", "Error adding products ", e);
+        }
+
+        return contentProviderResults != null ? contentProviderResults.length : 0;
+    }
+    // ***** returns a product object from cursor *****
     private Product getProductFromCursor(Cursor cursor)
     {
         int id = cursor.getInt(cursor.getColumnIndex(Product._ID));
@@ -181,6 +208,7 @@ public class ZohokartDAO {
         return new Product(id, subCategoryId, brand, title, description, thumbnail, price, stars, ratings, warranty);
     }
 
+    // ***** retrieves products based on subCategory *****
     public List<Product> getProductsForSubCategory(int subCategoryIdFromCaller)
     {
         List<Product> products = new ArrayList<>();
@@ -204,6 +232,35 @@ public class ZohokartDAO {
         return products;
     }
 
+    // ***** returns products based on product Id *****
+    public List<Product> getProductsForProductIds(List<Integer> productIds)
+    {
+        List<Product> products = new ArrayList<>();
+        if (productIds != null && !productIds.isEmpty())
+        {
+            for (Integer productId : productIds)
+            {
+                try (Cursor cursor = context.getContentResolver().query(
+                        Uri.parse(Product.CONTENT_URI + "/" + productId), Product.PROJECTION, null, null, null))
+                {
+                    if (cursor != null)
+                    {
+                        while (cursor.moveToNext())
+                        {
+                            products.add(getProductFromCursor(cursor));
+                        }
+                    }
+                }
+            }
+        }
+        return products;
+    }
+
+    // ***** product method ends *****
+
+    // ***** wishlist methods starts *****
+
+    // ***** returns products from wishlist *****
     public List<Product> getProductsFromWishlist()
     {
 
@@ -252,6 +309,46 @@ public class ZohokartDAO {
         return products;
     }
 
+    // ***** checks wishlist for Product *****
+    public boolean checkInWishlist(int productId)
+    {
+
+        boolean result = false;
+        try (Cursor cursor = context.getContentResolver().query(
+                Uri.parse(Wishlist.CONTENT_URI + "/" + productId), Wishlist.PROJECTION, null, null, null))
+        {
+            if (cursor != null)
+            {
+                result = (cursor.getCount() == 1);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("DAO", "Error checking for a product in wishlist ", e);
+        }
+        return result;
+
+    }
+
+    // ***** adds product to wishlist *****
+    public boolean addToWishlist(int productId)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Wishlist.PRODUCT_ID, productId);
+        Uri insertedUri = context.getContentResolver().insert(Wishlist.CONTENT_URI, contentValues);
+        return insertedUri != null;
+    }
+
+    // ***** removes product from wishlist *****
+    public boolean removeFromWishList(int productId)
+    {
+        int deleteCount = context.getContentResolver().delete(Uri.parse(Wishlist.CONTENT_URI + "/" + productId), null, null);
+        return (deleteCount == 1);
+    }
+
+    // ***** wishlist methods ends *****
+
+    // ***** returns products from cart *****
     public List<Product> getProductsFromCart()
     {
 
@@ -290,50 +387,7 @@ public class ZohokartDAO {
         return products;
     }
 
-
-    public List<Product> getProductsForProductIds(List<Integer> productIds)
-    {
-        List<Product> products = new ArrayList<>();
-        if (productIds != null && !productIds.isEmpty())
-        {
-            for (Integer productId : productIds)
-            {
-                try (Cursor cursor = context.getContentResolver().query(
-                        Uri.parse(Product.CONTENT_URI + "/" + productId), Product.PROJECTION, null, null, null))
-                {
-                    if (cursor != null)
-                    {
-                        while (cursor.moveToNext())
-                        {
-                            products.add(getProductFromCursor(cursor));
-                        }
-                    }
-                }
-            }
-        }
-        return products;
-    }
-
-    public boolean checkInWishlist(int productId)
-    {
-
-        boolean result = false;
-        try (Cursor cursor = context.getContentResolver().query(
-                Uri.parse(Wishlist.CONTENT_URI + "/" + productId), Wishlist.PROJECTION, null, null, null))
-        {
-            if (cursor != null)
-            {
-                result = (cursor.getCount() == 1);
-            }
-        }
-        catch (Exception e)
-        {
-            Log.e("DAO", "Error checking for a product in wishlist ", e);
-        }
-        return result;
-
-    }
-
+    // ***** updates quantity in product within cart *****
     public boolean updateQuantityOfProductInCart(int quantity, int productId)
     {
         ContentValues contentValues = new ContentValues();
@@ -342,6 +396,7 @@ public class ZohokartDAO {
         return (updateCount == 1);
     }
 
+    // ***** returns quantity of a product from cart *****
     public int getQuantityofProductInCart(int productId)
     {
         int result = 0;
@@ -362,26 +417,14 @@ public class ZohokartDAO {
         return result;
     }
 
+    // ***** removes product from cart *****
     public boolean removeFromCart(int productId)
     {
         int deleteCount = context.getContentResolver().delete(Uri.parse(Cart.CONTENT_URI + "/" + productId), null, null);
         return (deleteCount == 1);
     }
 
-    public boolean addToWishlist(int productId)
-    {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Wishlist.PRODUCT_ID, productId);
-        Uri insertedUri = context.getContentResolver().insert(Wishlist.CONTENT_URI, contentValues);
-        return insertedUri != null;
-    }
-
-    public boolean removeFromWishList(int productId)
-    {
-        int deleteCount = context.getContentResolver().delete(Uri.parse(Wishlist.CONTENT_URI + "/" + productId), null, null);
-        return (deleteCount == 1);
-    }
-
+    // ***** checks product in cart *****
     public boolean checkInCart(int productId)
     {
         boolean result = false;
@@ -399,6 +442,7 @@ public class ZohokartDAO {
         return result;
     }
 
+    // ***** adds product to cart *****
     public boolean addToCart(int productId)
     {
         ContentValues contentValues = new ContentValues();
@@ -407,6 +451,11 @@ public class ZohokartDAO {
         return insertedUri != null;
     }
 
+    // ***** cart methods ends *****
+
+    // ***** Account methods starts *****
+
+    // ***** checks for account *****
     public boolean hasAccount(String emailString)
     {
         boolean result = false;
@@ -425,6 +474,7 @@ public class ZohokartDAO {
         return result;
     }
 
+    // ***** returns account if available *****
     public Account getAccountIfAvailable(String emailString, String passwordString)
     {
         Account account = new Account();
@@ -454,6 +504,7 @@ public class ZohokartDAO {
         return account;
     }
 
+    // ***** adds account *****
     public boolean addAccount(Account account)
     {
         ContentValues contentValues = new ContentValues();
@@ -466,6 +517,11 @@ public class ZohokartDAO {
         return insertedUri != null;
     }
 
+    // ***** account methods ends *****
+
+    // ***** banner methods starts *****
+
+    // ***** adds banners *****
     public int addBanners(List<PromotionBanner> banners)
     {
         Gson gson = new Gson();
@@ -494,6 +550,7 @@ public class ZohokartDAO {
         return contentProviderResults != null ? contentProviderResults.length : 0;
     }
 
+    // ***** returns banners *****
     public List<PromotionBanner> getBanners()
     {
         Gson gson = new Gson();
@@ -521,7 +578,11 @@ public class ZohokartDAO {
         return banners;
     }
 
+    // ***** banner methods ends *****
 
+    // ***** specification methods starts *****
+
+    // ***** adds specifications *****
     public int addSpecifications(Map<String, List<SpecificationGroup>> specifications) {
 
         Gson gson = new Gson();
@@ -558,10 +619,11 @@ public class ZohokartDAO {
 
     }
 
+    // ***** returns specifications for a product *****
     public Map<String, List<Specification>> getSpecificationsByProductId(int productId)
     {
 
-        Map<String, List<Specification>> specificationMap = new TreeMap<>();
+        Map<String, List<Specification>> specificationMap = new LinkedHashMap<>();
         Gson gson = new Gson();
         List<Specification> specifications;
         try (Cursor cursor = context.getContentResolver().query(
@@ -588,6 +650,9 @@ public class ZohokartDAO {
         return specificationMap;
     }
 
+    // ***** specification methods ends *****
+
+    // ***** method to get products by searchString *****
     public List<Product> getProductsBySearchString(String queryString)
     {
         List<Product> products = new ArrayList<>();

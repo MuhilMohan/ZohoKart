@@ -27,7 +27,8 @@ import java.util.List;
 /**
  * Created by muhil-ga42 on 04/10/15.
  */
-public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductViewHolder> {
+public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAdapter.ProductViewHolder>
+{
 
     ZohokartDAO zohokartDAO;
 
@@ -42,26 +43,26 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     View parentView;
 
-    public ProductListingAdapter(List<Product> products, Context context, android.support.v4.app.FragmentManager fragmentManager, View parentView) {
-
+    public ProductListingAdapter(List<Product> products, Context context, android.support.v4.app.FragmentManager fragmentManager, View parentView)
+    {
         this.products = products;
         this.context = context;
         zohokartDAO = new ZohokartDAO(context);
         this.fragmentManager = fragmentManager;
         this.parentView = parentView;
-
     }
 
     @Override
-    public ProductListingAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProductListingAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.product_item_row, parent, false);
         return new ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, final int position) {
-
+    public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, final int position)
+    {
         holder.wishListButton.setTag(products.get(position));
         holder.title.setText(products.get(position).getTitle());
         holder.description.setText(products.get(position).getDescription());
@@ -71,37 +72,40 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         stars = products.get(position).getStars();
 
         holder.productStars.removeAllViews();
-        for (int i = 0; i < 5; i++) {
-
-            if (stars >= 1){
+        for (int i = 0; i < 5; i++)
+        {
+            if (stars >= 1)
+            {
                 fullStar = new ImageView(context);
                 fullStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 fullStar.setImageResource(R.mipmap.ic_star_black_18dp);
                 holder.productStars.addView(fullStar);
                 stars = stars-1;
             }
-            else if (stars > 0){
+            else if (stars > 0)
+            {
                 halfStar = new ImageView(context);
                 halfStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 halfStar.setImageResource(R.mipmap.ic_star_half_black_18dp);
                 holder.productStars.addView(halfStar);
                 stars = stars-0.5;
             }
-            else {
+            else
+            {
                 emptyStar = new ImageView(context);
                 emptyStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 emptyStar.setImageResource(R.mipmap.ic_star_border_black_18dp);
                 holder.productStars.addView(emptyStar);
             }
-
         }
-
-        if (zohokartDAO.checkInWishlist(products.get(position).getId())) {
+        if (zohokartDAO.checkInWishlist(products.get(position).getId()))
+        {
             holder.wishListButton.setChecked(true);
-        } else {
+        }
+        else
+        {
             holder.wishListButton.setChecked(false);
         }
-
         holder.wishListButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -163,15 +167,16 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView title, price, description, productRating;
         ImageView displayImage;
         ToggleButton wishListButton;
         LinearLayout productStars;
         Context context;
 
-        public ProductViewHolder(View itemView) {
+        public ProductViewHolder(View itemView)
+        {
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.title);
@@ -188,15 +193,14 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
 
         @Override
-        public void onClick(View v) {
-
+        public void onClick(View v)
+        {
             int position = getLayoutPosition();
             ProductDetailFragment productDetailFragment = (ProductDetailFragment) ProductDetailFragment.getInstance(position, products);
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, "product_detail_page");
             fragmentTransaction.addToBackStack("product_detail_page_fragment");
             fragmentTransaction.commit();
-
         }
     }
 

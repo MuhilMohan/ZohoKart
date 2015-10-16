@@ -40,8 +40,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductListFragment extends android.support.v4.app.Fragment {
-
+public class ProductListFragment extends android.support.v4.app.Fragment
+{
     ZohokartDAO zohokartDAO;
     List<Product> productList;
     RecyclerView recyclerView;
@@ -51,27 +51,26 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
     TextView textView;
     LinearLayout vertLayout;
 
-    public ProductListFragment() {
+    public ProductListFragment()
+    {
         // Required empty public constructor
     }
 
-    public static ProductListFragment getInstance(int subCategoryId){
-
+    public static ProductListFragment getInstance(int subCategoryId)
+    {
         ProductListFragment productListFragment = new ProductListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("sub_category_id", subCategoryId);
         productListFragment.setArguments(bundle);
         return productListFragment;
-
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
         sortingItems = new String[]{"Price low to high", "Price high to low", "Stars low to high", "Stars high to low", "None"};
         zohokartDAO = new ZohokartDAO(getActivity());
-
     }
 
     @Override
@@ -96,18 +95,21 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
     {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
             (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected List<Product> doInBackground(Integer... params) {
+        protected List<Product> doInBackground(Integer... params)
+        {
             return zohokartDAO.getProductsForSubCategory(params[0]);
         }
 
         @Override
-        protected void onPostExecute(List<Product> products) {
+        protected void onPostExecute(List<Product> products)
+        {
             super.onPostExecute(products);
 
             productList = products;
@@ -129,36 +131,45 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
                     public void onClick(View v) {
 
 
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
                         alertDialogBuilder.setTitle("Sort by");
                         alertDialogBuilder.setItems(sortingItems, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
+                                if (which == 0)
+                                {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new PriceLowToHighComparator());
                                     sortList();
-                                } else if (which == 1) {
+                                }
+                                else if (which == 1)
+                                {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new PriceHighToLowComparator());
                                     sortList();
-                                } else if (which == 2) {
+                                }
+                                else if (which == 2)
+                                {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new StarsLowToHighComparator());
                                     sortList();
-                                } else if (which == 3) {
+                                }
+                                else if (which == 3)
+                                {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new StarsHighToLowComparator());
                                     sortList();
-                                } else if (which == 4) {
-                                    if ((fragmentLayout.findViewById(R.id.selected_sort)).getVisibility() == View.VISIBLE) {
+                                }
+                                else if (which == 4)
+                                {
+                                    if ((fragmentLayout.findViewById(R.id.selected_sort)).getVisibility() == View.VISIBLE)
+                                    {
                                         (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.GONE);
                                     }
-
                                     sortList();
                                 }
                             }
@@ -166,7 +177,6 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
                         alertDialogBuilder.show();
                     }
                 });
-
             }
             else
             {
@@ -174,8 +184,6 @@ public class ProductListFragment extends android.support.v4.app.Fragment {
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
                 (fragmentLayout.findViewById(R.id.list_actions)).setVisibility(View.GONE);
             }
-
         }
     }
-
 }

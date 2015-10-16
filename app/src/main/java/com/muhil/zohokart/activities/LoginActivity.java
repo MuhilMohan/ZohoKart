@@ -24,7 +24,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity
+{
 
     ZohokartDAO zohokartDAO;
 
@@ -39,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     String preferenceName = "logged_account";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -57,9 +59,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        hideTextButton.setOnClickListener(new View.OnClickListener() {
+        hideTextButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 forgotTextButton.setVisibility(View.GONE);
                 hideTextButton.setVisibility(View.GONE);
@@ -68,9 +72,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        showTextButton.setOnClickListener(new View.OnClickListener() {
+        showTextButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 forgotTextButton.setVisibility(View.GONE);
                 showTextButton.setVisibility(View.GONE);
@@ -79,33 +85,41 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        password.addTextChangedListener(new TextWatcher() {
+        password.addTextChangedListener(new TextWatcher()
+
+        {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
 
-                if ( s.length() != 0 ) {
-                    if( showTextButton.getVisibility() == View.VISIBLE ){
+                if ( s.length() != 0 )
+                {
+                    if( showTextButton.getVisibility() == View.VISIBLE )
+                    {
                         forgotTextButton.setVisibility(View.GONE);
                         showTextButton.setVisibility(View.VISIBLE);
                         hideTextButton.setVisibility(View.GONE);
                     }
-                    else if (hideTextButton.getVisibility() == View.VISIBLE){
+                    else if (hideTextButton.getVisibility() == View.VISIBLE)
+                    {
                         forgotTextButton.setVisibility(View.GONE);
                         showTextButton.setVisibility(View.GONE);
                         hideTextButton.setVisibility(View.VISIBLE);
                     }
-                    else {
+                    else
+                    {
                         forgotTextButton.setVisibility(View.GONE);
                         showTextButton.setVisibility(View.VISIBLE);
                         hideTextButton.setVisibility(View.GONE);
                     }
                 }
-                else {
+                else
+                {
                     forgotTextButton.setVisibility(View.VISIBLE);
                     showTextButton.setVisibility(View.GONE);
                     hideTextButton.setVisibility(View.GONE);
@@ -114,7 +128,8 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
 
             }
         });
@@ -122,28 +137,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void onSignUpClicked(View view) {
+    public void onSignUpClicked(View view)
+    {
 
         startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
         finish();
@@ -151,42 +170,48 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void onLoginClicked(View view) {
+    public void onLoginClicked(View view)
+    {
 
         emailString = email.getText().toString();
         passwordString = password.getText().toString();
         
         zohokartDAO = new ZohokartDAO(this);
 
-        if((emailString != null && !emailString.equals("")) && (!passwordString.equals(""))) {
+        if((emailString != null && !emailString.equals("")) && (!passwordString.equals("")))
+        {
 
             int atPosition=emailString.indexOf('@');
             int lastDotPosition=emailString.lastIndexOf('.');
 
-            if(atPosition==-1 || lastDotPosition==-1 || (atPosition+2)>=lastDotPosition){
+            if(atPosition==-1 || lastDotPosition==-1 || (atPosition+2)>=lastDotPosition)
+            {
                 Toast.makeText(LoginActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
             }
-            else {
-                
-                if (passwordString.length() > 4){
-                    
-                    if(zohokartDAO.hasAccount(emailString) ){
-                        
-                        if ((account = zohokartDAO.getAccountIfAvailable(emailString, passwordString)) != null){
-
+            else
+            {
+                if (passwordString.length() > 4)
+                {
+                    if(zohokartDAO.hasAccount(emailString) )
+                    {
+                        if ((account = zohokartDAO.getAccountIfAvailable(emailString, passwordString)) != null)
+                        {
                             Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
                             loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                             editor = loggedAccountHolder.edit();
                             JSONObject jsonObject = new JSONObject();
                             JSONArray jsonArray = new JSONArray();
 
-                            try {
+                            try
+                            {
                                 jsonObject.put("name", account.getName());
                                 jsonObject.put("email", account.getEmail());
                                 jsonObject.put("password", account.getPassword());
                                 jsonObject.put("phone_number", account.getPhoneNumber());
                                 jsonObject.put("date_of_birth", account.getDateOfBirth());
-                            } catch (JSONException e) {
+                            }
+                            catch (JSONException e)
+                            {
                                 e.printStackTrace();
                             }
 
@@ -194,32 +219,30 @@ public class LoginActivity extends AppCompatActivity {
                             editor.commit();
                             finish();
                             Toast.makeText(LoginActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
-
-
                         }
-                        else {
+                        else
+                        {
                             Toast.makeText(LoginActivity.this, "Login unsuccessful", Toast.LENGTH_SHORT).show();
                         }
                         
                     }
-                    else {
-
+                    else
+                    {
                         Toast.makeText(LoginActivity.this, "Account does not exist.", Toast.LENGTH_SHORT).show();
-
                     }
                     
                 }
-                else {
+                else
+                {
                     Toast.makeText(LoginActivity.this, "Password too short.", Toast.LENGTH_SHORT).show();
                 }
                 
             }
             
         }
-        else{
-
+        else
+        {
             Toast.makeText(LoginActivity.this, "Please fill in all the details.", Toast.LENGTH_SHORT).show();
-
         }
 
     }

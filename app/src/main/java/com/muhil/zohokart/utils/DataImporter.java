@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DataImporter {
+public class DataImporter
+{
 
     Context context;
     DBHelper dbHelper;
@@ -32,21 +33,27 @@ public class DataImporter {
     }
 
     @SuppressLint("NewApi")
-    private String getJsonContentAsString(String fileName) {
+    private String getJsonContentAsString(String fileName)
+    {
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream = context.getAssets().open(fileName + ".json");
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)))
+        {
             String line;
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null)
+            {
                 stringBuilder.append(line);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Log.e("DATA", e.getMessage());
         }
         return stringBuilder.toString();
     }
 
-    public void importData() {
+    public void importData()
+    {
         Gson gson = new Gson();
         int records;
         dbHelper = new DBHelper(context);
@@ -81,8 +88,7 @@ public class DataImporter {
             Log.d("DB", "Number of products in DB = " + records);
 
             String promotionBannersAsString = getJsonContentAsString("promotion_banners");
-            List<PromotionBanner> promotionBanners = gson.fromJson(promotionBannersAsString, new TypeToken<List<PromotionBanner>>() {
-            }.getType());
+            List<PromotionBanner> promotionBanners = gson.fromJson(promotionBannersAsString, new TypeToken<List<PromotionBanner>>() {}.getType());
 
             Log.d("JSON", "Number of promotion banners = " + promotionBanners.size());
 
@@ -90,19 +96,19 @@ public class DataImporter {
 
             Log.d("JSON", "Number of promotion banners in db = " + records);
 
+            String specificationsAsString = getJsonContentAsString("specifications");
+            Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {
+            }.getType());
+
+            records = zohokartDAO.addSpecifications(specifications);
+
+            Log.d("JSON", "Number of product specfications = " + records);
+
         }
         else
         {
             Log.d("DB", "Data already imported");
         }
-
-        String specificationsAsString = getJsonContentAsString("specifications");
-        Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {
-        }.getType());
-
-        records = zohokartDAO.addSpecifications(specifications);
-
-        Log.d("JSON", "Number of product specfications = " + records);
 
     }
 }

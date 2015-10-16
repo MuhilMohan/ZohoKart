@@ -31,15 +31,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends android.support.v4.app.Fragment {
-
+public class SearchFragment extends android.support.v4.app.Fragment
+{
     View searchLayout;
     RecyclerView recyclerView;
     List<Product> products;
     ZohokartDAO zohokartDAO;
     ProductListingAdapter productListingAdapter;
 
-    public SearchFragment() {
+    public SearchFragment()
+    {
         // Required empty public constructor
     }
 
@@ -53,14 +54,16 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         searchLayout = inflater.inflate(R.layout.fragment_search, container, false);
 
@@ -75,21 +78,23 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
             (searchLayout.findViewById(R.id.search_progress)).setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected Void doInBackground(String... params) {
-
+        protected Void doInBackground(String... params)
+        {
             products = zohokartDAO.getProductsBySearchString(params[0]);
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid)
+        {
             super.onPostExecute(aVoid);
 
             if (products.size() > 0)
@@ -109,8 +114,6 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 (searchLayout.findViewById(R.id.search_progress)).setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
-
 }

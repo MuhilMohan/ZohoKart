@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         MainFragment mainFragment = new MainFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
         fragmentTransaction.addToBackStack("main_fragment");
         fragmentTransaction.commit();
@@ -207,11 +207,17 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void onBackPressed() {
 
-
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag("main_fragment");
+        if(fragment != null && fragment.isVisible())
+        {
+            finish();
+        }
+        else if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-        else{
+        else
+        {
             super.onBackPressed();
         }
 

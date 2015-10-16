@@ -16,13 +16,15 @@ public class BannerPagerAdapter extends FragmentPagerAdapter
 {
     List<PromotionBanner> banners;
 
-    public BannerPagerAdapter(FragmentManager fragmentManager, List<PromotionBanner> banners) {
+    public BannerPagerAdapter(FragmentManager fragmentManager, List<PromotionBanner> banners)
+    {
         super(fragmentManager);
         this.banners = banners;
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getItem(int position)
+    {
        return BannerFragment.getInstance(banners.get(position));
     }
 

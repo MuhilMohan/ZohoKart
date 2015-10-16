@@ -23,7 +23,8 @@ import com.muhil.zohokart.models.specification.SpecificationGroup;
 /**
  * Created by muhil-ga42 on 08/10/15.
  */
-public class ZohokartContentProvider extends ContentProvider {
+public class ZohokartContentProvider extends ContentProvider
+{
 
     public static final String AUTHORITY = "com.muhil.zohokart.utils";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
@@ -46,7 +47,8 @@ public class ZohokartContentProvider extends ContentProvider {
     private static final int PROMOTION_BANNERS_ID = 16;
     private static final UriMatcher uriMatcher;
 
-    static {
+    static
+    {
 
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY, Category.TABLE_NAME, CATEGORIES);
@@ -71,19 +73,22 @@ public class ZohokartContentProvider extends ContentProvider {
     DBHelper dbHelper = null;
 
     @Override
-    public boolean onCreate() {
+    public boolean onCreate()
+    {
         dbHelper = new DBHelper(getContext());
         return true;
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+    {
 
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
         SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
         boolean useAuthorityUri = false;
 
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri))
+        {
 
             case CATEGORIES:
                 sqLiteQueryBuilder.setTables(Category.TABLE_NAME);
@@ -161,9 +166,11 @@ public class ZohokartContentProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(Uri uri)
+    {
 
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri))
+        {
 
             case CATEGORIES:
                 return Category.CONTENT_TYPE;
@@ -221,14 +228,17 @@ public class ZohokartContentProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(Uri uri, ContentValues values)
+    {
 
         if ((uriMatcher.match(uri) != CATEGORIES_ID) && (uriMatcher.match(uri) != SUB_CATEGORIES_ID) && (uriMatcher.match(uri) != PRODUCTS_ID) && (uriMatcher.match(uri) != ACCOUNTS_EMAIL)
-                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)){
+                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID))
+        {
 
             long result;
             SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-            switch (uriMatcher.match(uri)){
+            switch (uriMatcher.match(uri))
+            {
 
                 case CATEGORIES:
                     result = sqLiteDatabase.insert(Category.TABLE_NAME, null, values);
@@ -267,31 +277,33 @@ public class ZohokartContentProvider extends ContentProvider {
 
             }
 
-            if (result > 0) {
+            if (result > 0)
+            {
                 Uri resultUri = ContentUris.withAppendedId(uri, result);
                 getContext().getContentResolver().notifyChange(resultUri, null);
                 return resultUri;
             }
-            else {
+            else
+            {
                 throw new SQLException("Problem while inserting into uri: " + uri);
             }
 
         }
-        else {
-
+        else
+        {
             throw new IllegalArgumentException("Unsupported Uri : " + uri );
-
         }
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-
+    public int delete(Uri uri, String selection, String[] selectionArgs)
+    {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
         int deleteCount = 0;
         String where;
 
-        switch (uriMatcher.match(uri)) {
+        switch (uriMatcher.match(uri))
+        {
 
             case CATEGORIES:
                 deleteCount = sqLiteDatabase.delete(Category.TABLE_NAME, selection, selectionArgs);
@@ -299,7 +311,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case CATEGORIES_ID:
                 String categoryId = uri.getLastPathSegment();
                 where = Category._ID + " = " + categoryId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(Category.TABLE_NAME, where, selectionArgs);
@@ -311,7 +324,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case SUB_CATEGORIES_ID:
                 String subCategoryId = uri.getLastPathSegment();
                 where = SubCategory._ID + " = " + subCategoryId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(SubCategory.TABLE_NAME, where, selectionArgs);
@@ -323,7 +337,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case PRODUCTS_ID:
                 String productId = uri.getLastPathSegment();
                 where = Product._ID + " = " + productId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(Product.TABLE_NAME, where, selectionArgs);
@@ -335,7 +350,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case ACCOUNTS_EMAIL:
                 String accountEmail = uri.getLastPathSegment();
                 where = Account.EMAIL + " = " + accountEmail;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(Account.TABLE_NAME, where, selectionArgs);
@@ -347,7 +363,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case WISHLIST_ID:
                 String wishlistProductId = uri.getLastPathSegment();
                 where = Wishlist.PRODUCT_ID + " = " + wishlistProductId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(Wishlist.TABLE_NAME, where, selectionArgs);
@@ -359,7 +376,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case CART_ID:
                 String cartProductId = uri.getLastPathSegment();
                 where = Cart.PRODUCT_ID + " = " + cartProductId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(Cart.TABLE_NAME, where, selectionArgs);
@@ -371,7 +389,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case PROMOTION_BANNERS_ID:
                 String promotionBannerId = uri.getLastPathSegment();
                 where = PromotionBanner._ID + " = " + promotionBannerId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 deleteCount = sqLiteDatabase.delete(PromotionBanner.TABLE_NAME, where, selectionArgs);
@@ -382,23 +401,24 @@ public class ZohokartContentProvider extends ContentProvider {
 
         }
 
-        if (deleteCount > 0){
-
+        if (deleteCount > 0)
+        {
             getContext().getContentResolver().notifyChange(uri, null);
-
         }
 
         return deleteCount;
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+    {
 
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
         int updateCount;
         String where;
 
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri))
+        {
 
             case CATEGORIES:
                 updateCount = sqLiteDatabase.update(Category.TABLE_NAME, values, selection, selectionArgs);
@@ -406,7 +426,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case CATEGORIES_ID:
                 String categoryId = uri.getLastPathSegment();
                 where = Category._ID + " = " + categoryId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(Category.TABLE_NAME, values, where, selectionArgs);
@@ -418,7 +439,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case SUB_CATEGORIES_ID:
                 String subCategoryId = uri.getLastPathSegment();
                 where = SubCategory._ID + " = " + subCategoryId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(SubCategory.TABLE_NAME, values, where, selectionArgs);
@@ -430,7 +452,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case PRODUCTS_ID:
                 String productId = uri.getLastPathSegment();
                 where = Product._ID + " = " + productId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(Product.TABLE_NAME, values, where, selectionArgs);
@@ -442,7 +465,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case ACCOUNTS_EMAIL:
                 String accountEmail = uri.getLastPathSegment();
                 where = Account.EMAIL + " = '" + accountEmail + "'";
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(Account.TABLE_NAME, values, where, selectionArgs);
@@ -454,7 +478,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case WISHLIST_ID:
                 String wishlistProductId = uri.getLastPathSegment();
                 where = Wishlist.PRODUCT_ID + " = " + wishlistProductId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(Wishlist.TABLE_NAME, values, where, selectionArgs);
@@ -466,7 +491,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case CART_ID:
                 String cartProductId = uri.getLastPathSegment();
                 where = Cart.PRODUCT_ID + " = " + cartProductId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(Cart.TABLE_NAME, values, where, selectionArgs);
@@ -478,7 +504,8 @@ public class ZohokartContentProvider extends ContentProvider {
             case PROMOTION_BANNERS_ID:
                 String promotionBannerId = uri.getLastPathSegment();
                 where = PromotionBanner._ID + " = " + promotionBannerId;
-                if (!TextUtils.isEmpty(selection)){
+                if (!TextUtils.isEmpty(selection))
+                {
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(PromotionBanner.TABLE_NAME, values, where, selectionArgs);
@@ -489,10 +516,9 @@ public class ZohokartContentProvider extends ContentProvider {
 
         }
 
-        if (updateCount > 0){
-
+        if (updateCount > 0)
+        {
             getContext().getContentResolver().notifyChange(uri, null);
-
         }
 
         return updateCount;

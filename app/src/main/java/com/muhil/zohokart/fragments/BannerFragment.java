@@ -28,7 +28,8 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BannerFragment extends android.support.v4.app.Fragment {
+public class BannerFragment extends android.support.v4.app.Fragment
+{
 
     ViewPager bannerPager;
     ZohokartDAO zohokartDAO;
@@ -36,8 +37,8 @@ public class BannerFragment extends android.support.v4.app.Fragment {
 
     List<PromotionBanner> banners;
 
-    public static android.support.v4.app.Fragment getInstance(PromotionBanner promotionBanner){
-
+    public static android.support.v4.app.Fragment getInstance(PromotionBanner promotionBanner)
+    {
         BannerFragment bannerFragment = new BannerFragment();
         Bundle bundle = new Bundle();
         Gson gson = new Gson();
@@ -45,10 +46,10 @@ public class BannerFragment extends android.support.v4.app.Fragment {
         bundle.putString("banner", bannerString);
         bannerFragment.setArguments(bundle);
         return bannerFragment;
-
     }
 
-    public BannerFragment() {
+    public BannerFragment()
+    {
         // Required empty public constructor
     }
 

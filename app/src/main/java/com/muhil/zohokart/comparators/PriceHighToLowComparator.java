@@ -7,9 +7,11 @@ import java.util.Comparator;
 /**
  * Created by muhil-ga42 on 13/10/15.
  */
-public class PriceHighToLowComparator implements Comparator {
+public class PriceHighToLowComparator implements Comparator
+{
     @Override
-    public int compare(Object lhs, Object rhs) {
+    public int compare(Object lhs, Object rhs)
+    {
         Product firstProduct = (Product) lhs;
         Product secondProduct = (Product) rhs;
 

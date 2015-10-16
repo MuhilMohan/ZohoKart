@@ -18,15 +18,15 @@ import java.util.Calendar;
 /**
  * Created by muhil-ga42 on 01/10/15.
  */
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener
+{
     TextView dateOfBirth;
     Calendar calendar;
     DateFormat dateFormat, finalDateFormat;
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         dateOfBirth = (TextView) getActivity().findViewById(R.id.dateOfBirth);
 
         calendar = Calendar.getInstance();
@@ -38,16 +38,19 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+    {
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         finalDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         String date = null;
 
         Log.d("MONTH", String.valueOf(monthOfYear));
-        try {
+        try
+        {
             date = finalDateFormat.format(dateFormat.parse(dayOfMonth + "-" + (monthOfYear+1) + "-" + year));
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             e.printStackTrace();
         }
 

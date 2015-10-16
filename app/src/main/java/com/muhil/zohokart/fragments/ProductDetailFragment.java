@@ -76,7 +76,8 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
 
         checkInCart(currentPosition);
 
-        productDetailPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        productDetailPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
             {

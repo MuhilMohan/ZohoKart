@@ -1,6 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -25,24 +26,87 @@
             android:id="@+id/navigation_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#EEEEEE">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
-                android:background="#334455">
-
-
+                android:layout_height="190dp">
 
             </RelativeLayout>
 
-            <TextView
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="HOME"
-                android:background="#E0E0E0"
-                android:textSize="18sp"/>
+                android:layout_margin="8dp"
+                card_view:cardBackgroundColor="#FFF"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="HOME"
+                    android:textSize="18sp"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_home_black_24dp"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                card_view:cardBackgroundColor="#FFF"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="OFFERS"
+                    android:textSize="18sp"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_redeem_black_24dp"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                card_view:cardBackgroundColor="#FFF"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="Shop by departments"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/ic_expand_more_black_24dp"/>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

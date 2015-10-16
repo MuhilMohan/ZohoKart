@@ -22,7 +22,8 @@ public class SubCategoryAdapter extends ArrayAdapter {
     int layoutResource;
     TextView subCategoryName;
 
-    public SubCategoryAdapter(Context context, int layoutResource, List<SubCategory> subCategories) {
+    public SubCategoryAdapter(Context context, int layoutResource, List<SubCategory> subCategories)
+    {
         super(context, layoutResource, subCategories);
         this.context = context;
         this.layoutResource = layoutResource;

@@ -37,7 +37,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     FragmentManager fragmentManager;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
-    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment, FragmentManager fragmentManager) {
+    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment, FragmentManager fragmentManager)
+    {
         this.context = context;
         this.wishlistFragment = wishlistFragment;
         this.wishlist = wishlist;
@@ -47,14 +48,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     }
 
     @Override
-    public WishlistAdapter.WishlistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WishlistAdapter.WishlistViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.wishlist_item_row, parent, false);
         return new WishlistViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final WishlistAdapter.WishlistViewHolder holder, int position) {
+    public void onBindViewHolder(final WishlistAdapter.WishlistViewHolder holder, int position)
+    {
 
         holder.removeProductView.setTag(wishlist.get(position));
         holder.addToCart.setTag(wishlist.get(position));
@@ -106,9 +109,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
                     }
                 });
-                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
                         dialog.dismiss();
                     }
                 });
@@ -117,23 +122,30 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             }
         });
 
-        holder.addToCart.setOnClickListener(new View.OnClickListener() {
+        holder.addToCart.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Product product = (Product) v.getTag();
-                if (zohokartDAO.addToCart(product.getId())) {
+                if (zohokartDAO.addToCart(product.getId()))
+                {
                     Toast.makeText(context, "product added to cart.", Toast.LENGTH_SHORT).show();
                     v.setVisibility(View.GONE);
                     holder.goToCart.setVisibility(View.VISIBLE);
-                } else {
+                }
+                else
+                {
                     Toast.makeText(context, "error while adding to cart.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        holder.goToCart.setOnClickListener(new View.OnClickListener() {
+        holder.goToCart.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
                 CartFragment cartFragment = new CartFragment();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = wishlistFragment.getActivity().getSupportFragmentManager().beginTransaction();
@@ -147,17 +159,20 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return wishlist.size();
     }
 
-    class WishlistViewHolder extends RecyclerView.ViewHolder {
+    class WishlistViewHolder extends RecyclerView.ViewHolder
+    {
 
         TextView title, price, description;
         ImageView displayImage;
         LinearLayout removeProductView, addToCart, goToCart;
 
-        public WishlistViewHolder(View itemView) {
+        public WishlistViewHolder(View itemView)
+        {
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.title);

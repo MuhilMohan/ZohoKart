@@ -111,12 +111,11 @@ public class CartFragment extends android.support.v4.app.Fragment
                     (cardView.findViewById(R.id.quantity)).setTag(product);
                     ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(product.getPrice()));
                     Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
-                    if (zohokartDAO.checkInWishlist(product.getId())){
+                    if (zohokartDAO.checkInWishlist(product.getId()))
+                    {
                         (cardView.findViewById(R.id.move_to_wishlist)).setVisibility(View.GONE);
                         (cardView.findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);
                     }
-
-
                     (cardView.findViewById(R.id.quantity)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View v, boolean hasFocus) {
@@ -165,7 +164,8 @@ public class CartFragment extends android.support.v4.app.Fragment
                             alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (zohokartDAO.removeFromCart(product.getId())) {
+                                    if (zohokartDAO.removeFromCart(product.getId()))
+                                    {
                                         Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
                                         int position = productsInCart.indexOf(product);
                                         productsInCart.remove(position);
@@ -174,10 +174,13 @@ public class CartFragment extends android.support.v4.app.Fragment
                                         productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
                                         updateGrandTotal();
 
-                                        if (productsInCart.size() == 0) {
+                                        if (productsInCart.size() == 0)
+                                        {
                                             switchViewElement();
                                         }
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         dialog.dismiss();
                                         Toast.makeText(getActivity(), "error while removing from cart.", Toast.LENGTH_SHORT).show();
                                     }
@@ -199,14 +202,17 @@ public class CartFragment extends android.support.v4.app.Fragment
                         @Override
                         public void onClick(View v) {
 
-                            if (zohokartDAO.addToWishlist(product.getId())){
-                                if (zohokartDAO.removeFromCart(product.getId())){
+                            if (zohokartDAO.addToWishlist(product.getId()))
+                            {
+                                if (zohokartDAO.removeFromCart(product.getId()))
+                                {
                                     Toast.makeText(getActivity(), "Product added to wishlist.", Toast.LENGTH_SHORT).show();
                                     (v).setVisibility(View.GONE);
                                     ((productsInCartContent.findViewById(product.getId())).findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);
                                 }
                             }
-                            else {
+                            else
+                            {
                                 Toast.makeText(getActivity(), "Product already exists in wishlist.", Toast.LENGTH_SHORT).show();
                             }
 
@@ -224,32 +230,23 @@ public class CartFragment extends android.support.v4.app.Fragment
 
                         }
                     });
-
                     productsInCartContent.addView(cardView);
-
                 }
-
             }
             else
             {
-
                 switchViewElement();
-
             }
 
         }
         else
         {
-
             switchViewElement();
-
         }
-
     }
 
     private void updateGrandTotal()
     {
-
         grandTotal = 0;
         for (Product product : productsInCart)
         {

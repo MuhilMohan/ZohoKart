@@ -30,7 +30,8 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProductDetailPagerFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class ProductDetailPagerFragment extends android.support.v4.app.Fragment implements View.OnClickListener
+{
 
     Gson gson;
     View rootView, specificationView;
@@ -55,20 +56,21 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         return productDetailPagerFragment;
     }
 
-    public ProductDetailPagerFragment() {
+    public ProductDetailPagerFragment()
+    {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         rootView =  inflater.inflate(R.layout.fragment_product_detail_pager, container, false);
         zohokartDAO = new ZohokartDAO(getActivity());
         gson = new Gson();
-        product = gson.fromJson(getArguments().getString("product"), new TypeToken<Product>() {
-        }.getType());
+        product = gson.fromJson(getArguments().getString("product"), new TypeToken<Product>() {}.getType());
         ((TextView) rootView.findViewById(R.id.title)).setText(product.getTitle());
         ((TextView) rootView.findViewById(R.id.description)).setText(product.getDescription());
         ((TextView) rootView.findViewById(R.id.price)).setText(String.valueOf(decimalFormat.format(product.getPrice())));
@@ -106,14 +108,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         return rootView;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-
-    }
-
     public Snackbar getSnackbar(String textToDisplay)
     {
         Snackbar snackbar = Snackbar.make(rootView, textToDisplay, Snackbar.LENGTH_SHORT);
@@ -127,7 +121,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     @Override
     public void onClick(View v)
     {
-
         if (((ToggleButton) v).isChecked())
         {
             if (zohokartDAO.addToWishlist(product.getId()))
@@ -158,7 +151,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         for (int i = 0; i < 5; i++)
         {
-
             if (stars >= 1)
             {
                 fullStar = new ImageView(getActivity());
@@ -182,8 +174,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                 emptyStar.setImageResource(R.mipmap.ic_star_border_black_18dp);
                 ((LinearLayout) rootView.findViewById(R.id.stars)).addView(emptyStar);
             }
-
         }
     }
-
 }

@@ -14,11 +14,16 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="46dp"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/spec_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/specification_holder"
@@ -30,17 +35,19 @@
 
             </LinearLayout>
 
-    </ScrollView>
+        </ScrollView>
 
-    <Button
-        android:id="@+id/close_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="4dp"
-        android:text="Close"
-        android:textSize="18sp"
-        android:textColor="#FFF"
-        android:background="@android:color/holo_orange_dark"/>
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="4dp"
+            android:layout_gravity="bottom"
+            android:text="Close"
+            android:textSize="18sp"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_button"/>
+
+    </FrameLayout>
 
 </RelativeLayout>

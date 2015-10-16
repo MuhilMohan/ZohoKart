@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.muhil.zohokart.activities.CartActivity;
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.MainFragment;
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     android.support.v4.app.FragmentManager fragmentManager;
     android.support.v4.app.FragmentTransaction fragmentTransaction;
-
+    android.support.v4.app.Fragment fragment;
+    CartFragment cartFragment;
     public static final int ACTION_ACCOUNT_NAME = 1000;
 
     String preferenceName = "logged_account";
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         MainFragment mainFragment = new MainFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
-        fragmentTransaction.addToBackStack("main_fragment");
         fragmentTransaction.commit();
 
 
@@ -110,56 +111,63 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
         MenuItem mSearchMenuItem = menu.findItem(R.id.menu_search);
         searchView = (SearchView) mSearchMenuItem.getActionView();
-        int searchImgId = android.support.v7.appcompat.R.id.search_button;
-        ImageView v = (ImageView) searchView.findViewById(searchImgId);
-        v.setImageResource(R.mipmap.ic_youtube_searched_for_white_24dp);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-
+            public boolean onQueryTextSubmit(String query)
+            {
                 processSearch(query);
-
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String newText)
+            {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener()
+        {
+            @Override
+            public boolean onClose()
+            {
+                fragment = fragmentManager.findFragmentByTag("search_fragment");
+                if (fragment != null) fragmentManager.popBackStack();
                 return false;
             }
         });
 
         Account account = new Account();
         String jsonString = sharedPreferences.getString("logged_account", "");
-        if (jsonString!=null && !jsonString.equals("")){
-
-            try {
+        if (jsonString!=null && !jsonString.equals(""))
+        {
+            try
+            {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 account.setName(jsonObject.getString("name"));
-
             }
-            catch (JSONException e){
+            catch (JSONException e)
+            {
                 e.printStackTrace();
             }
 
-            if (( menu.findItem(ACTION_ACCOUNT_NAME)) == null){
-
+            if (( menu.findItem(ACTION_ACCOUNT_NAME)) == null)
+            {
                 menu.findItem(R.id.action_login).setVisible(false);
                 menu.add(0, ACTION_ACCOUNT_NAME, 200, account.getName());
-
             }
-
         }
-        else {
-
-            if (( menu.findItem(ACTION_ACCOUNT_NAME)) != null){
-
+        else
+        {
+            if (( menu.findItem(ACTION_ACCOUNT_NAME)) != null)
+            {
                 menu.removeItem(ACTION_ACCOUNT_NAME);
                 menu.findItem(R.id.action_login).setVisible(true);
-
             }
-
         }
+
+
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -190,11 +198,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             fragmentTransaction.commit();
         }
         else if (id == R.id.cart_icon){
-            CartFragment cartFragment = new CartFragment();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
-            fragmentTransaction.addToBackStack("cart_fragment");
-            fragmentTransaction.commit();
+
+                startActivity(new Intent(this, CartActivity.class));
+
         }
         else if (id == R.id.menu_search){
         }
@@ -207,12 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void onBackPressed() {
 
-        android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag("main_fragment");
-        if(fragment != null && fragment.isVisible())
-        {
-            finish();
-        }
-        else if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
         {
             drawerLayout.closeDrawer(GravityCompat.START);
         }

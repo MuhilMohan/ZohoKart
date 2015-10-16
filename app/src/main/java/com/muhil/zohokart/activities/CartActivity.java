@@ -1,18 +1,16 @@
-package com.muhil.zohokart.fragments;
-
+package com.muhil.zohokart.activities;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.fragments.CartFragment;
+import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
@@ -29,78 +29,65 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class CartFragment extends android.support.v4.app.Fragment
+public class CartActivity extends AppCompatActivity
 {
 
+    Toolbar toolbar;
     ZohokartDAO zohokartDAO;
     List<Product> productsInCart;
     LinearLayout emptyCartHolder, productsInCartContent;
     ScrollView cartContent;
     CardView cardView;
-    View cartFragmentLayout;
-
     android.support.v4.app.FragmentTransaction fragmentTransaction;
-
     double quantity;
     double grandTotal = 0;
-
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
-    public CartFragment()
-    {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_cart);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Inflate the layout for this fragment
-        cartFragmentLayout =  inflater.inflate(R.layout.fragment_cart, container, false);
-        zohokartDAO = new ZohokartDAO(getActivity());
+        zohokartDAO = new ZohokartDAO(this);
         productsInCart = zohokartDAO.getProductsFromCart();
-        emptyCartHolder = (LinearLayout) cartFragmentLayout.findViewById(R.id.empty_cart_holder);
-        cartContent = (ScrollView) cartFragmentLayout.findViewById(R.id.cart_content);
-        productsInCartContent = (LinearLayout) cartFragmentLayout.findViewById(R.id.cart_list);
+        emptyCartHolder = (LinearLayout) findViewById(R.id.empty_cart_holder);
+        cartContent = (ScrollView) findViewById(R.id.cart_content);
+        productsInCartContent = (LinearLayout) findViewById(R.id.cart_list);
         productsInCartContent.removeAllViews();
 
         populateProductList();
 
-        return cartFragmentLayout;
-
     }
 
     @Override
-    public void onResume()
+    public boolean onCreateOptionsMenu(Menu menu)
     {
-        if (productsInCart != null && productsInCart.size() > 0)
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_cart, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings)
         {
-            updateGrandTotal();
+            return true;
         }
-        super.onResume();
-    }
 
-    private void switchViewElement()
-    {
-        cartContent.setVisibility(View.GONE);
-        emptyCartHolder.setVisibility(View.VISIBLE);
-
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateProductList()
@@ -112,12 +99,12 @@ public class CartFragment extends android.support.v4.app.Fragment
             if (productsInCart.size() > 0)
             {
 
-                ((TextView) cartFragmentLayout.findViewById(R.id.cart_list_count)).setText("("+productsInCart.size()+")");
+                ((TextView) findViewById(R.id.cart_list_count)).setText("("+productsInCart.size()+")");
 
                 for (final Product product : productsInCart)
                 {
 
-                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                    LayoutInflater layoutInflater = LayoutInflater.from(this);
                     cardView = (CardView) layoutInflater.inflate(R.layout.cart_item_row, productsInCartContent, false);
                     cardView.setId(product.getId());
                     ((TextView) cardView.findViewById(R.id.title)).setText(product.getTitle());
@@ -126,7 +113,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                     ((EditText) cardView.findViewById(R.id.quantity)).setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(product.getId())));
                     (cardView.findViewById(R.id.quantity)).setTag(product);
                     ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(product.getPrice()));
-                    Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
+                    Picasso.with(this).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
                     if (zohokartDAO.checkInWishlist(product.getId()))
                     {
                         (cardView.findViewById(R.id.move_to_wishlist)).setVisibility(View.GONE);
@@ -145,7 +132,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                         ((TextView) (productsInCartContent.findViewById(product.getId())).findViewById(R.id.total_price)).setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
                                         if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId())){
                                             updateGrandTotal();
-                                            Toast.makeText(getActivity(), "Quantity updated.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CartActivity.this, "Quantity updated.", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
                                         ((EditText) v).setText(String.valueOf(1));
@@ -166,8 +153,8 @@ public class CartFragment extends android.support.v4.app.Fragment
                         public void onClick(View v)
                         {
                             (v.findViewById(R.id.quantity)).clearFocus();
-                            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                            InputMethodManager inputMethodManager = (InputMethodManager) CartActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            inputMethodManager.hideSoftInputFromWindow(CartActivity.this.getCurrentFocus().getWindowToken(), 0);
                         }
                     });
 
@@ -175,7 +162,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                         @Override
                         public void onClick(View v) {
 
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CartActivity.this, R.style.AlertDialogCustom);
                             alertDialogBuilder.setTitle("");
                             alertDialogBuilder.setMessage("Are you sure?");
 
@@ -184,11 +171,11 @@ public class CartFragment extends android.support.v4.app.Fragment
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (zohokartDAO.removeFromCart(product.getId()))
                                     {
-                                        Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CartActivity.this, "Product removed from cart.", Toast.LENGTH_SHORT).show();
                                         int position = productsInCart.indexOf(product);
                                         productsInCart.remove(position);
 
-                                        ((TextView) cartFragmentLayout.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
+                                        ((TextView) findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
                                         productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
                                         updateGrandTotal();
 
@@ -200,7 +187,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                     else
                                     {
                                         dialog.dismiss();
-                                        Toast.makeText(getActivity(), "error while removing from cart.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CartActivity.this, "error while removing from cart.", Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
@@ -226,14 +213,14 @@ public class CartFragment extends android.support.v4.app.Fragment
                             {
                                 if (zohokartDAO.removeFromCart(product.getId()))
                                 {
-                                    Toast.makeText(getActivity(), "Product added to wishlist.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CartActivity.this, "Product added to wishlist.", Toast.LENGTH_SHORT).show();
                                     (v).setVisibility(View.GONE);
                                     ((productsInCartContent.findViewById(product.getId())).findViewById(R.id.go_to_wishlist)).setVisibility(View.VISIBLE);
                                 }
                             }
                             else
                             {
-                                Toast.makeText(getActivity(), "Product already exists in wishlist.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CartActivity.this, "Product already exists in wishlist.", Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -243,15 +230,16 @@ public class CartFragment extends android.support.v4.app.Fragment
                         @Override
                         public void onClick(View v) {
                             WishlistFragment wishlistFragment = new WishlistFragment();
-                            fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction = CartActivity.this.getSupportFragmentManager().beginTransaction();
                             fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
                             fragmentTransaction.addToBackStack("wishlist_fragment");
                             fragmentTransaction.commit();
+                            finish();
 
                         }
                     });
 
-                    (cartFragmentLayout.findViewById(R.id.continue_shopping_button)).setOnClickListener(new View.OnClickListener()
+                    (findViewById(R.id.continue_shopping_button)).setOnClickListener(new View.OnClickListener()
                     {
                         @Override
                         public void onClick(View v)
@@ -275,6 +263,13 @@ public class CartFragment extends android.support.v4.app.Fragment
         }
     }
 
+    private void switchViewElement()
+    {
+        cartContent.setVisibility(View.GONE);
+        emptyCartHolder.setVisibility(View.VISIBLE);
+
+    }
+
     private void updateGrandTotal()
     {
         grandTotal = 0;
@@ -284,7 +279,7 @@ public class CartFragment extends android.support.v4.app.Fragment
             grandTotal = grandTotal + (Double.parseDouble(((TextView) view.findViewById(R.id.total_price)).getText().toString()));
         }
 
-        ((TextView) getView().findViewById(R.id.grand_total)).setText(String.valueOf(decimalFormat.format(grandTotal)));
+        ((TextView) findViewById(R.id.grand_total)).setText(String.valueOf(decimalFormat.format(grandTotal)));
 
     }
 

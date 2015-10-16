@@ -162,9 +162,8 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     public void updateDataSet(List<Product> newProductDataSet)
     {
-        this.products = newProductDataSet;
-        notifyDataSetChanged();
-
+        products = newProductDataSet;
+        this.notifyDataSetChanged();
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -173,7 +172,6 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         ImageView displayImage;
         ToggleButton wishListButton;
         LinearLayout productStars;
-        Context context;
 
         public ProductViewHolder(View itemView)
         {

@@ -39,6 +39,7 @@ public class Product implements Parcelable {
     private int ratings;
     private String warranty;
 
+
     public Product(int id, int subCategoryId, String brand, String title, String description, String thumbnail, double price, double stars, int ratings, String warranty) {
         this.id = id;
         this.subCategoryId = subCategoryId;

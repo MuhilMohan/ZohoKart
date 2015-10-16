@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DBHelper;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,8 +50,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     ProductListingAdapter productListingAdapter;
     String[] sortingItems;
     View fragmentLayout;
-    TextView textView;
-    LinearLayout vertLayout;
+
+    FragmentTransaction fragmentTransaction;
 
     public ProductListFragment()
     {
@@ -71,6 +73,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         super.onCreate(savedInstanceState);
         sortingItems = new String[]{"Price low to high", "Price high to low", "Stars low to high", "Stars high to low", "None"};
         zohokartDAO = new ZohokartDAO(getActivity());
+        productList = new ArrayList<>();
     }
 
     @Override
@@ -85,9 +88,9 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         return fragmentLayout;
     }
 
-    public void sortList()
+    public void sortList(List<Product> products)
     {
-        productListingAdapter.updateDataSet(productList);
+        productListingAdapter.updateDataSet(products);
         recyclerView.scrollToPosition(0);
     }
 
@@ -108,17 +111,15 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         }
 
         @Override
-        protected void onPostExecute(List<Product> products)
+        protected void onPostExecute(final List<Product> products)
         {
             super.onPostExecute(products);
 
-            productList = products;
+            productList.addAll(products);
 
             if (productList.size() > 0)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                RecyclerView.ItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL);
-                recyclerView.addItemDecoration(divider);
                 productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager(), fragmentLayout);
                 recyclerView.setAdapter(productListingAdapter);
 
@@ -126,51 +127,64 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                 (fragmentLayout.findViewById(R.id.products)).setVisibility(View.VISIBLE);
                 (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
 
-                (fragmentLayout.findViewById(R.id.sort_action)).setOnClickListener(new View.OnClickListener() {
+                (fragmentLayout.findViewById(R.id.filter_action)).setOnClickListener(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
+                        FilterFragment filterFragment = new FilterFragment();
+                        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_holder, filterFragment, "filter_fragment");
+                        fragmentTransaction.addToBackStack("filter_fragment");
+                        fragmentTransaction.commit();
+                    }
+                });
+
+                (fragmentLayout.findViewById(R.id.sort_action)).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
 
 
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
                         alertDialogBuilder.setTitle("Sort by");
-                        alertDialogBuilder.setItems(sortingItems, new DialogInterface.OnClickListener() {
+                        alertDialogBuilder.setItems(sortingItems, new DialogInterface.OnClickListener()
+                        {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which)
+                            {
                                 if (which == 0)
                                 {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new PriceLowToHighComparator());
-                                    sortList();
-                                }
-                                else if (which == 1)
+                                    sortList(productList);
+                                } else if (which == 1)
                                 {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new PriceHighToLowComparator());
-                                    sortList();
-                                }
-                                else if (which == 2)
+                                    sortList(productList);
+                                } else if (which == 2)
                                 {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new StarsLowToHighComparator());
-                                    sortList();
-                                }
-                                else if (which == 3)
+                                    sortList(productList);
+                                } else if (which == 3)
                                 {
                                     (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
                                     ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new StarsHighToLowComparator());
-                                    sortList();
-                                }
-                                else if (which == 4)
+                                    sortList(productList);
+                                } else if (which == 4)
                                 {
                                     if ((fragmentLayout.findViewById(R.id.selected_sort)).getVisibility() == View.VISIBLE)
                                     {
                                         (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.GONE);
                                     }
-                                    sortList();
+                                    sortList(products);
                                 }
                             }
                         });
@@ -186,4 +200,10 @@ public class ProductListFragment extends android.support.v4.app.Fragment
             }
         }
     }
+
+    public interface ActivityCommunicator
+    {
+        public void sendToProductDetailFragment(int position, List<Product> products);
+    }
+
 }

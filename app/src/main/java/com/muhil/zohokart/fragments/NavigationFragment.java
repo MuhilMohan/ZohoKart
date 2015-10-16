@@ -33,8 +33,8 @@ import java.util.logging.Handler;
 
 public class NavigationFragment extends Fragment
 {
-    LinearLayout menuLinearLayout, subCategoriesMenu;
-    TextView subCategoryName, categoryName;
+    LinearLayout menuLinearLayout;
+    TextView subCategoryName;
     View subCategoryMenuItem, view;
     CardView categoryMenuItem;
     LayoutInflater inflater;

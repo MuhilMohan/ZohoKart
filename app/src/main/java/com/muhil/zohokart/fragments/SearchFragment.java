@@ -112,6 +112,7 @@ public class SearchFragment extends android.support.v4.app.Fragment
             else
             {
                 (searchLayout.findViewById(R.id.search_progress)).setVisibility(View.GONE);
+                ((TextView) searchLayout.findViewById(R.id.empty_search)).setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
             }
         }

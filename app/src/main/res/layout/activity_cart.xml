@@ -3,13 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.muhil.zohokart.fragments.CartFragment"
+    tools:context="com.muhil.zohokart.activities.CartActivity"
     android:background="#F5F5F5">
+
+    <include
+        layout="@layout/app_bar"
+        android:id="@+id/app_bar" />
 
     <ScrollView
         android:id="@+id/cart_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar">
 
         <LinearLayout
             android:layout_width="match_parent"

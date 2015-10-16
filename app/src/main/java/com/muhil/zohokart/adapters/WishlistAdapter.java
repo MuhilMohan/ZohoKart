@@ -80,7 +80,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v)
             {
                 final Product product = (Product) v.getTag();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
                 alertDialogBuilder.setTitle("");
                 alertDialogBuilder.setMessage("Are you sure?");
 

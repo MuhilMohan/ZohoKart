@@ -33,6 +33,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="190dp">
 
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@mipmap/ic_shopping_basket_black_48dp"
+                    android:layout_centerInParent="true"/>
+
             </RelativeLayout>
 
             <android.support.v7.widget.CardView

@@ -1,6 +1,7 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.activities.CartActivity;
 import com.muhil.zohokart.adapters.ProductDetailPagerAdapter;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
@@ -128,11 +130,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             @Override
             public void onClick(View v)
             {
-                CartFragment cartFragment = new CartFragment();
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
-                fragmentTransaction.addToBackStack("cart_fragment_from_detail");
-                fragmentTransaction.commit();
+                startActivity(new Intent(getActivity(), CartActivity.class));
             }
         });
 

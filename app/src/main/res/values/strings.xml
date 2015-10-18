@@ -12,4 +12,5 @@
     <string name="sign_in_string"><u>Have an account? Sign in</u></string>
     <string name="title_activity_product_detail">ProductDetailActivity</string>
     <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_wishlist">WishlistActivity</string>
 </resources>

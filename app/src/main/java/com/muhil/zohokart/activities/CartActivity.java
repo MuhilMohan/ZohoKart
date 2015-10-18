@@ -2,6 +2,7 @@ package com.muhil.zohokart.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
-import com.muhil.zohokart.fragments.CartFragment;
-import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
@@ -51,8 +50,11 @@ public class CartActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         zohokartDAO = new ZohokartDAO(this);
         productsInCart = zohokartDAO.getProductsFromCart();
@@ -229,12 +231,7 @@ public class CartActivity extends AppCompatActivity
                     (cardView.findViewById(R.id.go_to_wishlist)).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            WishlistFragment wishlistFragment = new WishlistFragment();
-                            fragmentTransaction = CartActivity.this.getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
-                            fragmentTransaction.addToBackStack("wishlist_fragment");
-                            fragmentTransaction.commit();
-                            finish();
+                            startActivity(new Intent(CartActivity.this, WishlistActivity.class));
 
                         }
                     });

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:colorPrimary">#2196F3</item>
-        <item name="android:colorPrimaryDark">#1976D2</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorPrimary">#8BC34A</item>
+        <item name="android:colorPrimaryDark">#689F38</item>
         <item name="android:colorAccent">#E91E63</item>
         <item name="android:textColor">#3a3535</item>
         <item name="android:actionOverflowButtonStyle">@style/AppTheme.OverFlow</item>

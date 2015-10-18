@@ -2,21 +2,21 @@ package com.muhil.zohokart.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
-import com.muhil.zohokart.fragments.CartFragment;
-import com.muhil.zohokart.fragments.WishlistFragment;
+import com.muhil.zohokart.activities.CartActivity;
+import com.muhil.zohokart.activities.WishlistActivity;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
@@ -33,15 +33,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     public List<Product> wishlist;
     Context context;
-    WishlistFragment wishlistFragment;
+    WishlistActivity wishlistActivity;
     FragmentManager fragmentManager;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
-    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment, FragmentManager fragmentManager)
+    public WishlistAdapter(Context context, List<Product> wishlist, WishlistActivity wishlistActivity, FragmentManager fragmentManager)
     {
         this.context = context;
-        this.wishlistFragment = wishlistFragment;
         this.wishlist = wishlist;
+        this.wishlistActivity = wishlistActivity;
         this.fragmentManager = fragmentManager;
         zohokartDAO = new ZohokartDAO(context);
 
@@ -80,7 +80,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v)
             {
                 final Product product = (Product) v.getTag();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setTitle("");
                 alertDialogBuilder.setMessage("Are you sure?");
 
@@ -95,10 +95,10 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                             int position = wishlist.indexOf(product);
                             wishlist.remove(position);
                             notifyItemRemoved(position);
-                            wishlistFragment.updateWishlistCount(wishlist.size());
+                            wishlistActivity.updateWishlistCount(wishlist.size());
                             if (wishlist.size() == 0)
                             {
-                                wishlistFragment.switchViewElement();
+                                wishlistActivity.switchViewElement();
                             }
                         }
                         else
@@ -147,11 +147,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v)
             {
 
-                CartFragment cartFragment = new CartFragment();
-                android.support.v4.app.FragmentTransaction fragmentTransaction = wishlistFragment.getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
-                fragmentTransaction.addToBackStack("cart_fragment");
-                fragmentTransaction.commit();
+                wishlistActivity.startActivity(new Intent(context, CartActivity.class));
 
             }
         });

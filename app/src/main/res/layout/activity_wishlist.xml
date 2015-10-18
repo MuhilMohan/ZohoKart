@@ -1,23 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.muhil.zohokart.fragments.WishlistFragment"
-    android:background="#E0E0E0">
+    tools:context="com.muhil.zohokart.activities.WishlistActivity"
+    android:background="#FFF">
+
+    <include
+        layout="@layout/app_bar"
+        android:id="@+id/app_bar" />
 
     <LinearLayout
         android:id="@+id/wishlist_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="4dp"
+        android:layout_below="@id/app_bar"
+        android:padding="16dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
+            android:layout_marginEnd="4dp"
             android:text="Wishlist"
             android:textStyle="bold"
             android:textSize="18sp"/>

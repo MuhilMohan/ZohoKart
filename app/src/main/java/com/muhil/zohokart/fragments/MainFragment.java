@@ -20,10 +20,7 @@ import java.util.List;
  */
 public class MainFragment extends Fragment
 {
-    ZohokartDAO zohokartDAO;
-    List<PromotionBanner> banners;
-    ViewPager bannerPager;
-    BannerPagerAdapter bannerPagerAdapter;
+    View rootView;
 
     public MainFragment()
     {
@@ -35,20 +32,13 @@ public class MainFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-
-        View rootView = getView();
-        zohokartDAO = new ZohokartDAO(getActivity());
-        banners = zohokartDAO.getBanners();
-
-        bannerPager = (ViewPager) rootView.findViewById(R.id.banner_pager);
-        bannerPagerAdapter = new BannerPagerAdapter(getActivity().getSupportFragmentManager(), banners);
-        bannerPager.setAdapter(bannerPagerAdapter);
     }
 }

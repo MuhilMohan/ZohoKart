@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.activities.CartActivity;
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.activities.WishlistActivity;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     SharedPreferences sharedPreferences;
     NavigationFragment navigationFragment;
 
+    Gson gson;
+
     SearchView searchView;
 
     android.support.v4.app.FragmentManager fragmentManager;
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        gson = new Gson();
 
         // *** getting SP for logged account ***
         sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         if (fragmentTransaction != null)
         {
             fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
+            fragmentTransaction.addToBackStack("main_fragment");
             fragmentTransaction.commit();
         }
     }
@@ -105,11 +113,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
 
         // *** getting searchview for handling search queries ***
         MenuItem mSearchMenuItem = menu.findItem(R.id.menu_search);
         searchView = (SearchView) mSearchMenuItem.getActionView();
+        int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
+        ImageView v = (ImageView) searchView.findViewById(searchImgId);
+        v.setImageResource(R.mipmap.ic_youtube_searched_for_white_24dp);
         
         searchView.setOnSearchClickListener(new View.OnClickListener()
         {
@@ -132,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public boolean onQueryTextChange(String newText)
             {
+                if (!newText.equals(""))
+                {
+                    processSearch(newText);
+                }
                 return false;
             }
         });
@@ -141,25 +157,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public boolean onClose()
             {
-                fragment = fragmentManager.findFragmentByTag("search_fragment");
-                if (fragment != null) fragmentManager.popBackStack();
+                fragmentManager.popBackStack("main_fragment", 0);
                 return false;
             }
         });
 
-        Account account = new Account();
+        // *** searchView ends ***
+
+        // *** checking logged account in preferences ***
+        Account account;
         String jsonString = sharedPreferences.getString("logged_account", "");
-        if (jsonString!=null && !jsonString.equals(""))
+        if (!jsonString.equals(""))
         {
-            try
-            {
-                JSONObject jsonObject = new JSONObject(jsonString);
-                account.setName(jsonObject.getString("name"));
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
+            account = gson.fromJson(jsonString, new TypeToken<Account>(){}.getType());
 
             if (( menu.findItem(ACTION_ACCOUNT_NAME)) == null)
             {
@@ -175,20 +185,17 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 menu.findItem(R.id.action_login).setVisible(true);
             }
         }
-
-
-
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
             return true;
@@ -199,8 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else if (id == R.id.action_login)
         {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, LoginActivity.class));
         }
         else if (id == R.id.wish_list)
         {
@@ -208,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else if (id == R.id.cart_icon)
         {
-                startActivity(new Intent(this, CartActivity.class));
+            startActivity(new Intent(this, CartActivity.class));
         }
         else if (id == R.id.menu_search)
         {

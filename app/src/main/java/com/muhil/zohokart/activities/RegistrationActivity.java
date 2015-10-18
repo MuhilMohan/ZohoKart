@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.DatePickerFragment;
 import com.muhil.zohokart.models.Account;
@@ -30,6 +31,7 @@ public class RegistrationActivity extends AppCompatActivity
 {
 
     ZohokartDAO zohokartDAO;
+    Gson gson;
 
     EditText name, email, password, phoneNumber;
     TextView dateOfBirth;
@@ -49,6 +51,8 @@ public class RegistrationActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        gson = new Gson();
 
         hideTextButton = (TextView) findViewById(R.id.hideButton);
         showTextButton = (TextView) findViewById(R.id.showButton);
@@ -156,22 +160,11 @@ public class RegistrationActivity extends AppCompatActivity
                                     Toast.makeText(RegistrationActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
                                     loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                                     editor = loggedAccountHolder.edit();
-                                    JSONObject jsonObject = new JSONObject();
 
-                                    try
-                                    {
-                                        jsonObject.put("name", account.getName());
-                                        jsonObject.put("email", account.getEmail());
-                                        jsonObject.put("password", account.getPassword());
-                                        jsonObject.put("phone_number", account.getPhoneNumber());
-                                        jsonObject.put("date_of_birth", account.getDateOfBirth());
-                                    }
-                                    catch (JSONException e)
-                                    {
-                                        e.printStackTrace();
-                                    }
-                                    editor.putString("logged_account", jsonObject.toString());
-                                    editor.commit();
+                                    String accountString = gson.toJson(account);
+
+                                    editor.putString("logged_account", accountString);
+                                    editor.apply();
                                     finish();
                                     Toast.makeText(RegistrationActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
                                 }

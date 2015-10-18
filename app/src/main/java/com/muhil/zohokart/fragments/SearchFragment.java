@@ -100,8 +100,6 @@ public class SearchFragment extends android.support.v4.app.Fragment
             if (products.size() > 0)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                RecyclerView.ItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL);
-                recyclerView.addItemDecoration(divider);
                 productListingAdapter = new ProductListingAdapter(products, getActivity(), getActivity().getSupportFragmentManager(), searchLayout);
                 recyclerView.setAdapter(productListingAdapter);
 
@@ -112,7 +110,7 @@ public class SearchFragment extends android.support.v4.app.Fragment
             else
             {
                 (searchLayout.findViewById(R.id.search_progress)).setVisibility(View.GONE);
-                ((TextView) searchLayout.findViewById(R.id.empty_search)).setVisibility(View.VISIBLE);
+                (searchLayout.findViewById(R.id.empty_search)).setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
             }
         }

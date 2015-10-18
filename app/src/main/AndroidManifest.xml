@@ -46,10 +46,6 @@
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".activities.ProductDetailActivity"
-            android:label="@string/title_activity_product_detail" >
-        </activity>
-        <activity
             android:name=".activities.CartActivity"
             android:label="@string/title_activity_cart"
             android:parentActivityName=".MainActivity" >

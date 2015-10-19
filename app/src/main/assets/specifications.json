@@ -42,15 +42,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -59,11 +59,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -72,11 +72,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -138,15 +138,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -155,11 +155,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -168,11 +168,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -234,15 +234,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -251,11 +251,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -264,11 +264,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -330,15 +330,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -347,11 +347,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -360,11 +360,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -426,15 +426,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -443,11 +443,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -456,11 +456,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -522,15 +522,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -539,11 +539,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -552,11 +552,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -618,15 +618,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -635,11 +635,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -648,11 +648,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -714,15 +714,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -731,11 +731,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -744,11 +744,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -810,15 +810,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -827,11 +827,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -840,11 +840,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -906,15 +906,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -923,11 +923,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -936,11 +936,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -959,7 +959,6 @@
       ]
     }
   ],
-
   "1011": [
     {
       "name": "General",
@@ -1003,15 +1002,15 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
+          "key": "Screen Size",
           "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
+          "key": "Screen Resolution",
           "value": "1334x750 Pixels"
         }
       ]
@@ -1020,11 +1019,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -1033,11 +1032,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -1091,7 +1090,7 @@
         },
         {
           "key": "OS",
-          "value": "Android KitKat 4.4"
+          "value": "iOS 9"
         }
       ]
     },
@@ -1099,16 +1098,16 @@
       "name": "Display",
       "specifications": [
         {
-          "key": "Size",
-          "value": "5.2 inches"
+          "key": "Screen Size",
+          "value": "4.7 inches"
         },
         {
-          "key": "HD",
+          "key": "Screen Type",
           "value": "FullHD"
         },
         {
-          "key": "Resolution",
-          "value": "1920x1080 Pixels"
+          "key": "Screen Resolution",
+          "value": "1334x750 Pixels"
         }
       ]
     },
@@ -1116,11 +1115,11 @@
       "name": "Memory & Storage",
       "specifications": [
         {
-          "key": "Memory",
-          "value": "1GB RAM"
+          "key": "RAM",
+          "value": "1GB"
         },
         {
-          "key": "Internal",
+          "key": "Internal Storage",
           "value": "16GB"
         }
       ]
@@ -1129,11 +1128,11 @@
       "name": "Camera",
       "specifications": [
         {
-          "key": "Rear Camera",
+          "key": "Primary Camera",
           "value": "Yes, 8MP"
         },
         {
-          "key": "Front Facing Camera",
+          "key": "Secondary Camera",
           "value": "Yes, 1.2MP"
         }
       ]
@@ -1147,7 +1146,7 @@
         },
         {
           "key": "Weight",
-          "value": "144 gm"
+          "value": "129 gm"
         }
       ]
     }

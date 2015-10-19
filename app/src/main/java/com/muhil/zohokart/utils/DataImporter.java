@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.muhil.zohokart.models.Book;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Laptop;
 import com.muhil.zohokart.models.Mobile;
@@ -112,6 +113,32 @@ public class DataImporter
             }
             records = zohokartDAO.addProducts(products);
             products.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String fictionBooksAsString = getJsonContentAsString("products/books_fiction");
+            List<Book> books = gson.fromJson(fictionBooksAsString, new TypeToken<List<Book>>() {}.getType());
+
+            Log.d("JSON", "Number of mobiles from JSON = " + books.size());
+            for (Book book : books)
+            {
+                products.add(book.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            books.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String romanceBooksAsString = getJsonContentAsString("products/books_romance");
+            books = gson.fromJson(romanceBooksAsString, new TypeToken<List<Book>>() {}.getType());
+
+            Log.d("JSON", "Number of mobiles from JSON = " + books.size());
+            for (Book book : books)
+            {
+                products.add(book.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            books.clear();
             Log.d("DB", "Number of products in DB = " + records);
 
             String promotionBannersAsString = getJsonContentAsString("promotion_banners");

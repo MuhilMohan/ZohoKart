@@ -1,11 +1,8 @@
 package com.muhil.zohokart;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -17,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,19 +22,21 @@ import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.activities.CartActivity;
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.activities.WishlistActivity;
+import com.muhil.zohokart.fragments.FilterFragment;
 import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
 import com.muhil.zohokart.fragments.SearchFragment;
 import com.muhil.zohokart.models.Account;
+import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DataImporter;
+import com.muhil.zohokart.utils.ZohokartDAO;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator {
+public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator, FilterFragment.FilterCommunicator, ProductListFragment.ProductListCommunicator
+{
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -46,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     SharedPreferences sharedPreferences;
     NavigationFragment navigationFragment;
     SearchFragment searchFragment;
+
+    ZohokartDAO zohokartDAO;
 
     Gson gson;
 
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentManager = getSupportFragmentManager();
 
         gson = new Gson();
+        zohokartDAO = new ZohokartDAO(this);
 
         // *** getting preferences for logged account ***
         sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
@@ -264,11 +265,41 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public void sendProductList(int subCategoryId)
     {
         Log.d("TRANSACTION", "enetered transaction bay");
-        ProductListFragment productListFragment = ProductListFragment.getInstance(subCategoryId);
+        List<Product> products = zohokartDAO.getProductsForSubCategory(subCategoryId);
+        ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+        productListFragment.setCommunicator(this);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
-        fragmentTransaction.addToBackStack("product_list_fragment");
+        fragmentTransaction.addToBackStack("product_list");
         fragmentTransaction.commit();
         Log.d("TRANSACTION", "commit done.");
+    }
+
+    @Override
+    public void sendFilteredProducts(List<Product> products)
+    {
+        ProductListFragment productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag("product_list");
+        if (productListFragment != null)
+        {
+            fragmentManager.popBackStack();
+            productListFragment = ProductListFragment.getInstance(products);
+            productListFragment.setCommunicator(this);
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
+            fragmentTransaction.addToBackStack("product_list");
+            fragmentTransaction.commit();
+            Log.d("FILTERED", "filtered products sent");
+        }
+    }
+
+    @Override
+    public void openFilter(int subCategoryId)
+    {
+        FilterFragment filterFragment = FilterFragment.getInstance(subCategoryId);
+        filterFragment.setCommunicator(this);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, filterFragment, "filter_fragment");
+        fragmentTransaction.addToBackStack("filter_fragment");
+        fragmentTransaction.commit();
     }
 }

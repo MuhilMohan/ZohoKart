@@ -39,7 +39,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     ImageView imageView;
     ZohokartDAO zohokartDAO;
     ImageView fullStar, halfStar, emptyStar;
-    DecimalFormat decimalFormat = new DecimalFormat("#");
+    DecimalFormat decimalFormat = new DecimalFormat("#.00");
     Double stars;
     Map<String, List<Specification>> specificationGroup;
     TextView specificationGroupName;

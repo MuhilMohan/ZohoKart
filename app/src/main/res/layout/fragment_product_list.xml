@@ -17,7 +17,7 @@
         android:id="@+id/list_actions"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/filter_action"
@@ -79,11 +79,6 @@
                 android:textStyle="italic"
                 android:visibility="gone"/>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#BDBDBD"/>
 
     </LinearLayout>
 

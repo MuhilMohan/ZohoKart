@@ -1,40 +1,28 @@
 package com.muhil.zohokart.fragments;
 
 
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductListingAdapter;
 import com.muhil.zohokart.comparators.PriceHighToLowComparator;
 import com.muhil.zohokart.comparators.PriceLowToHighComparator;
 import com.muhil.zohokart.comparators.StarsHighToLowComparator;
 import com.muhil.zohokart.comparators.StarsLowToHighComparator;
-import com.muhil.zohokart.decorators.DividerItemDecoration;
 import com.muhil.zohokart.models.Product;
-import com.muhil.zohokart.utils.DBHelper;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,21 +38,26 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     ProductListingAdapter productListingAdapter;
     String[] sortingItems;
     View fragmentLayout;
-
-    FragmentTransaction fragmentTransaction;
+    Bundle bundle;
+    ProductListCommunicator communicator;
 
     public ProductListFragment()
     {
         // Required empty public constructor
     }
 
-    public static ProductListFragment getInstance(int subCategoryId)
+    public static ProductListFragment getInstance(List<Product> products)
     {
         ProductListFragment productListFragment = new ProductListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("sub_category_id", subCategoryId);
+        bundle.putSerializable("products", (Serializable) products);
         productListFragment.setArguments(bundle);
         return productListFragment;
+    }
+
+    public void setCommunicator(ProductListCommunicator communicator)
+    {
+        this.communicator = communicator;
     }
 
     @Override
@@ -74,6 +67,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         sortingItems = new String[]{"Price low to high", "Price high to low", "Stars low to high", "Stars high to low", "None"};
         zohokartDAO = new ZohokartDAO(getActivity());
         productList = new ArrayList<>();
+        bundle = getArguments();
     }
 
     @Override
@@ -82,9 +76,10 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         fragmentLayout =  inflater.inflate(R.layout.fragment_product_list, container, false);
-        final Bundle bundle = getArguments();
         recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.products);
-        new ProductListingAsyncTask().execute(bundle.getInt("sub_category_id"));
+
+        new ProductListingAsyncTask().execute(bundle);
+
         return fragmentLayout;
     }
 
@@ -94,7 +89,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         recyclerView.scrollToPosition(0);
     }
 
-    class ProductListingAsyncTask extends AsyncTask<Integer, Void, List<Product>>
+    class ProductListingAsyncTask extends AsyncTask<Bundle, Void, List<Product>>
     {
 
         @Override
@@ -105,9 +100,9 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         }
 
         @Override
-        protected List<Product> doInBackground(Integer... params)
+        protected List<Product> doInBackground(Bundle... params)
         {
-            return zohokartDAO.getProductsForSubCategory(params[0]);
+            return (List<Product>) params[0].getSerializable("products");
         }
 
         @Override
@@ -115,7 +110,15 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         {
             super.onPostExecute(products);
 
-            productList.addAll(products);
+            if (productList.size() > 0)
+            {
+                productList.clear();
+                productList.addAll(products);
+            }
+            else
+            {
+                productList.addAll(products);
+            }
 
             if (productList.size() > 0)
             {
@@ -123,20 +126,12 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                 productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager(), fragmentLayout);
                 recyclerView.setAdapter(productListingAdapter);
 
-                (fragmentLayout.findViewById(R.id.list_actions)).setVisibility(View.VISIBLE);
-                (fragmentLayout.findViewById(R.id.products)).setVisibility(View.VISIBLE);
-                (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
-
                 (fragmentLayout.findViewById(R.id.filter_action)).setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
                     {
-                        FilterFragment filterFragment = new FilterFragment();
-                        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_holder, filterFragment, "filter_fragment");
-                        fragmentTransaction.addToBackStack("filter_fragment");
-                        fragmentTransaction.commit();
+                        communicator.openFilter(productList.get(0).getSubCategoryId());
                     }
                 });
 
@@ -191,6 +186,10 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                         alertDialogBuilder.show();
                     }
                 });
+
+                (fragmentLayout.findViewById(R.id.list_actions)).setVisibility(View.VISIBLE);
+                (fragmentLayout.findViewById(R.id.products)).setVisibility(View.VISIBLE);
+                (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
             }
             else
             {
@@ -201,9 +200,9 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         }
     }
 
-    public interface ActivityCommunicator
+    public interface ProductListCommunicator
     {
-        public void sendToProductDetailFragment(int position, List<Product> products);
+        void openFilter(int subCategoryId);
     }
 
 }

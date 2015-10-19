@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.FilterPair;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class ZohokartDAO
@@ -34,7 +36,8 @@ public class ZohokartDAO
 
     Context context;
 
-    public ZohokartDAO(Context context) {
+    public ZohokartDAO(Context context)
+    {
         this.context = context;
     }
 
@@ -55,8 +58,7 @@ public class ZohokartDAO
         try
         {
             contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        }
-        catch (RemoteException | OperationApplicationException e)
+        } catch (RemoteException | OperationApplicationException e)
         {
             Log.e("DAO", "Error adding categories ", e);
         }
@@ -80,8 +82,7 @@ public class ZohokartDAO
                     categories.add(category);
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error fetching categories ", e);
         }
@@ -111,8 +112,7 @@ public class ZohokartDAO
         try
         {
             contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        }
-        catch (RemoteException | OperationApplicationException e)
+        } catch (RemoteException | OperationApplicationException e)
         {
             Log.e("DAO", "Error adding sub categories ", e);
         }
@@ -138,8 +138,7 @@ public class ZohokartDAO
                     if (subCategoriesBycategory.get(categoryId) != null)
                     {
                         (subCategoriesBycategory.get(categoryId)).add(subCategory);
-                    }
-                    else
+                    } else
                     {
                         List<SubCategory> subCategories = new ArrayList<>();
                         subCategories.add(subCategory);
@@ -147,8 +146,7 @@ public class ZohokartDAO
                     }
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error fetching subcategories by categories ", e);
         }
@@ -184,14 +182,14 @@ public class ZohokartDAO
         try
         {
             contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        }
-        catch (RemoteException | OperationApplicationException e)
+        } catch (RemoteException | OperationApplicationException e)
         {
             Log.e("DAO", "Error adding products ", e);
         }
 
         return contentProviderResults != null ? contentProviderResults.length : 0;
     }
+
     // ***** returns a product object from cursor *****
     private Product getProductFromCursor(Cursor cursor)
     {
@@ -224,8 +222,7 @@ public class ZohokartDAO
                 }
             }
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error getting products for a sub category");
         }
@@ -277,8 +274,7 @@ public class ZohokartDAO
                     productIdsInWishList.add(id);
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.d("DAO", "Error fetching product ids from wishlist ", e);
         }
@@ -298,8 +294,7 @@ public class ZohokartDAO
                             products.add(getProductFromCursor(cursor));
                         }
                     }
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     Log.d("DAO", "Error fetching product in wishlist ", e);
                 }
@@ -321,8 +316,7 @@ public class ZohokartDAO
             {
                 result = (cursor.getCount() == 1);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error checking for a product in wishlist ", e);
         }
@@ -434,8 +428,7 @@ public class ZohokartDAO
             {
                 result = (cursor.getCount() == 1);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error checking product in cart", e);
         }
@@ -466,8 +459,7 @@ public class ZohokartDAO
             {
                 result = (cursor.getCount() == 1);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error checking has account", e);
         }
@@ -491,13 +483,11 @@ public class ZohokartDAO
                     account.setPhoneNumber(cursor.getString(cursor.getColumnIndex(Account.PHONE_NUMBER)));
                     account.setDateOfBirth(cursor.getString(cursor.getColumnIndex(Account.DATE_OF_BIRTH)));
                 }
-            }
-            else
+            } else
             {
                 account = null;
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error fetching account", e);
         }
@@ -541,8 +531,7 @@ public class ZohokartDAO
         try
         {
             contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        }
-        catch (RemoteException | OperationApplicationException e)
+        } catch (RemoteException | OperationApplicationException e)
         {
             Log.e("DAO", "Error adding categories ", e);
         }
@@ -565,13 +554,14 @@ public class ZohokartDAO
                     int id = cursor.getInt(cursor.getColumnIndex(PromotionBanner._ID));
                     String banner_url = cursor.getString(cursor.getColumnIndex(PromotionBanner.BANNER_URL));
                     String productsIdsJsonString = cursor.getString(cursor.getColumnIndex(PromotionBanner.PRODUCTS_RELATED));
-                    List<Integer> productIds = gson.fromJson(productsIdsJsonString, new TypeToken<List<Integer>>() {}.getType());
+                    List<Integer> productIds = gson.fromJson(productsIdsJsonString, new TypeToken<List<Integer>>()
+                    {
+                    }.getType());
                     PromotionBanner banner = new PromotionBanner(id, banner_url, productIds);
                     banners.add(banner);
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error fetching banners", e);
         }
@@ -583,7 +573,8 @@ public class ZohokartDAO
     // ***** specification methods starts *****
 
     // ***** adds specifications *****
-    public int addSpecifications(Map<String, List<SpecificationGroup>> specifications) {
+    public int addSpecifications(Map<String, List<SpecificationGroup>> specifications)
+    {
 
         Gson gson = new Gson();
         ContentProviderResult[] contentProviderResults = null;
@@ -591,11 +582,12 @@ public class ZohokartDAO
         ContentValues contentValues = new ContentValues();
         String specificationString;
 
-        for (Map.Entry<String, List<SpecificationGroup>> specificationEntry: specifications.entrySet()) {
+        for (Map.Entry<String, List<SpecificationGroup>> specificationEntry : specifications.entrySet())
+        {
 
             contentValues.put(SpecificationGroup.PRODUCT_ID, Integer.parseInt(specificationEntry.getKey().trim()));
 
-            for (SpecificationGroup specificationGroup: specificationEntry.getValue())
+            for (SpecificationGroup specificationGroup : specificationEntry.getValue())
             {
 
                 contentValues.put(SpecificationGroup.GROUP_NAME, specificationGroup.getName());
@@ -609,8 +601,7 @@ public class ZohokartDAO
         try
         {
             contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
-        }
-        catch (RemoteException | OperationApplicationException e)
+        } catch (RemoteException | OperationApplicationException e)
         {
             Log.e("DAO", "Error adding categories ", e);
         }
@@ -634,15 +625,16 @@ public class ZohokartDAO
             {
                 if (cursor.getInt(cursor.getColumnIndex(SpecificationGroup.PRODUCT_ID)) == productId)
                 {
-                    specifications = gson.fromJson(cursor.getString(cursor.getColumnIndex(SpecificationGroup.SPECIFICATIONS)), new TypeToken<List<Specification>>(){}.getType());
+                    specifications = gson.fromJson(cursor.getString(cursor.getColumnIndex(SpecificationGroup.SPECIFICATIONS)), new TypeToken<List<Specification>>()
+                    {
+                    }.getType());
                     specificationMap.put(cursor.getString(cursor.getColumnIndex(SpecificationGroup.GROUP_NAME)), specifications);
                 }
             }
 
             Log.d("Cursor", String.valueOf(cursor.getCount()));
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error fetching specifications", e);
         }
@@ -668,12 +660,92 @@ public class ZohokartDAO
                 }
             }
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("DAO", "Error getting products for a sub category");
         }
         return products;
     }
+    // *** searchString method ends ***
 
+    // Filtering methods
+
+    public Map<String, Map<String, FilterPair>> getBrandsForFilter(int subCategoryId)
+    {
+        Map<String, Map<String, FilterPair>> resultMap = new HashMap<>();
+        Map<String, FilterPair> brands = new HashMap<>();
+        List<String> args;
+
+        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, new String[]{"DISTINCT " + Product.BRAND}, Product.SUB_CATEGORY_ID + " = ?", new String[]{String.valueOf(subCategoryId)}, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    args = new ArrayList<>();
+                    args.add(cursor.getString(cursor.getColumnIndex(Product.BRAND)));
+                    brands.put(cursor.getString(cursor.getColumnIndex(Product.BRAND)), new FilterPair(Product.BRAND + " = ?", args));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("DAO", "Error getting products for a sub category");
+        }
+        resultMap.put("Brand", brands);
+        return resultMap;
+    }
+
+    public List<Product> getFilteredProducts(List<FilterPair> filterPairs, int subCategoryId)
+    {
+        List<Product> products = new ArrayList<>();
+        List<String> selectionArgs = new ArrayList<>();
+        StringBuilder selectionString = new StringBuilder();
+        String temp;
+
+        for (FilterPair filterPair : filterPairs)
+        {
+            if (selectionString.toString().equals(""))
+            {
+                if (filterPair.getSelectionString() != null)
+                {
+                    selectionString.append(filterPair.getSelectionString());
+                }
+            } else
+            {
+                temp = " AND " + filterPair.getSelectionString();
+                selectionString.append(temp);
+            }
+            selectionArgs.addAll(filterPair.getSelectionArgs());
+        }
+
+        Log.d("FILTER", selectionString.toString());
+        for (String str : selectionArgs)
+        {
+            Log.d("SELECT_ARGS", str);
+        }
+
+        String[] selectionArgsAsArray = selectionArgs.toArray(new String[selectionArgs.size()+1]);
+        selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+
+        try (Cursor cursor = context.getContentResolver().query(
+                Product.CONTENT_URI, Product.PROJECTION, selectionString.toString() + " AND " + Product.SUB_CATEGORY_ID + " = ?",
+                selectionArgsAsArray, null))
+        {
+            if (cursor != null)
+            {
+                Log.d("PRODUCTS", String.valueOf(cursor.getCount()));
+                while (cursor.moveToNext())
+                {
+                    products.add(getProductFromCursor(cursor));
+                }
+            }
+
+        } catch (Exception e)
+        {
+            Log.e("DAO", "Error getting products for a sub category");
+        }
+        return products;
+
+    }
 }

@@ -22,6 +22,7 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -163,7 +164,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
     public void updateDataSet(List<Product> newProductDataSet)
     {
         products = newProductDataSet;
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener

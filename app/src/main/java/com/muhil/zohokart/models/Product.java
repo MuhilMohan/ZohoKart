@@ -7,7 +7,10 @@ import android.os.Parcelable;
 
 import com.muhil.zohokart.utils.ZohokartContentProvider;
 
-public class Product implements Parcelable {
+import java.io.Serializable;
+
+public class Product implements Parcelable, Serializable
+{
 
     public static final String TABLE_NAME = "products";
     public static final String _ID = "_id";

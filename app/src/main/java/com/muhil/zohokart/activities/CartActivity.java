@@ -88,6 +88,10 @@ public class CartActivity extends AppCompatActivity
         {
             return true;
         }
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -164,7 +168,7 @@ public class CartActivity extends AppCompatActivity
                         @Override
                         public void onClick(View v) {
 
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CartActivity.this, R.style.AlertDialogCustom);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CartActivity.this);
                             alertDialogBuilder.setTitle("");
                             alertDialogBuilder.setMessage("Are you sure?");
 

@@ -39,18 +39,11 @@ public class SearchFragment extends android.support.v4.app.Fragment
     ZohokartDAO zohokartDAO;
     ProductListingAdapter productListingAdapter;
 
+
+
     public SearchFragment()
     {
         // Required empty public constructor
-    }
-
-    public static SearchFragment getInstance(String query)
-    {
-        SearchFragment searchFragment = new SearchFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("query_string", query);
-        searchFragment.setArguments(bundle);
-        return searchFragment;
     }
 
     @Override
@@ -58,6 +51,7 @@ public class SearchFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
+        products = null;
     }
 
     @Override
@@ -66,12 +60,13 @@ public class SearchFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         searchLayout = inflater.inflate(R.layout.fragment_search, container, false);
-
-        final Bundle bundle = getArguments();
         recyclerView = (RecyclerView) searchLayout.findViewById(R.id.search_result);
-        new SearchAsyncTask().execute(bundle.getString("query_string"));
-
         return searchLayout;
+    }
+
+    public void processQuery(String query)
+    {
+        new SearchAsyncTask().execute(query);
     }
 
     class SearchAsyncTask extends AsyncTask<String, Void, Void>
@@ -88,7 +83,6 @@ public class SearchFragment extends android.support.v4.app.Fragment
         protected Void doInBackground(String... params)
         {
             products = zohokartDAO.getProductsBySearchString(params[0]);
-
             return null;
         }
 
@@ -97,7 +91,7 @@ public class SearchFragment extends android.support.v4.app.Fragment
         {
             super.onPostExecute(aVoid);
 
-            if (products.size() > 0)
+            if (products != null && products.size() > 0)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 productListingAdapter = new ProductListingAdapter(products, getActivity(), getActivity().getSupportFragmentManager(), searchLayout);
@@ -105,10 +99,12 @@ public class SearchFragment extends android.support.v4.app.Fragment
 
                 (searchLayout.findViewById(R.id.search_result)).setVisibility(View.VISIBLE);
                 (searchLayout.findViewById(R.id.search_progress)).setVisibility(View.GONE);
+                (searchLayout.findViewById(R.id.empty_search)).setVisibility(View.GONE);
 
             }
             else
             {
+                (searchLayout.findViewById(R.id.search_result)).setVisibility(View.GONE);
                 (searchLayout.findViewById(R.id.search_progress)).setVisibility(View.GONE);
                 (searchLayout.findViewById(R.id.empty_search)).setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();

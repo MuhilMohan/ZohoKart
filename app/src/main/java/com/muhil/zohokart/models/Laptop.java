@@ -1,9 +1,12 @@
 package com.muhil.zohokart.models;
 
-
 import com.google.gson.annotations.SerializedName;
 
-public class Mobile implements IProduct {
+/**
+ * Created by muhil-ga42 on 18/10/15.
+ */
+public class Laptop implements IProduct
+{
 
     private int id;
     @SerializedName("sub_category_id")
@@ -11,90 +14,99 @@ public class Mobile implements IProduct {
     private String name;
     private String brand;
     private String color;
-    @SerializedName("internal_memory")
-    private int internalMemory;
+    private int ram;
+    private double inches;
     private double price;
     private String thumbnail;
     private double stars;
     private int ratings;
     private String warranty;
 
-    public Mobile() {
+    public Laptop()
+    {
     }
 
-    public Mobile(int id, int categoryId, String name, String brand, String color, int internalMemory, double price, String thumbnail, double stars, int ratings, String warranty)
+    public Laptop(int id, int categoryId, String name, String brand, String color, int ram, double inches, double price, String thumbnail, double stars, int ratings, String warranty)
     {
-        this.id = id;
-        this.categoryId = categoryId;
-        this.name = name;
         this.brand = brand;
+        this.categoryId = categoryId;
         this.color = color;
-        this.internalMemory = internalMemory;
+        this.id = id;
+        this.inches = inches;
+        this.name = name;
         this.price = price;
-        this.thumbnail = thumbnail;
-        this.stars = stars;
+        this.ram = ram;
         this.ratings = ratings;
+        this.stars = stars;
+        this.thumbnail = thumbnail;
         this.warranty = warranty;
-
     }
 
     @Override
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
     @Override
-    public int getCategoryId() {
+    public int getCategoryId()
+    {
         return categoryId;
     }
 
     @Override
-    public String getBrand() {
+    public String getBrand()
+    {
         return brand;
     }
 
     @Override
-    public String getTitle() {
+    public String getTitle()
+    {
         return name;
     }
 
     @Override
-    public String getDescription() {
-        return color + ", " + internalMemory + " GB";
+    public String getDescription()
+    {
+        return color + ", " + ram + ", " + inches + "\"";
     }
 
     @Override
-    public String getThumbnail() {
+    public String getThumbnail()
+    {
         return thumbnail;
     }
 
     @Override
-    public double getPrice() {
+    public double getPrice()
+    {
         return price;
     }
 
     @Override
-    public double getStars() {
+    public double getStars()
+    {
         return stars;
     }
 
     @Override
-    public int getRatings() {
+    public int getRatings()
+    {
         return ratings;
     }
 
     @Override
-    public String getWarranty() {
+    public String getWarranty()
+    {
         return warranty;
     }
 
-
     @Override
-    public Product getProduct() {
+    public Product getProduct()
+    {
         return new Product(this.getId(), this.getCategoryId(), this.getBrand(),
                 this.getTitle(), this.getDescription(), this.getThumbnail(), this.getPrice(),
                 this.getStars(), this.getRatings(), this.getWarranty());
     }
-
-
 }

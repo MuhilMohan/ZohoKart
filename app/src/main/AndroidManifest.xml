@@ -47,13 +47,11 @@
         </activity>
         <activity
             android:name=".activities.CartActivity"
-            android:label="@string/title_activity_cart"
-            android:parentActivityName=".MainActivity" >
+            android:label="@string/title_activity_cart" >
         </activity>
         <activity
             android:name=".activities.WishlistActivity"
-            android:label="@string/title_activity_wishlist"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/title_activity_wishlist" >
         </activity>
     </application>
 

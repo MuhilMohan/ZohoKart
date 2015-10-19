@@ -147,7 +147,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     {
 
 
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                         alertDialogBuilder.setTitle("Sort by");
                         alertDialogBuilder.setItems(sortingItems, new DialogInterface.OnClickListener()
                         {

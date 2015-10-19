@@ -1,9 +1,14 @@
 package com.muhil.zohokart;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -12,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -30,6 +36,8 @@ import com.muhil.zohokart.utils.DataImporter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator {
 
     Toolbar toolbar;
@@ -37,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     DataImporter dataImporter;
     SharedPreferences sharedPreferences;
     NavigationFragment navigationFragment;
+    SearchFragment searchFragment;
 
     Gson gson;
 
@@ -47,20 +56,23 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     android.support.v4.app.Fragment fragment;
     public static final int ACTION_ACCOUNT_NAME = 1000;
 
+    int backStackCount;
+    FragmentManager.BackStackEntry backStackEntry;
+
     String preferenceName = "logged_account";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // *** fragmentManager for transaction ***
+        fragmentManager = getSupportFragmentManager();
 
         gson = new Gson();
 
-        // *** getting SP for logged account ***
+        // *** getting preferences for logged account ***
         sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
-
-        // *** fragmentManager for transaction ***
-        fragmentManager = getSupportFragmentManager();
 
         // ** getting data into app ***
         dataImporter = new DataImporter(this);
@@ -86,22 +98,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         // *** including the default main fragment ***
         MainFragment mainFragment = new MainFragment();
         fragmentTransaction = fragmentManager.beginTransaction();
-        if (fragmentTransaction != null)
-        {
-            fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
-            fragmentTransaction.addToBackStack("main_fragment");
-            fragmentTransaction.commit();
-        }
+        fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
+        fragmentTransaction.commit();
     }
 
     private void processSearch(String query) {
 
         // *** processing results using the search query ***
-        SearchFragment searchFragment = SearchFragment.getInstance(query);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, searchFragment, "search_fragment");
-        fragmentTransaction.addToBackStack("search_fragment");
-        fragmentTransaction.commit();
+        searchFragment = (SearchFragment) fragmentManager.findFragmentByTag("search_fragment");
+        if (searchFragment != null)
+        {
+            Toast.makeText(MainActivity.this, "query sent", Toast.LENGTH_SHORT).show();
+            searchFragment.processQuery(query);
+        }
 
     }
 
@@ -109,34 +118,33 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+        // *** getting searchview for handling search queries and changing image ***
 
-        // *** getting searchview for handling search queries ***
-        MenuItem mSearchMenuItem = menu.findItem(R.id.menu_search);
-        searchView = (SearchView) mSearchMenuItem.getActionView();
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
         int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
         v.setImageResource(R.mipmap.ic_youtube_searched_for_white_24dp);
-        
+
         searchView.setOnSearchClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(MainActivity.this, "search clicked.", Toast.LENGTH_SHORT).show();
+                SearchFragment searchFragment = new SearchFragment();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_holder, searchFragment, "search_fragment");
+                fragmentTransaction.addToBackStack("search_fragment");
+                fragmentTransaction.commit();
             }
         });
-        
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
             public boolean onQueryTextSubmit(String query)
             {
+                searchView.clearFocus();
                 processSearch(query);
                 return false;
             }
@@ -144,10 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                if (!newText.equals(""))
-                {
-                    processSearch(newText);
-                }
                 return false;
             }
         });
@@ -157,12 +161,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public boolean onClose()
             {
-                fragmentManager.popBackStack("main_fragment", 0);
+                fragmentManager.popBackStack();
                 return false;
             }
         });
 
         // *** searchView ends ***
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
 
         // *** checking logged account in preferences ***
         Account account;
@@ -170,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         if (!jsonString.equals(""))
         {
             account = gson.fromJson(jsonString, new TypeToken<Account>(){}.getType());
-
             if (( menu.findItem(ACTION_ACCOUNT_NAME)) == null)
             {
                 menu.findItem(R.id.action_login).setVisible(false);
@@ -227,7 +237,14 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void onBackPressed()
     {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+
+        if (searchFragment!= null && searchFragment.isVisible())
+        {
+            fragmentManager.popBackStack();
+            searchView.onActionViewCollapsed();
+            searchView.setIconified(true);
+        }
+        else if (drawerLayout.isDrawerOpen(GravityCompat.START))
         {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
@@ -254,5 +271,4 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentTransaction.commit();
         Log.d("TRANSACTION", "commit done.");
     }
-
 }

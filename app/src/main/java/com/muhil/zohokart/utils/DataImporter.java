@@ -8,10 +8,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.Laptop;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
+import com.muhil.zohokart.models.Tablet;
 import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.io.BufferedReader;
@@ -85,6 +87,31 @@ public class DataImporter
                 products.add(mobile.getProduct());
             }
             records = zohokartDAO.addProducts(products);
+            products.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String tabletsAsString = getJsonContentAsString("products/tablets");
+            List<Tablet> tablets = gson.fromJson(tabletsAsString, new TypeToken<List<Tablet>>() {}.getType());
+
+            Log.d("JSON", "Number of mobiles from JSON = " + tablets.size());
+            for (Tablet tablet : tablets)
+            {
+                products.add(tablet.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String laptopsAsString = getJsonContentAsString("products/laptops");
+            List<Laptop> laptops = gson.fromJson(laptopsAsString, new TypeToken<List<Laptop>>() {}.getType());
+
+            Log.d("JSON", "Number of mobiles from JSON = " + laptops.size());
+            for (Laptop laptop : laptops)
+            {
+                products.add(laptop.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
             Log.d("DB", "Number of products in DB = " + records);
 
             String promotionBannersAsString = getJsonContentAsString("promotion_banners");

@@ -8,6 +8,7 @@
         <item name="android:textColor">#3a3535</item>
         <item name="android:actionOverflowButtonStyle">@style/AppTheme.OverFlow</item>
         <item name="android:datePickerDialogTheme">@style/CustomDatePickerDialogTheme</item>
+        <item name="android:searchViewStyle">@style/CustomSearchView</item>
     </style>
 
     <style name="AppTheme.OverFlow">
@@ -25,12 +26,12 @@
         <item name="android:colorAccent">#E91E63</item>
     </style>
 
-    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:textColor">#3a3535</item>
-        <item name="android:background">#FFF</item>
-        <item name="android:textColorSecondary">#3a3535</item>
-        <item name="android:textColorPrimary">#3a3535</item>
-        <item name="android:textColorTertiary">#3a3535</item>
+    <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@null</item>
+        <item name="android:closeIcon">@mipmap/ic_fa_trash_o</item>
+        <item name="android:queryBackground">@color/whitebg</item>
     </style>
+
+    <color name="whitebg">#FFF</color>
 
 </resources>

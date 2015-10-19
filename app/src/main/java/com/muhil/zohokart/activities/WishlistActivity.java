@@ -87,6 +87,10 @@ public class WishlistActivity extends AppCompatActivity
         {
             return true;
         }
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
+        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -2,7 +2,7 @@
   {
     "id": 3001,
     "sub_category_id": 102,
-    "name": "Apple MGXC2HN/A MacBook Pro Notebook",
+    "name": "Apple MacBook Pro",
     "brand": "Apple",
     "color": "Silver",
     "ram" : 16,
@@ -16,7 +16,7 @@
   {
     "id": 3002,
     "sub_category_id": 102,
-    "name": "Apple MGX92HN/A MacBook Pro Notebook",
+    "name": "Apple MacBook Pro ",
     "brand": "Apple",
     "color": "Silver",
     "ram" : 8,
@@ -30,7 +30,7 @@
   {
     "id": 3003,
     "sub_category_id": 102,
-    "name": "Apple MacBook Air MJVM2HN/A (Ultrabook)",
+    "name": "Apple MacBook Air",
     "brand": "Apple",
     "color": "Silver",
     "ram" : 4,
@@ -44,7 +44,7 @@
   {
     "id": 3004,
     "sub_category_id": 102,
-    "name": "Asus K555LD K Series XX645D",
+    "name": "Asus K555LD K Series",
     "brand": "Asus",
     "color": "Dark blue",
     "ram" : 8,
@@ -58,7 +58,7 @@
   {
     "id": 3005,
     "sub_category_id": 102,
-    "name": "Asus K555LJ K Series K555LJ-XX135D",
+    "name": "Asus K555LJ K Series",
     "brand": "Asus",
     "color": "Dark blue",
     "ram" : 8,
@@ -72,7 +72,7 @@
   {
     "id": 3006,
     "sub_category_id": 102,
-    "name": "Asus T3024P ROG Series G751JL-T3024P Touch Screen",
+    "name": "Asus T3024P Touch Screen",
     "brand": "Asus",
     "color": "Black",
     "ram" : 24,
@@ -86,7 +86,7 @@
   {
     "id": 3007,
     "sub_category_id": 102,
-    "name": "Acer S1001 (Intel 2-in-1 Laptop)",
+    "name": "Acer S1001",
     "brand": "Acer",
     "color": "Silver",
     "ram" : 1,
@@ -128,7 +128,7 @@
   {
     "id": 3010,
     "sub_category_id": 102,
-    "name": "Dell Inspiron 3542 Notebook",
+    "name": "Dell Inspiron 3542",
     "brand": "Dell",
     "color": "Matte black",
     "ram" : 4,

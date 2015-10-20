@@ -37,7 +37,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     RecyclerView recyclerView;
     ProductListingAdapter productListingAdapter;
     String[] sortingItems;
-    View fragmentLayout;
+    View productListFragment;
     Bundle bundle;
     ProductListCommunicator communicator;
 
@@ -75,12 +75,12 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        fragmentLayout =  inflater.inflate(R.layout.fragment_product_list, container, false);
-        recyclerView = (RecyclerView) fragmentLayout.findViewById(R.id.products);
+        productListFragment =  inflater.inflate(R.layout.fragment_product_list, container, false);
+        recyclerView = (RecyclerView) productListFragment.findViewById(R.id.products);
 
         new ProductListingAsyncTask().execute(bundle);
 
-        return fragmentLayout;
+        return productListFragment;
     }
 
     public void sortList(List<Product> products)
@@ -96,9 +96,10 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         protected void onPreExecute()
         {
             super.onPreExecute();
-            (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.VISIBLE);
+            (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.VISIBLE);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected List<Product> doInBackground(Bundle... params)
         {
@@ -123,10 +124,10 @@ public class ProductListFragment extends android.support.v4.app.Fragment
             if (productList.size() > 0)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager(), fragmentLayout);
+                productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager(), productListFragment);
                 recyclerView.setAdapter(productListingAdapter);
 
-                (fragmentLayout.findViewById(R.id.filter_action)).setOnClickListener(new View.OnClickListener()
+                (productListFragment.findViewById(R.id.filter_action)).setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
@@ -135,7 +136,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     }
                 });
 
-                (fragmentLayout.findViewById(R.id.sort_action)).setOnClickListener(new View.OnClickListener()
+                (productListFragment.findViewById(R.id.sort_action)).setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
@@ -151,33 +152,33 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                             {
                                 if (which == 0)
                                 {
-                                    (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
-                                    ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
+                                    (productListFragment.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
+                                    ((TextView) productListFragment.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new PriceLowToHighComparator());
                                     sortList(productList);
                                 } else if (which == 1)
                                 {
-                                    (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
-                                    ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
+                                    (productListFragment.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
+                                    ((TextView) productListFragment.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new PriceHighToLowComparator());
                                     sortList(productList);
                                 } else if (which == 2)
                                 {
-                                    (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
-                                    ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
+                                    (productListFragment.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
+                                    ((TextView) productListFragment.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new StarsLowToHighComparator());
                                     sortList(productList);
                                 } else if (which == 3)
                                 {
-                                    (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
-                                    ((TextView) fragmentLayout.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
+                                    (productListFragment.findViewById(R.id.selected_sort)).setVisibility(View.VISIBLE);
+                                    ((TextView) productListFragment.findViewById(R.id.selected_sort)).setText(sortingItems[which]);
                                     Collections.sort(productList, new StarsHighToLowComparator());
                                     sortList(productList);
                                 } else if (which == 4)
                                 {
-                                    if ((fragmentLayout.findViewById(R.id.selected_sort)).getVisibility() == View.VISIBLE)
+                                    if ((productListFragment.findViewById(R.id.selected_sort)).getVisibility() == View.VISIBLE)
                                     {
-                                        (fragmentLayout.findViewById(R.id.selected_sort)).setVisibility(View.GONE);
+                                        (productListFragment.findViewById(R.id.selected_sort)).setVisibility(View.GONE);
                                     }
                                     sortList(products);
                                 }
@@ -187,15 +188,16 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     }
                 });
 
-                (fragmentLayout.findViewById(R.id.list_actions)).setVisibility(View.VISIBLE);
-                (fragmentLayout.findViewById(R.id.products)).setVisibility(View.VISIBLE);
-                (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
+                (productListFragment.findViewById(R.id.list_actions)).setVisibility(View.VISIBLE);
+                (productListFragment.findViewById(R.id.products)).setVisibility(View.VISIBLE);
+                (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
             }
             else
             {
-                (fragmentLayout.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
+                (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
+                (productListFragment.findViewById(R.id.empty_list)).setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
-                (fragmentLayout.findViewById(R.id.list_actions)).setVisibility(View.GONE);
+                (productListFragment.findViewById(R.id.list_actions)).setVisibility(View.GONE);
             }
         }
     }

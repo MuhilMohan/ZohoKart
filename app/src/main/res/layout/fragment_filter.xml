@@ -42,11 +42,12 @@
     <Button
         android:id="@+id/filter_button"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_margin="4dp"
         android:layout_gravity="bottom"
         android:background="@drawable/rounded_button"
         android:text="APPLY"
+        android:textSize="18sp"
         android:textColor="#FFF"/>
 
 </FrameLayout>

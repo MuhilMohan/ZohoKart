@@ -71,6 +71,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
         bundle = getArguments();
         zohokartDAO = new ZohokartDAO(getActivity());
         filterPairs = new ArrayList<>();
+        filteredProducts = new ArrayList<>();
     }
 
     @Override
@@ -89,10 +90,8 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     public void onClick(View v)
                     {
                         filteredProducts = zohokartDAO.getFilteredProducts(filterPairs, bundle.getInt("sub_category_id"));
-                        if (filteredProducts.size() > 0)
-                        {
-                            communicator.sendFilteredProducts(filteredProducts);
-                        }
+                        Toast.makeText(getActivity(), String.valueOf(filteredProducts.size()), Toast.LENGTH_SHORT).show();
+                        communicator.sendFilteredProducts(filteredProducts);
                     }
                 }
         );
@@ -142,20 +141,21 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     ((TextView) filterItemView.findViewById(R.id.filter_item_name)).setText(filterOptionItem.getKey());
                     (filterItemView.findViewById(R.id.filter_item_checker)).setTag(filterOptionItem.getValue());
 
-                    (filterItemView.findViewById(R.id.filter_item_checker)).setOnClickListener(
+                    (filterItemView.findViewById(R.id.filter_select_action)).setOnClickListener(
                             new View.OnClickListener()
                             {
                                 @Override
                                 public void onClick(View v)
                                 {
-                                    CheckBox checkBox = (CheckBox) v;
-                                    FilterPair filterPair = (FilterPair) v.getTag();
-                                    if (checkBox.isChecked())
+                                    CheckBox checkBox = ((CheckBox) v.findViewById(R.id.filter_item_checker));
+                                    FilterPair filterPair = (FilterPair) checkBox.getTag();
+                                    if (!checkBox.isChecked())
                                     {
                                         Toast.makeText(getActivity(), filterPair.getSelectionString(), Toast.LENGTH_SHORT).show();
                                         if (!filterPairs.contains(filterPair))
                                         {
                                             filterPairs.add(filterPair);
+                                            checkBox.setChecked(true);
                                         }
                                     }
                                     else
@@ -163,6 +163,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                         if (filterPairs.contains(filterPair))
                                         {
                                             filterPairs.remove(filterPair);
+                                            checkBox.setChecked(false);
                                             Toast.makeText(getActivity(), filterPair.getSelectionString(), Toast.LENGTH_SHORT).show();
                                         }
                                     }

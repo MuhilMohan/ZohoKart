@@ -740,13 +740,13 @@ public class ZohokartDAO
         tempProducts.addAll(products);
         for (Product product : tempProducts)
         {
-            if (brands.contains(product.getBrand()))
+            if (!brands.contains(product.getBrand()))
             {
-
+                products.remove(product);
             }
             else
             {
-                products.remove(product);
+
             }
         }
 

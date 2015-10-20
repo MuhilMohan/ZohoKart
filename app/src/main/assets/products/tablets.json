@@ -2,7 +2,7 @@
   {
     "id": 2001,
     "sub_category_id": 101,
-    "name": "Apple iPad Air with Wi-Fi + Cellular",
+    "name": "Apple iPad Air",
     "brand": "Apple",
     "color": "Space grey",
     "internal_memory": 128,
@@ -44,7 +44,7 @@
   {
     "id": 2004,
     "sub_category_id": 101,
-    "name": "Apple iPad Mini with Retina Display and Wi-Fi (2nd Generation)",
+    "name": "Apple iPad Mini (2nd Generation)",
     "brand": "Apple",
     "color": "Space grey",
     "internal_memory": 16,
@@ -58,7 +58,7 @@
   {
     "id": 2005,
     "sub_category_id": 101,
-    "name": "Asus FE380CG-1G046A/1G052A Fonepad 8 Tablet",
+    "name": "Asus Fonepad 8 Tablet",
     "brand": "Asus",
     "color": "Gold",
     "internal_memory": 16,
@@ -72,7 +72,7 @@
   {
     "id": 2006,
     "sub_category_id": 101,
-    "name": "Asus Fonepad 7 FE170CG",
+    "name": "Asus Fonepad 7",
     "brand": "Asus",
     "color": "Black",
     "internal_memory": 4,
@@ -114,7 +114,7 @@
   {
     "id": 2009,
     "sub_category_id": 101,
-    "name": "Apple iPad Air 2 Wi-Fi 16 GB Tablet",
+    "name": "Apple iPad Air 2",
     "brand": "Apple",
     "color": "Gold",
     "internal_memory": 16,
@@ -128,7 +128,7 @@
   {
     "id": 2010,
     "sub_category_id": 101,
-    "name": "Apple 32 GB iPad Air with Wi-Fi",
+    "name": "Apple 32 GB iPad Air",
     "brand": "Apple",
     "color": "Silver",
     "internal_memory": 32,

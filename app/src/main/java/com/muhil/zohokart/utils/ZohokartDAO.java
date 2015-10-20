@@ -16,6 +16,7 @@ import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.FilterPair;
+import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
@@ -684,7 +685,7 @@ public class ZohokartDAO
                 {
                     args = new ArrayList<>();
                     args.add(cursor.getString(cursor.getColumnIndex(Product.BRAND)));
-                    brands.put(cursor.getString(cursor.getColumnIndex(Product.BRAND)), new FilterPair(Product.BRAND + " = ?", args));
+                    brands.put(cursor.getString(cursor.getColumnIndex(Product.BRAND)), new FilterPair(Product.FILTER_BRAND, args));
                 }
             }
         }
@@ -698,39 +699,67 @@ public class ZohokartDAO
 
     public List<Product> getFilteredProducts(List<FilterPair> filterPairs, int subCategoryId)
     {
-        List<Product> products = new ArrayList<>();
-        List<String> selectionArgs = new ArrayList<>();
-        StringBuilder selectionString = new StringBuilder();
-        String temp;
+        List<Product> products = new ArrayList<>(), tempProducts = new ArrayList<>();
+        List<String> selectionArgs, brands = new ArrayList<>();
+        String[] selectionArgsAsArray;
+        String tempString;
+        int subStringIndex, MAX = 0, MIN = 0;
 
         for (FilterPair filterPair : filterPairs)
         {
-            if (selectionString.toString().equals(""))
+            if (filterPair.getSelectionString() != null)
             {
-                if (filterPair.getSelectionString() != null)
+                if (filterPair.getSelectionString().equals(Product.FILTER_BRAND))
                 {
-                    selectionString.append(filterPair.getSelectionString());
+                    brands.addAll(filterPair.getSelectionArgs());
                 }
-            } else
-            {
-                temp = " AND " + filterPair.getSelectionString();
-                selectionString.append(temp);
+                else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_LESSER_THAN))
+                {
+                    selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
+                    selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+                    tempString = Product.FILTER_PRICE_LESSER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
+                    products.addAll(getProductsByPriceAndSubCategory(tempString, selectionArgsAsArray));
+                }
+                else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_RANGE))
+                {
+                    selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
+                    selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+                    tempString = Product.FILTER_PRICE_RANGE + " AND " + Product.SUB_CATEGORY_ID + " = ?";
+                    products.addAll(getProductsByPriceAndSubCategory(tempString, selectionArgsAsArray));
+                }
+                else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_GREATER_THAN))
+                {
+                    selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
+                    selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+                    tempString = Product.FILTER_PRICE_GREATER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
+                    products.addAll(getProductsByPriceAndSubCategory(tempString, selectionArgsAsArray));
+                }
             }
-            selectionArgs.addAll(filterPair.getSelectionArgs());
         }
 
-        Log.d("FILTER", selectionString.toString());
-        for (String str : selectionArgs)
+        tempProducts.addAll(products);
+        for (Product product : tempProducts)
         {
-            Log.d("SELECT_ARGS", str);
+            if (brands.contains(product.getBrand()))
+            {
+
+            }
+            else
+            {
+                products.remove(product);
+            }
         }
 
-        String[] selectionArgsAsArray = selectionArgs.toArray(new String[selectionArgs.size()+1]);
-        selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+        return products;
+
+    }
+
+    public List<Product> getProductsByPriceAndSubCategory(String selectionString, String[] selectionArgs)
+    {
+        List<Product> products = new ArrayList<>();
 
         try (Cursor cursor = context.getContentResolver().query(
-                Product.CONTENT_URI, Product.PROJECTION, selectionString.toString() + " AND " + Product.SUB_CATEGORY_ID + " = ?",
-                selectionArgsAsArray, null))
+                Product.CONTENT_URI, Product.PROJECTION, selectionString, selectionArgs, null))
         {
             if (cursor != null)
             {
@@ -741,11 +770,12 @@ public class ZohokartDAO
                 }
             }
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
-            Log.e("DAO", "Error getting products for a sub category");
+            Log.e("DAO", "Error getting products for price lesser than.");
         }
         return products;
-
     }
+
 }

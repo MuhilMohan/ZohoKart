@@ -38,21 +38,21 @@ public class Mobile implements IProduct {
 
         SELECTION_ARGS = new ArrayList<>();
         SELECTION_ARGS.add(String.valueOf(2000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2000 and below", new FilterPair(Product.PRICE + " <= ?", SELECTION_ARGS));
+        FILTER_OPTIONS_GROUP.put("Rs. 2000 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
         SELECTION_ARGS.add(String.valueOf(2001));
         SELECTION_ARGS.add(String.valueOf(15000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2001 - Rs. 15000", new FilterPair(Product.PRICE + " BETWEEN ? AND ?", SELECTION_ARGS));
+        FILTER_OPTIONS_GROUP.put("Rs. 2001 - Rs. 15000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
         SELECTION_ARGS.add(String.valueOf(15001));
         SELECTION_ARGS.add(String.valueOf(40000));
-        FILTER_OPTIONS_GROUP.put("Rs. 15001 - Rs. 40000", new FilterPair(Product.PRICE + " BETWEEN ? AND ?", SELECTION_ARGS));
+        FILTER_OPTIONS_GROUP.put("Rs. 15001 - Rs. 40000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
         SELECTION_ARGS.add(String.valueOf(40001));
-        FILTER_OPTIONS_GROUP.put("Rs. 40001 and above", new FilterPair(Product.PRICE + " >= ?", SELECTION_ARGS));
+        FILTER_OPTIONS_GROUP.put("Rs. 40001 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
 
         FILTER_OPTIONS.put("Price", FILTER_OPTIONS_GROUP);
 

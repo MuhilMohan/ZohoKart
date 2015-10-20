@@ -31,6 +31,11 @@ public class Product implements Parcelable, Serializable
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/com.muhil.zohokart.models.Product";
     public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/com.muhil.zohokart.models.Product";
 
+    public static final String FILTER_BRAND = Product.BRAND + " = ?";
+    public static final String FILTER_PRICE_LESSER_THAN = Product.PRICE + " <= ?";
+    public static final String FILTER_PRICE_RANGE = Product.PRICE + " BETWEEN ? AND ?";
+    public static final String FILTER_PRICE_GREATER_THAN = Product.PRICE + " >= ?";
+
     private int id;
     private int subCategoryId;
     private String brand;

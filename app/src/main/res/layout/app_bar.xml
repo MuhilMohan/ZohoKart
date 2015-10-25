@@ -4,5 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#8BC34A"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    android:background="@drawable/toolbar_background"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:elevation="2dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_launcher"/>
+
+        <Button
+            android:id="@+id/logout_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:background="@android:color/transparent"
+            android:text="Logout"
+            android:textColor="#FFF"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+    </android.support.v7.widget.Toolbar>

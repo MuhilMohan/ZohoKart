@@ -1,6 +1,8 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,8 +20,10 @@ import android.widget.ToggleButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.specification.Specification;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
@@ -34,24 +38,23 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
 {
 
     Gson gson;
-    View rootView, specificationView;
+    View rootView;
     Product product;
     ImageView imageView;
     ZohokartDAO zohokartDAO;
     ImageView fullStar, halfStar, emptyStar;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     Double stars;
-    Map<String, List<Specification>> specificationGroup;
-    TextView specificationGroupName;
-    LayoutInflater layoutInflater;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String email;
 
     public static ProductDetailPagerFragment getInstance(Product product)
     {
-        Gson gson = new Gson();
         ProductDetailPagerFragment productDetailPagerFragment = new ProductDetailPagerFragment();
-        String productString = gson.toJson(product);
         Bundle bundle = new Bundle();
-        bundle.putString("product", productString);
+        bundle.putSerializable("product", product);
         productDetailPagerFragment.setArguments(bundle);
         return productDetailPagerFragment;
     }
@@ -61,6 +64,15 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        zohokartDAO = new ZohokartDAO(getActivity());
+        gson = new Gson();
+        sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        email = sharedPreferences.getString(Account.EMAIL, "default");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,9 +80,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         // Inflate the layout for this fragment
         rootView =  inflater.inflate(R.layout.fragment_product_detail_pager, container, false);
-        zohokartDAO = new ZohokartDAO(getActivity());
-        gson = new Gson();
-        product = gson.fromJson(getArguments().getString("product"), new TypeToken<Product>() {}.getType());
+        product = (Product) getArguments().getSerializable("product");
         ((TextView) rootView.findViewById(R.id.title)).setText(product.getTitle());
         ((TextView) rootView.findViewById(R.id.description)).setText(product.getDescription());
         ((TextView) rootView.findViewById(R.id.price)).setText(String.valueOf(decimalFormat.format(product.getPrice())));
@@ -86,7 +96,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
 
         fillStars();
 
-        if (zohokartDAO.checkInWishlist(product.getId()))
+        if (zohokartDAO.checkInWishlist(product.getId(), email))
         {
             ((ToggleButton) rootView.findViewById(R.id.wishlist_icon)).setChecked(true);
         }
@@ -123,19 +133,22 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         if (((ToggleButton) v).isChecked())
         {
-            if (zohokartDAO.addToWishlist(product.getId()))
+            if (email != null && !email.equals(""))
             {
-                getSnackbar("Added to wishlist").show();
-            }
-            else
-            {
-                getSnackbar("Error while adding to wishlist").show();
-                ((ToggleButton) v).setChecked(false);
+                if (zohokartDAO.addToWishlist(product.getId(), email))
+                {
+                    getSnackbar("Added to wishlist").show();
+                }
+                else
+                {
+                    getSnackbar("Error while adding to wishlist").show();
+                    ((ToggleButton) v).setChecked(false);
+                }
             }
         }
         else
         {
-            if (zohokartDAO.removeFromWishList(product.getId()))
+            if (zohokartDAO.removeFromWishList(product.getId(), email))
             {
                 getSnackbar("Removed from wishlist").show();
             } else

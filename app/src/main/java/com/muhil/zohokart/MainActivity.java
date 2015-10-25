@@ -2,7 +2,10 @@ package com.muhil.zohokart;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -15,35 +18,43 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.muhil.zohokart.activities.CartActivity;
 import com.muhil.zohokart.activities.LoginActivity;
-import com.muhil.zohokart.activities.WishlistActivity;
+import com.muhil.zohokart.activities.ProfileActivity;
+import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.FilterFragment;
 import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.fragments.NavigationFragment;
+import com.muhil.zohokart.fragments.ProductDetailFragment;
 import com.muhil.zohokart.fragments.ProductListFragment;
 import com.muhil.zohokart.fragments.SearchFragment;
+import com.muhil.zohokart.fragments.WishlistFragment;
+import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.DataImporter;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator, FilterFragment.FilterCommunicator, ProductListFragment.ProductListCommunicator
+public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator, FilterFragment.FilterCommunicator,
+        ProductListCommunicator, WishlistFragment.WishlistCommunicator, CartFragment.CartCommunicator, ProductDetailFragment.ProductDetailCommunicator
 {
+
+    public static final int REQUEST_CODE_PROFILE = 101;
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     DataImporter dataImporter;
-    SharedPreferences sharedPreferences;
     NavigationFragment navigationFragment;
     SearchFragment searchFragment;
+
+    List<Product> products;
 
     ZohokartDAO zohokartDAO;
 
@@ -51,16 +62,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     SearchView searchView;
 
+    Fragment fragment;
     android.support.v4.app.FragmentManager fragmentManager;
     android.support.v4.app.FragmentTransaction fragmentTransaction;
-    android.support.v4.app.Fragment fragment;
     public static final int ACTION_ACCOUNT_NAME = 1000;
 
     int backStackCount;
-    FragmentManager.BackStackEntry backStackEntry;
 
-    String preferenceName = "logged_account";
-
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         zohokartDAO = new ZohokartDAO(this);
 
         // *** getting preferences for logged account ***
-        sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, MODE_PRIVATE);
 
         // ** getting data into app ***
         dataImporter = new DataImporter(this);
@@ -103,18 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentTransaction.commit();
     }
 
-    private void processSearch(String query) {
-
-        // *** processing results using the search query ***
-        searchFragment = (SearchFragment) fragmentManager.findFragmentByTag("search_fragment");
-        if (searchFragment != null)
-        {
-            Toast.makeText(MainActivity.this, "query sent", Toast.LENGTH_SHORT).show();
-            searchFragment.processQuery(query);
-        }
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -123,20 +121,16 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         // *** getting searchview for handling search queries and changing image ***
 
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
-        int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
+        int searchImgId = android.support.v7.appcompat.R.id.search_button;
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
-        v.setImageResource(R.mipmap.ic_youtube_searched_for_white_24dp);
+        v.setImageResource(R.mipmap.ic_search_white_24dp);
 
         searchView.setOnSearchClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                SearchFragment searchFragment = new SearchFragment();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_holder, searchFragment, "search_fragment");
-                fragmentTransaction.addToBackStack("search_fragment");
-                fragmentTransaction.commit();
+                (toolbar.findViewById(R.id.app_icon)).setVisibility(View.GONE);
             }
         });
 
@@ -145,8 +139,14 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public boolean onQueryTextSubmit(String query)
             {
+                List<Product> products = zohokartDAO.getProductsBySearchString(query);
+                ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+                productListFragment.setCommunicator(MainActivity.this);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
+                fragmentTransaction.addToBackStack("product_list");
+                fragmentTransaction.commit();
                 searchView.clearFocus();
-                processSearch(query);
                 return false;
             }
 
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             public boolean onClose()
             {
                 fragmentManager.popBackStack();
+                (toolbar.findViewById(R.id.app_icon)).setVisibility(View.VISIBLE);
                 return false;
             }
         });
@@ -177,15 +178,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     {
 
         // *** checking logged account in preferences ***
-        Account account;
-        String jsonString = sharedPreferences.getString("logged_account", "");
-        if (!jsonString.equals(""))
+        String accountName = sharedPreferences.getString(Account.NAME, "");
+        if (!accountName.equals(""))
         {
-            account = gson.fromJson(jsonString, new TypeToken<Account>(){}.getType());
             if (( menu.findItem(ACTION_ACCOUNT_NAME)) == null)
             {
                 menu.findItem(R.id.action_login).setVisible(false);
-                menu.add(0, ACTION_ACCOUNT_NAME, 200, account.getName());
+                menu.add(0, ACTION_ACCOUNT_NAME, 200, accountName);
             }
         }
         else
@@ -218,22 +217,67 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         else if (id == R.id.action_login)
         {
             startActivity(new Intent(this, LoginActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
+        else if (id == ACTION_ACCOUNT_NAME)
+        {
+            startActivityForResult(new Intent(this, ProfileActivity.class), REQUEST_CODE_PROFILE);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
         }
         else if (id == R.id.wish_list)
         {
-            startActivity(new Intent(this, WishlistActivity.class));
+            fragment = fragmentManager.findFragmentByTag("wishlist");
+            if (fragment != null && fragment.isVisible())
+            {
+
+            }
+            else
+            {
+                WishlistFragment wishlistFragment = new WishlistFragment();
+                wishlistFragment.setCommunicator(this);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
+                fragmentTransaction.addToBackStack("wishlist");
+                fragmentTransaction.commit();
+            }
         }
         else if (id == R.id.cart_icon)
         {
-            startActivity(new Intent(this, CartActivity.class));
-        }
-        else if (id == R.id.menu_search)
-        {
+            fragment = fragmentManager.findFragmentByTag("cart");
+            if (fragment != null && fragment.isVisible())
+            {
+
+            }
+            else
+            {
+                CartFragment cartFragment = new CartFragment();
+                cartFragment.setCommunicator(this);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
+                fragmentTransaction.addToBackStack("cart");
+                fragmentTransaction.commit();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PROFILE)
+        {
+            if (resultCode == REQUEST_CODE_PROFILE)
+            {
+                editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                showMainFragment();
+                getSnackbar("Logged out successfully.").show();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed()
@@ -264,32 +308,66 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void sendProductList(int subCategoryId)
     {
-        Log.d("TRANSACTION", "enetered transaction bay");
-        List<Product> products = zohokartDAO.getProductsForSubCategory(subCategoryId);
+        fragment = fragmentManager.findFragmentByTag("product_list");
+        if (fragment != null && fragment.isVisible())
+        {
+            fragmentManager.popBackStack();
+            products = zohokartDAO.getProductsForSubCategory(subCategoryId);
+            ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+            productListFragment.setCommunicator(this);
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
+            fragmentTransaction.addToBackStack("product_list");
+            fragmentTransaction.commit();
+        }
+        else
+        {
+            products = zohokartDAO.getProductsForSubCategory(subCategoryId);
+            ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+            productListFragment.setCommunicator(this);
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
+            fragmentTransaction.addToBackStack("product_list");
+            fragmentTransaction.commit();
+        }
+    }
+
+    @Override
+    public void showMainFragment()
+    {
+        fragment = fragmentManager.findFragmentByTag("main_fragment");
+        if (fragment != null && fragment.isVisible())
+        {
+            closeDrawer();
+        }
+        else
+        {
+            backStackCount = fragmentManager.getBackStackEntryCount();
+            while (backStackCount > 0)
+            {
+                fragmentManager.popBackStack();
+                backStackCount--;
+            }
+            closeDrawer();
+        }
+    }
+
+    @Override
+    public void sendFilteredProducts(List<Product> products)
+    {
+        backStackCount = fragmentManager.getBackStackEntryCount();
+        while (backStackCount > 0)
+        {
+            fragmentManager.popBackStack();
+            backStackCount--;
+        }
         ProductListFragment productListFragment = ProductListFragment.getInstance(products);
         productListFragment.setCommunicator(this);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
         fragmentTransaction.addToBackStack("product_list");
         fragmentTransaction.commit();
-        Log.d("TRANSACTION", "commit done.");
-    }
-
-    @Override
-    public void sendFilteredProducts(List<Product> products)
-    {
-        ProductListFragment productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag("product_list");
-        if (productListFragment != null)
-        {
-            fragmentManager.popBackStack();
-            productListFragment = ProductListFragment.getInstance(products);
-            productListFragment.setCommunicator(this);
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
-            fragmentTransaction.addToBackStack("product_list");
-            fragmentTransaction.commit();
-            Log.d("FILTERED", "filtered products sent");
-        }
+        Log.d("FILTERED", "filtered products sent");
     }
 
     @Override
@@ -302,4 +380,41 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentTransaction.addToBackStack("filter_fragment");
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void showProductDetailFragment(int position, List<Product> products)
+    {
+        ProductDetailFragment productDetailFragment = ProductDetailFragment.getInstance(position, products);
+        productDetailFragment.setCommunicator(this);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, "product_detail_page");
+        fragmentTransaction.addToBackStack("product_detail_page_fragment");
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void openCart()
+    {
+        CartFragment cartFragment = new CartFragment();
+        cartFragment.setCommunicator(this);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
+        fragmentTransaction.addToBackStack("cart");
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void openWishlist()
+    {
+
+    }
+
+    public Snackbar getSnackbar(String textToDisplay)
+    {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.index_page), textToDisplay, Snackbar.LENGTH_SHORT);
+        View snackbarView = snackbar.getView();
+        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
+        return snackbar;
+    }
+
 }

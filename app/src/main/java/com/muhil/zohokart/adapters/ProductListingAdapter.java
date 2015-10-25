@@ -3,6 +3,7 @@ package com.muhil.zohokart.adapters;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +18,11 @@ import android.widget.ToggleButton;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.ProductDetailFragment;
+import com.muhil.zohokart.fragments.ProductListFragment;
+import com.muhil.zohokart.interfaces.ProductListCommunicator;
+import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
@@ -35,21 +40,23 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
     List<Product> products;
     Context context;
-    android.support.v4.app.FragmentManager fragmentManager;
+    ProductListCommunicator communicator;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     double stars;
     ImageView fullStar, halfStar, emptyStar;
 
-    android.support.v4.app.FragmentTransaction fragmentTransaction;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String email;
 
     View parentView;
 
-    public ProductListingAdapter(List<Product> products, Context context, android.support.v4.app.FragmentManager fragmentManager, View parentView)
+    public ProductListingAdapter(List<Product> products, Context context, ProductListCommunicator communicator, View parentView)
     {
         this.products = products;
         this.context = context;
         zohokartDAO = new ZohokartDAO(context);
-        this.fragmentManager = fragmentManager;
+        this.communicator = communicator;
         this.parentView = parentView;
     }
 
@@ -64,6 +71,8 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
     @Override
     public void onBindViewHolder(ProductListingAdapter.ProductViewHolder holder, final int position)
     {
+        sharedPreferences = context.getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        email = sharedPreferences.getString(Account.EMAIL, "default");
         holder.wishListButton.setTag(products.get(position));
         holder.title.setText(products.get(position).getTitle());
         holder.description.setText(products.get(position).getDescription());
@@ -99,7 +108,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
                 holder.productStars.addView(emptyStar);
             }
         }
-        if (zohokartDAO.checkInWishlist(products.get(position).getId()))
+        if (zohokartDAO.checkInWishlist(products.get(position).getId(), email))
         {
             holder.wishListButton.setChecked(true);
         }
@@ -107,7 +116,8 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         {
             holder.wishListButton.setChecked(false);
         }
-        holder.wishListButton.setOnClickListener(new View.OnClickListener()
+        holder.wishListButton.setOnClickListener(
+                new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -118,7 +128,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
                 if (toggleButton.isChecked())
                 {
-                    if (zohokartDAO.addToWishlist(product.getId()))
+                    if (zohokartDAO.addToWishlist(product.getId(), email))
                     {
                         getSnackbar("Added to wishlist").show();
                     }
@@ -130,7 +140,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
                 }
                 else
                 {
-                    if (zohokartDAO.removeFromWishList(product.getId()))
+                    if (zohokartDAO.removeFromWishList(product.getId(), email))
                     {
                         getSnackbar("Removed from wishlist").show();
                     }
@@ -143,8 +153,6 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
 
             }
         });
-
-
 
     }
 
@@ -195,12 +203,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
         public void onClick(View v)
         {
             int position = getLayoutPosition();
-            ProductDetailFragment productDetailFragment = (ProductDetailFragment) ProductDetailFragment.getInstance(position, products);
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, "product_detail_page");
-            fragmentTransaction.addToBackStack("product_detail_page_fragment");
-            fragmentTransaction.commit();
+            communicator.showProductDetailFragment(position, products);
         }
     }
-
 }

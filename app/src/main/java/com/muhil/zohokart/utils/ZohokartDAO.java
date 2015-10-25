@@ -17,6 +17,7 @@ import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.FilterPair;
 import com.muhil.zohokart.models.Mobile;
+import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
@@ -254,18 +255,18 @@ public class ZohokartDAO
         return products;
     }
 
-    // ***** product method ends *****
+    // ***** product methods ends *****
 
     // ***** wishlist methods starts *****
 
     // ***** returns products from wishlist *****
-    public List<Product> getProductsFromWishlist()
+    public List<Product> getProductsFromWishlist(String email)
     {
 
         List<Product> products = new ArrayList<>();
         List<Integer> productIdsInWishList = new ArrayList<>();
         try (Cursor cursor = context.getContentResolver().query(
-                Wishlist.CONTENT_URI, Wishlist.PROJECTION, null, null, null))
+                Wishlist.CONTENT_URI, Wishlist.PROJECTION, Wishlist.EMAIL + " = ?", new String[]{email}, null))
         {
             if (cursor != null)
             {
@@ -283,35 +284,18 @@ public class ZohokartDAO
 
         if (!productIdsInWishList.isEmpty())
         {
-            for (Integer productId : productIdsInWishList)
-            {
-                try (Cursor cursor = context.getContentResolver().query(
-                        Uri.parse(Product.CONTENT_URI + "/" + productId), Product.PROJECTION, null, null, null))
-                {
-                    if (cursor != null)
-                    {
-                        while (cursor.moveToNext())
-                        {
-                            products.add(getProductFromCursor(cursor));
-                        }
-                    }
-                } catch (Exception e)
-                {
-                    Log.d("DAO", "Error fetching product in wishlist ", e);
-                }
-            }
+            products = getProductsForProductIds(productIdsInWishList);
         }
 
         return products;
     }
 
     // ***** checks wishlist for Product *****
-    public boolean checkInWishlist(int productId)
+    public boolean checkInWishlist(int productId, String email)
     {
-
         boolean result = false;
         try (Cursor cursor = context.getContentResolver().query(
-                Uri.parse(Wishlist.CONTENT_URI + "/" + productId), Wishlist.PROJECTION, null, null, null))
+                Uri.parse(Wishlist.CONTENT_URI + "/" + productId), Wishlist.PROJECTION, Wishlist.EMAIL + " = ?", new String[]{email}, null))
         {
             if (cursor != null)
             {
@@ -322,35 +306,37 @@ public class ZohokartDAO
             Log.e("DAO", "Error checking for a product in wishlist ", e);
         }
         return result;
-
     }
 
     // ***** adds product to wishlist *****
-    public boolean addToWishlist(int productId)
+    public boolean addToWishlist(int productId, String email)
     {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(Wishlist.EMAIL, email);
         contentValues.put(Wishlist.PRODUCT_ID, productId);
         Uri insertedUri = context.getContentResolver().insert(Wishlist.CONTENT_URI, contentValues);
         return insertedUri != null;
     }
 
     // ***** removes product from wishlist *****
-    public boolean removeFromWishList(int productId)
+    public boolean removeFromWishList(int productId, String email)
     {
-        int deleteCount = context.getContentResolver().delete(Uri.parse(Wishlist.CONTENT_URI + "/" + productId), null, null);
+        int deleteCount = context.getContentResolver().delete(Uri.parse(Wishlist.CONTENT_URI + "/" + productId), Wishlist.EMAIL + " = ?", new String[]{email});
         return (deleteCount == 1);
     }
 
     // ***** wishlist methods ends *****
 
+    // ***** Cart methods starts *****
+
     // ***** returns products from cart *****
-    public List<Product> getProductsFromCart()
+    public List<Product> getProductsFromCart(String email)
     {
 
         List<Product> products = new ArrayList<>();
         List<Integer> productIdsInCart = new ArrayList<>();
         try (Cursor cursor = context.getContentResolver().query(
-                Cart.CONTENT_URI, Cart.PROJECTION, null, null, null))
+                Cart.CONTENT_URI, Cart.PROJECTION, Cart.EMAIL + " = ?", new String[]{email}, null))
         {
             if (cursor != null)
             {
@@ -361,44 +347,35 @@ public class ZohokartDAO
                 }
             }
         }
+        catch (Exception e)
+        {
+
+        }
 
         if (!productIdsInCart.isEmpty())
         {
-            for (Integer productId : productIdsInCart)
-            {
-                try (Cursor cursor = context.getContentResolver().query(
-                        Uri.parse(Product.CONTENT_URI + "/" + productId), Product.PROJECTION, null, null, null))
-                {
-                    if (cursor != null)
-                    {
-                        while (cursor.moveToNext())
-                        {
-                            products.add(getProductFromCursor(cursor));
-                        }
-                    }
-                }
-            }
+            products = getProductsForProductIds(productIdsInCart);
         }
         return products;
     }
 
     // ***** updates quantity in product within cart *****
-    public boolean updateQuantityOfProductInCart(int quantity, int productId)
+    public boolean updateQuantityOfProductInCart(int quantity, int productId, String email)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Cart.QUANTITY, quantity);
-        int updateCount = context.getContentResolver().update(Uri.parse(Cart.CONTENT_URI + "/" + productId), contentValues, null, null);
+        int updateCount = context.getContentResolver().update(Uri.parse(Cart.CONTENT_URI + "/" + productId), contentValues, Cart.EMAIL + " = ?", new String[]{email});
         return (updateCount == 1);
     }
 
     // ***** returns quantity of a product from cart *****
-    public int getQuantityofProductInCart(int productId)
+    public int getQuantityofProductInCart(int productId, String email)
     {
         int result = 0;
-        if (checkInCart(productId))
+        if (checkInCart(productId, email))
         {
             try (Cursor cursor = context.getContentResolver().query(
-                    Uri.parse(Cart.CONTENT_URI + "/" + productId), Cart.PROJECTION, null, null, null))
+                    Uri.parse(Cart.CONTENT_URI + "/" + productId), Cart.PROJECTION, Cart.EMAIL + " = ?", new String[]{email}, null))
             {
                 if (cursor != null && (cursor.getCount() == 1))
                 {
@@ -413,17 +390,17 @@ public class ZohokartDAO
     }
 
     // ***** removes product from cart *****
-    public boolean removeFromCart(int productId)
+    public boolean removeFromCart(int productId, String email)
     {
-        int deleteCount = context.getContentResolver().delete(Uri.parse(Cart.CONTENT_URI + "/" + productId), null, null);
+        int deleteCount = context.getContentResolver().delete(Uri.parse(Cart.CONTENT_URI + "/" + productId), Cart.EMAIL + " = ?", new String[]{email});
         return (deleteCount == 1);
     }
 
     // ***** checks product in cart *****
-    public boolean checkInCart(int productId)
+    public boolean checkInCart(int productId, String email)
     {
         boolean result = false;
-        try (Cursor cursor = context.getContentResolver().query(Uri.parse(Cart.CONTENT_URI + "/" + productId), Cart.PROJECTION, null, null, null))
+        try (Cursor cursor = context.getContentResolver().query(Uri.parse(Cart.CONTENT_URI + "/" + productId), Cart.PROJECTION, Cart.EMAIL + " = ?", new String[]{email}, null))
         {
             if (cursor != null)
             {
@@ -437,9 +414,10 @@ public class ZohokartDAO
     }
 
     // ***** adds product to cart *****
-    public boolean addToCart(int productId)
+    public boolean addToCart(int productId, String email)
     {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(Cart.EMAIL, email);
         contentValues.put(Cart.PRODUCT_ID, productId);
         Uri insertedUri = context.getContentResolver().insert(Cart.CONTENT_URI, contentValues);
         return insertedUri != null;
@@ -483,6 +461,7 @@ public class ZohokartDAO
                     account.setPassword(cursor.getString(cursor.getColumnIndex(Account.PASSWORD)));
                     account.setPhoneNumber(cursor.getString(cursor.getColumnIndex(Account.PHONE_NUMBER)));
                     account.setDateOfBirth(cursor.getString(cursor.getColumnIndex(Account.DATE_OF_BIRTH)));
+                    account.setDeliveryAddress(cursor.getString(cursor.getColumnIndex(Account.DELIVERY_ADDRESS)));
                 }
             } else
             {
@@ -504,8 +483,17 @@ public class ZohokartDAO
         contentValues.put(Account.PASSWORD, account.getPassword());
         contentValues.put(Account.PHONE_NUMBER, account.getPhoneNumber());
         contentValues.put(Account.DATE_OF_BIRTH, account.getDateOfBirth());
+        contentValues.put(Account.DELIVERY_ADDRESS, "");
         Uri insertedUri = context.getContentResolver().insert(Account.CONTENT_URI, contentValues);
         return insertedUri != null;
+    }
+
+    public boolean updateAddressForAccount(String address, String email)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Account.DELIVERY_ADDRESS, address);
+        int updateCount = context.getContentResolver().update(Uri.parse(Account.CONTENT_URI + "/" + email), contentValues, null, null);
+        return (updateCount == 1);
     }
 
     // ***** account methods ends *****
@@ -669,7 +657,7 @@ public class ZohokartDAO
     }
     // *** searchString method ends ***
 
-    // Filtering methods
+    // ***** Filtering methods *****
 
     public Map<String, Map<String, FilterPair>> getBrandsForFilter(int subCategoryId)
     {
@@ -700,10 +688,9 @@ public class ZohokartDAO
     public List<Product> getFilteredProducts(List<FilterPair> filterPairs, int subCategoryId)
     {
         List<Product> products = new ArrayList<>(), tempProducts = new ArrayList<>();
-        List<String> selectionArgs, brands = new ArrayList<>();
+        List<String> brands = new ArrayList<>();
         String[] selectionArgsAsArray;
-        String tempString;
-        int subStringIndex, MAX = 0, MIN = 0;
+        String tempString, paramString = " ?", comma = ",";
 
         for (FilterPair filterPair : filterPairs)
         {
@@ -718,43 +705,65 @@ public class ZohokartDAO
                     selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
                     selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
                     tempString = Product.FILTER_PRICE_LESSER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
-                    products.addAll(getProductsByPriceAndSubCategory(tempString, selectionArgsAsArray));
+                    products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
                 }
                 else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_RANGE))
                 {
                     selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
                     selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
                     tempString = Product.FILTER_PRICE_RANGE + " AND " + Product.SUB_CATEGORY_ID + " = ?";
-                    products.addAll(getProductsByPriceAndSubCategory(tempString, selectionArgsAsArray));
+                    products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
                 }
                 else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_GREATER_THAN))
                 {
                     selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
                     selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
                     tempString = Product.FILTER_PRICE_GREATER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
-                    products.addAll(getProductsByPriceAndSubCategory(tempString, selectionArgsAsArray));
+                    products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
                 }
             }
         }
 
-        tempProducts.addAll(products);
-        for (Product product : tempProducts)
+        if (products.size() == 0)
         {
-            if (!brands.contains(product.getBrand()))
+            tempString = Product.BRAND + " IN (";
+            for (String brand : brands)
             {
-                products.remove(product);
+                if (brands.indexOf(brand) == 0)
+                {
+                    tempString = tempString + paramString;
+                    Log.d("BRAND_IN", tempString);
+                }
+                else
+                {
+                    tempString = tempString + comma + paramString;
+                    Log.d("BRAND_IN", tempString);
+                }
             }
-            else
-            {
+            tempString = tempString + ")";
+            Log.d("BRAND_IN", tempString);
 
+            selectionArgsAsArray = brands.toArray(new String[brands.size()+1]);
+            selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+            products.addAll(getProductsByPriceOrBrand(tempString + " AND " + Product.SUB_CATEGORY_ID + " = ?", selectionArgsAsArray));
+        }
+
+        if (brands.size() > 0)
+        {
+            tempProducts.addAll(products);
+            for (Product product : tempProducts)
+            {
+                if (!brands.contains(product.getBrand()))
+                {
+                    products.remove(product);
+                }
             }
         }
 
         return products;
-
     }
 
-    public List<Product> getProductsByPriceAndSubCategory(String selectionString, String[] selectionArgs)
+    public List<Product> getProductsByPriceOrBrand(String selectionString, String[] selectionArgs)
     {
         List<Product> products = new ArrayList<>();
 
@@ -769,13 +778,63 @@ public class ZohokartDAO
                     products.add(getProductFromCursor(cursor));
                 }
             }
-
         }
         catch (Exception e)
         {
             Log.e("DAO", "Error getting products for price lesser than.");
         }
         return products;
+    }
+
+    // ***** methods for filter ends *****
+
+    // ***** methods for payment cards starts *****
+
+    // *** to add a new card for a email id ***
+    public boolean addCard(PaymentCard paymentCard)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PaymentCard.EMAIL, paymentCard.getEmail());
+        contentValues.put(PaymentCard.CARD_NUMBER, paymentCard.getCardNumber());
+        contentValues.put(PaymentCard.CARD_TYPE, paymentCard.getCardType());
+        contentValues.put(PaymentCard.NAME_ON_CARD, paymentCard.getNameOnCard());
+        contentValues.put(PaymentCard.EXPIRY, paymentCard.getExpiryDate());
+        Uri insertedUri = context.getContentResolver().insert(PaymentCard.CONTENT_URI, contentValues);
+        return insertedUri != null;
+    }
+
+    public List<PaymentCard> getCards(String email)
+    {
+        List<PaymentCard> cards = new ArrayList<>();
+        PaymentCard paymentCard;
+        try (Cursor cursor = context.getContentResolver().query(
+                PaymentCard.CONTENT_URI, PaymentCard.PROJECTION, PaymentCard.EMAIL + " = ?", new String[]{email}, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    paymentCard = new PaymentCard();
+                    paymentCard.setEmail(email);
+                    paymentCard.setCardNumber(cursor.getString(cursor.getColumnIndex(PaymentCard.CARD_NUMBER)));
+                    paymentCard.setCardType(cursor.getString(cursor.getColumnIndex(PaymentCard.CARD_TYPE)));
+                    paymentCard.setNameOnCard(cursor.getString(cursor.getColumnIndex(PaymentCard.NAME_ON_CARD)));
+                    paymentCard.setExpiryDate(cursor.getString(cursor.getColumnIndex(PaymentCard.EXPIRY)));
+                    cards.add(paymentCard);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+        return cards;
+    }
+
+    public boolean removeFromPaymentCards(String cardNumber, String email)
+    {
+        int deleteCount = context.getContentResolver().delete(Uri.parse(PaymentCard.CONTENT_URI + "/" + email), PaymentCard.CARD_NUMBER + " = ?", new String[]{cardNumber});
+        return (deleteCount == 1);
     }
 
 }

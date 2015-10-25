@@ -5,31 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFF"
+    android:background="@color/fragment_background_color"
     tools:context="com.muhil.zohokart.fragments.MainFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.4">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/banner_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="something"/>
-    </FrameLayout>
 
 </LinearLayout>

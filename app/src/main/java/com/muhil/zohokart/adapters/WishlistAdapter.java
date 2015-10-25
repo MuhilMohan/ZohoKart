@@ -2,8 +2,7 @@ package com.muhil.zohokart.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v4.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,9 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
-import com.muhil.zohokart.activities.CartActivity;
-import com.muhil.zohokart.activities.WishlistActivity;
+import com.muhil.zohokart.fragments.WishlistFragment;
+import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
@@ -33,18 +33,21 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     public List<Product> wishlist;
     Context context;
-    WishlistActivity wishlistActivity;
-    FragmentManager fragmentManager;
+    WishlistFragment wishlistFragment;
+    WishlistFragment.WishlistCommunicator communicator;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
-    public WishlistAdapter(Context context, List<Product> wishlist, WishlistActivity wishlistActivity, FragmentManager fragmentManager)
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String email;
+
+    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment, WishlistFragment.WishlistCommunicator wishlistCommunicator)
     {
         this.context = context;
         this.wishlist = wishlist;
-        this.wishlistActivity = wishlistActivity;
-        this.fragmentManager = fragmentManager;
+        this.wishlistFragment = wishlistFragment;
+        this.communicator = wishlistCommunicator;
         zohokartDAO = new ZohokartDAO(context);
-
     }
 
     @Override
@@ -58,7 +61,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     @Override
     public void onBindViewHolder(final WishlistAdapter.WishlistViewHolder holder, int position)
     {
-
+        sharedPreferences = context.getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        email = sharedPreferences.getString(Account.EMAIL, "default");
         holder.removeProductView.setTag(wishlist.get(position));
         holder.addToCart.setTag(wishlist.get(position));
         holder.title.setText(wishlist.get(position).getTitle());
@@ -66,7 +70,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(wishlist.get(position).getPrice())));
         Picasso.with(context).load(wishlist.get(position).getThumbnail()).into(holder.displayImage);
 
-        if (zohokartDAO.checkInCart(wishlist.get(position).getId()))
+        if (zohokartDAO.checkInCart(wishlist.get(position).getId(), email))
         {
 
             holder.addToCart.setVisibility(View.GONE);
@@ -89,16 +93,16 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        if (zohokartDAO.removeFromWishList(product.getId()))
+                        if (zohokartDAO.removeFromWishList(product.getId(), email))
                         {
                             Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
                             int position = wishlist.indexOf(product);
                             wishlist.remove(position);
                             notifyItemRemoved(position);
-                            wishlistActivity.updateWishlistCount(wishlist.size());
+                            wishlistFragment.updateWishlistCount(wishlist.size());
                             if (wishlist.size() == 0)
                             {
-                                wishlistActivity.switchViewElement();
+                                wishlistFragment.switchViewElement();
                             }
                         }
                         else
@@ -128,7 +132,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v)
             {
                 Product product = (Product) v.getTag();
-                if (zohokartDAO.addToCart(product.getId()))
+                if (zohokartDAO.addToCart(product.getId(), email))
                 {
                     Toast.makeText(context, "product added to cart.", Toast.LENGTH_SHORT).show();
                     v.setVisibility(View.GONE);
@@ -147,7 +151,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v)
             {
 
-                wishlistActivity.startActivity(new Intent(context, CartActivity.class));
+            communicator.openCart();
 
             }
         });

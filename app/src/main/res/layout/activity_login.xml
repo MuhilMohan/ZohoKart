@@ -26,9 +26,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="ZohoKart"
-                    android:textSize="50sp"
+                    android:textSize="44sp"
                     android:textStyle="italic|bold"
-                    android:textColor="#FFF"/>
+                    android:textColor="#FFF"
+                    android:drawableLeft="@mipmap/ic_launcher"/>
 
             </FrameLayout>
 

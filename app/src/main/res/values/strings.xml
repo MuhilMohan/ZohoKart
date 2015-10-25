@@ -13,4 +13,9 @@
     <string name="title_activity_product_detail">ProductDetailActivity</string>
     <string name="title_activity_cart">CartActivity</string>
     <string name="title_activity_wishlist">WishlistActivity</string>
+    <string name="title_activity_profile">ProdileActivity</string>
+    <string-array name="cart_types">
+        <item>Visa</item>
+        <item>Mastercard</item>
+    </string-array>
 </resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    card_view:cardBackgroundColor="#FFF">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/card_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_centerVertical="true"
+            android:text="card number"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/card_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/card_number"
+            android:text="card type"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/remove_card_action"
+            android:layout_width="24dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:src="@mipmap/ic_fa_trash_o"
+            android:clickable="true"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -16,8 +16,9 @@ public class Account {
     public static final String PASSWORD = "password";
     public static final String PHONE_NUMBER = "phone_number";
     public static final String DATE_OF_BIRTH = "date_of_birth";
+    public static final String DELIVERY_ADDRESS = "delivery_address";
 
-    public static final String[] PROJECTION = {NAME, EMAIL, PASSWORD, PHONE_NUMBER, DATE_OF_BIRTH};
+    public static final String[] PROJECTION = {NAME, EMAIL, PASSWORD, PHONE_NUMBER, DATE_OF_BIRTH, DELIVERY_ADDRESS};
 
     public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
 
@@ -29,16 +30,18 @@ public class Account {
     private String password;
     private String phoneNumber;
     private String dateOfBirth;
+    private String deliveryAddress;
 
     public Account() {
     }
 
-    public Account(String dateOfBirth, String email, String name, String password, String phoneNumber) {
+    public Account(String dateOfBirth, String email, String name, String password, String phoneNumber, String address) {
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.deliveryAddress = address;
     }
 
     public String getDateOfBirth() {
@@ -79,5 +82,15 @@ public class Account {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getDeliveryAddress()
+    {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress)
+    {
+        this.deliveryAddress = deliveryAddress;
     }
 }

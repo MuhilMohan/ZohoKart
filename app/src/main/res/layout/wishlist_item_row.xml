@@ -6,8 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardBackgroundColor="#FFF"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp">
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

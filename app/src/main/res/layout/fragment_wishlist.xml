@@ -4,11 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.muhil.zohokart.activities.WishlistActivity"
-    android:background="#FFF">
-
-    <include
-        layout="@layout/app_bar"
-        android:id="@+id/app_bar" />
+    android:background="@color/fragment_background_color">
 
     <LinearLayout
         android:id="@+id/wishlist_header"
@@ -36,7 +32,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/emptyText"
+        android:id="@+id/empty_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -53,3 +49,4 @@
         android:visibility="visible" />
 
 </RelativeLayout>
+

@@ -22,6 +22,7 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.DatePickerFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.EmailValidator;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import org.json.JSONException;
@@ -135,15 +136,10 @@ public class RegistrationActivity extends AppCompatActivity
                 if((nameString!=null && !nameString.equals("")) && (emailString!=null && !emailString.equals("")) && (passwordString!=null && !passwordString.equals("")) &&
                 (phoneNumberString!=null && !phoneNumberString.equals("")) && (dateOfBirthString!=null && !dateOfBirthString.equals("")))
                 {
-                    int atPosition=emailString.indexOf('@');
-                    int lastDotPosition=emailString.lastIndexOf('.');
 
-                    if(atPosition==-1 || lastDotPosition==-1 || (atPosition+2)>=lastDotPosition)
+                    if(EmailValidator.validateEmail(emailString))
                     {
-                        Toast.makeText(RegistrationActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+
                         if (passwordString.length() > 4)
                         {
                             if(!zohokartDAO.hasAccount(emailString))
@@ -161,10 +157,15 @@ public class RegistrationActivity extends AppCompatActivity
                                     loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                                     editor = loggedAccountHolder.edit();
 
-                                    String accountString = gson.toJson(account);
+                                    editor.putString(Account.EMAIL, account.getEmail());
+                                    editor.putString(Account.PASSWORD, account.getPassword());
+                                    editor.putString(Account.NAME, account.getName());
 
-                                    editor.putString("logged_account", accountString);
                                     editor.apply();
+
+                                    startActivity(new Intent(RegistrationActivity.this, ProfileActivity.class));
+                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
                                     finish();
                                     Toast.makeText(RegistrationActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
                                 }
@@ -177,12 +178,15 @@ public class RegistrationActivity extends AppCompatActivity
                             {
                                 Toast.makeText(RegistrationActivity.this, "Email already registered.", Toast.LENGTH_SHORT).show();
                             }
-
                         }
                         else
                         {
                             Toast.makeText(RegistrationActivity.this, "Password too short.", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                    else
+                    {
+                        Toast.makeText(RegistrationActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
@@ -191,7 +195,6 @@ public class RegistrationActivity extends AppCompatActivity
                 }
             }
         });
-
     }
 
     @Override

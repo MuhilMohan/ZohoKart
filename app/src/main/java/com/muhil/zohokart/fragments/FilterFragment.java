@@ -4,6 +4,7 @@ package com.muhil.zohokart.fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.Layout;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
     Bundle bundle;
     ZohokartDAO zohokartDAO;
     FilterCommunicator communicator;
+    AppCompatActivity mainActivity;
 
     public FilterFragment()
     {
@@ -60,6 +62,11 @@ public class FilterFragment extends android.support.v4.app.Fragment
     public void setCommunicator(FilterCommunicator communicator)
     {
         this.communicator = communicator;
+    }
+
+    public void setActivity(AppCompatActivity activity)
+    {
+        this.mainActivity = activity;
     }
 
     @Override
@@ -114,7 +121,10 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     filterOptions.putAll(Mobile.FILTER_OPTIONS);
                     Log.d("FILTER_OPTIONS", String.valueOf(filterOptions.size()));
                     break;
-
+                case 101:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(params[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    break;
                 default:
                     break;
             }

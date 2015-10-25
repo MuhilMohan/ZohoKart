@@ -25,9 +25,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="ZohoKart"
-                    android:textSize="50sp"
+                    android:textSize="44sp"
                     android:textStyle="italic|bold"
-                    android:textColor="#FFF"/>
+                    android:textColor="#FFF"
+                    android:drawableLeft="@mipmap/ic_launcher"/>
 
             </FrameLayout>
 
@@ -45,6 +46,8 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
                         android:layout_marginBottom="15dp"
                         android:inputType="text"
                         android:ems="10"
@@ -63,6 +66,8 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
                         android:inputType="textEmailAddress"
@@ -86,6 +91,8 @@
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginBottom="15dp"
                             android:inputType="textPassword"
@@ -131,6 +138,8 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
                         android:inputType="number"
@@ -149,7 +158,9 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp">
 
                         <TextView
                             android:id="@+id/dateOfBirth"
@@ -210,8 +221,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_gravity="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="@android:color/transparent"
         android:src="@mipmap/ic_close_white_24dp"
         android:layout_alignParentEnd="true"

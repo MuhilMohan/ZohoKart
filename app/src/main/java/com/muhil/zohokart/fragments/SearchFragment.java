@@ -22,9 +22,11 @@ import com.muhil.zohokart.comparators.PriceLowToHighComparator;
 import com.muhil.zohokart.comparators.StarsHighToLowComparator;
 import com.muhil.zohokart.comparators.StarsLowToHighComparator;
 import com.muhil.zohokart.decorators.DividerItemDecoration;
+import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,12 +40,25 @@ public class SearchFragment extends android.support.v4.app.Fragment
     List<Product> products;
     ZohokartDAO zohokartDAO;
     ProductListingAdapter productListingAdapter;
+    ProductListCommunicator communicator;
 
-
+    public static SearchFragment getInstance(String query)
+    {
+        SearchFragment searchFragment = new SearchFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("search_query", query);
+        searchFragment.setArguments(bundle);
+        return searchFragment;
+    }
 
     public SearchFragment()
     {
         // Required empty public constructor
+    }
+
+    public void setCommunicator(ProductListCommunicator communicator)
+    {
+        this.communicator = communicator;
     }
 
     @Override
@@ -61,12 +76,8 @@ public class SearchFragment extends android.support.v4.app.Fragment
         // Inflate the layout for this fragment
         searchLayout = inflater.inflate(R.layout.fragment_search, container, false);
         recyclerView = (RecyclerView) searchLayout.findViewById(R.id.search_result);
+        new SearchAsyncTask().execute(getArguments().getString("search_query"));
         return searchLayout;
-    }
-
-    public void processQuery(String query)
-    {
-        new SearchAsyncTask().execute(query);
     }
 
     class SearchAsyncTask extends AsyncTask<String, Void, Void>
@@ -94,7 +105,7 @@ public class SearchFragment extends android.support.v4.app.Fragment
             if (products != null && products.size() > 0)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                productListingAdapter = new ProductListingAdapter(products, getActivity(), getActivity().getSupportFragmentManager(), searchLayout);
+                productListingAdapter = new ProductListingAdapter(products, getActivity(), communicator, searchLayout);
                 recyclerView.setAdapter(productListingAdapter);
 
                 (searchLayout.findViewById(R.id.search_result)).setVisibility(View.VISIBLE);

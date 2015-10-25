@@ -69,7 +69,7 @@ public class Laptop implements IProduct
     @Override
     public String getDescription()
     {
-        return color + ", " + ram + ", " + inches + "\"";
+        return color + ", " + ram + " GB, " + inches + "\"";
     }
 
     @Override

@@ -11,11 +11,12 @@ import com.muhil.zohokart.utils.ZohokartContentProvider;
 public class Cart {
 
     public static final String TABLE_NAME = "cart";
+    public static final String EMAIL = "email";
     public static final String PRODUCT_ID = "product_id";
     public static final String QUANTITY = "quantity";
     public static final String ADDED_ON = "added_on";
 
-    public static final String[] PROJECTION = {PRODUCT_ID, QUANTITY, ADDED_ON};
+    public static final String[] PROJECTION = {EMAIL, PRODUCT_ID, QUANTITY, ADDED_ON};
 
     public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
 

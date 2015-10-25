@@ -31,22 +31,24 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp">
+                android:layout_height="190dp"
+                android:background="#E0E0E0">
 
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@mipmap/ic_shopping_basket_black_48dp"
+                    android:src="@mipmap/ic_launcher"
                     android:layout_centerInParent="true"/>
 
             </RelativeLayout>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/home_action_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 card_view:cardBackgroundColor="#FFF"
-                >
+                android:clickable="true">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -58,34 +60,9 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_marginRight="16dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="16dp"
                     android:src="@mipmap/ic_home_black_24dp"/>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                card_view:cardBackgroundColor="#FFF"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="OFFERS"
-                    android:textSize="18sp"/>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_marginRight="16dp"
-                    android:src="@mipmap/ic_redeem_black_24dp"/>
 
             </android.support.v7.widget.CardView>
 

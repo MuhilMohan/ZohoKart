@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
@@ -45,6 +46,8 @@ public class ZohokartContentProvider extends ContentProvider
     private static final int SPECIFICATION_ID = 14;
     private static final int PROMOTION_BANNERS = 15;
     private static final int PROMOTION_BANNERS_ID = 16;
+    private static final int PAYMENT_CARDS = 17;
+    private static final int PAYMENT_CARDS_EMAIL = 18;
     private static final UriMatcher uriMatcher;
 
     static
@@ -67,6 +70,8 @@ public class ZohokartContentProvider extends ContentProvider
         uriMatcher.addURI(AUTHORITY, SpecificationGroup.TABLE_NAME + "/#", SPECIFICATION_ID);
         uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME, PROMOTION_BANNERS);
         uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME + "/#", PROMOTION_BANNERS_ID);
+        uriMatcher.addURI(AUTHORITY, PaymentCard.TABLE_NAME, PAYMENT_CARDS);
+        uriMatcher.addURI(AUTHORITY, PaymentCard.TABLE_NAME + "/*", PAYMENT_CARDS_EMAIL);
 
     }
 
@@ -154,6 +159,14 @@ public class ZohokartContentProvider extends ContentProvider
                 sqLiteQueryBuilder.appendWhere(PromotionBanner._ID + " = " + uri.getLastPathSegment());
                 break;
 
+            case PAYMENT_CARDS:
+                sqLiteQueryBuilder.setTables(PaymentCard.TABLE_NAME);
+                break;
+            case PAYMENT_CARDS_EMAIL:
+                sqLiteQueryBuilder.setTables(PaymentCard.TABLE_NAME);
+                sqLiteQueryBuilder.appendWhere(PaymentCard.EMAIL + " = " + uri.getLastPathSegment());
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -220,6 +233,12 @@ public class ZohokartContentProvider extends ContentProvider
             case PROMOTION_BANNERS_ID:
                 return PromotionBanner.CONTENT_ITEM_TYPE;
 
+            case PAYMENT_CARDS:
+                return PaymentCard.CONTENT_TYPE;
+
+            case PAYMENT_CARDS_EMAIL:
+                return PaymentCard.CONTENT_ITEM_TYPE;
+
             default:
                 return null;
 
@@ -232,7 +251,8 @@ public class ZohokartContentProvider extends ContentProvider
     {
 
         if ((uriMatcher.match(uri) != CATEGORIES_ID) && (uriMatcher.match(uri) != SUB_CATEGORIES_ID) && (uriMatcher.match(uri) != PRODUCTS_ID) && (uriMatcher.match(uri) != ACCOUNTS_EMAIL)
-                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID))
+                && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)
+                && (uriMatcher.match(uri) != PAYMENT_CARDS_EMAIL))
         {
 
             long result;
@@ -270,6 +290,10 @@ public class ZohokartContentProvider extends ContentProvider
 
                 case PROMOTION_BANNERS:
                     result = sqLiteDatabase.insert(PromotionBanner.TABLE_NAME, null, values);
+                    break;
+
+                case PAYMENT_CARDS:
+                    result = sqLiteDatabase.insert(PaymentCard.TABLE_NAME, null, values);
                     break;
 
                 default:
@@ -396,6 +420,19 @@ public class ZohokartContentProvider extends ContentProvider
                 deleteCount = sqLiteDatabase.delete(PromotionBanner.TABLE_NAME, where, selectionArgs);
                 break;
 
+            case PAYMENT_CARDS:
+                deleteCount = sqLiteDatabase.delete(PaymentCard.TABLE_NAME, selection, selectionArgs);
+                break;
+            case PAYMENT_CARDS_EMAIL:
+                String paymentCardEmail = uri.getLastPathSegment();
+                where = PaymentCard.EMAIL + " = '" + paymentCardEmail + "'";
+                if (!TextUtils.isEmpty(selection))
+                {
+                    where += " AND " + selection;
+                }
+                deleteCount = sqLiteDatabase.delete(PaymentCard.TABLE_NAME, where, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -509,6 +546,19 @@ public class ZohokartContentProvider extends ContentProvider
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(PromotionBanner.TABLE_NAME, values, where, selectionArgs);
+                break;
+
+            case PAYMENT_CARDS:
+                updateCount = sqLiteDatabase.update(PaymentCard.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case PAYMENT_CARDS_EMAIL:
+                String paymentCardEmail = uri.getLastPathSegment();
+                where = PaymentCard.EMAIL + " = " + paymentCardEmail;
+                if (!TextUtils.isEmpty(selection))
+                {
+                    where += " AND " + selection;
+                }
+                updateCount = sqLiteDatabase.update(PaymentCard.TABLE_NAME, values, where, selectionArgs);
                 break;
 
             default:

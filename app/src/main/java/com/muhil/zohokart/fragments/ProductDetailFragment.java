@@ -1,7 +1,9 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,9 +16,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.muhil.zohokart.R;
-import com.muhil.zohokart.activities.CartActivity;
 import com.muhil.zohokart.adapters.ProductDetailPagerAdapter;
+import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.ArrayList;
@@ -34,8 +37,13 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     List<Product> products;
     ViewPager productDetailPager;
     ProductDetailPagerAdapter productDetailPagerAdapter;
+    ProductDetailCommunicator communicator;
 
-    public static android.support.v4.app.Fragment getInstance( int currentPosition, List<Product> products)
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String email;
+
+    public static ProductDetailFragment getInstance( int currentPosition, List<Product> products)
     {
 
         ProductDetailFragment productDetailFragment = new ProductDetailFragment();
@@ -52,6 +60,11 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         // Required empty public constructor
     }
 
+    public void setCommunicator(ProductDetailCommunicator communicator)
+    {
+        this.communicator = communicator;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -60,7 +73,8 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         zohokartDAO = new ZohokartDAO(getActivity());
         currentPosition = getArguments().getInt("current_position");
         products = getArguments().getParcelableArrayList("products");
-
+        sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        email = sharedPreferences.getString(Account.EMAIL, "default");
     }
 
     @Override
@@ -105,9 +119,9 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             public void onClick(View v)
             {
                 Product product = products.get(productDetailPager.getCurrentItem());
-                if (!zohokartDAO.checkInCart(product.getId()))
+                if (!zohokartDAO.checkInCart(product.getId(), email))
                 {
-                    if (zohokartDAO.addToCart(product.getId()))
+                    if (zohokartDAO.addToCart(product.getId(), email))
                     {
                         getSnackbar("Product added to cart.").show();
                         (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
@@ -130,7 +144,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             @Override
             public void onClick(View v)
             {
-                startActivity(new Intent(getActivity(), CartActivity.class));
+                communicator.openCart();
             }
         });
 
@@ -148,7 +162,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     public void checkInCart(int position)
     {
 
-        if (zohokartDAO.checkInCart(products.get(position).getId()))
+        if (zohokartDAO.checkInCart(products.get(position).getId(), email))
         {
             (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
             (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
@@ -159,6 +173,11 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.GONE);
         }
 
+    }
+
+    public interface ProductDetailCommunicator
+    {
+        void openCart();
     }
 
 }

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.utils.DBHelper;
+import com.muhil.zohokart.utils.EmailValidator;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import org.json.JSONArray;
@@ -168,6 +169,7 @@ public class LoginActivity extends AppCompatActivity
     public void onSignUpClicked(View view)
     {
         startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
@@ -183,15 +185,9 @@ public class LoginActivity extends AppCompatActivity
         if((emailString != null && !emailString.equals("")) && (!passwordString.equals("")))
         {
 
-            int atPosition=emailString.indexOf('@');
-            int lastDotPosition=emailString.lastIndexOf('.');
+            if(EmailValidator.validateEmail(emailString))
+            {
 
-            if(atPosition==-1 || lastDotPosition==-1 || (atPosition+2)>=lastDotPosition)
-            {
-                Toast.makeText(LoginActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
                 if (passwordString.length() > 4)
                 {
                     if(zohokartDAO.hasAccount(emailString) )
@@ -202,9 +198,9 @@ public class LoginActivity extends AppCompatActivity
                             loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                             editor = loggedAccountHolder.edit();
 
-                            String accountString = gson.toJson(account);
-
-                            editor.putString("logged_account", accountString);
+                            editor.putString(Account.EMAIL, account.getEmail());
+                            editor.putString(Account.PASSWORD, account.getPassword());
+                            editor.putString(Account.NAME, account.getName());
                             editor.apply();
                             finish();
                             Toast.makeText(LoginActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
@@ -213,18 +209,24 @@ public class LoginActivity extends AppCompatActivity
                         {
                             Toast.makeText(LoginActivity.this, "Login unsuccessful", Toast.LENGTH_SHORT).show();
                         }
-                        
+
                     }
                     else
                     {
                         Toast.makeText(LoginActivity.this, "Account does not exist.", Toast.LENGTH_SHORT).show();
                     }
-                    
+
                 }
                 else
                 {
                     Toast.makeText(LoginActivity.this, "Password too short.", Toast.LENGTH_SHORT).show();
                 }
+
+            }
+            else
+            {
+
+                Toast.makeText(LoginActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
                 
             }
             

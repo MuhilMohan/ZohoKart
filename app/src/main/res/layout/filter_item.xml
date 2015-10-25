@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="50dp"
-        android:padding="16dp"
+        android:padding="8dp"
         android:text="sample"
         android:textSize="16sp"/>
 
@@ -21,7 +21,9 @@
         android:id="@+id/filter_item_checker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_gravity="center_vertical|end"
         android:gravity="center_vertical"
         android:clickable="false"/>

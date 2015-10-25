@@ -70,6 +70,18 @@ public class NavigationFragment extends Fragment
     {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
+
+        (view.findViewById(R.id.home_action_button)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        communicator.showMainFragment();
+                    }
+                }
+        );
+
         return view;
     }
 
@@ -153,6 +165,7 @@ public class NavigationFragment extends Fragment
     {
         void closeDrawer();
         void sendProductList(int subCategoryId);
+        void showMainFragment();
     }
 
 }

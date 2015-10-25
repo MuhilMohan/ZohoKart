@@ -18,10 +18,11 @@
             android:id="@+id/filter_group_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="4dp"
             android:text="sample"
             android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:background="#E0E0E0"/>
 
         <LinearLayout
             android:id="@+id/filter_options_holder"

@@ -8,7 +8,9 @@ import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.muhil.zohokart.comparators.PriceHighToLowComparator;
 import com.muhil.zohokart.comparators.PriceLowToHighComparator;
 import com.muhil.zohokart.comparators.StarsHighToLowComparator;
 import com.muhil.zohokart.comparators.StarsLowToHighComparator;
+import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
@@ -124,7 +127,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
             if (productList.size() > 0)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                productListingAdapter = new ProductListingAdapter(productList, getActivity(), getActivity().getSupportFragmentManager(), productListFragment);
+                productListingAdapter = new ProductListingAdapter(productList, getActivity(), communicator, productListFragment);
                 recyclerView.setAdapter(productListingAdapter);
 
                 (productListFragment.findViewById(R.id.filter_action)).setOnClickListener(new View.OnClickListener()
@@ -201,10 +204,4 @@ public class ProductListFragment extends android.support.v4.app.Fragment
             }
         }
     }
-
-    public interface ProductListCommunicator
-    {
-        void openFilter(int subCategoryId);
-    }
-
 }

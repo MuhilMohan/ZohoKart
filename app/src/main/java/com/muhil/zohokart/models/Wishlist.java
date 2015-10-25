@@ -11,10 +11,11 @@ import com.muhil.zohokart.utils.ZohokartContentProvider;
 public class Wishlist {
 
     public static final String TABLE_NAME = "wishlist";
+    public static final String EMAIL = "email";
     public static final String PRODUCT_ID = "product_id";
     public static final String ADDED_ON = "added_on";
 
-    public static final String[] PROJECTION = {PRODUCT_ID, ADDED_ON};
+    public static final String[] PROJECTION = {EMAIL, PRODUCT_ID, ADDED_ON};
 
     public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
 

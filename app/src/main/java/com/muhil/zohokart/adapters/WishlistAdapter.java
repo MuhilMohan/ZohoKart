@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -135,8 +136,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 if (zohokartDAO.addToCart(product.getId(), email))
                 {
                     Toast.makeText(context, "product added to cart.", Toast.LENGTH_SHORT).show();
-                    v.setVisibility(View.GONE);
                     holder.goToCart.setVisibility(View.VISIBLE);
+                    v.setVisibility(View.GONE);
                 }
                 else
                 {
@@ -169,7 +170,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         TextView title, price, description;
         ImageView displayImage;
-        LinearLayout removeProductView, addToCart, goToCart;
+        FrameLayout removeProductView, addToCart, goToCart;
 
         public WishlistViewHolder(View itemView)
         {
@@ -179,9 +180,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.display_image);
-            removeProductView = (LinearLayout) itemView.findViewById(R.id.removeProduct);
-            addToCart = (LinearLayout) itemView.findViewById(R.id.add_to_cart_action);
-            goToCart = (LinearLayout) itemView.findViewById(R.id.go_to_cart_action);
+            removeProductView = (FrameLayout) itemView.findViewById(R.id.removeProduct);
+            addToCart = (FrameLayout) itemView.findViewById(R.id.add_to_cart_action);
+            goToCart = (FrameLayout) itemView.findViewById(R.id.go_to_cart);
 
 
         }

@@ -19,19 +19,23 @@ public class ProductDetailPagerAdapter extends FragmentStatePagerAdapter
 
     Context context;
     List<Product> products;
+    ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator;
 
-    public ProductDetailPagerAdapter(FragmentManager fm, Context context, List<Product> products)
+    public ProductDetailPagerAdapter(FragmentManager fm, Context context, List<Product> products, ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator)
     {
         super(fm);
         this.context = context;
         this.products = products;
+        this.productDetailPageCommunicator = productDetailPageCommunicator;
     }
 
 
     @Override
     public Fragment getItem(int position)
     {
-        return ProductDetailPagerFragment.getInstance(products.get(position));
+        ProductDetailPagerFragment productDetailPagerFragment = ProductDetailPagerFragment.getInstance(products.get(position));
+        productDetailPagerFragment.setCommunicator(productDetailPageCommunicator);
+        return productDetailPagerFragment;
     }
 
     @Override

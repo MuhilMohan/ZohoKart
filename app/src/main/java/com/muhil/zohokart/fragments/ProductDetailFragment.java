@@ -39,6 +39,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     ViewPager productDetailPager;
     ProductDetailPagerAdapter productDetailPagerAdapter;
     ProductDetailCommunicator communicator;
+    ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -61,9 +62,10 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         // Required empty public constructor
     }
 
-    public void setCommunicator(ProductDetailCommunicator communicator)
+    public void setCommunicator(ProductDetailCommunicator communicator, ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator)
     {
         this.communicator = communicator;
+        this.productDetailPageCommunicator = productDetailPageCommunicator;
     }
 
     @Override
@@ -90,7 +92,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         {
             rootview = inflater.inflate(R.layout.fragment_product_detail, container, false);
             productDetailPager = (ViewPager) rootview.findViewById(R.id.product_view_pager);
-            productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products);
+            productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products, productDetailPageCommunicator);
             productDetailPager.setAdapter(productDetailPagerAdapter);
             productDetailPager.setCurrentItem(currentPosition);
             checkInCart(currentPosition);

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/login_layout_background"
     android:orientation="vertical"
     tools:context="com.muhil.recylcerviewdemo.LoginActivity">
@@ -46,26 +45,20 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp">
 
-                    <android.support.design.widget.TextInputLayout
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:padding="10dp"
+                        android:inputType="textEmailAddress"
+                        android:ems="10"
+                        android:textSize="16sp"
+                        android:textColor="#FFF"
                         android:textColorHint="#FFF"
-                        app:hintTextAppearance="@android:style/TextAppearance.Small">
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
-                            android:padding="10dp"
-                            android:inputType="textEmailAddress"
-                            android:ems="10"
-                            android:textSize="16sp"
-                            android:textColor="#FFF"
-                            android:textColorHint="#FFF"
-                            android:textCursorDrawable="@drawable/custom_cursor"
-                            android:background="@android:color/transparent"
-                            android:id="@+id/email"
-                            android:hint="Email"/>
-                    </android.support.design.widget.TextInputLayout>
+                        android:textCursorDrawable="@drawable/custom_cursor"
+                        android:background="@android:color/transparent"
+                        android:id="@+id/email"
+                        android:hint="Email"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -77,28 +70,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
                             android:layout_centerVertical="true"
+                            android:padding="10dp"
+                            android:inputType="textPassword"
+                            android:ems="10"
+                            android:textSize="16sp"
+                            android:textColor="#FFF"
                             android:textColorHint="#FFF"
-                            app:hintTextAppearance="@android:style/TextAppearance.Small">
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                android:layout_centerVertical="true"
-                                android:padding="10dp"
-                                android:inputType="textPassword"
-                                android:ems="10"
-                                android:textSize="16sp"
-                                android:textColor="#FFF"
-                                android:textColorHint="#FFF"
-                                android:textCursorDrawable="@drawable/custom_cursor"
-                                android:background="@android:color/transparent"
-                                android:id="@+id/password"
-                                android:hint="Password"/>
-                        </android.support.design.widget.TextInputLayout>
+                            android:textCursorDrawable="@drawable/custom_cursor"
+                            android:background="@android:color/transparent"
+                            android:id="@+id/password"
+                            android:hint="Password"/>
+
                         <TextView
                             android:id="@+id/forgotButton"
                             android:layout_width="wrap_content"

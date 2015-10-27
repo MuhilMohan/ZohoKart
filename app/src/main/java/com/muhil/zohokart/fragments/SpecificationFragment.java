@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SpecificationFragment extends DialogFragment
+public class SpecificationFragment extends android.support.v4.app.Fragment
 {
 
     Gson gson;
@@ -72,21 +72,7 @@ public class SpecificationFragment extends DialogFragment
         rootView = inflater.inflate(R.layout.fragment_specification, container, false);
         product = gson.fromJson(getArguments().getString("product"), new TypeToken<Product>() {}.getType());
         new SpecificationAsyncTask().execute(product.getId());
-        (rootView.findViewById(R.id.close_button)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
         return rootView;
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
-        final Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setTitle("Specifications");
-        return dialog;
     }
 
     class SpecificationAsyncTask extends AsyncTask<Integer, View, Map<String, List<Specification>>>

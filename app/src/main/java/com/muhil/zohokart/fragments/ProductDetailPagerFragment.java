@@ -48,6 +48,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String email;
+    ProductDetailPageCommunicator communicator;
 
     public static ProductDetailPagerFragment getInstance(Product product)
     {
@@ -61,6 +62,11 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     public ProductDetailPagerFragment()
     {
         // Required empty public constructor
+    }
+
+    public void setCommunicator(ProductDetailPageCommunicator communicator)
+    {
+        this.communicator = communicator;
     }
 
     @Override
@@ -108,8 +114,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         (rootView.findViewById(R.id.specifications)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SpecificationFragment specificationFragment = SpecificationFragment.getInstance(product);
-                specificationFragment.show(getActivity().getFragmentManager(), "specifications");
+                communicator.openSpecifications(product);
             }
         });
 
@@ -123,8 +128,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
         return snackbar;
     }
-
-
 
     @Override
     public void onClick(View v)
@@ -187,4 +190,10 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
             }
         }
     }
+
+    public interface ProductDetailPageCommunicator
+    {
+        void openSpecifications(Product product);
+    }
+
 }

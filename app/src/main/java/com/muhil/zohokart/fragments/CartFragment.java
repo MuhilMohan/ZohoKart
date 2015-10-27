@@ -51,6 +51,7 @@ public class CartFragment extends android.support.v4.app.Fragment
     double grandTotal = 0;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     CartCommunicator communicator;
+    LayoutInflater layoutInflater;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -73,6 +74,7 @@ public class CartFragment extends android.support.v4.app.Fragment
         zohokartDAO = new ZohokartDAO(getActivity());
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         productIds = new ArrayList<>();
+        layoutInflater = LayoutInflater.from(getActivity());
     }
 
     @Override
@@ -165,7 +167,6 @@ public class CartFragment extends android.support.v4.app.Fragment
 
                     for (final Product product : productsInCart)
                     {
-                        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
                         cardView = (CardView) layoutInflater.inflate(R.layout.cart_item_row, productsInCartContent, false);
                         cardView.setId(product.getId());
                         ((TextView) cardView.findViewById(R.id.title)).setText(product.getTitle());

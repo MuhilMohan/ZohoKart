@@ -39,12 +39,12 @@
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".activities.RegistrationActivity"
             android:label="@string/title_activity_registration"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".activities.ProfileActivity"

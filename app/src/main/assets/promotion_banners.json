@@ -13,5 +13,19 @@
       1016,
       1017
     ]
+  },
+  {
+    "id": 3,
+    "banner": "http://rukmini1.flixcart.com/www/720/280/promos/new/1445800386715-form-data-image-720-280.jpg",
+    "product_ids": [
+      2011
+    ]
+  },
+  {
+    "id": 4,
+    "banner": "http://rukmini1.flixcart.com/www/720/280/promos/new/1445800608320-form-data-image-720-280.jpg",
+    "product_ids": [
+      2006
+    ]
   }
 ]

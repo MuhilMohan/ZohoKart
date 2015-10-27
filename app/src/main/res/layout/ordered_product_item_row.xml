@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#FFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="57dp"
+                android:layout_height="110dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:contentDescription="thumbnail of product."
+                android:src="@mipmap/ic_phone_iphone_black_24dp"
+                android:layout_gravity="center"
+                android:id="@+id/display_image"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/display_image"
+                android:text="Title"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="11dp"
+                android:id="@+id/title"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/display_image"
+                android:layout_below="@id/title"
+                android:text="Color and storage"
+                android:textSize="12sp"
+                android:layout_marginBottom="11dp"
+                android:id="@+id/description"/>
+
+            <TextView
+                android:id="@+id/quantity_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:layout_toEndOf="@id/display_image"
+                android:text="Quantity"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/quantity_seperator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/quantity_label"
+                android:layout_below="@id/description"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text=":"/>
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:layout_toRightOf="@id/quantity_seperator"
+                android:layout_marginBottom="16dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#BDBDBD"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs."
+                android:textSize="18sp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="11dp"
+                android:id="@+id/price_rs_tag"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/price_rs_tag"
+                android:text="Price"
+                android:textSize="18sp"
+                android:layout_marginBottom="11dp"
+                android:id="@+id/price"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

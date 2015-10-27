@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.muhil.zohokart.activities.CheckoutActivity;
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.activities.ProfileActivity;
 import com.muhil.zohokart.fragments.CartFragment;
@@ -36,10 +37,12 @@ import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.utils.DataImporter;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator, FilterFragment.FilterCommunicator,
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     SearchFragment searchFragment;
 
     List<Product> products;
-
+    List<PromotionBanner> promotionBanners;
     ZohokartDAO zohokartDAO;
 
     Gson gson;
@@ -101,15 +104,18 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         }
 
         // *** initializing drawer ***
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         // *** including the default main fragment ***
-        MainFragment mainFragment = new MainFragment();
+        promotionBanners = zohokartDAO.getBanners();
+        MainFragment mainFragment = MainFragment.getInstance(promotionBanners);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
+        fragmentTransaction.addToBackStack("main_fragment");
         fragmentTransaction.commit();
     }
 
@@ -409,12 +415,28 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     }
 
+    @Override
+    public void openCheckout(List<Integer> productIds)
+    {
+        startActivity(new Intent(this, CheckoutActivity.class).putIntegerArrayListExtra("product_ids", (ArrayList<Integer>) productIds));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
     public Snackbar getSnackbar(String textToDisplay)
     {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.index_page), textToDisplay, Snackbar.LENGTH_SHORT);
         View snackbarView = snackbar.getView();
         ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
         return snackbar;
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
 }

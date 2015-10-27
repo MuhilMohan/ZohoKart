@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity implements SavedCardFragment.PaymentCardCommunicator
@@ -45,10 +47,10 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String email, password, name;
-
+    LinearLayout accountCardHolder;
     LayoutInflater inflater;
     CardView card_item_view;
-
+    public static int CARD_ID = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +59,9 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
 
         fragmentManager = getSupportFragmentManager();
         inflater = LayoutInflater.from(ProfileActivity.this);
+        cards = new ArrayList<>();
+
+        accountCardHolder = (LinearLayout) findViewById(R.id.account_card_holder);
 
         // *** setting the toolbar ***
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -292,37 +297,10 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     }
 
     @Override
-    public void sendCard(PaymentCard paymentCard)
+    public void sendCard(final PaymentCard paymentCard)
     {
-        new AddingPaymentCardAsyncTask().execute(paymentCard);
-    }
-
-    class AddingPaymentCardAsyncTask extends AsyncTask<PaymentCard, Void, PaymentCard>
-    {
-        @Override
-        protected PaymentCard doInBackground(PaymentCard... params)
-        {
-            boolean result = zohokartDAO.addCard(params[0]);
-            if (result)
-            {
-                return params[0];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(PaymentCard paymentCard)
-        {
-            super.onPostExecute(paymentCard);
-            card_item_view = (CardView) inflater.inflate(R.layout.saved_card_item_view, (ViewGroup) findViewById(R.id.account_card_holder), false);
-            ((TextView) card_item_view.findViewById(R.id.card_number)).setText("XXXX-XXXX-XXXX-" + paymentCard.getCardNumber().substring((paymentCard.getCardNumber().length()-4), paymentCard.getCardNumber().length()));
-            ((TextView) card_item_view.findViewById(R.id.card_type)).setText(paymentCard.getCardType());
-            card_item_view.setTag(paymentCard);
-            ((LinearLayout) findViewById(R.id.account_card_holder)).addView(card_item_view);
-        }
+        zohokartDAO.addCard(paymentCard, email);
+        recreate();
     }
 
     class SavedCardsListingAsyncTask extends AsyncTask<String, Void, List<PaymentCard>>
@@ -333,6 +311,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
         {
             super.onPreExecute();
             (findViewById(R.id.cards_loading)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.saved_cards_empty)).setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -354,47 +333,8 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                     ((TextView) card_item_view.findViewById(R.id.card_number)).setText("XXXX-XXXX-XXXX-" + paymentCard.getCardNumber().substring((paymentCard.getCardNumber().length()-4), paymentCard.getCardNumber().length()));
                     ((TextView) card_item_view.findViewById(R.id.card_type)).setText(paymentCard.getCardType());
                     card_item_view.setTag(paymentCard);
-                    (card_item_view.findViewById(R.id.remove_card_action)).setTag(paymentCard);
-                    (card_item_view.findViewById(R.id.remove_card_action)).setOnClickListener(
-                            new View.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(View v)
-                                {
-                                    android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(ProfileActivity.this);
-                                    alertDialogBuilder.setTitle("");
-                                    alertDialogBuilder.setMessage("Do you want to delete the card?");
-
-                                    alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (zohokartDAO.removeFromPaymentCards(paymentCard.getCardNumber(), email))
-                                            {
-                                                getSnackbar("Card removed.").show();
-                                                ((LinearLayout) findViewById(R.id.account_card_holder)).removeViewAt(paymentCards.indexOf(paymentCard) + 2);
-                                            }
-                                            else
-                                            {
-                                                getSnackbar("problem while removing card.").show();
-                                            }
-
-                                        }
-                                    });
-
-                                    alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
-                                    {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which)
-                                        {
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                                    alertDialogBuilder.show();
-                                }
-                            }
-                    );
-                    ((LinearLayout) findViewById(R.id.account_card_holder)).addView(card_item_view);
+                    card_item_view.setId(CARD_ID + paymentCards.indexOf(paymentCard));
+                    accountCardHolder.addView(card_item_view);
                 }
                 (findViewById(R.id.cards_loading)).setVisibility(View.GONE);
                 (findViewById(R.id.saved_cards_empty)).setVisibility(View.GONE);

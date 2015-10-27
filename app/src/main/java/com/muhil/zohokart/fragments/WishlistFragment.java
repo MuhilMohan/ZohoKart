@@ -64,9 +64,8 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
-
-        wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.empty_text);
+        wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
 
         new WishlistAsyncTask().execute();
 

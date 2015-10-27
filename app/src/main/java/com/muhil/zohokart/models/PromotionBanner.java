@@ -6,9 +6,11 @@ import android.net.Uri;
 import com.google.gson.annotations.SerializedName;
 import com.muhil.zohokart.utils.ZohokartContentProvider;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PromotionBanner {
+public class PromotionBanner implements Serializable
+{
 
     public static final String TABLE_NAME = "promotion_banners";
     public static final String _ID = "_id";

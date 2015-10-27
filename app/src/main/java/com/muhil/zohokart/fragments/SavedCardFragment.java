@@ -30,13 +30,14 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
 {
 
     View savedCardFragment;
-    EditText cardNumberPart1, cardNumberPart2, cardNumberPart3, cardNumberPart4, nameOnCard;
+    EditText cardNumber, nameOnCard;
     TextView cardTypeTextView;
-    NumberPicker monthPicker, yearPicker;
-    Spinner cardTypeSpinner;
+    Spinner expiryMonthSpinner, expiryYearSpinner;
     Calendar calendar;
-    String[] cardTypes;
-    String cardNumber="", cardType, nameOncardText, expiryDate;
+    String[] months = new String[12], years = new String[8];
+    String cardNumberString, cardType;
+    String nameOncardText;
+    String expiryDate;
     PaymentCardCommunicator communicator;
 
     public static SavedCardFragment getInstance(String email)
@@ -63,6 +64,14 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         calendar = Calendar.getInstance();
+        for (int i = 1; i <= 12; i++)
+        {
+            months[i-1] = String.valueOf(i);
+        }
+        for (int i = 0; i < years.length; i++)
+        {
+            years[i] = String.valueOf(calendar.get(Calendar.YEAR) + i);
+        }
     }
 
     @Override
@@ -72,23 +81,20 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
         // Inflate the layout for this fragment
         savedCardFragment = inflater.inflate(R.layout.fragment_saved_card, container, false);
 
-        monthPicker = (NumberPicker) savedCardFragment.findViewById(R.id.validity_month);
-        yearPicker = (NumberPicker) savedCardFragment.findViewById(R.id.validity_year);
-        cardNumberPart1 = (EditText) savedCardFragment.findViewById(R.id.card_number_part1);
-        cardNumberPart2 = (EditText) savedCardFragment.findViewById(R.id.card_number_part2);
-        cardNumberPart3 = (EditText) savedCardFragment.findViewById(R.id.card_number_part3);
-        cardNumberPart4 = (EditText) savedCardFragment.findViewById(R.id.card_number_part4);
+        expiryMonthSpinner = (Spinner) savedCardFragment.findViewById(R.id.expiry_month);
+        expiryYearSpinner = (Spinner) savedCardFragment.findViewById(R.id.expiry_year);
+        cardNumber = (EditText) savedCardFragment.findViewById(R.id.card_number);
         nameOnCard = (EditText) savedCardFragment.findViewById(R.id.name_on_card);
         cardTypeTextView = (TextView) savedCardFragment.findViewById(R.id.card_type);
 
-        monthPicker.setMinValue(1);
-        monthPicker.setMaxValue(12);
-        monthPicker.setValue(calendar.get(Calendar.MONTH) + 1);
-        yearPicker.setMinValue(calendar.get(Calendar.YEAR));
-        yearPicker.setMaxValue(calendar.get(Calendar.YEAR) + 7);
-        cardTypes = getResources().getStringArray(R.array.cart_types);
+        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, months);
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        expiryMonthSpinner.setAdapter(monthAdapter);
+        ArrayAdapter<String> yearAdapater = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
+        yearAdapater.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        expiryYearSpinner.setAdapter(yearAdapater);
 
-        cardNumberPart1.addTextChangedListener(
+        cardNumber.addTextChangedListener(
                 new TextWatcher()
                 {
                     @Override
@@ -99,10 +105,6 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count)
                     {
-                        if (s.length() == 4)
-                        {
-                            cardNumberPart2.requestFocus();
-                        }
                         if (s.length() == 2)
                         {
                             if (Integer.parseInt(String.valueOf(s.subSequence(0, 2))) >= 40 && Integer.parseInt(String.valueOf(s.subSequence(0, 2))) <= 49)
@@ -123,66 +125,6 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
                 }
         );
 
-        cardNumberPart2.addTextChangedListener(
-                new TextWatcher()
-                {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after)
-                    {}
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count)
-                    {
-                        if (s.length() == 4)
-                        {
-                            cardNumberPart3.requestFocus();
-                        }
-                    }
-                    @Override
-                    public void afterTextChanged(Editable s)
-                    {}
-                }
-        );
-
-        cardNumberPart3.addTextChangedListener(
-                new TextWatcher()
-                {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after)
-                    {}
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count)
-                    {
-                        if (s.length() == 4)
-                        {
-                            cardNumberPart4.requestFocus();
-                        }
-                    }
-                    @Override
-                    public void afterTextChanged(Editable s)
-                    {}
-                }
-        );
-
-        cardNumberPart4.addTextChangedListener(
-                new TextWatcher()
-                {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after)
-                    {}
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count)
-                    {
-                        if (count == 4)
-                        {
-                            cardNumberPart4.clearFocus();
-                        }
-                    }
-                    @Override
-                    public void afterTextChanged(Editable s)
-                    {}
-                }
-        );
-
         (savedCardFragment.findViewById(R.id.save_card_action)).setOnClickListener(
                 new View.OnClickListener()
                 {
@@ -190,33 +132,18 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
                     public void onClick(View v)
                     {
                         PaymentCard paymentCard = new PaymentCard();
-                        List<String> cardNumberParts = new ArrayList<>();
-                        cardNumberParts.add(cardNumberPart1.getText().toString());
-                        cardNumberParts.add(cardNumberPart2.getText().toString());
-                        cardNumberParts.add(cardNumberPart3.getText().toString());
-                        cardNumberParts.add(cardNumberPart4.getText().toString());
-                        for (String cardNumberPart : cardNumberParts)
-                        {
-                            if (!checkForAnyLetter(cardNumberPart))
-                            {
-                                cardNumber = cardNumber + cardNumberPart;
-                            }
-                            else
-                            {
-                                cardNumber = "";
-                                break;
-                            }
-                        }
 
-                        if (cardNumber.length() != 0 && cardNumber.length() == 16)
+                        cardNumberString = cardNumber.getText().toString();
+                        cardType = cardTypeTextView.getText().toString();
+                        nameOncardText = nameOnCard.getText().toString();
+                        expiryDate = String.valueOf(expiryMonthSpinner.getSelectedItem()) + "/" + String.valueOf(expiryYearSpinner.getSelectedItem());
+
+                        if (cardNumberString.length() != 0 && cardNumberString.length() == 16)
                         {
-                            cardType = cardTypeTextView.getText().toString();
-                            nameOncardText = nameOnCard.getText().toString();
-                            expiryDate = monthPicker.getValue() + "/" + yearPicker.getValue();
                             if (!(ifAnyDigitExist(nameOncardText)))
                             {
                                 paymentCard.setEmail(getArguments().getString(Account.EMAIL));
-                                paymentCard.setCardNumber(cardNumber);
+                                paymentCard.setCardNumber(cardNumberString);
                                 paymentCard.setNameOnCard(nameOncardText);
                                 paymentCard.setCardType(cardType);
                                 paymentCard.setExpiryDate(expiryDate);
@@ -226,13 +153,11 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
                             else
                             {
                                 Toast.makeText(getActivity(), "Enter a valid name.", Toast.LENGTH_SHORT).show();
-                                cardNumber = "";
                             }
                         }
                         else
                         {
                             Toast.makeText(getActivity(), "Enter a valid card number.", Toast.LENGTH_SHORT).show();
-                            cardNumber = "";
                         }
                     }
                 }
@@ -250,25 +175,6 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
         );
 
         return savedCardFragment;
-    }
-
-    private boolean checkForAnyLetter(String partOfCardNumber)
-    {
-        boolean result = false;
-        char[] cardNumberArray = partOfCardNumber.toCharArray();
-        for (int i = 0; i < cardNumberArray.length; i++)
-        {
-            if ((Integer.parseInt(String.valueOf(cardNumberArray[i])) >= 0 && Integer.parseInt(String.valueOf(cardNumberArray[i])) <= 9))
-            {
-                result = false;
-            }
-            else
-            {
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
 
     private boolean ifAnyDigitExist(String nameOnCard)

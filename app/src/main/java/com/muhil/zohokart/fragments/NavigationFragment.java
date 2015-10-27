@@ -14,6 +14,7 @@ import android.view.ViewParent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class NavigationFragment extends Fragment
 {
     LinearLayout menuLinearLayout;
     TextView subCategoryName;
+    ImageView subCategoryImage;
     View subCategoryMenuItem, view;
     CardView categoryMenuItem;
     LayoutInflater inflater;
@@ -42,8 +44,15 @@ public class NavigationFragment extends Fragment
     List<SubCategory> subCategories;
     Map<Integer, List<SubCategory>> subCategoriesByCategory;
     Communicator communicator;
+    int index;
 
     ZohokartDAO zohokartDAO;
+
+    public static int[] SUB_CATEGORY_IMAGES = {R.mipmap.mobile_xxhdpi, R.mipmap.tablets_xxhdpi, R.mipmap.laptops_xxhdpi,
+            R.mipmap.furniture_xxhdpi_min, R.mipmap.lighting_xxhdpi, R.mipmap.kitchen_dining_xxhdpi_min,
+            R.mipmap.tyres_xxhdpi_min, R.mipmap.lubricantsxxhdpi_min, R.mipmap.car_bike_carexxhdpi_min,
+            R.mipmap.health_carexxhdpi_min, R.mipmap.sports_fitness_xxhdpi, R.mipmap.luggage_travel_xxhdpi,
+            R.mipmap.books_xxhdpi, R.mipmap.books_xxhdpi, R.mipmap.books_xxhdpi};
 
     public NavigationFragment()
     {
@@ -62,6 +71,7 @@ public class NavigationFragment extends Fragment
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
         inflater = LayoutInflater.from(getActivity());
+        index = 0;
     }
 
     @Override
@@ -132,6 +142,9 @@ public class NavigationFragment extends Fragment
                         subCategoryMenuItem = inflater.inflate(R.layout.navigation_menu_item_row, categoryMenuItem, false);
                         subCategoryName = (TextView) subCategoryMenuItem.findViewById(R.id.subCategoryItem);
                         subCategoryName.setText(subCategory.getName());
+                        subCategoryImage = (ImageView) subCategoryMenuItem.findViewById(R.id.sub_category_image);
+                        subCategoryImage.setImageResource(SUB_CATEGORY_IMAGES[index]);
+                        index++;
                         subCategoryMenuItem.setTag(subCategory);
 
                         subCategoryMenuItem.setId(subCategory.getId());

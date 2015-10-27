@@ -37,7 +37,6 @@ import java.util.Map;
 public class ProductDetailPagerFragment extends android.support.v4.app.Fragment implements View.OnClickListener
 {
 
-    Gson gson;
     View rootView;
     Product product;
     ImageView imageView;
@@ -69,7 +68,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
-        gson = new Gson();
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "default");
     }

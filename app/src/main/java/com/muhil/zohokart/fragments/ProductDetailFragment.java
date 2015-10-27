@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductDetailPagerAdapter;
@@ -33,7 +34,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
 
     ZohokartDAO zohokartDAO;
     View rootview;
-    int currentPosition;
+    int currentPosition, pagerPosition;
     List<Product> products;
     ViewPager productDetailPager;
     ProductDetailPagerAdapter productDetailPagerAdapter;
@@ -69,7 +70,6 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         zohokartDAO = new ZohokartDAO(getActivity());
         currentPosition = getArguments().getInt("current_position");
         products = getArguments().getParcelableArrayList("products");
@@ -82,73 +82,77 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        rootview = inflater.inflate(R.layout.fragment_product_detail, container, false);
-        productDetailPager = (ViewPager) rootview.findViewById(R.id.product_view_pager);
-        productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products);
-
-        productDetailPager.setAdapter(productDetailPagerAdapter);
-        productDetailPager.setCurrentItem(currentPosition);
-        productDetailPager.setOffscreenPageLimit(3);
-
-        checkInCart(currentPosition);
-
-        productDetailPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        if (rootview != null)
         {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-            {
-
-            }
-
-            @Override
-            public void onPageSelected(int position)
-            {
-                checkInCart(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state)
-            {
-
-            }
-        });
-
-        (rootview.findViewById(R.id.add_to_cart)).setOnClickListener(new View.OnClickListener()
+            return rootview;
+        }
+        else
         {
-            @Override
-            public void onClick(View v)
+            rootview = inflater.inflate(R.layout.fragment_product_detail, container, false);
+            productDetailPager = (ViewPager) rootview.findViewById(R.id.product_view_pager);
+            productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products);
+            productDetailPager.setAdapter(productDetailPagerAdapter);
+            productDetailPager.setCurrentItem(currentPosition);
+            checkInCart(currentPosition);
+
+            productDetailPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
             {
-                Product product = products.get(productDetailPager.getCurrentItem());
-                if (!zohokartDAO.checkInCart(product.getId(), email))
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
                 {
-                    if (zohokartDAO.addToCart(product.getId(), email))
+
+                }
+
+                @Override
+                public void onPageSelected(int position)
+                {
+                    checkInCart(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state)
+                {
+
+                }
+            });
+
+            (rootview.findViewById(R.id.add_to_cart)).setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Product product = products.get(productDetailPager.getCurrentItem());
+                    if (!zohokartDAO.checkInCart(product.getId(), email))
                     {
-                        getSnackbar("Product added to cart.").show();
-                        (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
-                        (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
+                        if (zohokartDAO.addToCart(product.getId(), email))
+                        {
+                            getSnackbar("Product added to cart.").show();
+                            (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
+                            (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            getSnackbar("Error while adding product to cart.").show();
+                        }
                     }
                     else
                     {
-                        getSnackbar("Error while adding product to cart.").show();
+                        getSnackbar("Product already in cart.").show();
                     }
                 }
-                else
-                {
-                    getSnackbar("Product already in cart.").show();
-                }
-            }
-        });
+            });
 
-        (rootview.findViewById(R.id.go_to_cart)).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+            (rootview.findViewById(R.id.go_to_cart)).setOnClickListener(new View.OnClickListener()
             {
-                communicator.openCart();
-            }
-        });
+                @Override
+                public void onClick(View v)
+                {
+                    communicator.openCart();
+                }
+            });
 
-        return rootview;
+            return rootview;
+        }
     }
 
     public Snackbar getSnackbar(String textToDisplay)

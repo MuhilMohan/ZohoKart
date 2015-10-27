@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,6 +32,7 @@ import java.util.Objects;
 public class BannerFragment extends android.support.v4.app.Fragment
 {
 
+    View bannerFragment;
     ViewPager bannerPager;
     ZohokartDAO zohokartDAO;
     PromotionBanner currentBanner;
@@ -41,9 +43,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
     {
         BannerFragment bannerFragment = new BannerFragment();
         Bundle bundle = new Bundle();
-        Gson gson = new Gson();
-        String bannerString = gson.toJson(promotionBanner);
-        bundle.putString("banner", bannerString);
+        bundle.putSerializable("banner", promotionBanner);
         bannerFragment.setArguments(bundle);
         return bannerFragment;
     }
@@ -57,11 +57,10 @@ public class BannerFragment extends android.support.v4.app.Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        Toast.makeText(getActivity(), "onCreateView of main", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
-        ViewGroup bannerFragment = (ViewGroup) inflater.inflate(R.layout.fragment_banner, container, false);
-
-        Gson gson = new Gson();
-        currentBanner = gson.fromJson(getArguments().getString("banner"), new TypeToken<PromotionBanner>() {}.getType());
+        bannerFragment = inflater.inflate(R.layout.fragment_banner, container, false);
+        currentBanner = (PromotionBanner) getArguments().getSerializable("banner");
         ImageView bannerImage = (ImageView) bannerFragment.findViewById(R.id.banner_image);
         Picasso.with(getActivity()).load(currentBanner.getBanner()).into(bannerImage);
         bannerImage.setTag(currentBanner.getProductIds());

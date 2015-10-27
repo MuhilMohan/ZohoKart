@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import com.muhil.zohokart.fragments.ProductDetailPagerFragment;
 import com.muhil.zohokart.models.Product;
@@ -38,4 +39,5 @@ public class ProductDetailPagerAdapter extends FragmentStatePagerAdapter
     {
         return products.size();
     }
+
 }

@@ -24,93 +24,36 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="Enter card details"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/card_number_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Card number"
-                android:textSize="16sp"
-                android:textStyle="italic"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="#BDBDBD"/>
+                android:textSize="20sp"
+                android:textStyle=""/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/card_number_part1"
-                    android:inputType="number"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:padding="8dp"
-                    android:background="@drawable/edittext_background"
-                    android:textSize="14sp"
-                    android:maxLines="1"
-                    android:maxLength="4"/>
-                <EditText
-                    android:id="@+id/card_number_part2"
-                    android:inputType="number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:padding="8dp"
-                    android:background="@drawable/edittext_background"
-                    android:textSize="14sp"
-                    android:maxLines="1"
-                    android:maxLength="4"/>
-                <EditText
-                    android:id="@+id/card_number_part3"
-                    android:inputType="number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:padding="8dp"
-                    android:background="@drawable/edittext_background"
-                    android:textSize="14sp"
-                    android:maxLines="1"
-                    android:maxLength="4"/>
-                <EditText
-                    android:id="@+id/card_number_part4"
-                    android:inputType="number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:padding="8dp"
-                    android:background="@drawable/edittext_background"
-                    android:textSize="14sp"
-                    android:maxLines="1"
-                    android:maxLength="4"/>
+                    app:hintTextAppearance="@android:style/TextAppearance.Small"
+                    android:layout_weight="4">
+
+                    <EditText
+                        android:id="@+id/card_number"
+                        android:inputType="number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:padding="8dp"
+                        android:hint="Card Number"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:id="@+id/card_type"
@@ -124,23 +67,30 @@
                     android:padding="8dp"
                     android:text="Type"
                     android:textSize="14sp"
+                    android:textColor="#2196F3"
                     android:maxLines="1"/>
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/name_on_card"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:padding="8dp"
-                android:background="@drawable/edittext_background"
-                android:hint="Name on card"
-                android:textSize="14sp"
-                android:maxLines="1"/>
+                app:hintTextAppearance="@android:style/TextAppearance.Small">
+
+                <EditText
+                    android:id="@+id/name_on_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="8dp"
+                    android:hint="Name on Card"
+                    android:textSize="16sp"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -148,9 +98,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Expiry date"
-                android:textSize="16sp"
-                android:textStyle="italic"/>
+                android:text="Expiry Date"
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -164,27 +113,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
-                <NumberPicker
-                    android:id="@+id/validity_month"
-                    android:layout_width="wrap_content"
+               <TextView
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:gravity="center"
+                   android:paddingTop="16dp"
+                   android:text="Month"/>
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:solidColor="#EEEEEE"/>
-
-                <NumberPicker
-                    android:id="@+id/validity_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:solidColor="#EEEEEE"/>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingTop="16dp"
+                    android:text="Year"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:gravity="center">
+                <Spinner
+                    android:id="@+id/expiry_month"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="16dp"
+                    />
+
+                <Spinner
+                    android:id="@+id/expiry_year"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="16dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:gravity="center">
+                android:gravity="center"
+                style="?android:buttonBarStyle">
                 <Button
                     android:id="@+id/cancel_action"
                     android:layout_width="0dp"
@@ -192,8 +162,7 @@
                     android:layout_weight="1"
                     android:layout_margin="8dp"
                     android:text="Cancel"
-                    android:textColor="#FFF"
-                    android:background="@drawable/rounded_button"/>
+                    style="?android:buttonBarButtonStyle"/>
                 <Button
                     android:id="@+id/save_card_action"
                     android:layout_width="0dp"
@@ -201,8 +170,7 @@
                     android:layout_weight="1"
                     android:layout_margin="8dp"
                     android:text="Save"
-                    android:textColor="#FFF"
-                    android:background="@drawable/rounded_button"/>
+                    style="?android:buttonBarButtonStyle"/>
             </LinearLayout>
 
         </LinearLayout>

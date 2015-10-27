@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="57dp"
             android:layout_height="130dp"
-            android:layout_margin="20dp"
+            android:layout_margin="16dp"
             android:src="@mipmap/ic_phone_iphone_black_24dp"
             android:id="@+id/display_image"/>
 
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/display_image"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:text="Title"
             android:textSize="14sp"
             android:id="@+id/title"/>
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/display_image"
             android:layout_below="@+id/description"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="9dp"
             android:text="Price"
             android:textSize="14sp"
             android:id="@+id/price"/>
@@ -79,7 +79,7 @@
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:src="@mipmap/ic_add_shopping_cart_black_18dp"
+                    android:src="@mipmap/ic_add_shopping_cart_black_24dp"
                     android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
@@ -103,7 +103,7 @@
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:src="@mipmap/ic_shopping_cart_black_18dp"
+                    android:src="@mipmap/ic_shopping_cart_black_24dp"
                     android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
@@ -126,7 +126,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_fa_trash_o"
+                    android:src="@mipmap/ic_delete_black_24dp"
                     android:layout_gravity="center_vertical"/>
 
                 <TextView

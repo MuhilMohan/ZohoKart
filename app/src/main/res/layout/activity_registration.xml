@@ -18,7 +18,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="200dp"
+                android:layout_marginTop="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,14 +47,14 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
+                        android:padding="10dp"
                         android:layout_marginBottom="15dp"
                         android:inputType="text"
                         android:ems="10"
                         android:textSize="16sp"
                         android:textColor="#FFF"
                         android:textColorHint="#FFF"
+                        android:textCursorDrawable="@drawable/custom_cursor"
                         android:background="@android:color/transparent"
                         android:id="@+id/accountName"
                         android:hint="Full Name"/>
@@ -66,8 +67,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
+                        android:padding="10dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
                         android:inputType="textEmailAddress"
@@ -75,6 +75,7 @@
                         android:textSize="16sp"
                         android:textColor="#FFF"
                         android:textColorHint="#FFF"
+                        android:textCursorDrawable="@drawable/custom_cursor"
                         android:background="@android:color/transparent"
                         android:id="@+id/email"
                         android:hint="Email"/>
@@ -91,8 +92,7 @@
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
+                            android:padding="10dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginBottom="15dp"
                             android:inputType="textPassword"
@@ -100,6 +100,7 @@
                             android:textSize="16sp"
                             android:textColor="#FFF"
                             android:textColorHint="#FFF"
+                            android:textCursorDrawable="@drawable/custom_cursor"
                             android:background="@android:color/transparent"
                             android:id="@+id/password"
                             android:hint="Password"/>
@@ -111,6 +112,7 @@
                             android:layout_marginBottom="15dp"
                             android:background="@drawable/blank_button"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:text="Show"
                             android:textColor="#FFF"
                             android:textSize="16sp"
@@ -123,6 +125,7 @@
                             android:layout_marginBottom="15dp"
                             android:background="@drawable/blank_button"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:text="Hide"
                             android:textColor="#FFF"
                             android:textSize="16sp"
@@ -138,8 +141,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
+                        android:padding="10dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
                         android:inputType="number"
@@ -147,6 +149,7 @@
                         android:textSize="16sp"
                         android:textColor="#FFF"
                         android:textColorHint="#FFF"
+                        android:textCursorDrawable="@drawable/custom_cursor"
                         android:background="@android:color/transparent"
                         android:id="@+id/phoneNumber"
                         android:hint="Phone number"/>
@@ -159,8 +162,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp">
+                        android:padding="10dp">
 
                         <TextView
                             android:id="@+id/dateOfBirth"
@@ -176,8 +178,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
+                            android:layout_centerVertical="true"
+                            android:padding="10dp"
                             android:text="Show Calendar"
                             android:textColor="#FFF"
                             android:textSize="16sp"
@@ -218,13 +220,13 @@
 
     <ImageButton
         android:id="@+id/closeButton"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="10dp"
         android:layout_gravity="end"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:background="@android:color/transparent"
-        android:src="@mipmap/ic_close_white_24dp"
+        android:src="@mipmap/ic_close_white_36dp"
         android:layout_alignParentEnd="true"
         android:clickable="true"/>
 

@@ -4,6 +4,7 @@ package com.muhil.zohokart.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.activities.CheckoutActivity;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
@@ -29,6 +31,7 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +43,7 @@ public class CartFragment extends android.support.v4.app.Fragment
     ZohokartDAO zohokartDAO;
     View cartFragment;
     List<Product> productsInCart;
+    List<Integer> productIds;
     LinearLayout emptyCartHolder, productsInCartContent;
     ScrollView cartContent;
     CardView cardView;
@@ -68,6 +72,7 @@ public class CartFragment extends android.support.v4.app.Fragment
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        productIds = new ArrayList<>();
     }
 
     @Override
@@ -83,6 +88,25 @@ public class CartFragment extends android.support.v4.app.Fragment
         productsInCartContent.removeAllViews();
 
         new CartAsyncTask().execute();
+
+        (cartFragment.findViewById(R.id.checkout_action)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (productsInCart.size() > 0)
+                        {
+                            productIds.clear();
+                            for (Product product : productsInCart)
+                            {
+                                productIds.add(product.getId());
+                            }
+                            communicator.openCheckout(productIds);
+                        }
+                    }
+                }
+        );
 
         return cartFragment;
     }
@@ -109,6 +133,14 @@ public class CartFragment extends android.support.v4.app.Fragment
 
     class CartAsyncTask extends AsyncTask<Void, Void, Void>
     {
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            (cartFragment.findViewById(R.id.cart_loading)).setVisibility(View.VISIBLE);
+            (cartFragment.findViewById(R.id.cart_content)).setVisibility(View.GONE);
+        }
 
         @Override
         protected Void doInBackground(Void... params)
@@ -198,7 +230,7 @@ public class CartFragment extends android.support.v4.app.Fragment
 
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                                 alertDialogBuilder.setTitle("");
-                                alertDialogBuilder.setMessage("Are you sure?");
+                                alertDialogBuilder.setMessage("Do you want to delete?");
 
                                 alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                     @Override
@@ -243,25 +275,54 @@ public class CartFragment extends android.support.v4.app.Fragment
                             @Override
                             public void onClick(View v) {
 
-                                if (!zohokartDAO.checkInWishlist(product.getId(), email))
-                                {
-                                    if (zohokartDAO.addToWishlist(product.getId(), email))
-                                    {
-                                        if (zohokartDAO.removeFromCart(product.getId(), email))
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                                alertDialogBuilder.setTitle("");
+                                alertDialogBuilder.setMessage("Do you want to move to wishlist?");
+
+                                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (!zohokartDAO.checkInWishlist(product.getId(), email))
                                         {
-                                            Toast.makeText(getActivity(), "Product added to wishlist.", Toast.LENGTH_SHORT).show();
-                                            (v).setVisibility(View.GONE);
+                                            if (zohokartDAO.addToWishlist(product.getId(), email))
+                                            {
+                                                if (zohokartDAO.removeFromCart(product.getId(), email))
+                                                {
+                                                    Toast.makeText(getActivity(), "Product added to wishlist.", Toast.LENGTH_SHORT).show();
+                                                    int position = productsInCart.indexOf(product);
+                                                    productsInCart.remove(position);
+
+                                                    ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
+                                                    productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
+                                                    updateGrandTotal();
+
+                                                    if (productsInCart.size() == 0)
+                                                    {
+                                                        switchViewElement();
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(getActivity(), "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(getActivity(), "Product already exists in wishlist.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
-                                    else
-                                    {
-                                        Toast.makeText(getActivity(), "error while adding to wishlist.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else
+                                });
+                                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
                                 {
-                                    Toast.makeText(getActivity(), "Product already exists in wishlist.", Toast.LENGTH_SHORT).show();
-                                }
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                alertDialogBuilder.show();
 
                             }
                         });
@@ -278,6 +339,8 @@ public class CartFragment extends android.support.v4.app.Fragment
                         productsInCartContent.addView(cardView);
                     }
                     updateGrandTotal();
+                    (cartFragment.findViewById(R.id.cart_loading)).setVisibility(View.GONE);
+                    (cartFragment.findViewById(R.id.cart_content)).setVisibility(View.VISIBLE);
                 }
                 else
                 {
@@ -296,6 +359,7 @@ public class CartFragment extends android.support.v4.app.Fragment
     public interface CartCommunicator
     {
         void openWishlist();
+        void openCheckout(List<Integer> productIds);
     }
 
 }

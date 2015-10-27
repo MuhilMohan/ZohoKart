@@ -18,4 +18,5 @@
         <item>Visa</item>
         <item>Mastercard</item>
     </string-array>
+    <string name="title_activity_order_summary">OrderSummaryActivity</string>
 </resources>

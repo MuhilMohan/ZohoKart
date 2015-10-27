@@ -791,10 +791,10 @@ public class ZohokartDAO
     // ***** methods for payment cards starts *****
 
     // *** to add a new card for a email id ***
-    public boolean addCard(PaymentCard paymentCard)
+    public boolean addCard(PaymentCard paymentCard, String email)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PaymentCard.EMAIL, paymentCard.getEmail());
+        contentValues.put(PaymentCard.EMAIL, email);
         contentValues.put(PaymentCard.CARD_NUMBER, paymentCard.getCardNumber());
         contentValues.put(PaymentCard.CARD_TYPE, paymentCard.getCardType());
         contentValues.put(PaymentCard.NAME_ON_CARD, paymentCard.getNameOnCard());

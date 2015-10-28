@@ -9,14 +9,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <provider
-            android:name=".utils.ZohokartContentProvider"
             android:authorities="com.muhil.zohokart.utils"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:label="ZohokartContentProvider"
-            android:readPermission="com.muhil.zohokart.utils.READ"
-            android:writePermission="com.muhil.zohokart.utils.WRITE" />
+            android:name="com.muhil.zohokart.utils.ZohokartContentProvider" />
 
         <activity
             android:name=".MainActivity"

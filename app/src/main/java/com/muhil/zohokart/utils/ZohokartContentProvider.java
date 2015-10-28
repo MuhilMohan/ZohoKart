@@ -22,7 +22,7 @@ import com.muhil.zohokart.models.Wishlist;
 import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 /**
- * Created by muhil-ga42 on 08/10/15.
+ * Created by muhil-ga42 on 28/10/15.
  */
 public class ZohokartContentProvider extends ContentProvider
 {

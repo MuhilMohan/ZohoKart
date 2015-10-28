@@ -16,10 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.utils.DBHelper;
 import com.muhil.zohokart.utils.EmailValidator;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import org.json.JSONArray;
@@ -39,8 +41,6 @@ public class LoginActivity extends AppCompatActivity
     EditText email, password;
     String emailString, passwordString;
     Account account;
-
-    String preferenceName = "logged_account";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -195,13 +195,13 @@ public class LoginActivity extends AppCompatActivity
                         if ((account = zohokartDAO.getAccountIfAvailable(emailString, passwordString)) != null)
                         {
                             Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
-                            loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
+                            loggedAccountHolder = getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, MODE_PRIVATE);
                             editor = loggedAccountHolder.edit();
-
                             editor.putString(Account.EMAIL, account.getEmail());
                             editor.putString(Account.PASSWORD, account.getPassword());
                             editor.putString(Account.NAME, account.getName());
                             editor.apply();
+                            setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
                             finish();
                             Toast.makeText(LoginActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
                         }

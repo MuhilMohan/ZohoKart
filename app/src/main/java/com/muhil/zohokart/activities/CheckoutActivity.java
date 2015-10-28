@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.OrderConfirmationFragment;
@@ -19,6 +22,7 @@ import java.util.List;
 public class CheckoutActivity extends AppCompatActivity
 {
 
+    Toolbar toolbar;
     SharedPreferences sharedPreferences;
     String email, password;
     List<Integer> productIds;
@@ -30,6 +34,16 @@ public class CheckoutActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+        }
 
         productIds = getIntent().getIntegerArrayListExtra("product_ids");
 
@@ -72,11 +86,29 @@ public class CheckoutActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
+        if (id == android.R.id.home)
         {
-            return true;
+            if (((FrameLayout) findViewById(R.id.checkout_fragments_holder)).getChildCount() > 1)
+            {
+                fragmentManager.popBackStack();
+            }
+            else
+            {
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 }

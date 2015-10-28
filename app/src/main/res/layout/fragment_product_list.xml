@@ -95,7 +95,7 @@
         android:id="@+id/empty_list"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         app:cardBackgroundColor="#5C6BC0"
         app:cardCornerRadius="4dp"
         android:visibility="gone">
@@ -123,6 +123,7 @@
                 android:textSize="16sp"/>
 
             <Button
+                android:id="@+id/empty_list_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

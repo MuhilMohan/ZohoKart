@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="primary_color">#2196F3</color>
+    <color name="primary_color_dark">#1976D2</color>
     <color name="fragment_background_color">#EEEEEE</color>
-    <color name="nav_drawer_account_detail_bg">#E91E63</color>
+    <color name="accent_color">#E91E63</color>
+    <color name="whitebg">#FFF</color>
 
 </resources>

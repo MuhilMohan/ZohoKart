@@ -32,10 +32,11 @@
         android:textSize="12sp"
         android:layout_marginBottom="9dp"
         android:id="@+id/description"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/display_image"
+        android:layout_toEndOf="@id/display_image"
         android:layout_below="@id/description"
         android:text="Price"
         android:textSize="16sp"
@@ -69,10 +70,9 @@
     </LinearLayout>
 
     <ToggleButton
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/rating"
         android:textOn=""

@@ -3,6 +3,7 @@ package com.muhil.zohokart.fragments;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -33,13 +34,13 @@ public class BannerFragment extends android.support.v4.app.Fragment
 {
 
     View bannerFragment;
-    ViewPager bannerPager;
     ZohokartDAO zohokartDAO;
-    PromotionBanner currentBanner;
+    PromotionBanner currentBanner, clickedBanner;
+    BannerCommunicator communicator;
+    List<Integer> productIds;
+    List<Product> products;
 
-    List<PromotionBanner> banners;
-
-    public static android.support.v4.app.Fragment getInstance(PromotionBanner promotionBanner)
+    public static BannerFragment getInstance(PromotionBanner promotionBanner)
     {
         BannerFragment bannerFragment = new BannerFragment();
         Bundle bundle = new Bundle();
@@ -53,19 +54,66 @@ public class BannerFragment extends android.support.v4.app.Fragment
         // Required empty public constructor
     }
 
+    public void setCommunicator(BannerCommunicator communicator)
+    {
+        this.communicator = communicator;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        zohokartDAO = new ZohokartDAO(getActivity());
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        Toast.makeText(getActivity(), "onCreateView of main", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         bannerFragment = inflater.inflate(R.layout.fragment_banner, container, false);
         currentBanner = (PromotionBanner) getArguments().getSerializable("banner");
         ImageView bannerImage = (ImageView) bannerFragment.findViewById(R.id.banner_image);
         Picasso.with(getActivity()).load(currentBanner.getBanner()).into(bannerImage);
-        bannerImage.setTag(currentBanner.getProductIds());
+        bannerImage.setTag(currentBanner);
+
+        bannerImage.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        clickedBanner = (PromotionBanner) v.getTag();
+                        new BannerProductsAsyncTask().execute(clickedBanner);
+                    }
+                }
+        );
 
         return bannerFragment;
+    }
+
+    class BannerProductsAsyncTask extends AsyncTask<PromotionBanner, Void, List<Product>>
+    {
+
+        @Override
+        protected List<Product> doInBackground(PromotionBanner... params)
+        {
+            productIds = params[0].getProductIds();
+            products = zohokartDAO.getProductsForProductIds(productIds);
+            return products;
+        }
+
+        @Override
+        protected void onPostExecute(List<Product> products)
+        {
+            super.onPostExecute(products);
+            communicator.openProductListPage(products);
+        }
+    }
+
+    public interface BannerCommunicator
+    {
+        void openProductListPage(List<Product> products);
     }
 
 }

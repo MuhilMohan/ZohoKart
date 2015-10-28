@@ -68,6 +68,11 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         this.productDetailPageCommunicator = productDetailPageCommunicator;
     }
 
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -76,7 +81,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         currentPosition = getArguments().getInt("current_position");
         products = getArguments().getParcelableArrayList("products");
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
-        email = sharedPreferences.getString(Account.EMAIL, "default");
+        email = sharedPreferences.getString(Account.EMAIL, "");
     }
 
     @Override
@@ -124,22 +129,27 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                 public void onClick(View v)
                 {
                     Product product = products.get(productDetailPager.getCurrentItem());
-                    if (!zohokartDAO.checkInCart(product.getId(), email))
+                    if (!email.equals(""))
                     {
-                        if (zohokartDAO.addToCart(product.getId(), email))
+                        if (!zohokartDAO.checkInCart(product.getId(), email))
                         {
-                            getSnackbar("Product added to cart.").show();
-                            (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
-                            (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
-                        }
-                        else
+                            if (zohokartDAO.addToCart(product.getId(), email))
+                            {
+                                getSnackbar("Product added to cart.").show();
+                                (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
+                                (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
+                            } else
+                            {
+                                getSnackbar("Error while adding product to cart.").show();
+                            }
+                        } else
                         {
-                            getSnackbar("Error while adding product to cart.").show();
+                            getSnackbar("Product already in cart.").show();
                         }
                     }
                     else
                     {
-                        getSnackbar("Product already in cart.").show();
+                        communicator.openLoginPage();
                     }
                 }
             });
@@ -184,6 +194,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     public interface ProductDetailCommunicator
     {
         void openCart();
+        void openLoginPage();
     }
 
 }

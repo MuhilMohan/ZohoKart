@@ -30,6 +30,7 @@ public class MainFragment extends Fragment
     BannerPagerAdapter bannerPagerAdapter;
     List<PromotionBanner> promotionBanners;
     List<ImageView> pageIndicators;
+    BannerFragment.BannerCommunicator bannerCommunicator;
 
     public static MainFragment getInstance(List<PromotionBanner> promotionBanners)
     {
@@ -43,6 +44,11 @@ public class MainFragment extends Fragment
     public MainFragment()
     {
         // Required empty public constructor
+    }
+
+    public void setCommunicator(BannerFragment.BannerCommunicator bannerCommunicator)
+    {
+        this.bannerCommunicator = bannerCommunicator;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class MainFragment extends Fragment
             promotionBanners = (List<PromotionBanner>) getArguments().getSerializable("promotion_banners");
 
             bannerViewPager = (ViewPager) rootView.findViewById(R.id.banner_viewpager);
-            bannerPagerAdapter = new BannerPagerAdapter(getActivity().getSupportFragmentManager(), promotionBanners);
+            bannerPagerAdapter = new BannerPagerAdapter(getActivity().getSupportFragmentManager(), promotionBanners, bannerCommunicator);
             bannerViewPager.setAdapter(bannerPagerAdapter);
             addDots();
             bannerViewPager.addOnPageChangeListener(
@@ -101,17 +107,18 @@ public class MainFragment extends Fragment
         for (int i = 0; i < promotionBanners.size(); i++)
         {
             ImageView pageIndicator = new ImageView(getActivity());
-            pageIndicator.setImageResource(R.mipmap.ic_panorama_fish_eye_black_18dp);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DpToPxConverter.dpToPx(10), DpToPxConverter.dpToPx(10));
+            pageIndicator.setImageResource(R.mipmap.fa_circle_o_256_0_ffffff_none);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DpToPxConverter.dpToPx(9), DpToPxConverter.dpToPx(9));
+            params.setMargins(2, 2, 2, 2);
             pageIndicatorHolder.addView(pageIndicator, params);
             pageIndicators.add(pageIndicator);
         }
-        pageIndicators.get(0).setImageResource(R.mipmap.ic_lens_black_18dp);
+        pageIndicators.get(0).setImageResource(R.mipmap.fa_circle_256_0_ff9800_none);
     }
 
     public void selectDot(int selectedPage) {
         for(int i = 0; i < promotionBanners.size(); i++) {
-            int drawableId = (i==selectedPage)?(R.mipmap.ic_lens_black_18dp):(R.mipmap.ic_panorama_fish_eye_black_18dp);
+            int drawableId = (i==selectedPage)?(R.mipmap.fa_circle_256_0_ff9800_none):(R.mipmap.fa_circle_o_256_0_ffffff_none);
             pageIndicators.get(i).setImageResource(drawableId);
         }
     }

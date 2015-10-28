@@ -11,4 +11,5 @@ public interface ProductListCommunicator
 {
     void openFilter(int subCategoryId);
     void showProductDetailFragment(int position, List<Product> products);
+    void showMainFragment();
 }

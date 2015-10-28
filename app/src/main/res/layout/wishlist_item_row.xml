@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="57dp"
             android:layout_height="130dp"
-            android:layout_margin="16dp"
+            android:layout_margin="20dp"
             android:src="@mipmap/ic_phone_iphone_black_24dp"
             android:id="@+id/display_image"/>
 
@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/display_image"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="Title"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:id="@+id/title"/>
         <TextView
             android:layout_width="wrap_content"
@@ -43,18 +43,31 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/display_image"
             android:layout_below="@+id/description"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="15dp"
             android:text="Price"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:id="@+id/price"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_below="@id/display_image"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:id="@+id/removeProduct"
+            android:src="@mipmap/ion_ios_trash_outline_256_0_2196f3_none"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/display_image"
+            android:layout_toStartOf="@id/removeProduct"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:gravity="center"
             android:background="@drawable/rounded_frame"
             android:id="@+id/add_to_cart_action">
@@ -66,40 +79,22 @@
                 android:gravity="center"
                 android:layout_margin="8dp"
                 android:text="ADD TO CART"
+                android:textSize="12sp"
                 android:drawableEnd="@mipmap/ic_add_shopping_cart_black_24dp"
                 android:drawablePadding="16dp" />
 
         </FrameLayout>
 
         <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_below="@id/add_to_cart_action"
-            android:id="@+id/removeProduct"
-            android:background="@drawable/rounded_frame">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:text="REMOVE"
-                android:drawableEnd="@mipmap/ic_delete_black_24dp"
-                android:drawablePadding="16dp"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_below="@id/removeProduct"
+            android:layout_below="@id/display_image"
+            android:layout_toStartOf="@id/removeProduct"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:gravity="center"
             android:id="@+id/go_to_cart"
             android:background="@drawable/rounded_frame"
             android:visibility="gone">
@@ -111,6 +106,7 @@
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:text="GO TO CART"
+                android:textSize="14sp"
                 android:drawableEnd="@mipmap/ic_shopping_cart_black_24dp"
                 android:drawablePadding="16dp"/>
 

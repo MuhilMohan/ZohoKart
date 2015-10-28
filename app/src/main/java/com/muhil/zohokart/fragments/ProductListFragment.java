@@ -83,6 +83,17 @@ public class ProductListFragment extends android.support.v4.app.Fragment
 
         new ProductListingAsyncTask().execute(bundle);
 
+        (productListFragment.findViewById(R.id.empty_list_action)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        communicator.showMainFragment();
+                    }
+                }
+        );
+
         return productListFragment;
     }
 

@@ -3,6 +3,7 @@ package com.muhil.zohokart.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -170,7 +171,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
         TextView title, price, description;
         ImageView displayImage;
-        FrameLayout removeProductView, addToCart, goToCart;
+        FrameLayout addToCart, goToCart;
+        ImageView removeProductView;
 
         public WishlistViewHolder(View itemView)
         {
@@ -180,7 +182,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.display_image);
-            removeProductView = (FrameLayout) itemView.findViewById(R.id.removeProduct);
+            removeProductView = (ImageView) itemView.findViewById(R.id.removeProduct);
             addToCart = (FrameLayout) itemView.findViewById(R.id.add_to_cart_action);
             goToCart = (FrameLayout) itemView.findViewById(R.id.go_to_cart);
 

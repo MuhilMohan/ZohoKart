@@ -11,13 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/app_bar"
-        android:padding="16dp"
+        android:padding="8dp"
         android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:src="@mipmap/fa_heart_256_0_ef5350_none"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_margin="4dp"
+            android:layout_gravity="center_vertical"
             android:text="Wishlist"
             android:textStyle="bold"
             android:textSize="18sp"/>
@@ -25,6 +34,7 @@
             android:id="@+id/wishlist_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text=""
             android:textStyle="italic"
             android:textSize="16sp"/>

@@ -44,7 +44,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     ImageView fullStar, halfStar, emptyStar;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     Double stars;
-
+    LinearLayout.LayoutParams params;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String email;
@@ -168,24 +168,30 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
             if (stars >= 1)
             {
                 fullStar = new ImageView(getActivity());
-                fullStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                fullStar.setImageResource(R.mipmap.ic_star_black_18dp);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                fullStar.setLayoutParams(params);
+                fullStar.setImageResource(R.mipmap.fa_star_54_0_ffeb3b_none);
                 ((LinearLayout) rootView.findViewById(R.id.stars)).addView(fullStar);
                 stars = stars-1;
             }
             else if (stars > 0)
             {
                 halfStar = new ImageView(getActivity());
-                halfStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                halfStar.setImageResource(R.mipmap.ic_star_half_black_18dp);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                halfStar.setLayoutParams(params);
+                halfStar.setImageResource(R.mipmap.fa_star_half_empty_54_0_ffeb3b_none);
                 ((LinearLayout) rootView.findViewById(R.id.stars)).addView(halfStar);
                 stars = stars-0.5;
             }
             else
             {
                 emptyStar = new ImageView(getActivity());
-                emptyStar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                emptyStar.setImageResource(R.mipmap.ic_star_border_black_18dp);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                emptyStar.setLayoutParams(params);
+                emptyStar.setImageResource(R.mipmap.fa_star_o_54_0_ffeb3b_none);
                 ((LinearLayout) rootView.findViewById(R.id.stars)).addView(emptyStar);
             }
         }

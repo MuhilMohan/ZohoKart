@@ -217,7 +217,7 @@
             android:paddingRight="16dp"
             android:text="Continue shopping"
             android:textColor="#FFF"
-            android:background="@drawable/rounded_button"/>
+            android:background="@drawable/rounded_button" />
 
     </LinearLayout>
 

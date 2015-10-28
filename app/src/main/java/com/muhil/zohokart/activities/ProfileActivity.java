@@ -72,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             (toolbar.findViewById(R.id.logout_action)).setVisibility(View.VISIBLE);
+            toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         }
 
         // *** getting data from preferences and db to update the view ***
@@ -129,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                             public void onClick(DialogInterface dialog, int which)
                             {
 
-                                setResult(MainActivity.REQUEST_CODE_PROFILE, null);
+                                setResult(MainActivity.REQUEST_CODE_LOGOUT, null);
                                 finish();
 
                             }
@@ -301,6 +302,15 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     {
         zohokartDAO.addCard(paymentCard, email);
         recreate();
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     class SavedCardsListingAsyncTask extends AsyncTask<String, Void, List<PaymentCard>>

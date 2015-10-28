@@ -4,7 +4,6 @@ package com.muhil.zohokart.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
-import com.muhil.zohokart.activities.CheckoutActivity;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
@@ -44,7 +42,7 @@ public class CartFragment extends android.support.v4.app.Fragment
     View cartFragment;
     List<Product> productsInCart;
     List<Integer> productIds;
-    LinearLayout emptyCartHolder, productsInCartContent;
+    LinearLayout emptyCartHolder, productsInCartHolder;
     ScrollView cartContent;
     CardView cardView;
     double quantity;
@@ -67,13 +65,25 @@ public class CartFragment extends android.support.v4.app.Fragment
         this.communicator = communicator;
     }
 
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public void updateCart()
+    {
+        new CartAsyncTask().execute(email);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        Toast.makeText(getActivity(), "onCreate cart", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
-        sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         productIds = new ArrayList<>();
+        sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        email = sharedPreferences.getString(Account.EMAIL, "");
         layoutInflater = LayoutInflater.from(getActivity());
     }
 
@@ -86,10 +96,9 @@ public class CartFragment extends android.support.v4.app.Fragment
 
         emptyCartHolder = (LinearLayout) cartFragment.findViewById(R.id.empty_cart_holder);
         cartContent = (ScrollView) cartFragment.findViewById(R.id.cart_content);
-        productsInCartContent = (LinearLayout) cartFragment.findViewById(R.id.cart_list);
-        productsInCartContent.removeAllViews();
+        productsInCartHolder = (LinearLayout) cartFragment.findViewById(R.id.cart_list);
 
-        new CartAsyncTask().execute();
+        new CartAsyncTask().execute(email);
 
         (cartFragment.findViewById(R.id.checkout_action)).setOnClickListener(
                 new View.OnClickListener()
@@ -97,6 +106,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
+
                         if (productsInCart.size() > 0)
                         {
                             productIds.clear();
@@ -109,6 +119,15 @@ public class CartFragment extends android.support.v4.app.Fragment
                     }
                 }
         );
+
+        (cartFragment.findViewById(R.id.continue_shopping_button)).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                communicator.showMainFragment();
+            }
+        });
 
         return cartFragment;
     }
@@ -125,7 +144,7 @@ public class CartFragment extends android.support.v4.app.Fragment
         grandTotal = 0;
         for (Product product : productsInCart)
         {
-            View view = productsInCartContent.findViewById(product.getId());
+            View view = productsInCartHolder.findViewById(product.getId());
             grandTotal = grandTotal + (Double.parseDouble(((TextView) view.findViewById(R.id.total_price)).getText().toString()));
         }
 
@@ -133,7 +152,7 @@ public class CartFragment extends android.support.v4.app.Fragment
 
     }
 
-    class CartAsyncTask extends AsyncTask<Void, Void, Void>
+    class CartAsyncTask extends AsyncTask<String, Void, Void>
     {
 
         @Override
@@ -142,13 +161,13 @@ public class CartFragment extends android.support.v4.app.Fragment
             super.onPreExecute();
             (cartFragment.findViewById(R.id.cart_loading)).setVisibility(View.VISIBLE);
             (cartFragment.findViewById(R.id.cart_content)).setVisibility(View.GONE);
+            emptyCartHolder.setVisibility(View.GONE);
         }
 
         @Override
-        protected Void doInBackground(Void... params)
+        protected Void doInBackground(String... params)
         {
-            email = sharedPreferences.getString(Account.EMAIL, "default");
-            productsInCart = zohokartDAO.getProductsFromCart(email);
+            productsInCart = zohokartDAO.getProductsFromCart(params[0]);
             return null;
         }
 
@@ -163,11 +182,12 @@ public class CartFragment extends android.support.v4.app.Fragment
                 if (productsInCart.size() > 0)
                 {
 
+                    productsInCartHolder.removeAllViews();
                     ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
 
                     for (final Product product : productsInCart)
                     {
-                        cardView = (CardView) layoutInflater.inflate(R.layout.cart_item_row, productsInCartContent, false);
+                        cardView = (CardView) layoutInflater.inflate(R.layout.cart_item_row, productsInCartHolder, false);
                         cardView.setId(product.getId());
                         ((TextView) cardView.findViewById(R.id.title)).setText(product.getTitle());
                         ((TextView) cardView.findViewById(R.id.description)).setText(product.getDescription());
@@ -193,7 +213,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                         if (!(((EditText) v).getText().toString().equals("")))
                                         {
                                             quantity = Integer.parseInt(((EditText) v).getText().toString());
-                                            ((TextView) (productsInCartContent.findViewById(product.getId())).findViewById(R.id.total_price)).setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
+                                            ((TextView) (productsInCartHolder.findViewById(product.getId())).findViewById(R.id.total_price)).setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
                                             if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId(), email))
                                             {
                                                 updateGrandTotal();
@@ -243,7 +263,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                             productsInCart.remove(position);
 
                                             ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
-                                            productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
+                                            productsInCartHolder.removeView(productsInCartHolder.findViewById(product.getId()));
                                             updateGrandTotal();
 
                                             if (productsInCart.size() == 0)
@@ -294,7 +314,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                                     productsInCart.remove(position);
 
                                                     ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
-                                                    productsInCartContent.removeView(productsInCartContent.findViewById(product.getId()));
+                                                    productsInCartHolder.removeView(productsInCartHolder.findViewById(product.getId()));
                                                     updateGrandTotal();
 
                                                     if (productsInCart.size() == 0)
@@ -328,16 +348,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                             }
                         });
 
-                        (cartFragment.findViewById(R.id.continue_shopping_button)).setOnClickListener(new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v)
-                            {
-
-                            }
-                        });
-
-                        productsInCartContent.addView(cardView);
+                        productsInCartHolder.addView(cardView);
                     }
                     updateGrandTotal();
                     (cartFragment.findViewById(R.id.cart_loading)).setVisibility(View.GONE);
@@ -359,6 +370,7 @@ public class CartFragment extends android.support.v4.app.Fragment
 
     public interface CartCommunicator
     {
+        void showMainFragment();
         void openWishlist();
         void openCheckout(List<Integer> productIds);
     }

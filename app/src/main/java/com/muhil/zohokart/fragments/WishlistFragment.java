@@ -51,6 +51,17 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
+        email = sharedPreferences.getString(Account.EMAIL, "default");
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public void updateWishlist()
+    {
+        new WishlistAsyncTask().execute(email);
     }
 
     public void setCommunicator(WishlistCommunicator communicator)
@@ -67,7 +78,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         emptyTextView = (TextView) wishlistFragment.findViewById(R.id.empty_text);
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
 
-        new WishlistAsyncTask().execute();
+        new WishlistAsyncTask().execute(email);
 
         return wishlistFragment;
     }
@@ -84,14 +95,13 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         (wishlistFragment.findViewById(R.id.wishlist_header)).setVisibility(View.GONE);
     }
 
-    class WishlistAsyncTask extends AsyncTask<Void, Void, Void>
+    class WishlistAsyncTask extends AsyncTask<String, Void, Void>
     {
 
         @Override
-        protected Void doInBackground(Void... params)
+        protected Void doInBackground(String... params)
         {
-            email = sharedPreferences.getString(Account.EMAIL, "default");
-            productsInWishlist = zohokartDAO.getProductsFromWishlist(email);
+            productsInWishlist = zohokartDAO.getProductsFromWishlist(params[0]);
             return null;
         }
 

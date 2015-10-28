@@ -16,17 +16,21 @@ import java.util.List;
 public class BannerPagerAdapter extends FragmentStatePagerAdapter
 {
     List<PromotionBanner> banners;
+    BannerFragment.BannerCommunicator bannerCommunicator;
 
-    public BannerPagerAdapter(FragmentManager fragmentManager, List<PromotionBanner> banners)
+    public BannerPagerAdapter(FragmentManager fragmentManager, List<PromotionBanner> banners, BannerFragment.BannerCommunicator bannerCommunicator)
     {
         super(fragmentManager);
         this.banners = banners;
+        this.bannerCommunicator = bannerCommunicator;
     }
 
     @Override
     public Fragment getItem(int position)
     {
-       return BannerFragment.getInstance(banners.get(position));
+        BannerFragment bannerFragment = BannerFragment.getInstance(banners.get(position));
+        bannerFragment.setCommunicator(bannerCommunicator);
+        return bannerFragment;
     }
 
     @Override

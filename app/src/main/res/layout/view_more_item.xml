@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="130dp"
+    android:layout_height="210dp"
+    android:background="@color/fragment_background_color">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/view_more_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="25dp"
+            android:src="@mipmap/fa_arrow_circle_right_256_0_2196f3_none"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="VIEW MORE"
+            android:textColor="#2196f3"
+            android:textSize="18dp"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

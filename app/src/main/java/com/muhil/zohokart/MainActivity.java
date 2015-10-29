@@ -50,7 +50,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator, FilterFragment.FilterCommunicator,
         ProductListCommunicator, WishlistFragment.WishlistCommunicator, CartFragment.CartCommunicator,
         ProductDetailFragment.ProductDetailCommunicator, ProductDetailPagerFragment.ProductDetailPageCommunicator,
-        BannerFragment.BannerCommunicator
+        BannerFragment.BannerCommunicator, MainFragment.MainCommunicator
 {
 
     public static final int REQUEST_CODE_LOGIN = 101;
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     Fragment fragment;
     CartFragment cartFragment;
+    MainFragment mainFragment;
     WishlistFragment wishlistFragment;
     ProductDetailFragment productDetailFragment;
     android.support.v4.app.FragmentManager fragmentManager;
@@ -498,6 +499,16 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
+    public void updateRecentlyViewed()
+    {
+        mainFragment = (MainFragment) fragmentManager.findFragmentByTag("main_fragment");
+        if (mainFragment != null)
+        {
+            mainFragment.resetRecentlyUsed();
+        }
+    }
+
+    @Override
     public void openProductListPage(List<Product> products)
     {
         if (products.size() > 1)
@@ -510,7 +521,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
     }
 
-    private void openProductList(List<Product> products)
+    @Override
+    public void openProductList(List<Product> products)
     {
         ProductListFragment productListFragment = ProductListFragment.getInstance(products);
         productListFragment.setCommunicator(this);
@@ -518,6 +530,16 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
         fragmentTransaction.addToBackStack("product_list");
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void showAllTopRatedProducts()
+    {
+        mainFragment = (MainFragment) fragmentManager.findFragmentByTag("main_fragment");
+        if (mainFragment != null && mainFragment.isVisible())
+        {
+            mainFragment.showTopRatedProducts();
+        }
     }
 
     @Override
@@ -596,7 +618,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             // *** including the default main fragment ***
             promotionBanners = zohokartDAO.getBanners();
             MainFragment mainFragment = MainFragment.getInstance(promotionBanners);
-            mainFragment.setCommunicator(MainActivity.this);
+            mainFragment.setCommunicator(MainActivity.this, MainActivity.this, MainActivity.this);
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
             fragmentTransaction.commit();

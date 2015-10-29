@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,11 @@ import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,8 +38,10 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
 
     ZohokartDAO zohokartDAO;
     View rootview;
-    int currentPosition, pagerPosition;
+    int currentPosition;
     List<Product> products;
+
+    Set<String> recentlyUsed;
     ViewPager productDetailPager;
     ProductDetailPagerAdapter productDetailPagerAdapter;
     ProductDetailCommunicator communicator;
@@ -51,7 +57,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         ProductDetailFragment productDetailFragment = new ProductDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("current_position", currentPosition);
-        bundle.putParcelableArrayList("products", (ArrayList<? extends Parcelable>) products);
+        bundle.putSerializable("products", (Serializable) products);
         productDetailFragment.setArguments(bundle);
         return productDetailFragment;
 
@@ -195,6 +201,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     {
         void openCart();
         void openLoginPage();
+        void updateRecentlyViewed();
     }
 
 }

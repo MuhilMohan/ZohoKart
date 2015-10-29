@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,11 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +41,7 @@ import java.util.Map;
 public class ProductDetailPagerFragment extends android.support.v4.app.Fragment implements View.OnClickListener
 {
 
+    Set<String> recentlyUsed;
     View rootView;
     Product product;
     ImageView imageView;
@@ -46,6 +51,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     Double stars;
     LinearLayout.LayoutParams params;
     SharedPreferences sharedPreferences;
+    SharedPreferences recentlyUsedPref;
     SharedPreferences.Editor editor;
     String email;
     ProductDetailPageCommunicator communicator;
@@ -74,8 +80,42 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
+        product = (Product) getArguments().getSerializable("product");
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "default");
+        recentlyUsedPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.RECENTLY_VIEWED_PRODUCTS, Context.MODE_PRIVATE);
+        recentlyUsed = recentlyUsedPref.getStringSet(ZohoKartSharePreferences.PRODUCT_LIST, null);
+        if (recentlyUsed == null)
+        {
+            recentlyUsed = new LinkedHashSet<>(10);
+            recentlyUsed.add(String.valueOf(product.getId()));
+        }
+        else
+        {
+            if (!(recentlyUsed.contains(String.valueOf(product.getId()))))
+            {
+                if (recentlyUsed.size() == 10)
+                {
+                    String firstObject = null;
+                    for (String string : recentlyUsed)
+                    {
+                        firstObject = string;
+                        break;
+                    }
+                    recentlyUsed.remove(firstObject);
+                    recentlyUsed.add(String.valueOf(product.getId()));
+                }
+                else
+                {
+                    recentlyUsed.add(String.valueOf(product.getId()));
+                }
+            }
+
+        }
+        editor = recentlyUsedPref.edit();
+        editor.putStringSet(ZohoKartSharePreferences.PRODUCT_LIST, recentlyUsed);
+        editor.apply();
+        communicator.updateRecentlyViewed();
     }
 
     @Override
@@ -84,7 +124,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         // Inflate the layout for this fragment
         rootView =  inflater.inflate(R.layout.fragment_product_detail_pager, container, false);
-        product = (Product) getArguments().getSerializable("product");
+
         ((TextView) rootView.findViewById(R.id.title)).setText(product.getTitle());
         ((TextView) rootView.findViewById(R.id.description)).setText(product.getDescription());
         ((TextView) rootView.findViewById(R.id.price)).setText(String.valueOf(decimalFormat.format(product.getPrice())));
@@ -200,6 +240,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     public interface ProductDetailPageCommunicator
     {
         void openSpecifications(Product product);
+        void updateRecentlyViewed();
     }
 
 }

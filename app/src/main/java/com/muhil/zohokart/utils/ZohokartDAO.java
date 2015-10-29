@@ -253,6 +253,38 @@ public class ZohokartDAO
         return products;
     }
 
+    public List<Product> getTopRatedProducts()
+    {
+        List<Product> products = new ArrayList<>();
+        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, Product.PROJECTION, Product.STARS + " > ? ", new String[]{String.valueOf(4)}, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    products.add(getProductFromCursor(cursor));
+                }
+            }
+        }
+        return products;
+    }
+
+    public List<Product> getTopRatedProductsWithLimit()
+    {
+        List<Product> products = new ArrayList<>();
+        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, Product.PROJECTION, Product.STARS + " > ?", new String[]{String.valueOf(4)}, Product.TITLE + " LIMIT 10"))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    products.add(getProductFromCursor(cursor));
+                }
+            }
+        }
+        return products;
+    }
+
     // ***** product methods ends *****
 
     // ***** wishlist methods starts *****
@@ -834,5 +866,7 @@ public class ZohokartDAO
         int deleteCount = context.getContentResolver().delete(Uri.parse(PaymentCard.CONTENT_URI + "/" + email), PaymentCard.CARD_NUMBER + " = ?", new String[]{cardNumber});
         return (deleteCount == 1);
     }
+
+
 
 }

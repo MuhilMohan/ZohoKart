@@ -7,6 +7,7 @@ public class ZohoKartSharePreferences
 {
 
     public static String LOGGED_ACCOUNT = "logged_account";
-    public static String CURRENT_PRODUCT_IN_PAGER = "current_product";
+    public static String RECENTLY_VIEWED_PRODUCTS = "recently_viewed_products";
+    public static String PRODUCT_LIST = "product_list";
 
 }

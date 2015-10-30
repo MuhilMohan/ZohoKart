@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,9 @@ public class MainFragment extends Fragment
     BannerPagerAdapter bannerPagerAdapter;
     List<PromotionBanner> promotionBanners;
     List<ImageView> pageIndicators;
-    Set<String> recentlyViewedProducts;
+    List<Product> products;
+    List<Integer> productIds;
+    String recentlyViewed;
     BannerFragment.BannerCommunicator bannerCommunicator;
     ProductListCommunicator productListCommunicator;
     MainCommunicator mainCommunicator;
@@ -88,6 +91,16 @@ public class MainFragment extends Fragment
     public void resetRecentlyUsed()
     {
         new RecentlyUsedTask().execute();
+    }
+
+    public void setLoadingVisible()
+    {
+        (rootView.findViewById(R.id.loading)).setVisibility(View.VISIBLE);
+    }
+
+    public void setLoadingGone()
+    {
+        (rootView.findViewById(R.id.loading)).setVisibility(View.GONE);
     }
 
     public void showTopRatedProducts()
@@ -224,15 +237,20 @@ public class MainFragment extends Fragment
         @Override
         protected List<Product> doInBackground(Void... params)
         {
-            List<Integer> productIds = new ArrayList<>();
-            List<Product> products;
-            recentlyViewedProducts = recentlyViewedPref.getStringSet(ZohoKartSharePreferences.PRODUCT_LIST, null);
-            if (recentlyViewedProducts != null)
+            recentlyViewed = recentlyViewedPref.getString(ZohoKartSharePreferences.PRODUCT_LIST, null);
+            if (recentlyViewed != null)
             {
-                for (String productId : recentlyViewedProducts)
+                productIds = new ArrayList<>();
+                products = new ArrayList<>();
+                String[] recentlyViewedProducts = TextUtils.split(recentlyViewed, ",");
+                for (String string : recentlyViewedProducts)
                 {
-                    productIds.add(Integer.valueOf(productId));
+                    if (!(string.equals("")))
+                    {
+                        productIds.add(Integer.parseInt(string));
+                    }
                 }
+                Collections.reverse(productIds);
                 products = zohokartDAO.getProductsForProductIds(productIds);
                 return products;
             }
@@ -253,7 +271,6 @@ public class MainFragment extends Fragment
                 {
                     productList.add(product);
                 }
-                productList.add("view more");
 
                 Toast.makeText(getActivity(), ""+products.size()+"", Toast.LENGTH_SHORT).show();
                 recentlyViewedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));

@@ -35,7 +35,8 @@
                 android:background="#E0E0E0">
 
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:id="@+id/header_image"
+                    android:layout_width="280dp"
                     android:layout_height="190dp"
                     android:src="@drawable/nav_image"
                     android:scaleType="fitXY"/>

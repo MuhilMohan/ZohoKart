@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -40,14 +42,14 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     View rootview;
     int currentPosition;
     List<Product> products;
-
-    Set<String> recentlyUsed;
+    List<Integer> productIds;
+    String recentlyViewed;
     ViewPager productDetailPager;
     ProductDetailPagerAdapter productDetailPagerAdapter;
     ProductDetailCommunicator communicator;
     ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator;
-
     SharedPreferences sharedPreferences;
+    SharedPreferences recentlyUsedPref;
     SharedPreferences.Editor editor;
     String email;
 
@@ -86,8 +88,10 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         zohokartDAO = new ZohokartDAO(getActivity());
         currentPosition = getArguments().getInt("current_position");
         products = getArguments().getParcelableArrayList("products");
+        productIds = new LinkedList<>();
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "");
+        addToRecentlyViewed(currentPosition);
     }
 
     @Override
@@ -120,6 +124,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                 public void onPageSelected(int position)
                 {
                     checkInCart(position);
+                    addToRecentlyViewed(position);
                 }
 
                 @Override
@@ -172,6 +177,57 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             return rootview;
         }
     }
+
+
+    private void addToRecentlyViewed(int position)
+    {
+        recentlyUsedPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.RECENTLY_VIEWED_PRODUCTS, Context.MODE_PRIVATE);
+        recentlyViewed = recentlyUsedPref.getString(ZohoKartSharePreferences.PRODUCT_LIST, null);
+
+        if (recentlyViewed == null)
+        {
+            recentlyViewed = String.valueOf(products.get(position).getId()) + ",";
+        }
+        else
+        {
+            String[] recentlyViewedProducts = TextUtils.split(recentlyViewed, ",");
+            for (String string : recentlyViewedProducts)
+            {
+                if (!(string.equals("")))
+                {
+                    productIds.add(Integer.parseInt(string));
+                }
+            }
+            if (!(productIds.contains(products.get(position).getId())))
+            {
+                if (productIds.size() < 5)
+                {
+                    productIds.add(products.get(position).getId());
+                }
+                else
+                {
+                    productIds.remove(0);
+                    productIds.add(products.get(position).getId());
+                }
+            }
+            else
+            {
+                productIds.remove(productIds.indexOf(products.get(position).getId()));
+                productIds.add(products.get(position).getId());
+            }
+            recentlyViewed = "";
+            for (Integer productId : productIds)
+            {
+                recentlyViewed = recentlyViewed + String.valueOf(productId) + ",";
+            }
+        }
+
+        editor = recentlyUsedPref.edit();
+        editor.putString(ZohoKartSharePreferences.PRODUCT_LIST, recentlyViewed);
+        editor.apply();
+        communicator.updateRecentlyViewed();
+    }
+
 
     public Snackbar getSnackbar(String textToDisplay)
     {

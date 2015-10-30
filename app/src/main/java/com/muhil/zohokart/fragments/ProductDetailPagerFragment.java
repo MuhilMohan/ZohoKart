@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.gson.Gson;
@@ -41,7 +42,6 @@ import java.util.Set;
 public class ProductDetailPagerFragment extends android.support.v4.app.Fragment implements View.OnClickListener
 {
 
-    Set<String> recentlyUsed;
     View rootView;
     Product product;
     ImageView imageView;
@@ -51,8 +51,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     Double stars;
     LinearLayout.LayoutParams params;
     SharedPreferences sharedPreferences;
-    SharedPreferences recentlyUsedPref;
-    SharedPreferences.Editor editor;
     String email;
     ProductDetailPageCommunicator communicator;
 
@@ -83,39 +81,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         product = (Product) getArguments().getSerializable("product");
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "default");
-        recentlyUsedPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.RECENTLY_VIEWED_PRODUCTS, Context.MODE_PRIVATE);
-        recentlyUsed = recentlyUsedPref.getStringSet(ZohoKartSharePreferences.PRODUCT_LIST, null);
-        if (recentlyUsed == null)
-        {
-            recentlyUsed = new LinkedHashSet<>(10);
-            recentlyUsed.add(String.valueOf(product.getId()));
-        }
-        else
-        {
-            if (!(recentlyUsed.contains(String.valueOf(product.getId()))))
-            {
-                if (recentlyUsed.size() == 10)
-                {
-                    String firstObject = null;
-                    for (String string : recentlyUsed)
-                    {
-                        firstObject = string;
-                        break;
-                    }
-                    recentlyUsed.remove(firstObject);
-                    recentlyUsed.add(String.valueOf(product.getId()));
-                }
-                else
-                {
-                    recentlyUsed.add(String.valueOf(product.getId()));
-                }
-            }
-
-        }
-        editor = recentlyUsedPref.edit();
-        editor.putStringSet(ZohoKartSharePreferences.PRODUCT_LIST, recentlyUsed);
-        editor.apply();
-        communicator.updateRecentlyViewed();
     }
 
     @Override
@@ -159,6 +124,12 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
     }
 
     public Snackbar getSnackbar(String textToDisplay)

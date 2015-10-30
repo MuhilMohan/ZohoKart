@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:src="@drawable/image"
-        android:scaleType="fitXY"/>
+        android:src="@drawable/image"/>
 
 </FrameLayout>

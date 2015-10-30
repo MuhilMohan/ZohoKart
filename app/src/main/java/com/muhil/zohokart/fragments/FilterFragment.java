@@ -97,7 +97,6 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     public void onClick(View v)
                     {
                         filteredProducts = zohokartDAO.getFilteredProducts(filterPairs, bundle.getInt("sub_category_id"));
-                        Toast.makeText(getActivity(), String.valueOf(filteredProducts.size()), Toast.LENGTH_SHORT).show();
                         communicator.sendFilteredProducts(filteredProducts);
                     }
                 }
@@ -161,7 +160,6 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                     FilterPair filterPair = (FilterPair) checkBox.getTag();
                                     if (!checkBox.isChecked())
                                     {
-                                        Toast.makeText(getActivity(), filterPair.getSelectionString(), Toast.LENGTH_SHORT).show();
                                         if (!filterPairs.contains(filterPair))
                                         {
                                             filterPairs.add(filterPair);
@@ -174,7 +172,6 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                         {
                                             filterPairs.remove(filterPair);
                                             checkBox.setChecked(false);
-                                            Toast.makeText(getActivity(), filterPair.getSelectionString(), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }

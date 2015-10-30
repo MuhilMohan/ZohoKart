@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
+import com.muhil.zohokart.utils.ImageLoader;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +36,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
 
     View bannerFragment;
     ZohokartDAO zohokartDAO;
+    ImageLoader imageLoader;
     PromotionBanner currentBanner, clickedBanner;
     BannerCommunicator communicator;
     List<Integer> productIds;
@@ -64,6 +66,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
+        imageLoader = new ImageLoader(getActivity());
     }
 
     @Override
@@ -74,7 +77,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
         bannerFragment = inflater.inflate(R.layout.fragment_banner, container, false);
         currentBanner = (PromotionBanner) getArguments().getSerializable("banner");
         ImageView bannerImage = (ImageView) bannerFragment.findViewById(R.id.banner_image);
-        Picasso.with(getActivity()).load(currentBanner.getBanner()).into(bannerImage);
+        imageLoader.displayImage(currentBanner.getBanner(), bannerImage);
         bannerImage.setTag(currentBanner);
 
         bannerImage.setOnClickListener(

@@ -3,6 +3,10 @@ package com.muhil.zohokart.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -81,6 +85,8 @@ public class NavigationFragment extends Fragment
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
 
+        ((ImageView) view.findViewById(R.id.header_image)).setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.nav_image, 280, 190));
+
         (view.findViewById(R.id.home_action_button)).setOnClickListener(
                 new View.OnClickListener()
                 {
@@ -154,7 +160,6 @@ public class NavigationFragment extends Fragment
                             public void onClick(View v) {
                                 SubCategory subCategory = (SubCategory) v.getTag();
                                 communicator.sendProductList(subCategory.getId());
-                                Toast.makeText(getActivity(), "Sub-category id: " + subCategory.getId(), Toast.LENGTH_SHORT).show();
                                 communicator.closeDrawer();
                             }
                         });
@@ -171,6 +176,45 @@ public class NavigationFragment extends Fragment
             (view.findViewById(R.id.navigation_progress)).setVisibility(View.GONE);
 
         }
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     // ***** interface to communicate with activity *****

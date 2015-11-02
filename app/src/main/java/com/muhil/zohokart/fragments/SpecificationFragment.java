@@ -110,7 +110,7 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
                 specificationGroupName.setPadding(4, 4, 4, 4);
                 specificationGroupName.setBackgroundColor(Color.parseColor("#BDBDBD"));
                 specificationGroupName.setText(specificationEntry.getKey());
-                specificationGroupName.setTextSize(16);
+                specificationGroupName.setTextSize(18);
                 ((ViewGroup) rootView.findViewById(R.id.specification_holder)).addView(specificationGroupName);
 
                 for (Specification specification : specificationEntry.getValue())

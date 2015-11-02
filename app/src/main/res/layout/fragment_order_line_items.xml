@@ -1,0 +1,143 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.muhil.zohokart.fragments.OrderLineItemsFragment"
+    android:background="@color/fragment_background_color">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="66dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Order Details"
+                android:textSize="16sp"
+                android:textColor="@color/primary_color"
+                android:background="#E0E0E0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Order Id"
+                android:textColor="@android:color/holo_orange_dark"/>
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="ordered date"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Ordered date"
+                android:textColor="@android:color/holo_orange_dark"/>
+            <TextView
+                android:id="@+id/ordered_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="ordered date"
+                android:textSize="18sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Total Price"
+                android:textColor="@android:color/holo_orange_dark"/>
+            <TextView
+                android:id="@+id/total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="ordered date"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Order Status"
+                android:textColor="@android:color/holo_orange_dark"/>
+            <TextView
+                android:id="@+id/order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="status"
+                android:textSize="18sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Ordered Products"
+                android:textSize="16sp"
+                android:textColor="@color/primary_color"
+                android:background="#E0E0E0"/>
+
+            <LinearLayout
+                android:id="@+id/ordered_product_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:orientation="vertical">
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/cancel_order"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="8dp"
+        android:text="CANCEL ORDER"
+        android:textColor="#FFF"
+        android:clickable="true"
+        android:background="@drawable/rounded_button"/>
+
+</FrameLayout>

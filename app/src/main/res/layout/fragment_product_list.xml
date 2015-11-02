@@ -42,10 +42,14 @@
                 android:id="@+id/selected_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:gravity="center"
                 android:textSize="8sp"
                 android:text="samle"
                 android:textStyle="italic"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:visibility="gone"/>
 
         </LinearLayout>
@@ -78,6 +82,8 @@
                 android:textSize="8sp"
                 android:text="samle"
                 android:textStyle="italic"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:visibility="gone"/>
 
         </LinearLayout>

@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.muhil.zohokart.R;
@@ -33,11 +35,11 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     List<Product> productsInWishlist;
     RecyclerView wishlistRecyclerView;
     WishlistAdapter wishlistAdapter;
-    TextView emptyTextView;
+    LinearLayout emptyWishlistHolder;
+    RelativeLayout wishlistRootView;
     WishlistCommunicator communicator;
 
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     String email;
 
     public WishlistFragment()
@@ -75,10 +77,22 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
-        emptyTextView = (TextView) wishlistFragment.findViewById(R.id.empty_text);
+        wishlistRootView = (RelativeLayout) wishlistFragment.findViewById(R.id.wishlist_rootView);
+        emptyWishlistHolder = (LinearLayout) wishlistFragment.findViewById(R.id.empty_cart_holder);
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
 
         new WishlistAsyncTask().execute(email);
+
+        wishlistFragment.findViewById(R.id.continue_shopping_button).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        communicator.showMainFragment();
+                    }
+                }
+        );
 
         return wishlistFragment;
     }
@@ -91,7 +105,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     public void switchViewElement()
     {
         wishlistRecyclerView.setVisibility(View.GONE);
-        emptyTextView.setVisibility(View.VISIBLE);
+        emptyWishlistHolder.setVisibility(View.VISIBLE);
         (wishlistFragment.findViewById(R.id.wishlist_header)).setVisibility(View.GONE);
     }
 
@@ -110,19 +124,12 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         {
             super.onPostExecute(aVoid);
 
-            if (productsInWishlist != null)
+            if (productsInWishlist != null && productsInWishlist.size() > 0)
             {
-                if (productsInWishlist.size() > 0)
-                {
-                    updateWishlistCount(productsInWishlist.size());
-                    wishlistAdapter = new WishlistAdapter(getActivity(), productsInWishlist, WishlistFragment.this, communicator);
-                    wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    wishlistRecyclerView.setAdapter(wishlistAdapter);
-                }
-                else
-                {
-                    switchViewElement();
-                }
+                updateWishlistCount(productsInWishlist.size());
+                wishlistAdapter = new WishlistAdapter(wishlistRootView, getActivity(), productsInWishlist, WishlistFragment.this, communicator);
+                wishlistRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                wishlistRecyclerView.setAdapter(wishlistAdapter);
             }
             else
             {
@@ -134,6 +141,8 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     public interface WishlistCommunicator
     {
         void openCart();
+        void openLoginPage();
+        void showMainFragment();
     }
 
 }

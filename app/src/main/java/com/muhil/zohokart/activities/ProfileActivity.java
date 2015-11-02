@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.fragments.OrderLineItemsFragment;
+import com.muhil.zohokart.fragments.OrdersFragment;
 import com.muhil.zohokart.fragments.SavedCardFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.PaymentCard;
@@ -35,7 +37,7 @@ import com.muhil.zohokart.utils.ZohokartDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity implements SavedCardFragment.PaymentCardCommunicator
+public class ProfileActivity extends AppCompatActivity implements SavedCardFragment.PaymentCardCommunicator, OrdersFragment.OrderCommunicator
 {
 
     List<PaymentCard> cards;
@@ -132,6 +134,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
 
                                 setResult(MainActivity.REQUEST_CODE_LOGOUT, null);
                                 finish();
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
                             }
                         });
@@ -247,8 +250,24 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                         SavedCardFragment savedCardFragment = SavedCardFragment.getInstance(email);
                         savedCardFragment.setCommunicator(ProfileActivity.this);
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.saved_card_fragment_holder, savedCardFragment, "saved_card_fragment");
+                        fragmentTransaction.replace(R.id.fragment_holder, savedCardFragment, "saved_card_fragment");
                         fragmentTransaction.addToBackStack("saved_card_fragment");
+                        fragmentTransaction.commit();
+                    }
+                }
+        );
+
+        (findViewById(R.id.my_orders)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        OrdersFragment ordersFragment = OrdersFragment.getInstance(email);
+                        ordersFragment.setCommunicator(ProfileActivity.this);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_holder, ordersFragment, "orders_fragment");
+                        fragmentTransaction.addToBackStack("orders_fragment");
                         fragmentTransaction.commit();
                     }
                 }
@@ -275,7 +294,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home)
         {
-            if (((FrameLayout) findViewById(R.id.saved_card_fragment_holder)).getChildCount() > 0)
+            if (((FrameLayout) findViewById(R.id.fragment_holder)).getChildCount() > 0)
             {
                 fragmentManager.popBackStack();
             }
@@ -311,6 +330,16 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    @Override
+    public void openOrderLineItemsForOrderId(String orderId)
+    {
+        OrderLineItemsFragment orderLineItemsFragment = OrderLineItemsFragment.getInstance(orderId);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_holder, orderLineItemsFragment, "order_line_item_fragment");
+        fragmentTransaction.addToBackStack("order_line_item_fragment");
+        fragmentTransaction.commit();
     }
 
     class SavedCardsListingAsyncTask extends AsyncTask<String, Void, List<PaymentCard>>

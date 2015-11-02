@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="130dp"
-    android:layout_height="210dp"
-    android:background="@color/fragment_background_color">
+    android:layout_height="210dp">
 
     <FrameLayout
         android:layout_width="wrap_content"

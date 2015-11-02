@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.ArraySet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,17 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductDetailPagerAdapter;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,7 +44,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
 
     ZohokartDAO zohokartDAO;
     View rootview;
-    int currentPosition;
+    int currentPosition, pagerPosition;
     List<Product> products;
     List<Integer> productIds;
     String recentlyViewed;
@@ -86,12 +90,9 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
-        currentPosition = getArguments().getInt("current_position");
-        products = getArguments().getParcelableArrayList("products");
-        productIds = new LinkedList<>();
+        productIds = new ArrayList<>();
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "");
-        addToRecentlyViewed(currentPosition);
     }
 
     @Override
@@ -105,9 +106,12 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         }
         else
         {
+            currentPosition = getArguments().getInt("current_position");
+            products = getArguments().getParcelableArrayList("products");
+            addToRecentlyViewed(this.products.get(currentPosition).getId());
             rootview = inflater.inflate(R.layout.fragment_product_detail, container, false);
             productDetailPager = (ViewPager) rootview.findViewById(R.id.product_view_pager);
-            productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products, productDetailPageCommunicator);
+            productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products, productDetailPageCommunicator, this);
             productDetailPager.setAdapter(productDetailPagerAdapter);
             productDetailPager.setCurrentItem(currentPosition);
             checkInCart(currentPosition);
@@ -124,7 +128,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                 public void onPageSelected(int position)
                 {
                     checkInCart(position);
-                    addToRecentlyViewed(position);
+                    addToRecentlyViewed(ProductDetailFragment.this.products.get(position).getId());
                 }
 
                 @Override
@@ -146,16 +150,16 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                         {
                             if (zohokartDAO.addToCart(product.getId(), email))
                             {
-                                getSnackbar("Product added to cart.").show();
+                                SnackBarProvider.getSnackbar("Product added to cart.", rootview).show();
                                 (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
                                 (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
                             } else
                             {
-                                getSnackbar("Error while adding product to cart.").show();
+                                SnackBarProvider.getSnackbar("Error while adding product to cart.", rootview).show();
                             }
                         } else
                         {
-                            getSnackbar("Product already in cart.").show();
+                            SnackBarProvider.getSnackbar("Product already in cart.", rootview).show();
                         }
                     }
                     else
@@ -179,18 +183,19 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     }
 
 
-    private void addToRecentlyViewed(int position)
+    private void addToRecentlyViewed(int productId)
     {
         recentlyUsedPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.RECENTLY_VIEWED_PRODUCTS, Context.MODE_PRIVATE);
         recentlyViewed = recentlyUsedPref.getString(ZohoKartSharePreferences.PRODUCT_LIST, null);
 
         if (recentlyViewed == null)
         {
-            recentlyViewed = String.valueOf(products.get(position).getId()) + ",";
+            recentlyViewed = String.valueOf(productId);
         }
         else
         {
-            String[] recentlyViewedProducts = TextUtils.split(recentlyViewed, ",");
+            String[] recentlyViewedProducts = TextUtils.split(recentlyViewed, ", ");
+            recentlyViewed = "";
             for (String string : recentlyViewedProducts)
             {
                 if (!(string.equals("")))
@@ -198,43 +203,32 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                     productIds.add(Integer.parseInt(string));
                 }
             }
-            if (!(productIds.contains(products.get(position).getId())))
+            if (!(productIds.contains(productId)))
             {
                 if (productIds.size() < 5)
                 {
-                    productIds.add(products.get(position).getId());
+                    productIds.add(productId);
                 }
                 else
                 {
                     productIds.remove(0);
-                    productIds.add(products.get(position).getId());
+                    productIds.add(productId);
                 }
             }
             else
             {
-                productIds.remove(productIds.indexOf(products.get(position).getId()));
-                productIds.add(products.get(position).getId());
+                productIds.remove(productIds.indexOf(productId));
+                productIds.add(productId);
             }
-            recentlyViewed = "";
-            for (Integer productId : productIds)
-            {
-                recentlyViewed = recentlyViewed + String.valueOf(productId) + ",";
-            }
+            recentlyViewed = productIds.toString().substring(1, productIds.toString().length()-1);
+            Log.d("RECENTLY_VIEWED", recentlyViewed);
         }
 
         editor = recentlyUsedPref.edit();
         editor.putString(ZohoKartSharePreferences.PRODUCT_LIST, recentlyViewed);
         editor.apply();
+        productIds.clear();
         communicator.updateRecentlyViewed();
-    }
-
-
-    public Snackbar getSnackbar(String textToDisplay)
-    {
-        Snackbar snackbar = Snackbar.make(rootview, textToDisplay, Snackbar.LENGTH_SHORT);
-        View snackbarView = snackbar.getView();
-        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
-        return snackbar;
     }
 
     public void checkInCart(int position)

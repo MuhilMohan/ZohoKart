@@ -56,6 +56,7 @@ public class MainFragment extends Fragment
     RecyclerView topRatedRecyclerView, recentlyViewedRecyclerView;
     HorizontalProductListingAdapter productListingAdapter;
     SharedPreferences recentlyViewedPref;
+    int currentPosition;
 
     public static MainFragment getInstance(List<PromotionBanner> promotionBanners)
     {
@@ -93,16 +94,6 @@ public class MainFragment extends Fragment
         new RecentlyUsedTask().execute();
     }
 
-    public void setLoadingVisible()
-    {
-        (rootView.findViewById(R.id.loading)).setVisibility(View.VISIBLE);
-    }
-
-    public void setLoadingGone()
-    {
-        (rootView.findViewById(R.id.loading)).setVisibility(View.GONE);
-    }
-
     public void showTopRatedProducts()
     {
         new TopRatedViewTask().execute();
@@ -130,19 +121,25 @@ public class MainFragment extends Fragment
                     {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-                        {
-                        }
+                        {}
 
                         @Override
                         public void onPageSelected(int position)
                         {
-                            selectDot(position);
+                            if (position >= promotionBanners.size())
+                            {
+                                currentPosition = position % promotionBanners.size();
+                                selectDot(currentPosition);
+                            }
+                            else
+                            {
+                                selectDot(position);
+                            }
                         }
 
                         @Override
                         public void onPageScrollStateChanged(int state)
-                        {
-                        }
+                        {}
                     }
             );
 
@@ -203,7 +200,7 @@ public class MainFragment extends Fragment
                 {
                     productList.add(product);
                 }
-                productList.add("view more");
+                //productList.add("view more");
                 Log.d("TOP_RATED_AS_OBJECT", " " + productList.size());
 
                 topRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -242,7 +239,7 @@ public class MainFragment extends Fragment
             {
                 productIds = new ArrayList<>();
                 products = new ArrayList<>();
-                String[] recentlyViewedProducts = TextUtils.split(recentlyViewed, ",");
+                String[] recentlyViewedProducts = TextUtils.split(recentlyViewed, ", ");
                 for (String string : recentlyViewedProducts)
                 {
                     if (!(string.equals("")))
@@ -252,6 +249,7 @@ public class MainFragment extends Fragment
                 }
                 Collections.reverse(productIds);
                 products = zohokartDAO.getProductsForProductIds(productIds);
+                productIds.clear();
                 return products;
             }
             else
@@ -271,8 +269,6 @@ public class MainFragment extends Fragment
                 {
                     productList.add(product);
                 }
-
-                Toast.makeText(getActivity(), ""+products.size()+"", Toast.LENGTH_SHORT).show();
                 recentlyViewedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                 productListingAdapter = new HorizontalProductListingAdapter(productList, getActivity(), productListCommunicator, mainCommunicator);
                 recentlyViewedRecyclerView.setAdapter(productListingAdapter);

@@ -73,7 +73,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:gravity="center"
-            android:background="@drawable/rounded_frame"
+            android:background="@drawable/rounded_delete"
             android:id="@+id/add_to_cart_action">
 
             <TextView

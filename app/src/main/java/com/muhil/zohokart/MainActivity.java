@@ -1,14 +1,18 @@
 package com.muhil.zohokart;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,7 +23,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     public static final int REQUEST_CODE_LOGIN = 101;
     public static final int REQUEST_CODE_LOGOUT = 102;
+    public static final int REQUEST_PERMISSION_FOR_STORAGE = 1001;
+    public static final int REQUEST_CODE_CHECKOUT = 103;
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
@@ -70,20 +78,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     int subCategoryId;
 
     SearchView searchView;
+    EditText searchEditText;
 
     Fragment fragment;
     CartFragment cartFragment;
     MainFragment mainFragment;
     ProductListFragment productListFragment;
-    WishlistFragment wishlistFragment;
-    ProductDetailFragment productDetailFragment;
     android.support.v4.app.FragmentManager fragmentManager;
     android.support.v4.app.FragmentTransaction fragmentTransaction;
     public static final int ACTION_ACCOUNT_NAME = 1000;
 
     int backStackCount;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences, filterPref;
     SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                         if (productsToShow != null)
                         {
                             productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag("product_list");
-                            if (productListFragment == null )
+                            if (productListFragment == null)
                             {
                                 openProductList(productsToShow);
                             }
@@ -170,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         int searchImgId = android.support.v7.appcompat.R.id.search_button;
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
         v.setImageResource(R.mipmap.ic_search_white_24dp);
+        LinearLayout searchPlate = (LinearLayout)searchView.findViewById(R.id.search_plate);
+        if(searchPlate != null){
+            searchEditText = (EditText)searchPlate.findViewById(R.id.search_src_text);
+            searchEditText.setBackground(getResources().getDrawable(R.drawable.edittext_background));
+        }
 
         searchView.setOnSearchClickListener(new View.OnClickListener()
         {
@@ -189,12 +201,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 fragment = fragmentManager.findFragmentByTag("product_list");
                 if (fragment != null && fragment.isVisible())
                 {
-                    fragmentManager.popBackStack();
                     openProductList(products);
+                    searchView.onActionViewCollapsed();
+                    searchView.setIconified(true);
                 }
                 else
                 {
                     openProductList(products);
+                    searchView.onActionViewCollapsed();
+                    searchView.setIconified(true);
                 }
                 searchView.clearFocus();
                 return false;
@@ -269,6 +284,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             backStackCount = fragmentManager.getBackStackEntryCount();
             if (backStackCount > 0)
             {
+                fragment = fragmentManager.findFragmentByTag("product_list");
+                if(fragment != null && fragment.isVisible())
+                {
+                    Log.d("BACKSTACK", "product list");
+                    filterPref = getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, MODE_PRIVATE);
+                    editor = filterPref.edit();
+                    editor.clear();
+                    editor.apply();
+                }
+                else
+                {
+                    Log.d("BACKSTACK", "product list popped");
+                }
                 fragmentManager.popBackStack();
             }
             else
@@ -298,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 WishlistFragment wishlistFragment = new WishlistFragment();
                 wishlistFragment.setCommunicator(this);
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+                fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
                 fragmentTransaction.replace(R.id.fragment_holder, wishlistFragment, "wishlist");
                 fragmentTransaction.addToBackStack("wishlist");
                 fragmentTransaction.commit();
@@ -307,11 +335,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         else if (id == R.id.cart_icon)
         {
             fragment = fragmentManager.findFragmentByTag("cart");
-            if (fragment != null && fragment.isVisible())
-            {
-
-            }
-            else
+            if (!(fragment != null && fragment.isVisible()))
             {
                 openCart();
             }
@@ -338,23 +362,14 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         {
             if (resultCode == REQUEST_CODE_LOGIN)
             {
-                cartFragment = (CartFragment) fragmentManager.findFragmentByTag("cart");
-                if (cartFragment != null && cartFragment.isVisible())
-                {
-                    cartFragment.setEmail(data.getStringExtra(Account.EMAIL));
-                    cartFragment.updateCart();
-                }
-                productDetailFragment = (ProductDetailFragment) fragmentManager.findFragmentByTag("product_detail_page");
-                if (productDetailFragment != null && productDetailFragment.isVisible())
-                {
-                    productDetailFragment.setEmail(data.getStringExtra(Account.EMAIL));
-                }
-                wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag("wishlist");
-                if (wishlistFragment != null && wishlistFragment.isVisible())
-                {
-                    wishlistFragment.setEmail(data.getStringExtra(Account.EMAIL));
-                    wishlistFragment.updateWishlist();
-                }
+                showMainFragment();
+            }
+        }
+        else if (requestCode == REQUEST_CODE_CHECKOUT)
+        {
+            if (resultCode == REQUEST_CODE_CHECKOUT)
+            {
+                showMainFragment();
             }
         }
     }
@@ -365,6 +380,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragment = fragmentManager.findFragmentByTag("product_list");
         if (fragment != null && fragment.isVisible())
         {
+            Log.d("BACKSTACK", "product list");
+            filterPref = getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, MODE_PRIVATE);
+            editor = filterPref.edit();
+            editor.clear();
+            editor.apply();
             fragmentManager.popBackStack();
             this.subCategoryId = 0;
             searchView.onActionViewCollapsed();
@@ -429,16 +449,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void sendFilteredProducts(List<Product> products)
     {
-        backStackCount = fragmentManager.getBackStackEntryCount();
-        while (backStackCount > 0)
-        {
-            fragmentManager.popBackStack();
-            backStackCount--;
-        }
+        fragmentManager.popBackStack("product_list", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         ProductListFragment productListFragment = ProductListFragment.getInstance(products);
         productListFragment.setCommunicator(this);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
         fragmentTransaction.addToBackStack("product_list");
         fragmentTransaction.commit();
@@ -451,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         FilterFragment filterFragment = FilterFragment.getInstance(subCategoryId);
         filterFragment.setCommunicator(this);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
         fragmentTransaction.replace(R.id.fragment_holder, filterFragment, "filter_fragment");
         fragmentTransaction.addToBackStack("filter_fragment");
         fragmentTransaction.commit();
@@ -463,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         ProductDetailFragment productDetailFragment = ProductDetailFragment.getInstance(position, products);
         productDetailFragment.setCommunicator(this, this);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
         fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, "product_detail_page");
         fragmentTransaction.addToBackStack("product_detail_page");
         fragmentTransaction.commit();
@@ -475,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         CartFragment cartFragment = new CartFragment();
         cartFragment.setCommunicator(this);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
         fragmentTransaction.replace(R.id.fragment_holder, cartFragment, "cart");
         fragmentTransaction.addToBackStack("cart");
         fragmentTransaction.commit();
@@ -483,14 +498,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     @Override
     public void openWishlist()
-    {
-
-    }
+    {}
 
     @Override
     public void openCheckout(List<Integer> productIds)
     {
-        startActivity(new Intent(this, CheckoutActivity.class).putIntegerArrayListExtra("product_ids", (ArrayList<Integer>) productIds));
+        startActivityForResult(new Intent(this, CheckoutActivity.class).putIntegerArrayListExtra("product_ids", (ArrayList<Integer>) productIds), REQUEST_CODE_CHECKOUT);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
@@ -516,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     {
         SpecificationFragment specificationFragment = SpecificationFragment.getInstance(product);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
         fragmentTransaction.replace(R.id.fragment_holder, specificationFragment, "specification_fragment");
         fragmentTransaction.addToBackStack("specification_fragment");
         fragmentTransaction.commit();
@@ -555,15 +568,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentTransaction.replace(R.id.fragment_holder, productListFragment, "product_list");
         fragmentTransaction.addToBackStack("product_list");
         fragmentTransaction.commit();
-    }
-
-    public void hideLoadingOfMainFragment()
-    {
-        mainFragment = (MainFragment) fragmentManager.findFragmentByTag("main_fragment");
-        if (mainFragment != null)
-        {
-            mainFragment.setLoadingGone();
-        }
     }
 
     @Override
@@ -674,7 +678,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.fragment_holder, mainFragment, "main_fragment");
             fragmentTransaction.commit();
-
         }
     }
 }

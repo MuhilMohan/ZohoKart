@@ -180,7 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="Place order"
+                    android:text="CHECKOUT"
                     android:textColor="#FFF"
                     android:background="@drawable/rounded_button"/>
 
@@ -205,8 +205,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="center"
-            android:text="no products in cart."
-            android:textSize="18sp" />
+            android:text="No Products in Cart"
+            android:textSize="24sp" />
         <Button
             android:id="@+id/continue_shopping_button"
             android:layout_width="wrap_content"

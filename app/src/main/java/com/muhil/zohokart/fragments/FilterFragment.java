@@ -1,6 +1,8 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,14 +20,19 @@ import android.widget.Toast;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.FilterPair;
+import com.muhil.zohokart.models.Laptop;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.Tablet;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +51,9 @@ public class FilterFragment extends android.support.v4.app.Fragment
     ZohokartDAO zohokartDAO;
     FilterCommunicator communicator;
     AppCompatActivity mainActivity;
+    SharedPreferences filterPref;
+    SharedPreferences.Editor filterPrefEditor;
+    Set<String> selectedFilterItems;
 
     public FilterFragment()
     {
@@ -64,11 +74,6 @@ public class FilterFragment extends android.support.v4.app.Fragment
         this.communicator = communicator;
     }
 
-    public void setActivity(AppCompatActivity activity)
-    {
-        this.mainActivity = activity;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -79,6 +84,12 @@ public class FilterFragment extends android.support.v4.app.Fragment
         zohokartDAO = new ZohokartDAO(getActivity());
         filterPairs = new ArrayList<>();
         filteredProducts = new ArrayList<>();
+        filterPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, Context.MODE_PRIVATE);
+        selectedFilterItems = filterPref.getStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, null);
+        if (selectedFilterItems == null)
+        {
+            selectedFilterItems = new HashSet<>();
+        }
     }
 
     @Override
@@ -87,8 +98,9 @@ public class FilterFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         filterFragment = inflater.inflate(R.layout.fragment_filter, container, false);
+        filterPrefEditor = filterPref.edit();
 
-        new FilterPopoulateAsyncTask().execute(bundle.getInt("sub_category_id"));
+        new FilterPopulateAsyncTask().execute(bundle.getInt("sub_category_id"));
 
         (filterFragment.findViewById(R.id.filter_button)).setOnClickListener(
                 new View.OnClickListener()
@@ -98,6 +110,8 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     {
                         filteredProducts = zohokartDAO.getFilteredProducts(filterPairs, bundle.getInt("sub_category_id"));
                         communicator.sendFilteredProducts(filteredProducts);
+                        filterPrefEditor.putStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, selectedFilterItems);
+                        filterPrefEditor.apply();
                     }
                 }
         );
@@ -105,24 +119,35 @@ public class FilterFragment extends android.support.v4.app.Fragment
         return filterFragment;
     }
 
-    class FilterPopoulateAsyncTask extends AsyncTask<Integer, Void, Void>
+    class FilterPopulateAsyncTask extends AsyncTask<Integer, Void, Void>
     {
 
         @Override
-        protected Void doInBackground(Integer... params)
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Integer... subCategoryId)
         {
 
-            switch (params[0])
+            switch (subCategoryId[0])
             {
                 case 100:
-                    tempFilterOptions = zohokartDAO.getBrandsForFilter(params[0]);
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
                     filterOptions.putAll(tempFilterOptions);
                     filterOptions.putAll(Mobile.FILTER_OPTIONS);
-                    Log.d("FILTER_OPTIONS", String.valueOf(filterOptions.size()));
                     break;
                 case 101:
-                    tempFilterOptions = zohokartDAO.getBrandsForFilter(params[0]);
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
                     filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Tablet.FILTER_OPTIONS);
+                    break;
+                case 102:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Laptop.FILTER_OPTIONS);
                     break;
                 default:
                     break;
@@ -150,6 +175,12 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     ((TextView) filterItemView.findViewById(R.id.filter_item_name)).setText(filterOptionItem.getKey());
                     (filterItemView.findViewById(R.id.filter_item_checker)).setTag(filterOptionItem.getValue());
 
+                    if (selectedFilterItems.contains(filterOptionItem.getKey()))
+                    {
+                        ((CheckBox) filterItemView.findViewById(R.id.filter_item_checker)).setChecked(true);
+                        filterPairs.add(filterOptionItem.getValue());
+                    }
+
                     (filterItemView.findViewById(R.id.filter_select_action)).setOnClickListener(
                             new View.OnClickListener()
                             {
@@ -157,11 +188,14 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                 public void onClick(View v)
                                 {
                                     CheckBox checkBox = ((CheckBox) v.findViewById(R.id.filter_item_checker));
+                                    TextView filterItemName = ((TextView) v.findViewById(R.id.filter_item_name));
                                     FilterPair filterPair = (FilterPair) checkBox.getTag();
+
                                     if (!checkBox.isChecked())
                                     {
                                         if (!filterPairs.contains(filterPair))
                                         {
+                                            selectedFilterItems.add(filterItemName.getText().toString());
                                             filterPairs.add(filterPair);
                                             checkBox.setChecked(true);
                                         }
@@ -170,6 +204,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                     {
                                         if (filterPairs.contains(filterPair))
                                         {
+                                            selectedFilterItems.remove(filterItemName.getText().toString());
                                             filterPairs.remove(filterPair);
                                             checkBox.setChecked(false);
                                         }

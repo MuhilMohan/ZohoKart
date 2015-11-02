@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.ImageLoader;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
@@ -30,6 +31,8 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
 {
 
     ZohokartDAO zohokartDAO;
+    ImageLoader imageLoader;
+    OrderConfirmationCommunicator communicator;
     Account account;
     List<Product> products;
     List<Integer> productIds;
@@ -53,6 +56,11 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
         return orderConfirmationFragment;
     }
 
+    public void setCommunicator(OrderConfirmationCommunicator communicator)
+    {
+        this.communicator = communicator;
+    }
+
     public OrderConfirmationFragment()
     {
         // Required empty public constructor
@@ -63,6 +71,8 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
+        imageLoader = new ImageLoader(getActivity());
+        layoutInflater = LayoutInflater.from(getActivity());
     }
 
     @Override
@@ -86,11 +96,24 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
         grandTotal = 0;
         new OrderConfirmationAsyncTask().execute(email, password);
 
+        (orderConfirmationFragment.findViewById(R.id.payment_action)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        communicator.proceedToPayment(email);
+                    }
+                }
+        );
+
         return orderConfirmationFragment;
     }
 
     class OrderConfirmationAsyncTask extends AsyncTask<String, Void, Void>
     {
+
+        List<Integer> quantities = new ArrayList<>();
 
         @Override
         protected void onPreExecute()
@@ -106,6 +129,11 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
             if (productIds != null)
             {
                 products = zohokartDAO.getProductsForProductIds(productIds);
+                quantities.clear();
+                for (Product product : products)
+                {
+                    quantities.add(zohokartDAO.getQuantityofProductInCart(product.getId(), params[0]));
+                }
             }
             return null;
         }
@@ -121,13 +149,12 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
 
             for (Product product : products)
             {
-                layoutInflater = LayoutInflater.from(getActivity());
                 cardView = (CardView) layoutInflater.inflate(R.layout.ordered_product_item_row, orderedProductsHolder, false);
                 ((TextView) cardView.findViewById(R.id.title)).setText(product.getTitle());
                 ((TextView) cardView.findViewById(R.id.description)).setText(product.getDescription());
-                ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format(product.getPrice()));
+                ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format((product.getPrice() * quantities.get(products.indexOf(product)))));
                 setGrandTotal(product.getPrice());
-                Picasso.with(getActivity()).load(product.getThumbnail()).into(((ImageView) cardView.findViewById(R.id.display_image)));
+                imageLoader.displayImage(product.getThumbnail(), (ImageView) cardView.findViewById(R.id.display_image));
                 ((TextView) cardView.findViewById(R.id.quantity)).setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(product.getId(), email)));
                 orderedProductsHolder.addView(cardView);
             }
@@ -142,6 +169,11 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
     private void setGrandTotal(double price)
     {
         grandTotal += price;
+    }
+
+    public interface OrderConfirmationCommunicator
+    {
+        void proceedToPayment(String email);
     }
 
 }

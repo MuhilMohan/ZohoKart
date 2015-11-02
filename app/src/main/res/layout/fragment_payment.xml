@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="66dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,201 +25,248 @@
                 android:textSize="20sp"
                 android:background="#E0E0E0"/>
 
-            <RadioButton
-                android:id="@+id/use_saved_card_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:text="Use saved Cards"
-                android:textSize="18sp"/>
-
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/payment_options"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-            </LinearLayout>
-
-            <RadioButton
-                android:id="@+id/use_new_card_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:text="Use new Credit Card"
-                android:textSize="18sp"/>
-
-            <LinearLayout
-                android:id="@+id/new_card_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:hintTextAppearance="@android:style/TextAppearance.Small"
-                        android:layout_weight="4">
-
-                        <EditText
-                            android:id="@+id/card_number"
-                            android:inputType="number"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginBottom="8dp"
-                            android:padding="8dp"
-                            android:hint="Card Number"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <TextView
-                        android:id="@+id/card_type"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:padding="8dp"
-                        android:text="Type"
-                        android:textSize="14sp"
-                        android:textColor="#2196F3"
-                        android:maxLines="1"/>
-
-                </LinearLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:hintTextAppearance="@android:style/TextAppearance.Small">
-
-                    <EditText
-                        android:id="@+id/name_on_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:padding="8dp"
-                        android:hint="Name on Card"
-                        android:textSize="16sp"
-                        android:maxLines="1"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="Expiry Date"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="#BDBDBD"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingTop="16dp"
-                        android:text="Month"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:paddingTop="16dp"
-                        android:text="Year"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:gravity="center">
-                    <Spinner
-                        android:id="@+id/expiry_month"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_margin="16dp"
-                        />
-
-                    <Spinner
-                        android:id="@+id/expiry_year"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_margin="16dp"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <RadioButton
+                    android:id="@+id/cod_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Cash On Delivery"
+                    android:textSize="18sp"/>
+
+                <RadioButton
+                    android:id="@+id/credit_card_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Credit Card"
+                    android:textSize="18sp"/>
+
+                <LinearLayout
+                    android:id="@+id/card_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
                     <TextView
+                        android:id="@+id/saved_cards_action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CCV"
-                        android:textSize="16sp"/>
-                    <TextView
+                        android:layout_margin="8dp"
+                        android:text="@string/view_saved_card"
+                        android:textSize="18sp"
+                        android:textColor="@color/primary_color"/>
+
+                    <LinearLayout
+                        android:id="@+id/saved_card_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/cards_empty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="No saved cards available"
+                            android:textSize="16sp"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/new_card_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="Use new card"
+                            android:textSize="18sp"
+                            android:textColor="@color/primary_color"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:hintTextAppearance="@android:style/TextAppearance.Small"
+                                android:layout_weight="4">
+
+                                <EditText
+                                    android:id="@+id/card_number"
+                                    android:inputType="number"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="4dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:padding="8dp"
+                                    android:hint="Card Number"
+                                    android:maxLines="1"
+                                    android:textSize="16sp"
+                                    />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <TextView
+                                android:id="@+id/new_card_type"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:padding="8dp"
+                                android:text="Type"
+                                android:textSize="14sp"
+                                android:textColor="#2196F3"
+                                android:maxLines="1"/>
+
+                        </LinearLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:hintTextAppearance="@android:style/TextAppearance.Small">
+
+                            <EditText
+                                android:id="@+id/name_on_card"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:padding="8dp"
+                                android:hint="Name on Card"
+                                android:textSize="16sp"
+                                android:maxLines="1"/>
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="Expiry Date"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="#BDBDBD"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingTop="16dp"
+                                android:text="Month"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingTop="16dp"
+                                android:text="Year"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center">
+                            <Spinner
+                                android:id="@+id/expiry_month"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_margin="16dp"/>
+
+                            <Spinner
+                                android:id="@+id/expiry_year"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_margin="16dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:text=":"
-                        android:textSize="16sp"/>
-                    <EditText
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:textSize="16sp"
-                        android:background="@drawable/edittext_background"/>
+                        android:layout_margin="8dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CCV"
+                            android:textSize="16sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:text=":"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:textSize="16sp"
+                            android:background="@drawable/edittext_background"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Pay"
-                android:textSize="16dp"
-                android:textColor="#FFF"
-                android:background="@drawable/rounded_button"/>
+            </RadioGroup>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/make_payment_action"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="bottom"
+        android:text="Proceed"
+        android:textSize="16dp"
+        android:textColor="#FFF"
+        android:background="@drawable/rounded_button"/>
 
 </FrameLayout>

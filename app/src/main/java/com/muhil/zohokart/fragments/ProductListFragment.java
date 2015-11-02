@@ -1,7 +1,9 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -23,12 +25,14 @@ import com.muhil.zohokart.comparators.StarsHighToLowComparator;
 import com.muhil.zohokart.comparators.StarsLowToHighComparator;
 import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +47,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     View productListFragment;
     Bundle bundle;
     ProductListCommunicator communicator;
+    SharedPreferences filterPref;
+    Set<String> selectedFilter;
 
     public ProductListFragment()
     {
@@ -71,6 +77,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         zohokartDAO = new ZohokartDAO(getActivity());
         productList = new ArrayList<>();
         bundle = getArguments();
+        filterPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, Context.MODE_PRIVATE);
+        selectedFilter = filterPref.getStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, null);
     }
 
     @Override
@@ -201,6 +209,15 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                         alertDialogBuilder.show();
                     }
                 });
+
+                if (selectedFilter != null)
+                {
+                    if (selectedFilter.size() > 0)
+                    {
+                        ((TextView) productListFragment.findViewById(R.id.selected_filter)).setText(selectedFilter.toString().substring(1, selectedFilter.toString().length()-1));
+                        (productListFragment.findViewById(R.id.selected_filter)).setVisibility(View.VISIBLE);
+                    }
+                }
 
                 (productListFragment.findViewById(R.id.list_actions)).setVisibility(View.VISIBLE);
                 (productListFragment.findViewById(R.id.products)).setVisibility(View.VISIBLE);

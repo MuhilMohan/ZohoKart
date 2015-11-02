@@ -11,6 +11,8 @@ import android.util.Log;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.Order;
+import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
@@ -38,6 +40,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String CREATE_SPECIFICATION_TABLE = "CREATE TABLE " + SpecificationGroup.TABLE_NAME + " ( " + SpecificationGroup.PRODUCT_ID + " INTEGER, " + SpecificationGroup.GROUP_NAME + " TEXT, " + SpecificationGroup.SPECIFICATIONS + " TEXT )";
     public static String CREATE_PROMOTION_BANNER_TABLE = "CREATE TABLE " + PromotionBanner.TABLE_NAME + " ( " + PromotionBanner._ID + " INTEGER, " + PromotionBanner.BANNER_URL + " TEXT, " + PromotionBanner.PRODUCTS_RELATED + " TEXT )";
     public static String CREATE_PAYMENT_CARDS_TABLE = "CREATE TABLE " + PaymentCard.TABLE_NAME + " ( " + PaymentCard.EMAIL + " TEXT, " + PaymentCard.CARD_NUMBER + " TEXT, " + PaymentCard.CARD_TYPE + " TEXT, " + PaymentCard.NAME_ON_CARD + " TEXT, " + PaymentCard.EXPIRY + " TEXT )";
+    public static String CREATE_ORDERS_TABLE = "CREATE TABLE " + Order.TABLE_NAME + " ( " + Order._ID + " TEXT, " + Order.EMAIL + " TEXT, " + Order.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + Order.NUMBER_OF_PRODUCTS + " INTEGER, " + Order.TOTAL_PRICE + " REAL, " + Order.ORDER_STATUS + " TEXT )";
+    public static String CREATE_ORDER_LINE_ITEM_TABLE = "CREATE TABLE " + OrderLineItem.TABLE_NAME + " ( " + OrderLineItem.ORDER_ID + " TEXT, " + OrderLineItem.PRODUCT_ID + " INTEGER, " + OrderLineItem.QUANTITY + " INTEGER )";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,12 +54,13 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SUB_CATEGORIES_TABLE);
         db.execSQL(CREATE_PRODUCTS_TABLE);
         db.execSQL(CREATE_ACCOUNTS_TABLE);
-        Log.d("DB", "accounts table created");
         db.execSQL(CREATE_WISHLIST_TABLE);
         db.execSQL(CREATE_CART_TABLE);
         db.execSQL(CREATE_SPECIFICATION_TABLE);
         db.execSQL(CREATE_PROMOTION_BANNER_TABLE);
         db.execSQL(CREATE_PAYMENT_CARDS_TABLE);
+        db.execSQL(CREATE_ORDERS_TABLE);
+        db.execSQL(CREATE_ORDER_LINE_ITEM_TABLE);
     }
 
     @Override

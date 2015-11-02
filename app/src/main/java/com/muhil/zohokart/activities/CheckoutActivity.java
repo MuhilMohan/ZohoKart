@@ -12,14 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.OrderConfirmationFragment;
+import com.muhil.zohokart.fragments.PaymentFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 
 import java.util.List;
 
-public class CheckoutActivity extends AppCompatActivity
+public class CheckoutActivity extends AppCompatActivity implements OrderConfirmationFragment.OrderConfirmationCommunicator,
+        PaymentFragment.PaymentCommunicator
 {
 
     Toolbar toolbar;
@@ -57,14 +60,16 @@ public class CheckoutActivity extends AppCompatActivity
         if (!(email.equals("")) && !(password.equals("")))
         {
             OrderConfirmationFragment orderConfirmationFragment = OrderConfirmationFragment.getInstance(email, password, productIds);
+            orderConfirmationFragment.setCommunicator(this);
             fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
             fragmentTransaction.replace(R.id.checkout_fragments_holder, orderConfirmationFragment, "order_confirmation_fragment");
             fragmentTransaction.commit();
         }
         else
         {
             startActivityForResult(new Intent(this, LoginActivity.class), 1000);
-
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
 
     }
@@ -111,4 +116,23 @@ public class CheckoutActivity extends AppCompatActivity
         return result;
     }
 
+    @Override
+    public void proceedToPayment(String email)
+    {
+        PaymentFragment paymentFragment = PaymentFragment.getInstance(email);
+        paymentFragment.setCommunicator(this);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+        fragmentTransaction.replace(R.id.checkout_fragments_holder, paymentFragment, "order_confirmation_fragment");
+        fragmentTransaction.addToBackStack("order_confirmation_fragment");
+        fragmentTransaction.commit();
+    }
+
+
+    @Override
+    public void saveAndCloseCheckout()
+    {
+        setResult(MainActivity.REQUEST_CODE_CHECKOUT);
+        finish();
+    }
 }

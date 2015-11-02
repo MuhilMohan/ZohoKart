@@ -19,6 +19,7 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
@@ -34,17 +35,18 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     ZohokartDAO zohokartDAO;
 
     public List<Product> wishlist;
+    View rootView;
     Context context;
     WishlistFragment wishlistFragment;
     WishlistFragment.WishlistCommunicator communicator;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     String email;
 
-    public WishlistAdapter(Context context, List<Product> wishlist, WishlistFragment wishlistFragment, WishlistFragment.WishlistCommunicator wishlistCommunicator)
+    public WishlistAdapter(View rootView, Context context, List<Product> wishlist, WishlistFragment wishlistFragment, WishlistFragment.WishlistCommunicator wishlistCommunicator)
     {
+        this.rootView = rootView;
         this.context = context;
         this.wishlist = wishlist;
         this.wishlistFragment = wishlistFragment;
@@ -88,7 +90,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 final Product product = (Product) v.getTag();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setTitle("");
-                alertDialogBuilder.setMessage("Are you sure?");
+                alertDialogBuilder.setMessage("Do you want to remove?");
 
                 alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener()
                 {
@@ -97,7 +99,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                     {
                         if (zohokartDAO.removeFromWishList(product.getId(), email))
                         {
-                            Toast.makeText(context, "Product removed from wishlist", Toast.LENGTH_SHORT).show();
+                            SnackBarProvider.getSnackbar("Product removed from wishlist", rootView).show();
                             int position = wishlist.indexOf(product);
                             wishlist.remove(position);
                             notifyItemRemoved(position);
@@ -110,7 +112,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                         else
                         {
                             dialog.dismiss();
-                            Toast.makeText(context, "error while removing from wishlist.", Toast.LENGTH_SHORT).show();
+                            SnackBarProvider.getSnackbar("error while removing from wishlist", rootView).show();
                         }
 
                     }
@@ -134,15 +136,22 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
             public void onClick(View v)
             {
                 Product product = (Product) v.getTag();
-                if (zohokartDAO.addToCart(product.getId(), email))
+                if (!(email.equals("")) && !(email.equals("default")))
                 {
-                    Toast.makeText(context, "product added to cart.", Toast.LENGTH_SHORT).show();
-                    holder.goToCart.setVisibility(View.VISIBLE);
-                    v.setVisibility(View.GONE);
+                    if (zohokartDAO.addToCart(product.getId(), email))
+                    {
+                        SnackBarProvider.getSnackbar("product added to cart", rootView).show();
+                        holder.goToCart.setVisibility(View.VISIBLE);
+                        v.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        SnackBarProvider.getSnackbar("error while adding to cart", rootView).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(context, "error while adding to cart.", Toast.LENGTH_SHORT).show();
+                    communicator.openLoginPage();
                 }
             }
         });

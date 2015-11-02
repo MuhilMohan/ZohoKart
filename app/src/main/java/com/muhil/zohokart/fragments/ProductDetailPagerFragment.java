@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.util.ArraySet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.specification.Specification;
+import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
@@ -88,6 +90,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
+        Log.d("ONCREATE", "TRUE");
         rootView =  inflater.inflate(R.layout.fragment_product_detail_pager, container, false);
 
         ((TextView) rootView.findViewById(R.id.title)).setText(product.getTitle());
@@ -105,14 +108,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
 
         fillStars();
 
-        if (zohokartDAO.checkInWishlist(product.getId(), email))
-        {
-            ((ToggleButton) rootView.findViewById(R.id.wishlist_icon)).setChecked(true);
-        }
-        else
-        {
-            ((ToggleButton) rootView.findViewById(R.id.wishlist_icon)).setChecked(false);
-        }
+        checkWishlist();
 
         (rootView.findViewById(R.id.wishlist_icon)).setOnClickListener(this);
 
@@ -126,18 +122,25 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         return rootView;
     }
 
-    @Override
-    public void onAttach(Context context)
+    public void checkWishlist()
     {
-        super.onAttach(context);
-    }
-
-    public Snackbar getSnackbar(String textToDisplay)
-    {
-        Snackbar snackbar = Snackbar.make(rootView, textToDisplay, Snackbar.LENGTH_SHORT);
-        View snackbarView = snackbar.getView();
-        ((TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
-        return snackbar;
+        View detailView = getView();
+        if (detailView != null)
+        {
+            Log.d("WISHLIST_CHECK", "TRUE");
+            if (zohokartDAO.checkInWishlist(product.getId(), email))
+            {
+                ((ToggleButton) detailView.findViewById(R.id.wishlist_icon)).setChecked(true);
+            }
+            else
+            {
+                ((ToggleButton) detailView.findViewById(R.id.wishlist_icon)).setChecked(false);
+            }
+        }
+        else
+        {
+            Log.d("WISHLIST_CHECK", "FALSE");
+        }
     }
 
     @Override
@@ -149,11 +152,11 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
             {
                 if (zohokartDAO.addToWishlist(product.getId(), email))
                 {
-                    getSnackbar("Added to wishlist").show();
+                    SnackBarProvider.getSnackbar("Added to wishlist", rootView).show();
                 }
                 else
                 {
-                    getSnackbar("Error while adding to wishlist").show();
+                    SnackBarProvider.getSnackbar("Error while adding to wishlist", rootView).show();
                     ((ToggleButton) v).setChecked(false);
                 }
             }
@@ -162,10 +165,10 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         {
             if (zohokartDAO.removeFromWishList(product.getId(), email))
             {
-                getSnackbar("Removed from wishlist").show();
+                SnackBarProvider.getSnackbar("Removed from wishlist", rootView).show();
             } else
             {
-                getSnackbar("Error while removing from wishlist").show();
+                SnackBarProvider.getSnackbar("Error while removing from wishlist", rootView).show();
                 ((ToggleButton) v).setChecked(true);
             }
         }

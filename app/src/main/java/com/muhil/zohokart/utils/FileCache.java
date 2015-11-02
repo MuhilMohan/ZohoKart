@@ -18,6 +18,7 @@ public class FileCache
     {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
         {
+            Log.d("STORAGE_OPENED", "true");
             imageFileCache = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "ZohoKart_Images");
         }
         else

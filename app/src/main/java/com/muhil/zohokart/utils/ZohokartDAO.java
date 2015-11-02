@@ -17,6 +17,8 @@ import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.FilterPair;
 import com.muhil.zohokart.models.Mobile;
+import com.muhil.zohokart.models.Order;
+import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
@@ -26,6 +28,8 @@ import com.muhil.zohokart.models.specification.Specification;
 import com.muhil.zohokart.models.specification.SpecificationGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -256,7 +260,7 @@ public class ZohokartDAO
     public List<Product> getTopRatedProducts()
     {
         List<Product> products = new ArrayList<>();
-        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, Product.PROJECTION, Product.STARS + " > ? ", new String[]{String.valueOf(4)}, null))
+        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, Product.PROJECTION, Product.STARS + " > ? ", new String[]{String.valueOf(4)}, Product.STARS + " DESC"))
         {
             if (cursor != null)
             {
@@ -272,7 +276,7 @@ public class ZohokartDAO
     public List<Product> getTopRatedProductsWithLimit()
     {
         List<Product> products = new ArrayList<>();
-        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, Product.PROJECTION, Product.STARS + " > ?", new String[]{String.valueOf(4)}, Product.TITLE + " LIMIT 10"))
+        try (Cursor cursor = context.getContentResolver().query(Product.CONTENT_URI, Product.PROJECTION, Product.STARS + " > ?", new String[]{String.valueOf(4)}, Product.STARS + " DESC LIMIT 10"))
         {
             if (cursor != null)
             {
@@ -721,61 +725,74 @@ public class ZohokartDAO
         List<String> brands = new ArrayList<>();
         String[] selectionArgsAsArray;
         String tempString, paramString = " ?", comma = ",";
+        boolean priceValidated = false;
 
-        for (FilterPair filterPair : filterPairs)
+        if (filterPairs.size() > 0)
         {
-            if (filterPair.getSelectionString() != null)
+            for (FilterPair filterPair : filterPairs)
             {
-                if (filterPair.getSelectionString().equals(Product.FILTER_BRAND))
+                if (filterPair.getSelectionString() != null)
                 {
-                    brands.addAll(filterPair.getSelectionArgs());
-                }
-                else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_LESSER_THAN))
-                {
-                    selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
-                    selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
-                    tempString = Product.FILTER_PRICE_LESSER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
-                    products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
-                }
-                else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_RANGE))
-                {
-                    selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
-                    selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
-                    tempString = Product.FILTER_PRICE_RANGE + " AND " + Product.SUB_CATEGORY_ID + " = ?";
-                    products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
-                }
-                else if (filterPair.getSelectionString().equals(Product.FILTER_PRICE_GREATER_THAN))
-                {
-                    selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size()+1]);
-                    selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
-                    tempString = Product.FILTER_PRICE_GREATER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
-                    products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
+                    switch (filterPair.getSelectionString())
+                    {
+                        case Product.FILTER_BRAND:
+                            brands.addAll(filterPair.getSelectionArgs());
+                            break;
+                        case Product.FILTER_PRICE_LESSER_THAN:
+                            selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size() + 1]);
+                            selectionArgsAsArray[selectionArgsAsArray.length - 1] = String.valueOf(subCategoryId);
+                            tempString = Product.FILTER_PRICE_LESSER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
+                            products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
+                            priceValidated = true;
+                            break;
+                        case Product.FILTER_PRICE_RANGE:
+                            selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size() + 1]);
+                            selectionArgsAsArray[selectionArgsAsArray.length - 1] = String.valueOf(subCategoryId);
+                            tempString = Product.FILTER_PRICE_RANGE + " AND " + Product.SUB_CATEGORY_ID + " = ?";
+                            products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
+                            priceValidated = true;
+                            break;
+                        case Product.FILTER_PRICE_GREATER_THAN:
+                            selectionArgsAsArray = filterPair.getSelectionArgs().toArray(new String[filterPair.getSelectionArgs().size() + 1]);
+                            selectionArgsAsArray[selectionArgsAsArray.length - 1] = String.valueOf(subCategoryId);
+                            tempString = Product.FILTER_PRICE_GREATER_THAN + " AND " + Product.SUB_CATEGORY_ID + " = ?";
+                            products.addAll(getProductsByPriceOrBrand(tempString, selectionArgsAsArray));
+                            priceValidated = true;
+                            break;
+                    }
                 }
             }
         }
-
-        if (products.size() == 0)
+        else
         {
-            tempString = Product.BRAND + " IN (";
-            for (String brand : brands)
-            {
-                if (brands.indexOf(brand) == 0)
-                {
-                    tempString = tempString + paramString;
-                    Log.d("BRAND_IN", tempString);
-                }
-                else
-                {
-                    tempString = tempString + comma + paramString;
-                    Log.d("BRAND_IN", tempString);
-                }
-            }
-            tempString = tempString + ")";
-            Log.d("BRAND_IN", tempString);
+            products = getProductsForSubCategory(subCategoryId);
+        }
 
-            selectionArgsAsArray = brands.toArray(new String[brands.size()+1]);
-            selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
-            products.addAll(getProductsByPriceOrBrand(tempString + " AND " + Product.SUB_CATEGORY_ID + " = ?", selectionArgsAsArray));
+        if (!priceValidated)
+        {
+            if (products.size() == 0)
+            {
+                tempString = Product.BRAND + " IN (";
+                for (String brand : brands)
+                {
+                    if (brands.indexOf(brand) == 0)
+                    {
+                        tempString = tempString + paramString;
+                        Log.d("BRAND_IN", tempString);
+                    }
+                    else
+                    {
+                        tempString = tempString + comma + paramString;
+                        Log.d("BRAND_IN", tempString);
+                    }
+                }
+                tempString = tempString + ")";
+                Log.d("BRAND_IN", tempString);
+
+                selectionArgsAsArray = brands.toArray(new String[brands.size()+1]);
+                selectionArgsAsArray[selectionArgsAsArray.length-1] = String.valueOf(subCategoryId);
+                products.addAll(getProductsByPriceOrBrand(tempString + " AND " + Product.SUB_CATEGORY_ID + " = ?", selectionArgsAsArray));
+            }
         }
 
         if (brands.size() > 0)
@@ -856,7 +873,7 @@ public class ZohokartDAO
         }
         catch (Exception e)
         {
-
+            e.printStackTrace();
         }
         return cards;
     }
@@ -867,6 +884,134 @@ public class ZohokartDAO
         return (deleteCount == 1);
     }
 
+    public int addOrderLineItems(List<OrderLineItem> orderLineItems)
+    {
+        ContentProviderResult[] contentProviderResults = null;
+        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
+        for (OrderLineItem orderLineItem : orderLineItems)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(OrderLineItem.ORDER_ID, orderLineItem.getOrderId());
+            contentValues.put(OrderLineItem.PRODUCT_ID, orderLineItem.getProductId());
+            contentValues.put(OrderLineItem.QUANTITY, orderLineItem.getQuantity());
+            contentProviderOperations.add(ContentProviderOperation.newInsert(OrderLineItem.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
+        }
+        try
+        {
+            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
+        }
+        catch (RemoteException | OperationApplicationException e)
+        {
+            Log.e("DAO", "Error adding order line items", e);
+        }
+        return contentProviderResults != null ? contentProviderResults.length : 0;
+    }
 
+    public List<OrderLineItem> getOrderLineItemsForOrderId(String orderId)
+    {
+        List<OrderLineItem> orderLineItems = new ArrayList<>();
+        OrderLineItem orderLineItem;
+        try (Cursor cursor = context.getContentResolver().query(
+                Uri.parse(OrderLineItem.CONTENT_URI + "/" + orderId), OrderLineItem.PROJECTION, null, null, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    orderLineItem = new OrderLineItem();
+                    orderLineItem.setOrderId(cursor.getString(cursor.getColumnIndex(OrderLineItem.ORDER_ID)));
+                    orderLineItem.setProductId(cursor.getInt(cursor.getColumnIndex(OrderLineItem.PRODUCT_ID)));
+                    orderLineItem.setQuantity(cursor.getInt(cursor.getColumnIndex(OrderLineItem.QUANTITY)));
+                    orderLineItems.add(orderLineItem);
+                }
 
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return orderLineItems;
+    }
+
+    public boolean addOrder(Order order, String email)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Order._ID, order.getId());
+        contentValues.put(Order.EMAIL, email);
+        contentValues.put(Order.NUMBER_OF_PRODUCTS, order.getNumberOfProducts());
+        contentValues.put(Order.TOTAL_PRICE, order.getTotalPrice());
+        contentValues.put(Order.ORDER_STATUS, order.getOrderStatus());
+        Uri insertedUri = context.getContentResolver().insert(Order.CONTENT_URI, contentValues);
+        return insertedUri != null;
+    }
+
+    public Order getOrderForOrderId(String orderId)
+    {
+        Order order = new Order();
+        try (Cursor cursor = context.getContentResolver().query(
+                Order.CONTENT_URI, Order.PROJECTION, Order._ID + " = ?", new String[]{orderId}, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    order.setId(cursor.getString(cursor.getColumnIndex(Order._ID)));
+                    order.setEmail(cursor.getString(cursor.getColumnIndex(Order.EMAIL)));
+                    order.setDate(cursor.getString(cursor.getColumnIndex(Order.ADDED_ON)));
+                    order.setNumberOfProducts(cursor.getInt(cursor.getColumnIndex(Order.NUMBER_OF_PRODUCTS)));
+                    order.setTotalPrice(cursor.getDouble(cursor.getColumnIndex(Order.TOTAL_PRICE)));
+                    order.setOrderStatus(cursor.getString(cursor.getColumnIndex(Order.ORDER_STATUS)));
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return order;
+    }
+
+    public List<Order> getOrdersForEmail(String email)
+    {
+        List<Order> orders = new ArrayList<>();
+        Order order;
+        try (Cursor cursor = context.getContentResolver().query(
+                Uri.parse(Order.CONTENT_URI + "/" + email), Order.PROJECTION, null, null, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    order = new Order();
+                    order.setId(cursor.getString(cursor.getColumnIndex(Order._ID)));
+                    order.setEmail(email);
+                    order.setDate(cursor.getString(cursor.getColumnIndex(Order.ADDED_ON)));
+                    order.setNumberOfProducts(cursor.getInt(cursor.getColumnIndex(Order.NUMBER_OF_PRODUCTS)));
+                    order.setTotalPrice(cursor.getDouble(cursor.getColumnIndex(Order.TOTAL_PRICE)));
+                    order.setOrderStatus(cursor.getString(cursor.getColumnIndex(Order.ORDER_STATUS)));
+                    orders.add(order);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public boolean removeProductsInCart(String email)
+    {
+        int deleteCount = context.getContentResolver().delete(Cart.CONTENT_URI, Cart.EMAIL + " = ?", new String[]{email});
+        return (deleteCount > 0);
+    }
+
+    public boolean cancelOrder(String orderId)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Order.ORDER_STATUS, Order.ORDER_CANCELLED);
+        int updateCount = context.getContentResolver().update(Uri.parse(Order.CONTENT_URI + "/" + orderId), contentValues, null, null);
+        return (updateCount == 1);
+    }
 }

@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Cart;
 import com.muhil.zohokart.models.Category;
+import com.muhil.zohokart.models.Order;
+import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
@@ -48,6 +50,10 @@ public class ZohokartContentProvider extends ContentProvider
     private static final int PROMOTION_BANNERS_ID = 16;
     private static final int PAYMENT_CARDS = 17;
     private static final int PAYMENT_CARDS_EMAIL = 18;
+    private static final int ORDERS = 19;
+    private static final int ORDER_EMAIL = 20;
+    private static final int ORDER_LINE_ITEM = 21;
+    private static final int ORDER_LINE_ITEM_ID = 22;
     private static final UriMatcher uriMatcher;
 
     static
@@ -72,6 +78,10 @@ public class ZohokartContentProvider extends ContentProvider
         uriMatcher.addURI(AUTHORITY, PromotionBanner.TABLE_NAME + "/#", PROMOTION_BANNERS_ID);
         uriMatcher.addURI(AUTHORITY, PaymentCard.TABLE_NAME, PAYMENT_CARDS);
         uriMatcher.addURI(AUTHORITY, PaymentCard.TABLE_NAME + "/*", PAYMENT_CARDS_EMAIL);
+        uriMatcher.addURI(AUTHORITY, Order.TABLE_NAME, ORDERS);
+        uriMatcher.addURI(AUTHORITY, Order.TABLE_NAME + "/*", ORDER_EMAIL);
+        uriMatcher.addURI(AUTHORITY, OrderLineItem.TABLE_NAME, ORDER_LINE_ITEM);
+        uriMatcher.addURI(AUTHORITY, OrderLineItem.TABLE_NAME + "/*", ORDER_LINE_ITEM_ID);
 
     }
 
@@ -90,7 +100,6 @@ public class ZohokartContentProvider extends ContentProvider
 
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
         SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
-        boolean useAuthorityUri = false;
 
         switch (uriMatcher.match(uri))
         {
@@ -167,6 +176,22 @@ public class ZohokartContentProvider extends ContentProvider
                 sqLiteQueryBuilder.appendWhere(PaymentCard.EMAIL + " = " + uri.getLastPathSegment());
                 break;
 
+            case ORDERS:
+                sqLiteQueryBuilder.setTables(Order.TABLE_NAME);
+                break;
+            case ORDER_EMAIL:
+                sqLiteQueryBuilder.setTables(Order.TABLE_NAME);
+                sqLiteQueryBuilder.appendWhere(Order.EMAIL + " = '" + uri.getLastPathSegment() + "'");
+                break;
+
+            case ORDER_LINE_ITEM:
+                sqLiteQueryBuilder.setTables(OrderLineItem.TABLE_NAME);
+                break;
+            case ORDER_LINE_ITEM_ID:
+                sqLiteQueryBuilder.setTables(OrderLineItem.TABLE_NAME);
+                sqLiteQueryBuilder.appendWhere(OrderLineItem.ORDER_ID + " = '" + uri.getLastPathSegment() + "'");
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -239,6 +264,15 @@ public class ZohokartContentProvider extends ContentProvider
             case PAYMENT_CARDS_EMAIL:
                 return PaymentCard.CONTENT_ITEM_TYPE;
 
+            case ORDERS:
+                return Order.CONTENT_TYPE;
+
+            case ORDER_EMAIL:
+                return Order.CONTENT_ITEM_TYPE;
+
+            case ORDER_LINE_ITEM:
+                return OrderLineItem.CONTENT_TYPE;
+
             default:
                 return null;
 
@@ -252,7 +286,7 @@ public class ZohokartContentProvider extends ContentProvider
 
         if ((uriMatcher.match(uri) != CATEGORIES_ID) && (uriMatcher.match(uri) != SUB_CATEGORIES_ID) && (uriMatcher.match(uri) != PRODUCTS_ID) && (uriMatcher.match(uri) != ACCOUNTS_EMAIL)
                 && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)
-                && (uriMatcher.match(uri) != PAYMENT_CARDS_EMAIL))
+                && (uriMatcher.match(uri) != PAYMENT_CARDS_EMAIL) && (uriMatcher.match(uri) != ORDER_EMAIL))
         {
 
             long result;
@@ -294,6 +328,14 @@ public class ZohokartContentProvider extends ContentProvider
 
                 case PAYMENT_CARDS:
                     result = sqLiteDatabase.insert(PaymentCard.TABLE_NAME, null, values);
+                    break;
+
+                case ORDERS:
+                    result = sqLiteDatabase.insert(Order.TABLE_NAME, null, values);
+                    break;
+
+                case ORDER_LINE_ITEM:
+                    result = sqLiteDatabase.insert(OrderLineItem.TABLE_NAME, null, values);
                     break;
 
                 default:
@@ -433,6 +475,23 @@ public class ZohokartContentProvider extends ContentProvider
                 deleteCount = sqLiteDatabase.delete(PaymentCard.TABLE_NAME, where, selectionArgs);
                 break;
 
+            case ORDERS:
+                deleteCount = sqLiteDatabase.delete(Order.TABLE_NAME, selection, selectionArgs);
+                break;
+            case ORDER_EMAIL:
+                String orderId = uri.getLastPathSegment();
+                where = Order._ID + " = '" + orderId + "'";
+                if (!TextUtils.isEmpty(selection))
+                {
+                    where += " AND " + selection;
+                }
+                deleteCount = sqLiteDatabase.delete(Order.TABLE_NAME, where, selectionArgs);
+                break;
+
+            case ORDER_LINE_ITEM:
+                deleteCount = sqLiteDatabase.delete(OrderLineItem.TABLE_NAME, selection, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -559,6 +618,23 @@ public class ZohokartContentProvider extends ContentProvider
                     where += " AND " + selection;
                 }
                 updateCount = sqLiteDatabase.update(PaymentCard.TABLE_NAME, values, where, selectionArgs);
+                break;
+
+            case ORDERS:
+                updateCount = sqLiteDatabase.update(Order.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case ORDER_EMAIL:
+                String orderId = uri.getLastPathSegment();
+                where = Order._ID + " = '" + orderId + "'";
+                if (!TextUtils.isEmpty(selection))
+                {
+                    where += " AND " + selection;
+                }
+                updateCount = sqLiteDatabase.update(Order.TABLE_NAME, values, where, selectionArgs);
+                break;
+
+            case ORDER_LINE_ITEM:
+                updateCount = sqLiteDatabase.update(OrderLineItem.TABLE_NAME, values, selection, selectionArgs);
                 break;
 
             default:

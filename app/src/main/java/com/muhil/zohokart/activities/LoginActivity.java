@@ -203,6 +203,7 @@ public class LoginActivity extends AppCompatActivity
                             editor.apply();
                             setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
                             finish();
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                             Toast.makeText(LoginActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
                         }
                         else

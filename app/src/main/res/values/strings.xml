@@ -19,4 +19,5 @@
         <item>Mastercard</item>
     </string-array>
     <string name="title_activity_order_summary">OrderSummaryActivity</string>
+    <string name="view_saved_card"><u>Select saved card</u></string>
 </resources>

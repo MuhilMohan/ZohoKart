@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.PaymentCard;
+import com.muhil.zohokart.utils.CardValidator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -140,24 +141,31 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
 
                         if (cardNumberString.length() != 0 && cardNumberString.length() == 16)
                         {
-                            if (!(ifAnyDigitExist(nameOncardText)))
+                            if (!(CardValidator.ifAnyLetterExist(cardNumberString)))
                             {
-                                paymentCard.setEmail(getArguments().getString(Account.EMAIL));
-                                paymentCard.setCardNumber(cardNumberString);
-                                paymentCard.setNameOnCard(nameOncardText);
-                                paymentCard.setCardType(cardType);
-                                paymentCard.setExpiryDate(expiryDate);
-                                communicator.sendCard(paymentCard);
-                                getActivity().getSupportFragmentManager().popBackStack();
+                                if (!(CardValidator.ifAnyDigitExist(nameOncardText)))
+                                {
+                                    paymentCard.setEmail(getArguments().getString(Account.EMAIL));
+                                    paymentCard.setCardNumber(cardNumberString);
+                                    paymentCard.setNameOnCard(nameOncardText);
+                                    paymentCard.setCardType(cardType);
+                                    paymentCard.setExpiryDate(expiryDate);
+                                    communicator.sendCard(paymentCard);
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getActivity(), "Enter a valid name.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                             else
                             {
-                                Toast.makeText(getActivity(), "Enter a valid name.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Enter a valid card number.", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else
                         {
-                            Toast.makeText(getActivity(), "Enter a valid card number.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Card Number too small.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -177,31 +185,7 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
         return savedCardFragment;
     }
 
-    private boolean ifAnyDigitExist(String nameOnCard)
-    {
-        boolean result = false;
-        char[] nameOnCardArray = nameOnCard.toCharArray();
-        for (int i = 0; i < nameOnCardArray.length; i++)
-        {
-            if ((nameOnCardArray[i] <= 'A' || nameOnCardArray[i] >= 'Z'))
-            {
-                if (String.valueOf(nameOnCardArray[i]).equals(" "))
-                {
-                    result = false;
-                }
-                else
-                {
-                    result = true;
-                    break;
-                }
-            }
-            else
-            {
-                result = false;
-            }
-        }
-        return result;
-    }
+
 
     public interface PaymentCardCommunicator
     {

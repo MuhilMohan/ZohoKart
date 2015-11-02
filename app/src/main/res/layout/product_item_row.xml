@@ -6,9 +6,9 @@
     android:background="#FFF">
 
     <ImageView
-        android:layout_width="110dp"
+        android:layout_width="80dp"
         android:layout_height="110dp"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:contentDescription="thumbnail of product."
         android:src="@mipmap/ic_phone_iphone_black_24dp"
         android:layout_gravity="center"
@@ -21,7 +21,7 @@
         android:layout_toEndOf="@id/display_image"
         android:text="Title"
         android:textSize="14sp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginBottom="7dp"
         android:id="@+id/title"/>
     <TextView
@@ -31,6 +31,8 @@
         android:layout_below="@id/title"
         android:text="Color and storage"
         android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:layout_marginBottom="9dp"
         android:id="@+id/description"/>
 
@@ -65,7 +67,9 @@
             android:layout_height="wrap_content"
             android:text="Rating"
             android:textSize="14sp"
-            android:layout_marginStart="20dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="10dp"
             android:id="@+id/product_rating"/>
 
     </LinearLayout>

@@ -24,13 +24,16 @@ import android.widget.Toast;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,10 +45,11 @@ public class CartFragment extends android.support.v4.app.Fragment
     View cartFragment;
     List<Product> productsInCart;
     List<Integer> productIds;
+    Map<Integer, Double> productsTotalPrice;
     LinearLayout emptyCartHolder, productsInCartHolder;
     ScrollView cartContent;
     CardView cardView;
-    double quantity;
+    int quantity;
     double grandTotal = 0;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     CartCommunicator communicator;
@@ -78,10 +82,10 @@ public class CartFragment extends android.support.v4.app.Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        Toast.makeText(getActivity(), "onCreate cart", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
         productIds = new ArrayList<>();
+        productsTotalPrice = new LinkedHashMap<>();
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "");
         layoutInflater = LayoutInflater.from(getActivity());
@@ -168,6 +172,12 @@ public class CartFragment extends android.support.v4.app.Fragment
         protected Void doInBackground(String... params)
         {
             productsInCart = zohokartDAO.getProductsFromCart(params[0]);
+            for (Product product : productsInCart)
+            {
+                quantity = zohokartDAO.getQuantityofProductInCart(product.getId(), params[0]);
+                productsTotalPrice.put(product.getId(), quantity*product.getPrice());
+            }
+            quantity = 0;
             return null;
         }
 
@@ -194,7 +204,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                         ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format(product.getPrice()));
                         ((EditText) cardView.findViewById(R.id.quantity)).setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(product.getId(), email)));
                         (cardView.findViewById(R.id.quantity)).setTag(product);
-                        ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(product.getPrice()));
+                        ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(productsTotalPrice.get(product.getId())));
                         Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
                         if (zohokartDAO.checkInWishlist(product.getId(), email))
                         {
@@ -217,7 +227,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                             if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId(), email))
                                             {
                                                 updateGrandTotal();
-                                                Toast.makeText(getActivity(), "Quantity updated.", Toast.LENGTH_SHORT).show();
+                                                SnackBarProvider.getSnackbar("Quantity updated", cartFragment).show();
                                             }
                                         } else
                                         {

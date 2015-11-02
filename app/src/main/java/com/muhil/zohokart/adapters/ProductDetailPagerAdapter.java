@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import com.muhil.zohokart.fragments.ProductDetailFragment;
 import com.muhil.zohokart.fragments.ProductDetailPagerFragment;
 import com.muhil.zohokart.models.Product;
 
@@ -20,15 +21,17 @@ public class ProductDetailPagerAdapter extends FragmentStatePagerAdapter
     Context context;
     List<Product> products;
     ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator;
-
-    public ProductDetailPagerAdapter(FragmentManager fm, Context context, List<Product> products, ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator)
+    ProductDetailFragment productDetailFragment;
+    public ProductDetailPagerAdapter(FragmentManager fm, Context context, List<Product> products,
+                                     ProductDetailPagerFragment.ProductDetailPageCommunicator productDetailPageCommunicator,
+                                     ProductDetailFragment productDetailFragment)
     {
         super(fm);
         this.context = context;
         this.products = products;
         this.productDetailPageCommunicator = productDetailPageCommunicator;
+        this.productDetailFragment = productDetailFragment;
     }
-
 
     @Override
     public Fragment getItem(int position)

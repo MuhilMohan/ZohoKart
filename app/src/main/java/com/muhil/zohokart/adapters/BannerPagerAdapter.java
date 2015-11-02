@@ -17,6 +17,7 @@ public class BannerPagerAdapter extends FragmentStatePagerAdapter
 {
     List<PromotionBanner> banners;
     BannerFragment.BannerCommunicator bannerCommunicator;
+    int currentPosition = 0;
 
     public BannerPagerAdapter(FragmentManager fragmentManager, List<PromotionBanner> banners, BannerFragment.BannerCommunicator bannerCommunicator)
     {
@@ -28,13 +29,23 @@ public class BannerPagerAdapter extends FragmentStatePagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        BannerFragment bannerFragment = BannerFragment.getInstance(banners.get(position));
+        BannerFragment bannerFragment = BannerFragment.getInstance(banners.get(currentPosition));
         bannerFragment.setCommunicator(bannerCommunicator);
+
+        if (currentPosition >= banners.size() - 1)
+        {
+            currentPosition = 0;
+        }
+        else
+        {
+            ++currentPosition;
+        }
+
         return bannerFragment;
     }
 
     @Override
     public int getCount() {
-        return banners.size();
+        return Integer.MAX_VALUE;
     }
 }

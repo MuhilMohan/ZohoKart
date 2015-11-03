@@ -49,7 +49,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     ProductListCommunicator communicator;
     SharedPreferences filterPref;
     Set<String> selectedFilter;
-
+    boolean filterEnabled = false;
+    boolean sortEnabled = false;
     public ProductListFragment()
     {
         // Required empty public constructor
@@ -67,6 +68,15 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     public void setCommunicator(ProductListCommunicator communicator)
     {
         this.communicator = communicator;
+    }
+
+    public void setFilterEnabled(boolean status)
+    {
+        this.filterEnabled = status;
+    }
+    public void setSortEnabled(boolean status)
+    {
+        this.sortEnabled = status;
     }
 
     @Override
@@ -120,6 +130,8 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         {
             super.onPreExecute();
             (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.VISIBLE);
+            (productListFragment.findViewById(R.id.filter_action)).setVisibility(View.GONE);
+            (productListFragment.findViewById(R.id.sort_action)).setVisibility(View.GONE);
         }
 
         @SuppressWarnings("unchecked")
@@ -220,7 +232,14 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     }
                 }
 
-                (productListFragment.findViewById(R.id.list_actions)).setVisibility(View.VISIBLE);
+                if (filterEnabled)
+                {
+                    (productListFragment.findViewById(R.id.filter_action)).setVisibility(View.VISIBLE);
+                }
+                if (sortEnabled)
+                {
+                    (productListFragment.findViewById(R.id.sort_action)).setVisibility(View.VISIBLE);
+                }
                 (productListFragment.findViewById(R.id.products)).setVisibility(View.VISIBLE);
                 (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
             }
@@ -229,7 +248,6 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                 (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
                 (productListFragment.findViewById(R.id.empty_list)).setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
-                (productListFragment.findViewById(R.id.list_actions)).setVisibility(View.GONE);
             }
         }
     }

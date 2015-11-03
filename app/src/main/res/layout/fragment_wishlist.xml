@@ -42,37 +42,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/empty_cart_holder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:background="#FFF"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_gravity="center"
-            android:text="@string/wishlist_empty"
-            android:textSize="20sp" />
-        <Button
-            android:id="@+id/continue_shopping_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/continue_shopping"
-            android:textColor="#FFF"
-            android:background="@drawable/rounded_button" />
-
-    </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wishlist"
         android:layout_width="match_parent"
@@ -82,6 +51,38 @@
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
         android:paddingTop="6dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#E0E0E0">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/fa_heart_o_256_0_ef5350_none"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/wishlist_empty"
+            android:textColor="#616161"/>
+        <Button
+            android:id="@+id/continue_shopping_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/continue_shopping"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_frame" />
+
+    </LinearLayout>
 
 </RelativeLayout>
 

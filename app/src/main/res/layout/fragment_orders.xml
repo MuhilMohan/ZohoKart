@@ -23,4 +23,35 @@
 
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/orders_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#E0E0E0">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/octicon_package_256_0_9e9e9e_none"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Currently you have no orders"
+            android:textColor="#616161"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/continue_shopping"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_frame"/>
+
+    </LinearLayout>
+
 </FrameLayout>

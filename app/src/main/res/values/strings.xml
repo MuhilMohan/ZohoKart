@@ -39,7 +39,7 @@
     <string name="navigation_image">navigation item image</string>
     <string name="wishlist">Wishlist</string>
     <string name="wishlist_empty">No Products in Wishlist</string>
-    <string name="continue_shopping">Continue shopping</string>
+    <string name="continue_shopping">Shop Now</string>
     <string name="search_empty">No matching products</string>
     <string name="enter_card_details">Enter card details</string>
     <string name="card_number">Card Number</string>
@@ -101,4 +101,5 @@
     <string name="add_new_card">Add new card</string>
     <string name="password">Password</string>
     <string name="login">Log in</string>
+    <string name="add_items">Want to add items?</string>
 </resources>

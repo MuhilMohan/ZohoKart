@@ -113,37 +113,44 @@ public class OrdersFragment extends android.support.v4.app.Fragment
         {
             super.onPostExecute(aVoid);
             ordersHolder.removeAllViews();
-            for (final Order order : orders)
+            if (orders.size() > 0)
             {
-                orderItem = (CardView) layoutInflater.inflate(R.layout.order_item, ordersHolder, false);
-                try
+                for (final Order order : orders)
                 {
-                    date = dateConversionDateFormat.parse(order.getDate());
-                    String dateDisplayString = dateDisplayFormat.format(date);
-                    ((TextView) orderItem.findViewById(R.id.ordered_date)).setText(dateDisplayString);
-                }
-                catch (ParseException e)
-                {
-                    e.printStackTrace();
-                }
-                ((TextView) orderItem.findViewById(R.id.total_products)).setText(String.valueOf(order.getNumberOfProducts()));
-                ((TextView) orderItem.findViewById(R.id.order_total_price)).setText("Rs. " + decimalFormat.format(order.getTotalPrice()));
-                orderItem.setTag(order.getId());
-                ((TextView) orderItem.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+                    orderItem = (CardView) layoutInflater.inflate(R.layout.order_item, ordersHolder, false);
+                    try
+                    {
+                        date = dateConversionDateFormat.parse(order.getDate());
+                        String dateDisplayString = dateDisplayFormat.format(date);
+                        ((TextView) orderItem.findViewById(R.id.ordered_date)).setText(dateDisplayString);
+                    }
+                    catch (ParseException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    ((TextView) orderItem.findViewById(R.id.total_products)).setText(String.valueOf(order.getNumberOfProducts()));
+                    ((TextView) orderItem.findViewById(R.id.order_total_price)).setText("Rs. " + decimalFormat.format(order.getTotalPrice()));
+                    orderItem.setTag(order.getId());
+                    ((TextView) orderItem.findViewById(R.id.order_status)).setText(order.getOrderStatus());
 
-                orderItem.setOnClickListener(
-                        new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v)
+                    orderItem.setOnClickListener(
+                            new View.OnClickListener()
                             {
-                                String orderId = (String) v.getTag();
-                                orderCommunicator.openOrderLineItemsForOrderId(orderId);
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    String orderId = (String) v.getTag();
+                                    orderCommunicator.openOrderLineItemsForOrderId(orderId);
+                                }
                             }
-                        }
-                );
+                    );
 
-                ordersHolder.addView(orderItem);
+                    ordersHolder.addView(orderItem);
+                }
+            }
+            else
+            {
+
             }
         }
     }

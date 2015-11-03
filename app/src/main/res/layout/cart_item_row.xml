@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardBackgroundColor="#FFF"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="2dp"
     card_view:cardElevation="4dp">
 
     <RelativeLayout
@@ -169,7 +169,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:background="#EF6C00">
+            android:background="@drawable/rounded_cancel_button">
 
             <TextView
                 android:layout_width="wrap_content"

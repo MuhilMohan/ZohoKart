@@ -41,6 +41,50 @@
 
         </FrameLayout>
 
+        <LinearLayout
+            android:id="@+id/no_internet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="#E0E0E0"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@mipmap/icomoon_connection_256_0_424242_none"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/feather_cross_256_0_9e9e9e_none"/>
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="24dp"
+                android:text="no internet connection"
+                android:textSize="18sp"
+                android:textColor="#616161"/>
+
+            <Button
+                android:id="@+id/retry_network"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RETRY"
+                android:textColor="#FFF"
+                android:background="@drawable/rounded_frame"/>
+
+        </LinearLayout>
+
     </RelativeLayout>
 
     <fragment

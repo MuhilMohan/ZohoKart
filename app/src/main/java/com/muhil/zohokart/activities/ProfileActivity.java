@@ -304,6 +304,13 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     public Snackbar getSnackbar(String textToDisplay)
     {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.parent_view), textToDisplay, Snackbar.LENGTH_SHORT);

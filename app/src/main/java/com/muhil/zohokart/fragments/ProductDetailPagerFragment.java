@@ -80,7 +80,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
-        product = (Product) getArguments().getSerializable("product");
         sharedPreferences = getActivity().getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, Context.MODE_PRIVATE);
         email = sharedPreferences.getString(Account.EMAIL, "default");
     }
@@ -90,9 +89,10 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        Log.d("ONCREATE", "TRUE");
+        Log.d("ON CREATE", "TRUE");
         rootView =  inflater.inflate(R.layout.fragment_product_detail_pager, container, false);
 
+        product = (Product) getArguments().getSerializable("product");
         ((TextView) rootView.findViewById(R.id.title)).setText(product.getTitle());
         ((TextView) rootView.findViewById(R.id.description)).setText(product.getDescription());
         ((TextView) rootView.findViewById(R.id.price)).setText(String.valueOf(decimalFormat.format(product.getPrice())));
@@ -108,7 +108,14 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
 
         fillStars();
 
-        checkWishlist();
+        if (communicator.checkWishlist(product.getId(), email))
+        {
+            ((ToggleButton) rootView.findViewById(R.id.wishlist_icon)).setChecked(true);
+        }
+        else
+        {
+            ((ToggleButton) rootView.findViewById(R.id.wishlist_icon)).setChecked(false);
+        }
 
         (rootView.findViewById(R.id.wishlist_icon)).setOnClickListener(this);
 
@@ -120,27 +127,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         });
 
         return rootView;
-    }
-
-    public void checkWishlist()
-    {
-        View detailView = getView();
-        if (detailView != null)
-        {
-            Log.d("WISHLIST_CHECK", "TRUE");
-            if (zohokartDAO.checkInWishlist(product.getId(), email))
-            {
-                ((ToggleButton) detailView.findViewById(R.id.wishlist_icon)).setChecked(true);
-            }
-            else
-            {
-                ((ToggleButton) detailView.findViewById(R.id.wishlist_icon)).setChecked(false);
-            }
-        }
-        else
-        {
-            Log.d("WISHLIST_CHECK", "FALSE");
-        }
     }
 
     @Override
@@ -214,7 +200,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     public interface ProductDetailPageCommunicator
     {
         void openSpecifications(Product product);
-        void updateRecentlyViewed();
+        boolean checkWishlist(int productId, String email);
     }
 
 }

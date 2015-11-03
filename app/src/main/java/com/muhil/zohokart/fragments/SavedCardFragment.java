@@ -143,19 +143,34 @@ public class SavedCardFragment extends android.support.v4.app.Fragment
                         {
                             if (!(CardValidator.ifAnyLetterExist(cardNumberString)))
                             {
-                                if (!(CardValidator.ifAnyDigitExist(nameOncardText)))
+                                if ((Integer.parseInt(cardNumberString.substring(0,2)) >= 40 && Integer.parseInt(cardNumberString.substring(0,2)) <= 49) ||
+                                        (Integer.parseInt(cardNumberString.substring(0,2)) >= 50 && Integer.parseInt(cardNumberString.substring(0,2)) <= 59))
                                 {
-                                    paymentCard.setEmail(getArguments().getString(Account.EMAIL));
-                                    paymentCard.setCardNumber(cardNumberString);
-                                    paymentCard.setNameOnCard(nameOncardText);
-                                    paymentCard.setCardType(cardType);
-                                    paymentCard.setExpiryDate(expiryDate);
-                                    communicator.sendCard(paymentCard);
-                                    getActivity().getSupportFragmentManager().popBackStack();
+                                    if (!(CardValidator.ifAnyDigitExist(nameOncardText)))
+                                    {
+                                        paymentCard.setEmail(getArguments().getString(Account.EMAIL));
+                                        paymentCard.setCardNumber(cardNumberString);
+                                        paymentCard.setNameOnCard(nameOncardText);
+                                        if ((Integer.parseInt(cardNumberString.substring(0,2)) >= 40 && Integer.parseInt(cardNumberString.substring(0,2)) <= 49))
+                                        {
+                                            paymentCard.setCardType("Visa");
+                                        }
+                                        else if ((Integer.parseInt(cardNumberString.substring(0,2)) >= 50 && Integer.parseInt(cardNumberString.substring(0,2)) <= 59))
+                                        {
+                                            paymentCard.setCardType("Mastercard");
+                                        }
+                                        paymentCard.setExpiryDate(expiryDate);
+                                        communicator.sendCard(paymentCard);
+                                        getActivity().getSupportFragmentManager().popBackStack();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getActivity(), "Enter a valid name.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else
                                 {
-                                    Toast.makeText(getActivity(), "Enter a valid name.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Enter a valid card number.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else

@@ -26,11 +26,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="ZohoKart"
+                    android:text="@string/zohokart"
                     android:textSize="44sp"
                     android:textStyle="italic|bold"
                     android:textColor="#FFF"
-                    android:drawableLeft="@mipmap/ic_launcher"/>
+                    android:drawableStart="@mipmap/ic_launcher"/>
 
             </FrameLayout>
 
@@ -48,8 +48,10 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:padding="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
                         android:inputType="textEmailAddress"
                         android:ems="10"
                         android:textSize="16sp"
@@ -58,7 +60,7 @@
                         android:textCursorDrawable="@drawable/custom_cursor"
                         android:background="@android:color/transparent"
                         android:id="@+id/email"
-                        android:hint="Email"/>
+                        android:hint="@string/email_address"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -73,9 +75,11 @@
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
                             android:layout_centerVertical="true"
-                            android:padding="10dp"
                             android:inputType="textPassword"
                             android:ems="10"
                             android:textSize="16sp"
@@ -84,19 +88,8 @@
                             android:textCursorDrawable="@drawable/custom_cursor"
                             android:background="@android:color/transparent"
                             android:id="@+id/password"
-                            android:hint="Password"/>
+                            android:hint="@string/password"/>
 
-                        <TextView
-                            android:id="@+id/forgotButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/blank_button"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerVertical="true"
-                            android:text="Forgot?"
-                            android:textColor="#FFF"
-                            android:textSize="16sp"/>
                         <TextView
                             android:id="@+id/showButton"
                             android:layout_width="wrap_content"
@@ -105,7 +98,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_centerVertical="true"
-                            android:text="Show"
+                            android:text="@string/show"
                             android:textColor="#FFF"
                             android:textSize="16sp"
                             android:visibility="gone"/>
@@ -117,7 +110,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_centerVertical="true"
-                            android:text="Hide"
+                            android:text="@string/hide"
                             android:textColor="#FFF"
                             android:textSize="16sp"
                             android:visibility="gone"/>
@@ -128,7 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
-                        android:text="Log in"
+                        android:text="@string/login"
                         android:background="@drawable/rounded_button"
                         android:id="@+id/button"
                         android:textSize="18sp"

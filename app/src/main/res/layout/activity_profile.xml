@@ -29,7 +29,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Account information"
+                android:text="@string/account_information"
                 android:textSize="20sp"/>
 
             <android.support.v7.widget.CardView
@@ -51,7 +51,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Full Name"
+                        android:text="@string/full_name"
                         android:textSize="16sp"/>
                     <TextView
                         android:id="@+id/account_name_text"
@@ -62,7 +62,7 @@
                         android:layout_marginEnd="16dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="Full Name"
+                        android:text="@string/full_name"
                         android:textSize="14sp"/>
 
                     <TextView
@@ -80,7 +80,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Email id"
+                        android:text="@string/email_address"
                         android:textSize="16sp"/>
                     <TextView
                         android:id="@+id/account_email_text"
@@ -91,7 +91,7 @@
                         android:layout_marginEnd="16dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="email"
+                        android:text="@string/email_address"
                         android:textSize="14sp"/>
 
                     <TextView
@@ -109,7 +109,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Phone number"
+                        android:text="@string/phone_number"
                         android:textSize="16sp"/>
                     <TextView
                         android:id="@+id/account_phone_number_text"
@@ -120,7 +120,7 @@
                         android:layout_marginEnd="16dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="phone number"
+                        android:text="@string/phone_number"
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -140,7 +140,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Delivery address"
+                    android:text="@string/delivery_address"
                     android:textSize="20sp"/>
                 <ImageView
                     android:id="@+id/edit_address_action"
@@ -197,7 +197,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_margin="4dp"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textSize="14sp"
                     style="?android:attr/buttonBarButtonStyle"/>
 
@@ -207,7 +207,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_margin="4dp"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:textSize="14sp"
                     style="?android:attr/buttonBarButtonStyle"/>
 
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="8dp"
-                    android:text="My Orders"
+                    android:text="@string/my_orders"
                     android:textSize="18sp"
                     android:textColor="#FFF"/>
 
@@ -247,7 +247,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Saved Cards"
+                android:text="@string/saved_cards"
                 android:textSize="20sp"/>
 
             <LinearLayout
@@ -272,7 +272,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="No saved cards available."
+                    android:text="@string/no_saved_cards"
                     android:visibility="gone"/>
 
             </LinearLayout>
@@ -288,7 +288,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_gravity="center_vertical"
-                    android:text="Add new card"/>
+                    android:text="@string/add_new_card"/>
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"

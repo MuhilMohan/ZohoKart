@@ -9,7 +9,7 @@
         android:layout_width="80dp"
         android:layout_height="110dp"
         android:layout_margin="16dp"
-        android:contentDescription="thumbnail of product."
+        android:contentDescription="@string/product_thumbnail"
         android:src="@mipmap/ic_phone_iphone_black_24dp"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/display_image"
-        android:text="Title"
+        android:text="@string/title"
         android:textSize="14sp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="7dp"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/display_image"
         android:layout_below="@id/title"
-        android:text="Color and storage"
+        android:text="@string/description"
         android:textSize="12sp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/display_image"
         android:layout_below="@id/description"
-        android:text="Price"
+        android:text="@string/price"
         android:textSize="16sp"
         android:layout_marginBottom="9dp"
         android:id="@+id/price"/>
@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rating"
+            android:text="@string/rating"
             android:textSize="14sp"
             android:maxLines="1"
             android:ellipsize="end"
@@ -83,7 +83,7 @@
         android:textOn=""
         android:textOff=""
         android:background="@drawable/image_toggle_button"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:id="@+id/wishlist_toggle"/>
 
     <TextView

@@ -2,6 +2,7 @@ package com.muhil.zohokart.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.OrderConfirmationFragment;
 import com.muhil.zohokart.fragments.PaymentFragment;
 import com.muhil.zohokart.models.Account;
+import com.muhil.zohokart.models.ZohoKartFragments;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 
 import java.util.List;
@@ -121,11 +123,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
     {
         PaymentFragment paymentFragment = PaymentFragment.getInstance(email);
         paymentFragment.setCommunicator(this);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
-        fragmentTransaction.replace(R.id.checkout_fragments_holder, paymentFragment, "order_confirmation_fragment");
-        fragmentTransaction.addToBackStack("order_confirmation_fragment");
-        fragmentTransaction.commit();
+        stackFragment(paymentFragment, ZohoKartFragments.PAYMENT_FRAGMENT);
     }
 
 
@@ -135,4 +133,14 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
         setResult(MainActivity.REQUEST_CODE_CHECKOUT);
         finish();
     }
+
+    private void stackFragment(Fragment fragment, String tag)
+    {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+        fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
+        fragmentTransaction.addToBackStack(tag);
+        fragmentTransaction.commit();
+    }
+
 }

@@ -17,7 +17,7 @@
     <LinearLayout
         android:id="@+id/list_actions"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:visibility="visible"
         android:orientation="horizontal"
         android:background="#EEEEEE"
@@ -35,9 +35,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="FILTER"
+                android:text="@string/filter"
                 android:textSize="16sp"
-                android:drawableStart="@mipmap/ic_filter_list_black_24dp"/>
+                android:drawableStart="@mipmap/ic_filter_list_black_24dp"
+                android:drawablePadding="8dp"/>
             <TextView
                 android:id="@+id/selected_filter"
                 android:layout_width="wrap_content"
@@ -45,8 +46,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:gravity="center"
-                android:textSize="8sp"
-                android:text="samle"
+                android:textSize="10sp"
                 android:textStyle="italic"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -72,15 +72,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="SORT"
+                android:text="@string/sort"
                 android:textSize="16sp"
-                android:drawableStart="@mipmap/ic_sort_black_24dp"/>
+                android:drawableStart="@mipmap/ic_sort_black_24dp"
+                android:drawablePadding="8dp"/>
             <TextView
                 android:id="@+id/selected_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8sp"
-                android:text="samle"
+                android:textSize="10sp"
                 android:textStyle="italic"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -114,17 +114,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_gravity="center"
-                android:text=":'-("
-                android:textColor="#FFF"
-                android:textSize="30sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Nothing here."
+                android:text="@string/products_empty"
                 android:textColor="#FFF"
                 android:textSize="16sp"/>
 
@@ -134,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
-                android:text="Continue shoppping"/>
+                android:text="@string/continue_shopping"/>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

@@ -38,6 +38,7 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
     Map<String, List<Specification>> specificationGroup = null;
     TextView specificationGroupName;
     LayoutInflater layoutInflater;
+    SpecCommunicator communicator;
 
     public static SpecificationFragment getInstance(Product product)
     {
@@ -48,6 +49,11 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
         bundle.putString("product", productString);
         specificationFragment.setArguments(bundle);
         return specificationFragment;
+    }
+
+    public void setCommunicator(SpecCommunicator communicator)
+    {
+        this.communicator = communicator;
     }
 
     public SpecificationFragment()
@@ -70,6 +76,8 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_specification, container, false);
+        communicator.lockDrawer();
+
         product = gson.fromJson(getArguments().getString("product"), new TypeToken<Product>() {}.getType());
         new SpecificationAsyncTask().execute(product.getId());
         return rootView;
@@ -129,4 +137,10 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
 
         }
     }
+
+    public interface SpecCommunicator
+    {
+        void lockDrawer();
+    }
+
 }

@@ -15,60 +15,61 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="57dp"
-            android:layout_height="130dp"
-            android:layout_margin="20dp"
+            android:layout_width="80dp"
+            android:layout_height="110dp"
+            android:layout_margin="16dp"
             android:src="@mipmap/ic_phone_iphone_black_24dp"
             android:id="@+id/display_image"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/display_image"
-            android:layout_marginTop="20dp"
-            android:text="Title"
+            android:layout_toEndOf="@+id/display_image"
+            android:layout_marginTop="16dp"
+            android:text="@string/title"
             android:textSize="14sp"
             android:id="@+id/title"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/display_image"
+            android:layout_toEndOf="@+id/display_image"
             android:layout_below="@+id/title"
             android:layout_marginTop="7dp"
-            android:text="Color and storage"
+            android:text="@string/description"
             android:textSize="12sp"
             android:id="@+id/description"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/display_image"
+            android:layout_toEndOf="@+id/display_image"
             android:layout_below="@+id/description"
             android:layout_marginTop="24dp"
-            android:text="Rs. "
+            android:layout_marginEnd="4dp"
+            android:text="@string/rs_tag"
             android:textSize="14sp"
             android:id="@+id/price_rs_tag"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/price_rs_tag"
+            android:layout_toEndOf="@+id/price_rs_tag"
             android:layout_below="@+id/description"
             android:layout_marginTop="24dp"
-            android:text="Price"
+            android:text="@string/price"
             android:textSize="14sp"
             android:id="@+id/price"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/price"
+            android:layout_toEndOf="@+id/price"
             android:layout_below="@+id/description"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
-            android:text="X"
-            android:textSize="12sp"
+            android:text="@string/multiplier"
+            android:textSize="14sp"
             android:id="@+id/multiplier"/>
 
         <EditText
@@ -82,6 +83,16 @@
             android:id="@+id/quantity"
             android:textSize="14sp"
             android:background="@drawable/edittext_background"/>
+
+        <ImageView
+            android:id="@+id/quantity_calculate"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/description"
+            android:layout_toEndOf="@id/quantity"
+            android:layout_marginTop="21dp"
+            android:layout_marginStart="20dp"
+            android:src="@mipmap/ion_checkmark_circled_256_0_2196f3_none"/>
 
         <TextView
             android:id="@+id/divider_1"
@@ -104,7 +115,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rs. "
+                android:layout_marginEnd="4dp"
+                android:text="@string/rs_tag"
                 android:textSize="16sp"
                 android:textColor="#424242"
                 android:id="@+id/total_price_rs_tag"/>
@@ -112,7 +124,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="text"
                 android:textSize="16sp"
                 android:textColor="#424242"
                 android:id="@+id/total_price"/>
@@ -143,8 +154,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:layout_marginRight="8dp"
-                android:text="MOVE TO"
+                android:layout_marginEnd="8dp"
+                android:text="@string/move_to_cart"
                 android:drawableEnd="@mipmap/ic_favorite_border_black_24dp"
                 android:drawablePadding="16dp"/>
 
@@ -158,7 +169,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_delete">
+            android:background="#EF6C00">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -166,9 +177,9 @@
                 android:layout_margin="8dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="REMOVE"
-                android:textColor="#000"
-                android:drawableEnd="@mipmap/ic_delete_black_24dp"
+                android:text="@string/remove"
+                android:textColor="#FFF"
+                android:drawableEnd="@mipmap/ic_delete_white_24dp"
                 android:drawablePadding="16dp"/>
 
         </FrameLayout>

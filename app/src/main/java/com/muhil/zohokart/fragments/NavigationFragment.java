@@ -69,6 +69,11 @@ public class NavigationFragment extends Fragment
         this.communicator = communicator;
     }
 
+    public void restScroll()
+    {
+        ((ScrollView) view.findViewById(R.id.navigation_scroll)).fullScroll(View.FOCUS_UP);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

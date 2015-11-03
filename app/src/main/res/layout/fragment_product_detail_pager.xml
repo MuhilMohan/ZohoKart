@@ -32,19 +32,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:paddingLeft="16dp"
                         android:paddingStart="16dp"
-                        android:text="Title"
+                        android:paddingEnd="0dp"
+                        android:text="@string/title"
                         android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/title"
                         android:paddingTop="4dp"
-                        android:paddingLeft="16dp"
-                        android:text="Description"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/description"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -53,8 +53,6 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_margin="16dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
                     android:textOn=""
                     android:textOff=""
                     android:background="@drawable/image_toggle_button"/>
@@ -73,7 +71,8 @@
                     android:layout_height="180dp"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:src="@mipmap/ic_phone_iphone_black_24dp"/>
+                    android:src="@mipmap/ic_phone_iphone_black_24dp"
+                    android:contentDescription="@string/product_thumbnail"/>
 
             </FrameLayout>
 
@@ -104,9 +103,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:paddingBottom="8dp"
-                        android:text="Rs. "
+                        android:text="@string/rs_tag"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="price"
+                        android:text="@string/price"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
@@ -168,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/horizon_divider_2"
                 android:padding="8dp"
-                android:text="Warranty"
+                android:text="@string/warranty"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
@@ -202,8 +202,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
-                    android:padding="12dp"
-                    android:text="Specifications"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/specification"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="#FFF"/>
@@ -212,7 +215,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@mipmap/ic_chevron_right_white_36dp"/>
 
             </FrameLayout>

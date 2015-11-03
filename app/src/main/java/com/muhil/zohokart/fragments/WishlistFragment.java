@@ -77,6 +77,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        communicator.lockDrawer();
         wishlistRootView = (RelativeLayout) wishlistFragment.findViewById(R.id.wishlist_rootView);
         emptyWishlistHolder = (LinearLayout) wishlistFragment.findViewById(R.id.empty_cart_holder);
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
@@ -143,6 +144,8 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         void openCart();
         void openLoginPage();
         void showMainFragment();
+        void updateWishlistStatus();
+        void lockDrawer();
     }
 
 }

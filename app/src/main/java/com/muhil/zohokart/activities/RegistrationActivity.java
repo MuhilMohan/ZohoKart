@@ -98,7 +98,21 @@ public class RegistrationActivity extends AppCompatActivity
             {
                 if ( s.length() != 0 )
                 {
-                    showTextButton.setVisibility(View.VISIBLE);
+                    if( showTextButton.getVisibility() == View.VISIBLE )
+                    {
+                        showTextButton.setVisibility(View.VISIBLE);
+                        hideTextButton.setVisibility(View.GONE);
+                    }
+                    else if (hideTextButton.getVisibility() == View.VISIBLE)
+                    {
+                        showTextButton.setVisibility(View.GONE);
+                        hideTextButton.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        showTextButton.setVisibility(View.VISIBLE);
+                        hideTextButton.setVisibility(View.GONE);
+                    }
                 }
                 else
                 {
@@ -134,7 +148,7 @@ public class RegistrationActivity extends AppCompatActivity
                 dateOfBirthString = dateOfBirth.getText().toString();
 
                 if((nameString!=null && !nameString.equals("")) && (emailString!=null && !emailString.equals("")) && (passwordString!=null && !passwordString.equals("")) &&
-                (phoneNumberString!=null && !phoneNumberString.equals("")) && (dateOfBirthString!=null && !dateOfBirthString.equals("")))
+                (phoneNumberString!=null && !phoneNumberString.equals("")) && (!dateOfBirthString.equals("")))
                 {
 
                     if(EmailValidator.validateEmail(emailString))
@@ -142,56 +156,63 @@ public class RegistrationActivity extends AppCompatActivity
 
                         if (passwordString.length() > 4)
                         {
-                            if(!zohokartDAO.hasAccount(emailString))
+                            if (phoneNumberString.length() == 10)
                             {
-                                account.setName(nameString);
-                                account.setEmail(emailString);
-                                account.setPassword(passwordString);
-                                account.setPhoneNumber(phoneNumberString);
-                                account.setDateOfBirth(dateOfBirthString);
-                                registrationResult = zohokartDAO.addAccount(account);
-
-                                if(registrationResult)
+                                if(!zohokartDAO.hasAccount(emailString))
                                 {
-                                    Toast.makeText(RegistrationActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
-                                    loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
-                                    editor = loggedAccountHolder.edit();
+                                    account.setName(nameString);
+                                    account.setEmail(emailString);
+                                    account.setPassword(passwordString);
+                                    account.setPhoneNumber(phoneNumberString);
+                                    account.setDateOfBirth(dateOfBirthString);
+                                    registrationResult = zohokartDAO.addAccount(account);
 
-                                    editor.putString(Account.EMAIL, account.getEmail());
-                                    editor.putString(Account.PASSWORD, account.getPassword());
-                                    editor.putString(Account.NAME, account.getName());
+                                    if(registrationResult)
+                                    {
+                                        Toast.makeText(RegistrationActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
+                                        loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
+                                        editor = loggedAccountHolder.edit();
 
-                                    editor.apply();
+                                        editor.putString(Account.EMAIL, account.getEmail());
+                                        editor.putString(Account.PASSWORD, account.getPassword());
+                                        editor.putString(Account.NAME, account.getName());
 
-                                    startActivity(new Intent(RegistrationActivity.this, ProfileActivity.class));
-                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                        editor.apply();
 
-                                    finish();
-                                    Toast.makeText(RegistrationActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(RegistrationActivity.this, ProfileActivity.class));
+                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                                        finish();
+                                        Toast.makeText(RegistrationActivity.this, "Account added to preferences", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(RegistrationActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else
                                 {
-                                    Toast.makeText(RegistrationActivity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistrationActivity.this, "Email already registered", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else
                             {
-                                Toast.makeText(RegistrationActivity.this, "Email already registered.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistrationActivity.this, "Invalid phone number", Toast.LENGTH_SHORT).show();
                             }
                         }
                         else
                         {
-                            Toast.makeText(RegistrationActivity.this, "Password too short.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else
                     {
-                        Toast.makeText(RegistrationActivity.this, "Please enter a valid email id.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, "Please enter a valid email id", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(RegistrationActivity.this, "Please fill in all the details.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Please fill in all the details", Toast.LENGTH_SHORT).show();
                 }
             }
         });

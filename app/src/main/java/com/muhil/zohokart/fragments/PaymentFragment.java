@@ -182,25 +182,33 @@ public class PaymentFragment extends android.support.v4.app.Fragment
                         else
                         {
                             final String cardNumber = PaymentFragment.this.cardNumberText.getText().toString();
-                            final String cardType = PaymentFragment.this.cardType.getText().toString();
                             final String nameOnCard = PaymentFragment.this.nameOnCardText.getText().toString();
                             final String expiryMonth =String.valueOf(monthSpinner.getSelectedItem());
                             final String expiryYear =String.valueOf(yearSpinner.getSelectedItem());
-                            if (cardNumber.length() >0 && cardNumber.length() < 20)
+                            if (cardNumber.length() > 0 && cardNumber.length() == 16)
                             {
                                 if (!(CardValidator.ifAnyLetterExist(cardNumber)))
                                 {
-                                    if (!(cardType.equals("type")))
+                                    if ((Integer.parseInt(cardNumber.substring(0,2)) >=40 && Integer.parseInt(cardNumber.substring(0,2)) <= 49) ||
+                                            (Integer.parseInt(cardNumber.substring(0,2)) >=50 && Integer.parseInt(cardNumber.substring(0,2)) <= 59))
                                     {
                                         if (!(CardValidator.ifAnyDigitExist(nameOnCard)))
                                         {
                                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                                             alertDialogBuilder.setMessage("Do you want to save the card for future purchases?");
-                                            alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                            alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                                            {
                                                 @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-
-                                                    new AddingCardTask().execute(cardNumber, cardType, nameOnCard, expiryMonth + "/" + expiryYear, email);
+                                                public void onClick(DialogInterface dialog, int which)
+                                                {
+                                                    if ((Integer.parseInt(cardNumber.substring(0,2)) >= 40 && Integer.parseInt(cardNumber.substring(0,2)) <= 49))
+                                                    {
+                                                        new AddingCardTask().execute(cardNumber, "visa", nameOnCard, expiryMonth + "/" + expiryYear, email);
+                                                    }
+                                                    else if ((Integer.parseInt(cardNumber.substring(0,2)) >= 50 && Integer.parseInt(cardNumber.substring(0,2)) <= 59))
+                                                    {
+                                                        new AddingCardTask().execute(cardNumber, "Mastercard", nameOnCard, expiryMonth + "/" + expiryYear, email);
+                                                    }
                                                     dialog.dismiss();
                                                     showConfirmOrder();
                                                 }
@@ -213,7 +221,6 @@ public class PaymentFragment extends android.support.v4.app.Fragment
                                                     dialog.dismiss();
                                                 }
                                             });
-
                                             alertDialogBuilder.show();
                                         }
                                         else

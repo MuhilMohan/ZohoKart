@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Order Details"
+                android:text="@string/order_details"
                 android:textSize="16sp"
                 android:textColor="@color/primary_color"
                 android:background="#E0E0E0"/>
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Order Id"
+                android:text="@string/order_id"
                 android:textColor="@android:color/holo_orange_dark"/>
             <TextView
                 android:id="@+id/order_id"
@@ -41,7 +41,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="ordered date"
+                android:text="@string/order_id"
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Ordered date"
+                android:text="@string/ordered_date"
                 android:textColor="@android:color/holo_orange_dark"/>
             <TextView
                 android:id="@+id/ordered_date"
@@ -60,7 +60,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="ordered date"
+                android:text="@string/ordered_date"
                 android:textSize="18sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Total Price"
+                android:text="@string/total_price"
                 android:textColor="@android:color/holo_orange_dark"/>
             <TextView
                 android:id="@+id/total_price"
@@ -79,7 +79,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="ordered date"
+                android:text="@string/total_price"
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:ellipsize="end"/>
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Order Status"
+                android:text="@string/order_status"
                 android:textColor="@android:color/holo_orange_dark"/>
             <TextView
                 android:id="@+id/order_status"
@@ -98,7 +98,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="status"
+                android:text="@string/order_status"
                 android:textSize="18sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Ordered Products"
+                android:text="@string/ordered_products"
                 android:textSize="16sp"
                 android:textColor="@color/primary_color"
                 android:background="#E0E0E0"/>
@@ -120,8 +120,6 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:orientation="vertical">
-
-
 
             </LinearLayout>
 

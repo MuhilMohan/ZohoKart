@@ -87,6 +87,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         productListFragment =  inflater.inflate(R.layout.fragment_product_list, container, false);
+        communicator.releaseDrawer();
         recyclerView = (RecyclerView) productListFragment.findViewById(R.id.products);
 
         new ProductListingAsyncTask().execute(bundle);

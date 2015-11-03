@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity
     SharedPreferences loggedAccountHolder;
     SharedPreferences.Editor editor;
     ImageButton closeButton;
-    TextView forgotTextButton, hideTextButton, showTextButton;
+    TextView hideTextButton, showTextButton;
     EditText email, password;
     String emailString, passwordString;
     Account account;
@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity
         gson = new Gson();
 
         closeButton = (ImageButton) findViewById(R.id.closeButton);
-        forgotTextButton = (TextView) findViewById(R.id.forgotButton);
         hideTextButton = (TextView) findViewById(R.id.hideButton);
         showTextButton = (TextView) findViewById(R.id.showButton);
         password = (EditText) findViewById(R.id.password);
@@ -70,7 +69,6 @@ public class LoginActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                forgotTextButton.setVisibility(View.GONE);
                 hideTextButton.setVisibility(View.GONE);
                 showTextButton.setVisibility(View.VISIBLE);
                 password.setSelection(password.getText().length());
@@ -83,7 +81,6 @@ public class LoginActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                forgotTextButton.setVisibility(View.GONE);
                 showTextButton.setVisibility(View.GONE);
                 hideTextButton.setVisibility(View.VISIBLE);
                 password.setSelection(password.getText().length());
@@ -106,26 +103,22 @@ public class LoginActivity extends AppCompatActivity
                 {
                     if( showTextButton.getVisibility() == View.VISIBLE )
                     {
-                        forgotTextButton.setVisibility(View.GONE);
                         showTextButton.setVisibility(View.VISIBLE);
                         hideTextButton.setVisibility(View.GONE);
                     }
                     else if (hideTextButton.getVisibility() == View.VISIBLE)
                     {
-                        forgotTextButton.setVisibility(View.GONE);
                         showTextButton.setVisibility(View.GONE);
                         hideTextButton.setVisibility(View.VISIBLE);
                     }
                     else
                     {
-                        forgotTextButton.setVisibility(View.GONE);
                         showTextButton.setVisibility(View.VISIBLE);
                         hideTextButton.setVisibility(View.GONE);
                     }
                 }
                 else
                 {
-                    forgotTextButton.setVisibility(View.VISIBLE);
                     showTextButton.setVisibility(View.GONE);
                     hideTextButton.setVisibility(View.GONE);
                 }

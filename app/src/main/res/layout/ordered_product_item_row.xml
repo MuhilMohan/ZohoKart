@@ -21,7 +21,7 @@
                 android:layout_height="110dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="16dp"
-                android:contentDescription="thumbnail of product."
+                android:contentDescription="@string/product_thumbnail"
                 android:src="@mipmap/ic_phone_iphone_black_24dp"
                 android:layout_gravity="center"
                 android:id="@+id/display_image"/>
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/display_image"
-                android:text="Title"
+                android:text="@string/title"
                 android:textSize="14sp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="11dp"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/display_image"
                 android:layout_below="@id/title"
-                android:text="Color and storage"
+                android:text="@string/description"
                 android:textSize="12sp"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description"
                 android:layout_toEndOf="@id/display_image"
-                android:text="Quantity"
+                android:text="@string/quantity"
                 android:textSize="14sp"/>
 
             <TextView
@@ -64,14 +64,14 @@
                 android:layout_below="@id/description"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:text=":"/>
+                android:text="@string/colon_separator"/>
 
             <TextView
                 android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description"
-                android:layout_toRightOf="@id/quantity_seperator"
+                android:layout_toEndOf="@id/quantity_seperator"
                 android:layout_marginBottom="16dp"/>
 
         </RelativeLayout>
@@ -92,15 +92,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rs."
+                android:text="@string/rs_tag"
                 android:textSize="18sp"
                 android:layout_marginEnd="3dp"
                 android:id="@+id/price_rs_tag"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/price_rs_tag"
-                android:text="Price"
+                android:text="@string/price"
                 android:textSize="18sp"
                 android:id="@+id/price"/>
 

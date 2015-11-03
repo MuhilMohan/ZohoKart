@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import com.muhil.zohokart.fragments.OrdersFragment;
 import com.muhil.zohokart.fragments.SavedCardFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.PaymentCard;
+import com.muhil.zohokart.models.ZohoKartFragments;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
@@ -249,10 +251,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                     {
                         SavedCardFragment savedCardFragment = SavedCardFragment.getInstance(email);
                         savedCardFragment.setCommunicator(ProfileActivity.this);
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_holder, savedCardFragment, "saved_card_fragment");
-                        fragmentTransaction.addToBackStack("saved_card_fragment");
-                        fragmentTransaction.commit();
+                        stackFragment(savedCardFragment, ZohoKartFragments.SAVED_CARD_FRAGMENT);
                     }
                 }
         );
@@ -265,10 +264,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                     {
                         OrdersFragment ordersFragment = OrdersFragment.getInstance(email);
                         ordersFragment.setCommunicator(ProfileActivity.this);
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_holder, ordersFragment, "orders_fragment");
-                        fragmentTransaction.addToBackStack("orders_fragment");
-                        fragmentTransaction.commit();
+                        stackFragment(ordersFragment, ZohoKartFragments.ORDERS_FRAGMENT);
                     }
                 }
         );
@@ -336,10 +332,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     public void openOrderLineItemsForOrderId(String orderId)
     {
         OrderLineItemsFragment orderLineItemsFragment = OrderLineItemsFragment.getInstance(orderId);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_holder, orderLineItemsFragment, "order_line_item_fragment");
-        fragmentTransaction.addToBackStack("order_line_item_fragment");
-        fragmentTransaction.commit();
+        stackFragment(orderLineItemsFragment, ZohoKartFragments.ORDER_LINE_ITEMS_FRAGMENT);
     }
 
     class SavedCardsListingAsyncTask extends AsyncTask<String, Void, List<PaymentCard>>
@@ -385,4 +378,14 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
             }
         }
     }
+
+    private void stackFragment(Fragment fragment, String tag)
+    {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+        fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
+        fragmentTransaction.addToBackStack(tag);
+        fragmentTransaction.commit();
+    }
+
 }

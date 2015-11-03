@@ -99,6 +99,12 @@ public class MainFragment extends Fragment
         new TopRatedViewTask().execute();
     }
 
+    public void resetScroll()
+    {
+        topRatedRecyclerView.scrollToPosition(0);
+        recentlyViewedRecyclerView.scrollToPosition(0);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)

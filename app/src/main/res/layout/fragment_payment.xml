@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Payment Options"
+                android:text="@string/payment_options"
                 android:textSize="20sp"
                 android:background="#E0E0E0"/>
 
@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="8dp"
-                    android:text="Cash On Delivery"
+                    android:text="@string/cod"
                     android:textSize="18sp"/>
 
                 <RadioButton
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="8dp"
-                    android:text="Credit Card"
+                    android:text="@string/credit_card"
                     android:textSize="18sp"/>
 
                 <LinearLayout
@@ -81,7 +81,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="No saved cards available"
+                            android:text="@string/no_saved_cards"
                             android:textSize="16sp"
                             android:visibility="gone"/>
 
@@ -97,7 +97,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:text="Use new card"
+                            android:text="@string/use_new_card"
                             android:textSize="18sp"
                             android:textColor="@color/primary_color"/>
 
@@ -122,7 +122,7 @@
                                     android:layout_marginEnd="4dp"
                                     android:layout_marginBottom="8dp"
                                     android:padding="8dp"
-                                    android:hint="Card Number"
+                                    android:hint="@string/card_number"
                                     android:maxLines="1"
                                     android:textSize="16sp"
                                     />
@@ -139,7 +139,7 @@
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginBottom="8dp"
                                 android:padding="8dp"
-                                android:text="Type"
+                                android:text="@string/card_type"
                                 android:textSize="14sp"
                                 android:textColor="#2196F3"
                                 android:maxLines="1"/>
@@ -160,7 +160,7 @@
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginBottom="8dp"
                                 android:padding="8dp"
-                                android:hint="Name on Card"
+                                android:hint="@string/name_on_card"
                                 android:textSize="16sp"
                                 android:maxLines="1"/>
 
@@ -172,7 +172,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
-                            android:text="Expiry Date"
+                            android:text="@string/expiry_date"
                             android:textSize="16sp"/>
 
                         <TextView
@@ -193,14 +193,14 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:paddingTop="16dp"
-                                android:text="Month"/>
+                                android:text="@string/month"/>
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:paddingTop="16dp"
-                                android:text="Year"/>
+                                android:text="@string/year"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -231,14 +231,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="CCV"
+                            android:text="@string/CVV"
                             android:textSize="16sp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginEnd="4dp"
-                            android:text=":"
+                            android:text="@string/colon_separator"
                             android:textSize="16sp"/>
                         <EditText
                             android:layout_width="50dp"
@@ -264,8 +264,8 @@
         android:layout_height="50dp"
         android:layout_margin="8dp"
         android:layout_gravity="bottom"
-        android:text="Proceed"
-        android:textSize="16dp"
+        android:text="@string/proceed"
+        android:textSize="16sp"
         android:textColor="#FFF"
         android:background="@drawable/rounded_button"/>
 

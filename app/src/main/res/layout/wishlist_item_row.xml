@@ -2,7 +2,10 @@
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="8dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -18,103 +21,149 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="57dp"
-            android:layout_height="130dp"
-            android:layout_margin="20dp"
+            android:layout_width="80dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:contentDescription="@string/product_thumbnail"
             android:src="@mipmap/ic_phone_iphone_black_24dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
             android:id="@+id/display_image"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/display_image"
-            android:layout_marginTop="20dp"
-            android:text="Title"
-            android:textSize="16sp"
+            android:layout_toEndOf="@id/display_image"
+            android:text="@string/title"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="7dp"
             android:id="@+id/title"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/display_image"
-            android:layout_below="@+id/title"
-            android:layout_marginTop="7dp"
-            android:text="Color and storage"
+            android:layout_toEndOf="@id/display_image"
+            android:layout_below="@id/title"
+            android:text="@string/description"
             android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginBottom="9dp"
             android:id="@+id/description"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/display_image"
-            android:layout_below="@+id/description"
-            android:layout_marginTop="15dp"
-            android:text="Price"
-            android:textSize="18sp"
+            android:layout_toEndOf="@id/display_image"
+            android:layout_below="@id/description"
+            android:text="@string/price"
+            android:textSize="16sp"
+            android:layout_marginBottom="9dp"
             android:id="@+id/price"/>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/display_image"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="4dp"
-            android:layout_gravity="center"
-            android:id="@+id/removeProduct"
-            android:src="@mipmap/ion_ios_trash_outline_256_0_2196f3_none"/>
-
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/display_image"
-            android:layout_toStartOf="@id/removeProduct"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:gravity="center"
-            android:background="@drawable/rounded_delete"
-            android:id="@+id/add_to_cart_action">
+            android:layout_toEndOf="@id/display_image"
+            android:layout_below="@id/price">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/product_stars">
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_margin="8dp"
-                android:text="ADD TO CART"
-                android:textSize="12sp"
-                android:drawableEnd="@mipmap/ic_add_shopping_cart_black_24dp"
-                android:drawablePadding="16dp" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/display_image"
-            android:layout_toStartOf="@id/removeProduct"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:gravity="center"
-            android:id="@+id/go_to_cart"
-            android:background="@drawable/rounded_frame"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:text="GO TO CART"
+                android:text="@string/rating"
                 android:textSize="14sp"
-                android:drawableEnd="@mipmap/ic_shopping_cart_black_24dp"
-                android:drawablePadding="16dp"/>
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginStart="10dp"
+                android:id="@+id/product_rating"/>
 
-        </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/display_image"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/add_to_cart_action"
+                android:background="#E0E0E0">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="8dp"
+                    android:text="@string/add_to_cart"
+                    android:textSize="12sp"
+                    android:drawableEnd="@mipmap/ic_add_shopping_cart_black_24dp"
+                    android:drawablePadding="16dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/go_to_cart"
+                android:background="#E0E0E0"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:text="@string/go_to_cart"
+                    android:textSize="14sp"
+                    android:drawableEnd="@mipmap/ic_shopping_cart_black_24dp"
+                    android:drawablePadding="16dp"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/removeProduct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="#EF6C00">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:text="@string/remove"
+                    android:textColor="#FFF"
+                    android:drawableEnd="@mipmap/ic_delete_white_24dp"
+                    android:drawablePadding="16dp"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

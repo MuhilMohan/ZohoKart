@@ -37,9 +37,12 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     public List<Product> wishlist;
     View rootView;
     Context context;
+    LinearLayout.LayoutParams params;
     WishlistFragment wishlistFragment;
     WishlistFragment.WishlistCommunicator communicator;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
+    ImageView fullStar, halfStar, emptyStar;
+    double stars;
 
     SharedPreferences sharedPreferences;
     String email;
@@ -73,6 +76,42 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
         holder.description.setText(wishlist.get(position).getDescription());
         holder.price.setText("Rs. " + String.valueOf(decimalFormat.format(wishlist.get(position).getPrice())));
         Picasso.with(context).load(wishlist.get(position).getThumbnail()).into(holder.displayImage);
+        holder.productRating.setText(String.valueOf(wishlist.get(position).getRatings()) + " Ratings");
+        stars = wishlist.get(position).getStars();
+
+        holder.productStars.removeAllViews();
+        for (int i = 0; i < 5; i++)
+        {
+            if (stars >= 1)
+            {
+                fullStar = new ImageView(context);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                fullStar.setLayoutParams(params);
+                fullStar.setImageResource(R.mipmap.fa_star_54_0_ffeb3b_none);
+                holder.productStars.addView(fullStar);
+                stars = stars-1;
+            }
+            else if (stars > 0)
+            {
+                halfStar = new ImageView(context);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                halfStar.setLayoutParams(params);
+                halfStar.setImageResource(R.mipmap.fa_star_half_empty_54_0_ffeb3b_none);
+                holder.productStars.addView(halfStar);
+                stars = stars-0.5;
+            }
+            else
+            {
+                emptyStar = new ImageView(context);
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                emptyStar.setLayoutParams(params);
+                emptyStar.setImageResource(R.mipmap.fa_star_o_54_0_ffeb3b_none);
+                holder.productStars.addView(emptyStar);
+            }
+        }
 
         if (zohokartDAO.checkInCart(wishlist.get(position).getId(), email))
         {
@@ -104,6 +143,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                             wishlist.remove(position);
                             notifyItemRemoved(position);
                             wishlistFragment.updateWishlistCount(wishlist.size());
+                            communicator.updateWishlistStatus();
                             if (wishlist.size() == 0)
                             {
                                 wishlistFragment.switchViewElement();
@@ -178,24 +218,25 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
     class WishlistViewHolder extends RecyclerView.ViewHolder
     {
 
-        TextView title, price, description;
+        TextView title, price, description, productRating;
         ImageView displayImage;
-        FrameLayout addToCart, goToCart;
-        ImageView removeProductView;
+        FrameLayout addToCart, goToCart, removeProductView;
+        LinearLayout productStars;
+        View itemView;
 
         public WishlistViewHolder(View itemView)
         {
             super(itemView);
-
+            this.itemView = itemView;
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
             price = (TextView) itemView.findViewById(R.id.price);
             displayImage = (ImageView) itemView.findViewById(R.id.display_image);
-            removeProductView = (ImageView) itemView.findViewById(R.id.removeProduct);
+            removeProductView = (FrameLayout) itemView.findViewById(R.id.removeProduct);
             addToCart = (FrameLayout) itemView.findViewById(R.id.add_to_cart_action);
             goToCart = (FrameLayout) itemView.findViewById(R.id.go_to_cart);
-
-
+            productStars = (LinearLayout) itemView.findViewById(R.id.product_stars);
+            productRating = (TextView) itemView.findViewById(R.id.product_rating);
         }
     }
 

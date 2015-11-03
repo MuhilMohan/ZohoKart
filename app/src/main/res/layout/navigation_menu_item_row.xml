@@ -20,7 +20,8 @@
         android:layout_height="24dp"
         android:layout_below="@id/divider"
         android:layout_marginBottom="15dp"
-        android:src="@mipmap/ic_phone_iphone_black_24dp"/>
+        android:src="@mipmap/ic_phone_iphone_black_24dp"
+        android:contentDescription="@string/navigation_image"/>
 
     <TextView
         android:id="@+id/subCategoryItem"
@@ -29,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/sub_category_image"
         android:layout_centerVertical="true"
-        android:text="menu item "
         android:textSize="16sp"/>
 
 </RelativeLayout>

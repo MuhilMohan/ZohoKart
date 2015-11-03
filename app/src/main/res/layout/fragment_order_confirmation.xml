@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Order Confirmation"
+                android:text="@string/order_confirmation"
                 android:textSize="18sp"
                 android:background="#E0E0E0"/>
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
-                android:text="Delivery Address"
+                android:text="@string/delivery_address"
                 android:textSize="16sp"
                 android:textColor="#2196F3"/>
 
@@ -82,7 +82,6 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="8dp"
-                        android:text="address to deliver the ordered products."
                         android:textSize="14sp"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -92,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Ordered Products"
+                android:text="@string/ordered_products"
                 android:textSize="16sp"
                 android:textColor="#2196F3"/>
 
@@ -132,7 +131,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total"
+                    android:text="@string/total"
                     android:textColor="#FFF"
                     android:textSize="16sp"/>
 
@@ -141,7 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="Products"
+                    android:text="@string/products"
                     android:textSize="16sp"
                     android:textColor="#FFF"/>
 
@@ -156,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="3dp"
-                    android:text="Rs."
+                    android:text="@string/rs_tag"
                     android:textColor="#FFF"
                     android:textSize="16sp"/>
                 <TextView
@@ -164,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="price"
+                    android:text="@string/price"
                     android:textColor="#FFF"
                     android:textSize="16sp"/>
             </LinearLayout>
@@ -179,7 +178,7 @@
             android:layout_margin="8dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:text="Make Payment"
+            android:text="@string/make_payment"
             android:textColor="#FFF"
             android:background="@drawable/rounded_button"/>
 

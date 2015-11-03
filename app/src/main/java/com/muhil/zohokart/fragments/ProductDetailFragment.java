@@ -99,87 +99,81 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
-        if (rootview != null)
+        currentPosition = getArguments().getInt("current_position");
+        products = getArguments().getParcelableArrayList("products");
+        addToRecentlyViewed(this.products.get(currentPosition).getId());
+        rootview = inflater.inflate(R.layout.fragment_product_detail, container, false);
+        communicator.lockDrawer();
+
+        productDetailPager = (ViewPager) rootview.findViewById(R.id.product_view_pager);
+        productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products, productDetailPageCommunicator, this);
+        productDetailPager.setAdapter(productDetailPagerAdapter);
+        productDetailPager.setCurrentItem(currentPosition);
+        checkInCart(currentPosition);
+
+        productDetailPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
-            return rootview;
-        }
-        else
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+
+            }
+
+            @Override
+            public void onPageSelected(int position)
+            {
+                checkInCart(position);
+                addToRecentlyViewed(ProductDetailFragment.this.products.get(position).getId());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+
+            }
+        });
+
+        (rootview.findViewById(R.id.add_to_cart)).setOnClickListener(new View.OnClickListener()
         {
-            currentPosition = getArguments().getInt("current_position");
-            products = getArguments().getParcelableArrayList("products");
-            addToRecentlyViewed(this.products.get(currentPosition).getId());
-            rootview = inflater.inflate(R.layout.fragment_product_detail, container, false);
-            productDetailPager = (ViewPager) rootview.findViewById(R.id.product_view_pager);
-            productDetailPagerAdapter = new ProductDetailPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), products, productDetailPageCommunicator, this);
-            productDetailPager.setAdapter(productDetailPagerAdapter);
-            productDetailPager.setCurrentItem(currentPosition);
-            checkInCart(currentPosition);
-
-            productDetailPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+            @Override
+            public void onClick(View v)
             {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+                Product product = products.get(productDetailPager.getCurrentItem());
+                if (!email.equals(""))
                 {
-
-                }
-
-                @Override
-                public void onPageSelected(int position)
-                {
-                    checkInCart(position);
-                    addToRecentlyViewed(ProductDetailFragment.this.products.get(position).getId());
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state)
-                {
-
-                }
-            });
-
-            (rootview.findViewById(R.id.add_to_cart)).setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Product product = products.get(productDetailPager.getCurrentItem());
-                    if (!email.equals(""))
+                    if (!zohokartDAO.checkInCart(product.getId(), email))
                     {
-                        if (!zohokartDAO.checkInCart(product.getId(), email))
+                        if (zohokartDAO.addToCart(product.getId(), email))
                         {
-                            if (zohokartDAO.addToCart(product.getId(), email))
-                            {
-                                SnackBarProvider.getSnackbar("Product added to cart.", rootview).show();
-                                (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
-                                (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
-                            } else
-                            {
-                                SnackBarProvider.getSnackbar("Error while adding product to cart.", rootview).show();
-                            }
+                            SnackBarProvider.getSnackbar("Product added to cart.", rootview).show();
+                            (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
+                            (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
                         } else
                         {
-                            SnackBarProvider.getSnackbar("Product already in cart.", rootview).show();
+                            SnackBarProvider.getSnackbar("Error while adding product to cart.", rootview).show();
                         }
-                    }
-                    else
+                    } else
                     {
-                        communicator.openLoginPage();
+                        SnackBarProvider.getSnackbar("Product already in cart.", rootview).show();
                     }
                 }
-            });
-
-            (rootview.findViewById(R.id.go_to_cart)).setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
+                else
                 {
-                    communicator.openCart();
+                    communicator.openLoginPage();
                 }
-            });
+            }
+        });
 
-            return rootview;
-        }
+        (rootview.findViewById(R.id.go_to_cart)).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                communicator.openCart();
+            }
+        });
+
+        return rootview;
     }
 
 
@@ -252,6 +246,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         void openCart();
         void openLoginPage();
         void updateRecentlyViewed();
+        void lockDrawer();
     }
 
 }

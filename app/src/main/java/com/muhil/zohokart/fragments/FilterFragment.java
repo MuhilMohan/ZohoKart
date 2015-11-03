@@ -50,7 +50,6 @@ public class FilterFragment extends android.support.v4.app.Fragment
     Bundle bundle;
     ZohokartDAO zohokartDAO;
     FilterCommunicator communicator;
-    AppCompatActivity mainActivity;
     SharedPreferences filterPref;
     SharedPreferences.Editor filterPrefEditor;
     Set<String> selectedFilterItems;
@@ -98,6 +97,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         filterFragment = inflater.inflate(R.layout.fragment_filter, container, false);
+        communicator.lockDrawer();
         filterPrefEditor = filterPref.edit();
 
         new FilterPopulateAsyncTask().execute(bundle.getInt("sub_category_id"));
@@ -226,6 +226,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
     public interface FilterCommunicator
     {
         void sendFilteredProducts(List<Product> products);
+        void lockDrawer();
     }
 
 }

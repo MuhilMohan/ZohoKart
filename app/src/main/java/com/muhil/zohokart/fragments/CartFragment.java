@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +99,7 @@ public class CartFragment extends android.support.v4.app.Fragment
     {
         // Inflate the layout for this fragment
         cartFragment = inflater.inflate(R.layout.fragment_cart, container, false);
+        communicator.lockDrawer();
 
         emptyCartHolder = (LinearLayout) cartFragment.findViewById(R.id.empty_cart_holder);
         cartContent = (ScrollView) cartFragment.findViewById(R.id.cart_content);
@@ -203,57 +206,48 @@ public class CartFragment extends android.support.v4.app.Fragment
                         ((TextView) cardView.findViewById(R.id.description)).setText(product.getDescription());
                         ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format(product.getPrice()));
                         ((EditText) cardView.findViewById(R.id.quantity)).setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(product.getId(), email)));
-                        (cardView.findViewById(R.id.quantity)).setTag(product);
+                        (cardView.findViewById(R.id.quantity_calculate)).setTag(product);
                         ((TextView) cardView.findViewById(R.id.total_price)).setText(decimalFormat.format(productsTotalPrice.get(product.getId())));
                         Picasso.with(getActivity()).load(product.getThumbnail()).into((ImageView) cardView.findViewById(R.id.display_image));
                         if (zohokartDAO.checkInWishlist(product.getId(), email))
                         {
                             (cardView.findViewById(R.id.move_to_wishlist)).setVisibility(View.GONE);
                         }
-                        (cardView.findViewById(R.id.quantity)).setOnFocusChangeListener(new View.OnFocusChangeListener()
-                        {
-                            @Override
-                            public void onFocusChange(View v, boolean hasFocus)
-                            {
 
-                                if (!hasFocus)
+                        (cardView.findViewById(R.id.quantity_calculate)).setOnClickListener(
+                                new View.OnClickListener()
                                 {
-                                    try
+                                    @Override
+                                    public void onClick(View v)
                                     {
-                                        if (!(((EditText) v).getText().toString().equals("")))
+                                        EditText quantityText = (EditText) (v.getRootView()).findViewById(R.id.quantity);
+                                        try
                                         {
-                                            quantity = Integer.parseInt(((EditText) v).getText().toString());
-                                            ((TextView) (productsInCartHolder.findViewById(product.getId())).findViewById(R.id.total_price)).setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
-                                            if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(((EditText) v).getText().toString()), ((Product) v.getTag()).getId(), email))
+                                            if (!(quantityText.getText().toString().equals("")))
                                             {
-                                                updateGrandTotal();
-                                                SnackBarProvider.getSnackbar("Quantity updated", cartFragment).show();
+                                                quantity = Integer.parseInt(quantityText.getText().toString());
+                                                ((TextView) (productsInCartHolder.findViewById(product.getId())).findViewById(R.id.total_price))
+                                                        .setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
+                                                if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(quantityText.getText().toString()), ((Product) v.getTag()).getId(), email))
+                                                {
+                                                    updateGrandTotal();
+                                                    SnackBarProvider.getSnackbar("Quantity updated", cartFragment).show();
+                                                }
+                                            } else
+                                            {
+                                                quantityText.setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(((Product) v.getTag()).getId(), email)));
                                             }
-                                        } else
+
+                                        } catch (NumberFormatException numberFormatException)
                                         {
-                                            ((EditText) v).setText(String.valueOf(1));
+                                            numberFormatException.printStackTrace();
                                         }
-
-                                    } catch (NumberFormatException numberFormatException)
-                                    {
-                                        numberFormatException.printStackTrace();
+                                        (quantityText).clearFocus();
+                                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                                     }
-
                                 }
-
-                            }
-                        });
-
-                        (cardView).setOnClickListener(new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v)
-                            {
-                                (v.findViewById(R.id.quantity)).clearFocus();
-                                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                            }
-                        });
+                        );
 
                         (cardView.findViewById(R.id.remove_from_cart)).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -381,7 +375,7 @@ public class CartFragment extends android.support.v4.app.Fragment
     public interface CartCommunicator
     {
         void showMainFragment();
-        void openWishlist();
+        void lockDrawer();
         void openCheckout(List<Integer> productIds);
     }
 

@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="Top Rated"
+                        android:text="@string/top_rated"
                         android:textSize="20sp"/>
 
                     <TextView
@@ -75,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:padding="16dp"
-                        android:text="View all"
+                        android:text="@string/view_all"
                         android:textSize="20sp"
                         android:textColor="@color/primary_color"/>
 
@@ -92,9 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="226dp"
                     android:layout_below="@id/top_rated_header"
-                    android:paddingTop="8dp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"/>
+                    android:paddingTop="8dp"/>
 
             </RelativeLayout>
 
@@ -114,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="Recently Viewed"
+                        android:text="@string/recently_viewed"
                         android:textSize="20sp"/>
 
                     <TextView
@@ -123,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:padding="16dp"
-                        android:text="View all"
+                        android:text="@string/view_all"
                         android:textSize="20sp"
                         android:textColor="@color/primary_color"/>
 
@@ -140,9 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="226dp"
                     android:layout_below="@id/recently_viewed_header"
-                    android:paddingTop="8dp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"/>
+                    android:paddingTop="8dp"/>
                 
                 <FrameLayout
                     android:id="@+id/recently_viewed_empty"
@@ -156,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="No recently viewed products."/>
+                        android:text="@string/recently_viewed_empty"/>
 
                 </FrameLayout>
 

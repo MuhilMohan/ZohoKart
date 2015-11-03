@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_gravity="center_vertical"
-            android:text="Wishlist"
+            android:text="@string/wishlist"
             android:textStyle="bold"
             android:textSize="18sp"/>
         <TextView
@@ -57,8 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="center"
-            android:text="No Products in Wishlist"
-            android:textSize="24sp" />
+            android:text="@string/wishlist_empty"
+            android:textSize="20sp" />
         <Button
             android:id="@+id/continue_shopping_button"
             android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="Continue shopping"
+            android:text="@string/continue_shopping"
             android:textColor="#FFF"
             android:background="@drawable/rounded_button" />
 
@@ -78,7 +78,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/wishlist_header"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="6dp"/>
 
 </RelativeLayout>
 

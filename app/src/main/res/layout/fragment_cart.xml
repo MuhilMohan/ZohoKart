@@ -28,14 +28,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:paddingTop="16dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:text="Cart"
+                    android:layout_marginEnd="3dp"
+                    android:text="@string/cart"
                     android:textStyle="bold"
                     android:textSize="18sp"/>
                 <TextView
@@ -68,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Summary"
+                    android:text="@string/summary"
                     android:textStyle="bold"
                     android:textSize="18sp"/>
 
@@ -89,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="8dp"
-                        android:text="Grand Total"
+                        android:text="@string/grand_total"
                         android:textStyle="bold"/>
 
                     <LinearLayout
@@ -107,8 +108,9 @@
                                 android:id="@+id/grand_total_rs_tag"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rs. "
-                                android:paddingLeft="8dp"
+                                android:text="@string/rs_tag"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
                                 android:paddingTop="8dp"
                                 android:paddingBottom="8dp"
                                 android:textColor="#F44336"/>
@@ -118,7 +120,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="8dp"
                                 android:paddingBottom="8dp"
-                                android:text="total price"
+                                android:text="@string/total_price"
                                 android:textColor="#F44336"/>
 
                         </LinearLayout>
@@ -127,51 +129,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:text="Inclusive of all charges"/>
+                            android:text="@string/inclusive_of_all_charge"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="8dp"
-                    android:background="#9E9E9E"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="8dp"
-                        android:text="Ships to"
-                        android:textStyle="bold"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="pincode"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:text="change"
-                            android:textColor="#2196F3"/>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -180,13 +142,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="CHECKOUT"
+                    android:text="@string/checkout"
                     android:textColor="#FFF"
                     android:background="@drawable/rounded_button"/>
 
             </LinearLayout>
-
-        </LinearLayout>
 
     </ScrollView>
 
@@ -205,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="center"
-            android:text="No Products in Cart"
+            android:text="@string/cart_empty"
             android:textSize="24sp" />
         <Button
             android:id="@+id/continue_shopping_button"
@@ -215,7 +175,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="Continue shopping"
+            android:text="@string/continue_shopping"
             android:textColor="#FFF"
             android:background="@drawable/rounded_button" />
 

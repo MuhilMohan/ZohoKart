@@ -23,7 +23,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Enter card details"
+                android:text="@string/enter_card_details"
                 android:textSize="20sp"
                 android:textStyle=""/>
 
@@ -48,7 +48,7 @@
                         android:layout_marginEnd="4dp"
                         android:layout_marginBottom="8dp"
                         android:padding="8dp"
-                        android:hint="Card Number"
+                        android:hint="@string/card_number"
                         android:maxLines="1"
                         android:textSize="16sp"
                         />
@@ -65,7 +65,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:padding="8dp"
-                    android:text="Type"
+                    android:text="@string/card_type"
                     android:textSize="14sp"
                     android:textColor="#2196F3"
                     android:maxLines="1"/>
@@ -86,7 +86,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:padding="8dp"
-                    android:hint="Name on Card"
+                    android:hint="@string/name_on_card"
                     android:textSize="16sp"
                     android:maxLines="1"/>
 
@@ -98,7 +98,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Expiry Date"
+                android:text="@string/expiry_date"
                 android:textSize="16sp"/>
 
             <TextView
@@ -119,14 +119,14 @@
                    android:layout_weight="1"
                    android:gravity="center"
                    android:paddingTop="16dp"
-                   android:text="Month"/>
+                   android:text="@string/month"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:paddingTop="16dp"
-                    android:text="Year"/>
+                    android:text="@string/year"/>
             </LinearLayout>
 
             <LinearLayout
@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="8dp"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     style="?android:buttonBarButtonStyle"/>
                 <Button
                     android:id="@+id/save_card_action"
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="8dp"
-                    android:text="Save"
+                    android:text="@string/save"
                     style="?android:buttonBarButtonStyle"/>
             </LinearLayout>
 

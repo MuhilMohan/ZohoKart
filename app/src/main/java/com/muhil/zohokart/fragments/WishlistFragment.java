@@ -79,7 +79,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         wishlistFragment = inflater.inflate(R.layout.fragment_wishlist, container, false);
         communicator.lockDrawer();
         wishlistRootView = (RelativeLayout) wishlistFragment.findViewById(R.id.wishlist_rootView);
-        emptyWishlistHolder = (LinearLayout) wishlistFragment.findViewById(R.id.empty_cart_holder);
+        emptyWishlistHolder = (LinearLayout) wishlistFragment.findViewById(R.id.empty_wishlist_holder);
         wishlistRecyclerView = (RecyclerView) wishlistFragment.findViewById(R.id.wishlist);
 
         new WishlistAsyncTask().execute(email);

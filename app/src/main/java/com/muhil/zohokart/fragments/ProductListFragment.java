@@ -49,18 +49,22 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     ProductListCommunicator communicator;
     SharedPreferences filterPref;
     Set<String> selectedFilter;
+    boolean fromFilter;
     boolean filterEnabled = false;
     boolean sortEnabled = false;
+    int subCategoryId;
+
     public ProductListFragment()
     {
         // Required empty public constructor
     }
 
-    public static ProductListFragment getInstance(List<Product> products)
+    public static ProductListFragment getInstance(List<Product> products, boolean fromFilter)
     {
         ProductListFragment productListFragment = new ProductListFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("products", (Serializable) products);
+        bundle.putBoolean("fromFilter", fromFilter);
         productListFragment.setArguments(bundle);
         return productListFragment;
     }
@@ -87,6 +91,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
         zohokartDAO = new ZohokartDAO(getActivity());
         productList = new ArrayList<>();
         bundle = getArguments();
+        fromFilter = bundle.getBoolean("fromFilter");
         filterPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, Context.MODE_PRIVATE);
         selectedFilter = filterPref.getStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, null);
     }
@@ -109,6 +114,17 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     public void onClick(View v)
                     {
                         communicator.showMainFragment();
+                    }
+                }
+        );
+
+        (productListFragment.findViewById(R.id.empty_filter_list_action)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        communicator.openFilter();
                     }
                 }
         );
@@ -167,7 +183,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        communicator.openFilter(productList.get(0).getSubCategoryId());
+                        communicator.openFilter();
                     }
                 });
 
@@ -232,23 +248,38 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                     }
                 }
 
-                if (filterEnabled)
-                {
-                    (productListFragment.findViewById(R.id.filter_action)).setVisibility(View.VISIBLE);
-                }
-                if (sortEnabled)
-                {
-                    (productListFragment.findViewById(R.id.sort_action)).setVisibility(View.VISIBLE);
-                }
+                enableActions();
                 (productListFragment.findViewById(R.id.products)).setVisibility(View.VISIBLE);
                 (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
             }
             else
             {
-                (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
-                (productListFragment.findViewById(R.id.empty_list)).setVisibility(View.VISIBLE);
-                Toast.makeText(getActivity(), "no products.", Toast.LENGTH_SHORT).show();
+                if (fromFilter)
+                {
+                    enableActions();
+                    (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
+                    (productListFragment.findViewById(R.id.empty_filter_list)).setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    enableActions();
+                    (productListFragment.findViewById(R.id.product_list_progress)).setVisibility(View.GONE);
+                    (productListFragment.findViewById(R.id.empty_list)).setVisibility(View.VISIBLE);
+                }
             }
         }
     }
+
+    private void enableActions()
+    {
+        if (filterEnabled)
+        {
+            (productListFragment.findViewById(R.id.filter_action)).setVisibility(View.VISIBLE);
+        }
+        if (sortEnabled)
+        {
+            (productListFragment.findViewById(R.id.sort_action)).setVisibility(View.VISIBLE);
+        }
+    }
+
 }

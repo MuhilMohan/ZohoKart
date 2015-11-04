@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
@@ -54,6 +55,7 @@ public class MainFragment extends Fragment
     ProductListCommunicator productListCommunicator;
     MainCommunicator mainCommunicator;
     RecyclerView topRatedRecyclerView, recentlyViewedRecyclerView;
+    ScrollView mainScroll;
     HorizontalProductListingAdapter productListingAdapter;
     SharedPreferences recentlyViewedPref;
     int currentPosition;
@@ -103,6 +105,7 @@ public class MainFragment extends Fragment
     {
         topRatedRecyclerView.scrollToPosition(0);
         recentlyViewedRecyclerView.scrollToPosition(0);
+        mainScroll.fullScroll(View.FOCUS_UP);
     }
 
     @Override
@@ -117,6 +120,7 @@ public class MainFragment extends Fragment
         else
         {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            mainScroll = (ScrollView) rootView.findViewById(R.id.main_scroll);
             promotionBanners = (List<PromotionBanner>) getArguments().getSerializable("promotion_banners");
             bannerViewPager = (ViewPager) rootView.findViewById(R.id.banner_viewpager);
             bannerPagerAdapter = new BannerPagerAdapter(getActivity().getSupportFragmentManager(), promotionBanners, bannerCommunicator);

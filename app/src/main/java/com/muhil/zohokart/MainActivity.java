@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     private void openProductListForSearch(List<Product> products)
     {
-        ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+        ProductListFragment productListFragment = ProductListFragment.getInstance(products, false);
         productListFragment.setCommunicator(this);
         if (products.size() > 0)
         {
@@ -575,26 +575,22 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void sendFilteredProducts(List<Product> products)
     {
-        fragmentManager.popBackStack(ZohoKartFragments.PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+        fragmentManager.popBackStack(ZohoKartFragments.PRODUCT_LIST_FRAGMENT, 0);
+        ProductListFragment productListFragment = ProductListFragment.getInstance(products, true);
         productListFragment.setCommunicator(this);
         if (products.size() > 0)
         {
             productListFragment.setFilterEnabled(true);
             productListFragment.setSortEnabled(true);
         }
-        else
-        {
-            productListFragment.setFilterEnabled(true);
-        }
         stackFragment(productListFragment, ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
         Log.d("FILTERED", "filtered products sent");
     }
 
     @Override
-    public void openFilter(int subCategoryId)
+    public void openFilter()
     {
-        FilterFragment filterFragment = FilterFragment.getInstance(subCategoryId);
+        FilterFragment filterFragment = FilterFragment.getInstance(this.subCategoryId);
         filterFragment.setCommunicator(this);
         stackFragment(filterFragment, ZohoKartFragments.FILTER_FRAGMENT);
     }
@@ -674,7 +670,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void openProductList(List<Product> products)
     {
-        ProductListFragment productListFragment = ProductListFragment.getInstance(products);
+        ProductListFragment productListFragment = ProductListFragment.getInstance(products, false);
         productListFragment.setCommunicator(this);
         if (products.size() > 0)
         {
@@ -732,6 +728,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 releaseDrawer();
                 getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
             }
+        }
+        mainFragment = (MainFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.MAIN_FRAGMENT);
+        if (mainFragment.isVisible())
+        {
+            mainFragment.resetScroll();
         }
     }
 

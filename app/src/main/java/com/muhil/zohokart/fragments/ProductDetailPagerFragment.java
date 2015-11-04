@@ -89,7 +89,6 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        Log.d("ON CREATE", "TRUE");
         rootView =  inflater.inflate(R.layout.fragment_product_detail_pager, container, false);
 
         product = (Product) getArguments().getSerializable("product");

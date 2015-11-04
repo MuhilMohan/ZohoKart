@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ProductListCommunicator
 {
-    void openFilter(int subCategoryId);
+    void openFilter();
     void showProductDetailFragment(int position, List<Product> products);
     void showMainFragment();
     void releaseDrawer();

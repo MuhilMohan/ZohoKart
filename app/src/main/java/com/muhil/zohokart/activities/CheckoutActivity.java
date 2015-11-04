@@ -47,6 +47,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            (toolbar.findViewById(R.id.app_icon)).setVisibility(View.GONE);
             toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         }
 
@@ -102,7 +103,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
             else
             {
                 finish();
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         }
 
@@ -119,15 +120,6 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
     }
 
     @Override
-    public void proceedToPayment(String email)
-    {
-        PaymentFragment paymentFragment = PaymentFragment.getInstance(email);
-        paymentFragment.setCommunicator(this);
-        stackFragment(paymentFragment, ZohoKartFragments.PAYMENT_FRAGMENT);
-    }
-
-
-    @Override
     public void saveAndCloseCheckout()
     {
         setResult(MainActivity.REQUEST_CODE_CHECKOUT);
@@ -138,9 +130,16 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
     {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
-        fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
+        fragmentTransaction.replace(R.id.checkout_fragments_holder, fragment, tag);
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void proceedToPayment(String email, List<Integer> productIds, List<Integer> quantities)
+    {
+        PaymentFragment paymentFragment = PaymentFragment.getInstance(email, productIds, quantities);
+        paymentFragment.setCommunicator(this);
+        stackFragment(paymentFragment, ZohoKartFragments.PAYMENT_FRAGMENT);
+    }
 }

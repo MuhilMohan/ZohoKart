@@ -75,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            (toolbar.findViewById(R.id.app_icon)).setVisibility(View.GONE);
             (toolbar.findViewById(R.id.logout_action)).setVisibility(View.VISIBLE);
             toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         }
@@ -297,7 +298,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
             else
             {
                 finish();
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         }
 

@@ -1,7 +1,9 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -28,6 +30,7 @@ import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.utils.CardValidator;
+import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.ArrayList;
@@ -62,12 +65,16 @@ public class PaymentFragment extends android.support.v4.app.Fragment
     Spinner monthSpinner, yearSpinner;
     int year;
     PaymentCommunicator communicator;
+    SharedPreferences orderPref;
+    SharedPreferences.Editor orderEditor;
 
-    public static PaymentFragment getInstance(String email)
+    public static PaymentFragment getInstance(String email, List<Integer> productIds, List<Integer> quantities)
     {
         PaymentFragment paymentFragment = new PaymentFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Account.EMAIL, email);
+        bundle.putIntegerArrayList("product_ids", (ArrayList<Integer>) productIds);
+        bundle.putIntegerArrayList("quantities", (ArrayList<Integer>) quantities);
         paymentFragment.setArguments(bundle);
         return paymentFragment;
     }
@@ -91,6 +98,7 @@ public class PaymentFragment extends android.support.v4.app.Fragment
         this.inflater = LayoutInflater.from(getActivity());
         calendar = Calendar.getInstance();
         cardViews = new ArrayList<>();
+        orderPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.ORDER, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -371,9 +379,9 @@ public class PaymentFragment extends android.support.v4.app.Fragment
         OrderLineItem orderLineItem;
         List<Product> products;
         List<OrderLineItem> orderLineItems;
-        List<Integer> productIds;
+        List<Integer> productIds, quantities;
         String orderId;
-        int totalPrice;
+        int totalPrice, orderNumber;
 
         @Override
         protected void onPreExecute()
@@ -391,24 +399,39 @@ public class PaymentFragment extends android.support.v4.app.Fragment
         protected Void doInBackground(String... email)
         {
 
-            orderId = Order.ORDER_KEY + (Order.OLD_ORDER_ID+1);
-            Order.incrementOrderId();
+            productIds = getArguments().getIntegerArrayList("product_ids");
+            quantities = getArguments().getIntegerArrayList("quantities");
+            Log.d("PRODUCT_ID", "" + productIds.size());
+            Log.d("PRODUCT_quan", "" + quantities.size());
 
-            products = zohokartDAO.getProductsFromCart(email[0]);
-            for (Product product : products)
+            orderNumber = orderPref.getInt(ZohoKartSharePreferences.ORDER_COUNT, 1);
+
+            orderId = Order.ORDER_KEY + orderNumber;
+
+            orderEditor = orderPref.edit();
+            orderEditor.putInt(ZohoKartSharePreferences.ORDER_COUNT, orderNumber+1);
+            orderEditor.apply();
+
+            products = zohokartDAO.getProductsForProductIds(productIds);
+            if (products.size() > 0)
             {
-                productIds.add(product.getId());
-                totalPrice += (product.getPrice() * zohokartDAO.getQuantityofProductInCart(product.getId(), email[0]));
+                for (Product product : products)
+                {
+                    totalPrice += (product.getPrice() * quantities.get(products.indexOf(product)));
+                }
+                for (Integer productId : productIds)
+                {
+                    orderLineItem = new OrderLineItem();
+
+                    orderLineItem.setOrderId(orderId);
+                    orderLineItem.setProductId(productId);
+                    orderLineItem.setQuantity(quantities.get(productIds.indexOf(productId)));
+                    orderLineItems.add(orderLineItem);
+                }
             }
-            for (Integer productId : productIds)
-            {
-                orderLineItem = new OrderLineItem();
-                orderLineItem.setOrderId(orderId);
-                orderLineItem.setProductId(productId);
-                orderLineItem.setQuantity(zohokartDAO.getQuantityofProductInCart(productId, email[0]));
-                orderLineItems.add(orderLineItem);
-            }
+            Log.d("PRODUCT_ID", "" + orderLineItems.size());
             zohokartDAO.addOrderLineItems(orderLineItems);
+            orderLineItems.clear();
 
             order.setId(orderId);
             order.setNumberOfProducts(products.size());

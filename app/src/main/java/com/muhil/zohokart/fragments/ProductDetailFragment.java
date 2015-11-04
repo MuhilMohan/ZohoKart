@@ -45,7 +45,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     ZohokartDAO zohokartDAO;
     View rootview;
     int currentPosition, pagerPosition;
-    List<Product> products;
+    List<Product> products, productsInCart;
     List<Integer> productIds;
     String recentlyViewed;
     ViewPager productDetailPager;
@@ -156,13 +156,28 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                     {
                         SnackBarProvider.getSnackbar("Product already in cart.", rootview).show();
                     }
-                }
-                else
+                } else
                 {
                     communicator.openLoginPage();
                 }
             }
         });
+
+        (rootview.findViewById(R.id.buy_now)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Product product = products.get(productDetailPager.getCurrentItem());
+
+                        productIds.clear();
+                        productIds.add(product.getId());
+                        communicator.openCheckout(productIds);
+                        productIds.clear();
+                    }
+                }
+        );
 
         (rootview.findViewById(R.id.go_to_cart)).setOnClickListener(new View.OnClickListener()
         {
@@ -247,6 +262,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         void openLoginPage();
         void updateRecentlyViewed();
         void lockDrawer();
+        void openCheckout(List<Integer> productIds);
     }
 
 }

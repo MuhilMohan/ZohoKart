@@ -8,6 +8,7 @@
     tools:context="com.muhil.zohokart.fragments.MainFragment">
 
     <ScrollView
+        android:id="@+id/main_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">

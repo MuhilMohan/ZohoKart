@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,7 +125,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment
         protected void onPostExecute(Void aVoid)
         {
             super.onPostExecute(aVoid);
-
+            Log.d("WISHLIST_COUNT", "" + productsInWishlist.size());
             if (productsInWishlist != null && productsInWishlist.size() > 0)
             {
                 updateWishlistCount(productsInWishlist.size());

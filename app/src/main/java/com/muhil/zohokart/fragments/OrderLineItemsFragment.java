@@ -187,6 +187,9 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
                 orderedProductsHolder.addView(cardView);
             }
 
+            productIds.clear();
+            quantities.clear();
+
         }
     }
 

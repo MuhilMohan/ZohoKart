@@ -93,36 +93,76 @@
         android:layout_below="@id/list_actions"
         android:visibility="gone"/>
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:id="@+id/empty_list"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerInParent="true"
-        app:cardBackgroundColor="#5C6BC0"
-        app:cardCornerRadius="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
         android:visibility="gone">
-        <LinearLayout
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/fa_dropbox_256_0_424242_none"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="center"
+            android:text="@string/products_empty"
+            android:textColor="#616161"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/empty_list_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/continue_shopping"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_frame"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/products_empty"
-                android:textColor="#FFF"
-                android:textSize="16sp"/>
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/empty_list_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:text="@string/continue_shopping"/>
+    <LinearLayout
+        android:id="@+id/empty_filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/fa_dropbox_256_0_424242_none"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="center"
+            android:text="@string/products_empty"
+            android:textColor="#616161"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/empty_filter_list_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Back to filter"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_frame"/>
+
+    </LinearLayout>
+
 </RelativeLayout>

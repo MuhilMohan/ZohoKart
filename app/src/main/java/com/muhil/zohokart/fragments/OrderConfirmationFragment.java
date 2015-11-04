@@ -1,9 +1,11 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +37,7 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
     OrderConfirmationCommunicator communicator;
     Account account;
     List<Product> products;
-    List<Integer> productIds;
+    List<Integer> productIds, quantities;
     View orderConfirmationFragment;
     TextView accountName, accountPhoneNumber, accountAddress, totalPrice;
     LinearLayout orderedProductsHolder;
@@ -102,7 +104,33 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        communicator.proceedToPayment(email);
+                        if (accountAddress.getText().toString().equals(""))
+                        {
+                            LayoutInflater inflater = LayoutInflater.from(getActivity());
+                            final View addressDialog = inflater.inflate(R.layout.addres_dialog, null);
+                            final AlertDialog.Builder addressDiaBuilder = new AlertDialog.Builder(getActivity());
+                            addressDiaBuilder.setMessage("Update your address");
+                            addressDiaBuilder.setView(addressDialog);
+                            addressDiaBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    EditText address = (EditText) addressDialog.findViewById(R.id.address_text);
+                                    if (address.getText().toString().length() > 0)
+                                    {
+                                        accountAddress.setText(address.getText().toString());
+                                        zohokartDAO.updateAddressForAccount(address.getText().toString(), email);
+                                        communicator.proceedToPayment(email, productIds, quantities);
+                                    }
+                                }
+                            });
+                            addressDiaBuilder.show();
+                        }
+                        else
+                        {
+                            communicator.proceedToPayment(email, productIds, quantities);
+                        }
                     }
                 }
         );
@@ -113,12 +141,11 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
     class OrderConfirmationAsyncTask extends AsyncTask<String, Void, Void>
     {
 
-        List<Integer> quantities = new ArrayList<>();
-
         @Override
         protected void onPreExecute()
         {
             super.onPreExecute();
+            quantities = new ArrayList<>();
             (orderConfirmationFragment.findViewById(R.id.order_loading)).setVisibility(View.VISIBLE);
         }
 
@@ -132,7 +159,14 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
                 quantities.clear();
                 for (Product product : products)
                 {
-                    quantities.add(zohokartDAO.getQuantityofProductInCart(product.getId(), params[0]));
+                    if (zohokartDAO.checkInCart(product.getId(), params[0]))
+                    {
+                        quantities.add(zohokartDAO.getQuantityofProductInCart(product.getId(), params[0]));
+                    }
+                    else
+                    {
+                        quantities.add(1);
+                    }
                 }
             }
             return null;
@@ -155,7 +189,7 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
                 ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format((product.getPrice() * quantities.get(products.indexOf(product)))));
                 setGrandTotal(product.getPrice());
                 imageLoader.displayImage(product.getThumbnail(), (ImageView) cardView.findViewById(R.id.display_image));
-                ((TextView) cardView.findViewById(R.id.quantity)).setText(String.valueOf(zohokartDAO.getQuantityofProductInCart(product.getId(), email)));
+                ((TextView) cardView.findViewById(R.id.quantity)).setText(String.valueOf(quantities.get(products.indexOf(product))));
                 orderedProductsHolder.addView(cardView);
             }
 
@@ -173,7 +207,7 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
 
     public interface OrderConfirmationCommunicator
     {
-        void proceedToPayment(String email);
+        void proceedToPayment(String email, List<Integer> productIds, List<Integer> quantities);
     }
 
 }

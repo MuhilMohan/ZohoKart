@@ -1,0 +1,112 @@
+[
+  {
+    "id": 10001,
+    "sub_category_id": 402,
+    "name": "Amsterdam Expandable",
+    "brand": "Pronto",
+    "price": 2695.00,
+    "stars": 4.0,
+    "ratings": 194,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/suitcase/s/h/w/6577-pronto-cabin-luggage-amsterdam-original-imaeav74h86zxgvy.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10002,
+    "sub_category_id": 402,
+    "name": "Stream Alfa",
+    "brand": "American Tourister",
+    "price": 5887.00,
+    "stars": 4.5,
+    "ratings": 257,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/suitcase/f/q/m/16w-0-01-001-american-tourister-cabin-luggage-stream-alfa-original-imadzhc5vzcte9zd.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10003,
+    "sub_category_id": 402,
+    "name": "Cabin Luggage - 18",
+    "brand": "Giordano",
+    "price": 1779.00,
+    "stars": 3.5,
+    "ratings": 95,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/suitcase/8/s/w/gt-2013-giordano-cabin-luggage-original-imadw3wdkxqzsg6p.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10004,
+    "sub_category_id": 402,
+    "name": "Large Backback",
+    "brand": "Liviya",
+    "price": 1349.00,
+    "stars": 3.5,
+    "ratings": 61,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/backpack/3/v/n/986sblvblack-liviya-backpack-sb986lv-original-imae9xbz7fvytuea.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10005,
+    "sub_category_id": 402,
+    "name": "Candy",
+    "brand": "Skybags",
+    "price": 1080.00,
+    "stars": 4.0,
+    "ratings": 95,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/backpack/s/h/n/candy02ylw-skybags-backpack-candy02ylw-original-imae57mebzge6rfz.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10006,
+    "sub_category_id": 402,
+    "name": "Tran Salp",
+    "brand": "Mount Track",
+    "price": 1080.00,
+    "stars": 4.0,
+    "ratings": 95,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/backpack/5/v/a/9201-mount-track-backpack-tran-salp-original-imaecc93bw7ystab.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10007,
+    "sub_category_id": 402,
+    "name": "Combat",
+    "brand": "Wildcraft",
+    "price": 699.00,
+    "stars": 4.0,
+    "ratings": 95,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/duffel-bag/g/g/3/8903338009870-wildcraft-travel-duffel-bag-combat-original-imadus58yppzdspv.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10008,
+    "sub_category_id": 402,
+    "name": "Gym Bag",
+    "brand": "Puma",
+    "price": 1214.00,
+    "stars": 4.5,
+    "ratings": 190,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/duffel-bag/u/e/m/07349904-puma-gym-bag-puma07349904-original-imaeatrdfaarbhuf.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10008,
+    "sub_category_id": 402,
+    "name": "Midgrip",
+    "brand": "Reebok",
+    "price": 849.00,
+    "stars": 4.0,
+    "ratings": 290,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/duffel-bag/s/r/n/z98815-reebok-travel-duffel-bag-reebok-mid-grip-original-imae5hj7fcx25ufd.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  },
+  {
+    "id": 10009,
+    "sub_category_id": 402,
+    "name": "Trailblazer",
+    "brand": "Wildcraft",
+    "price": 3906.00,
+    "stars": 4.5,
+    "ratings": 290,
+    "thumbnail": "http://rukmini1.flixcart.com/image/290/290/rucksack/4/u/a/wildcraft-trailblazer-original-imads9vff5p8mt3c.jpeg",
+    "warranty": "1 year manufacturer warranty"
+  }
+]

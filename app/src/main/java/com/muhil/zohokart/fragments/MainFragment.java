@@ -58,7 +58,6 @@ public class MainFragment extends Fragment
     ScrollView mainScroll;
     HorizontalProductListingAdapter productListingAdapter;
     SharedPreferences recentlyViewedPref;
-    int currentPosition;
 
     public static MainFragment getInstance(List<PromotionBanner> promotionBanners)
     {
@@ -136,15 +135,7 @@ public class MainFragment extends Fragment
                         @Override
                         public void onPageSelected(int position)
                         {
-                            if (position >= promotionBanners.size())
-                            {
-                                currentPosition = position % promotionBanners.size();
-                                selectDot(currentPosition);
-                            }
-                            else
-                            {
-                                selectDot(position);
-                            }
+                            selectDot(position);
                         }
 
                         @Override

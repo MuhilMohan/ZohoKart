@@ -31,7 +31,8 @@
             android:background="@drawable/rounded_button"
             android:text="@string/apply_filter"
             android:textSize="18sp"
-            android:textColor="#FFF"/>
+            android:textColor="#FFF"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

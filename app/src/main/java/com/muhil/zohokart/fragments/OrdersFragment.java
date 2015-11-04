@@ -84,6 +84,7 @@ public class OrdersFragment extends android.support.v4.app.Fragment
         rootView = inflater.inflate(R.layout.fragment_orders, container, false);
         ordersHolder = (LinearLayout) rootView.findViewById(R.id.orders_holder);
         new DisplayingOrdersTask().execute(email);
+
         return rootView;
     }
 
@@ -99,6 +100,7 @@ public class OrdersFragment extends android.support.v4.app.Fragment
         protected void onPreExecute()
         {
             super.onPreExecute();
+            (rootView.findViewById(R.id.orders_empty)).setVisibility(View.GONE);
         }
 
         @Override
@@ -120,7 +122,7 @@ public class OrdersFragment extends android.support.v4.app.Fragment
                     orderItem = (CardView) layoutInflater.inflate(R.layout.order_item, ordersHolder, false);
                     try
                     {
-                        date = dateConversionDateFormat.parse(order.getDate());
+                        date = dateConversionDateFormat.parse(order.getOrderedDate());
                         String dateDisplayString = dateDisplayFormat.format(date);
                         ((TextView) orderItem.findViewById(R.id.ordered_date)).setText(dateDisplayString);
                     }
@@ -150,7 +152,7 @@ public class OrdersFragment extends android.support.v4.app.Fragment
             }
             else
             {
-
+                (rootView.findViewById(R.id.orders_empty)).setVisibility(View.VISIBLE);
             }
         }
     }
@@ -158,6 +160,7 @@ public class OrdersFragment extends android.support.v4.app.Fragment
     public interface OrderCommunicator
     {
         void openOrderLineItemsForOrderId(String orderId);
+        void showMainFragment();
     }
 
 }

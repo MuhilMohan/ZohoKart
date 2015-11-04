@@ -33,9 +33,12 @@ import com.muhil.zohokart.utils.CardValidator;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -382,6 +385,9 @@ public class PaymentFragment extends android.support.v4.app.Fragment
         List<Integer> productIds, quantities;
         String orderId;
         int totalPrice, orderNumber;
+        Calendar calendar;
+        DateFormat dateDisplayFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
+        String expectedDeliveryDate;
 
         @Override
         protected void onPreExecute()
@@ -393,6 +399,9 @@ public class PaymentFragment extends android.support.v4.app.Fragment
             orderLineItems = new ArrayList<>();
             orderId = "";
             totalPrice = 0;
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 3);
+            expectedDeliveryDate = dateDisplayFormat.format(calendar.getTime());
         }
 
         @Override
@@ -402,14 +411,14 @@ public class PaymentFragment extends android.support.v4.app.Fragment
             productIds = getArguments().getIntegerArrayList("product_ids");
             quantities = getArguments().getIntegerArrayList("quantities");
             Log.d("PRODUCT_ID", "" + productIds.size());
-            Log.d("PRODUCT_quan", "" + quantities.size());
+            Log.d("PRODUCT_quantities", "" + quantities.size());
 
             orderNumber = orderPref.getInt(ZohoKartSharePreferences.ORDER_COUNT, 1);
 
             orderId = Order.ORDER_KEY + orderNumber;
 
             orderEditor = orderPref.edit();
-            orderEditor.putInt(ZohoKartSharePreferences.ORDER_COUNT, orderNumber+1);
+            orderEditor.putInt(ZohoKartSharePreferences.ORDER_COUNT, orderNumber + 1);
             orderEditor.apply();
 
             products = zohokartDAO.getProductsForProductIds(productIds);
@@ -429,11 +438,12 @@ public class PaymentFragment extends android.support.v4.app.Fragment
                     orderLineItems.add(orderLineItem);
                 }
             }
-            Log.d("PRODUCT_ID", "" + orderLineItems.size());
+            Log.d("ORDER_LINE_ITEMS", "" + orderLineItems.size());
             zohokartDAO.addOrderLineItems(orderLineItems);
             orderLineItems.clear();
 
             order.setId(orderId);
+            order.setExpectedDeliveryDate(expectedDeliveryDate);
             order.setNumberOfProducts(products.size());
             order.setTotalPrice(totalPrice);
             order.setOrderStatus(Order.ORDER_PROCESSING);

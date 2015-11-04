@@ -38,4 +38,26 @@
 
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/specs_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/fragment_background_color"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/fa_list_256_0_616161_none"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Specifications not specified"
+            android:textSize="18sp"
+            android:textColor="#424242"/>
+    </LinearLayout>
+
 </RelativeLayout>

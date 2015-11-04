@@ -939,6 +939,7 @@ public class ZohokartDAO
         ContentValues contentValues = new ContentValues();
         contentValues.put(Order._ID, order.getId());
         contentValues.put(Order.EMAIL, email);
+        contentValues.put(Order.EXPECTED_DELIVERY_DATE, order.getExpectedDeliveryDate());
         contentValues.put(Order.NUMBER_OF_PRODUCTS, order.getNumberOfProducts());
         contentValues.put(Order.TOTAL_PRICE, order.getTotalPrice());
         contentValues.put(Order.ORDER_STATUS, order.getOrderStatus());
@@ -958,7 +959,8 @@ public class ZohokartDAO
                 {
                     order.setId(cursor.getString(cursor.getColumnIndex(Order._ID)));
                     order.setEmail(cursor.getString(cursor.getColumnIndex(Order.EMAIL)));
-                    order.setDate(cursor.getString(cursor.getColumnIndex(Order.ADDED_ON)));
+                    order.setOrderedDate(cursor.getString(cursor.getColumnIndex(Order.ADDED_ON)));
+                    order.setExpectedDeliveryDate(cursor.getString(cursor.getColumnIndex(Order.EXPECTED_DELIVERY_DATE)));
                     order.setNumberOfProducts(cursor.getInt(cursor.getColumnIndex(Order.NUMBER_OF_PRODUCTS)));
                     order.setTotalPrice(cursor.getDouble(cursor.getColumnIndex(Order.TOTAL_PRICE)));
                     order.setOrderStatus(cursor.getString(cursor.getColumnIndex(Order.ORDER_STATUS)));
@@ -986,7 +988,8 @@ public class ZohokartDAO
                     order = new Order();
                     order.setId(cursor.getString(cursor.getColumnIndex(Order._ID)));
                     order.setEmail(email);
-                    order.setDate(cursor.getString(cursor.getColumnIndex(Order.ADDED_ON)));
+                    order.setOrderedDate(cursor.getString(cursor.getColumnIndex(Order.ADDED_ON)));
+                    order.setExpectedDeliveryDate(cursor.getString(cursor.getColumnIndex(Order.EXPECTED_DELIVERY_DATE)));
                     order.setNumberOfProducts(cursor.getInt(cursor.getColumnIndex(Order.NUMBER_OF_PRODUCTS)));
                     order.setTotalPrice(cursor.getDouble(cursor.getColumnIndex(Order.TOTAL_PRICE)));
                     order.setOrderStatus(cursor.getString(cursor.getColumnIndex(Order.ORDER_STATUS)));

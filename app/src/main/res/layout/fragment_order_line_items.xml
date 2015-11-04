@@ -9,8 +9,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="66dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,6 +53,26 @@
                 android:textColor="@android:color/holo_orange_dark"/>
             <TextView
                 android:id="@+id/ordered_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/ordered_date"
+                android:textSize="18sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/expected_delivery_date_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/expected_delivery_date"
+                android:textColor="@android:color/holo_orange_dark"/>
+            <TextView
+                android:id="@+id/expected_delivery_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -123,19 +142,21 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/cancel_order"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="8dp"
+                android:text="CANCEL ORDER"
+                android:textColor="#FFF"
+                android:clickable="true"
+                android:background="@drawable/rounded_button"/>
+
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/cancel_order"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:layout_margin="8dp"
-        android:text="CANCEL ORDER"
-        android:textColor="#FFF"
-        android:clickable="true"
-        android:background="@drawable/rounded_button"/>
+
 
 </FrameLayout>

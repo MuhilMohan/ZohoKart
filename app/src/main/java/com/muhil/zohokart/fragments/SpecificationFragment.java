@@ -91,6 +91,7 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
         {
             super.onPreExecute();
             (rootView.findViewById(R.id.specs_progress)).setVisibility(View.VISIBLE);
+            (rootView.findViewById(R.id.specs_empty)).setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -109,31 +110,39 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
         {
             super.onPostExecute(aVoid);
             specificationGroup = aVoid;
-            for (Map.Entry<String, List<Specification>> specificationEntry: specificationGroup.entrySet())
+
+            if (specificationGroup.size() > 0)
             {
-
-                specificationGroupName = new TextView(getActivity());
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                specificationGroupName.setLayoutParams(params);
-                specificationGroupName.setPadding(4, 4, 4, 4);
-                specificationGroupName.setBackgroundColor(Color.parseColor("#BDBDBD"));
-                specificationGroupName.setText(specificationEntry.getKey());
-                specificationGroupName.setTextSize(18);
-                ((ViewGroup) rootView.findViewById(R.id.specification_holder)).addView(specificationGroupName);
-
-                for (Specification specification : specificationEntry.getValue())
+                for (Map.Entry<String, List<Specification>> specificationEntry: specificationGroup.entrySet())
                 {
-                    layoutInflater = LayoutInflater.from(getActivity());
-                    specificationView = layoutInflater.inflate(R.layout.specification_item, ((ViewGroup) rootView.findViewById(R.id.specification_holder)), false);
-                    ((TextView) specificationView.findViewById(R.id.specification_key)).setText(specification.getKey());
-                    ((TextView) specificationView.findViewById(R.id.specification_value)).setText(specification.getValue());
-                    ((ViewGroup) rootView.findViewById(R.id.specification_holder)).addView(specificationView);
+
+                    specificationGroupName = new TextView(getActivity());
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    specificationGroupName.setLayoutParams(params);
+                    specificationGroupName.setPadding(4, 4, 4, 4);
+                    specificationGroupName.setBackgroundColor(Color.parseColor("#BDBDBD"));
+                    specificationGroupName.setText(specificationEntry.getKey());
+                    specificationGroupName.setTextSize(18);
+                    ((ViewGroup) rootView.findViewById(R.id.specification_holder)).addView(specificationGroupName);
+
+                    for (Specification specification : specificationEntry.getValue())
+                    {
+                        layoutInflater = LayoutInflater.from(getActivity());
+                        specificationView = layoutInflater.inflate(R.layout.specification_item, ((ViewGroup) rootView.findViewById(R.id.specification_holder)), false);
+                        ((TextView) specificationView.findViewById(R.id.specification_key)).setText(specification.getKey());
+                        ((TextView) specificationView.findViewById(R.id.specification_value)).setText(specification.getValue());
+                        ((ViewGroup) rootView.findViewById(R.id.specification_holder)).addView(specificationView);
+                    }
+
                 }
 
+                (rootView.findViewById(R.id.specification_holder)).setVisibility(View.VISIBLE);
+                (rootView.findViewById(R.id.specs_progress)).setVisibility(View.GONE);
             }
-
-            (rootView.findViewById(R.id.specification_holder)).setVisibility(View.VISIBLE);
-            (rootView.findViewById(R.id.specs_progress)).setVisibility(View.GONE);
+            else
+            {
+                (rootView.findViewById(R.id.specs_empty)).setVisibility(View.VISIBLE);
+            }
 
         }
     }

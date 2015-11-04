@@ -33,6 +33,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
     List<Integer> productIds;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    int backStackCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,6 +87,21 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
     }
 
     @Override
+    public void onBackPressed()
+    {
+        backStackCount = fragmentManager.getBackStackEntryCount();
+        if (backStackCount > 0)
+        {
+            fragmentManager.popBackStack();
+        }
+        else
+        {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         // Handle action bar item clicks here. The action bar will
@@ -96,7 +112,8 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home)
         {
-            if (((FrameLayout) findViewById(R.id.checkout_fragments_holder)).getChildCount() > 1)
+            backStackCount = fragmentManager.getBackStackEntryCount();
+            if (backStackCount > 0)
             {
                 fragmentManager.popBackStack();
             }

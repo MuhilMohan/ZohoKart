@@ -30,21 +30,6 @@
     "name": "Kitchen & Dining"
   },
   {
-    "id": 300,
-    "category_id": 3,
-    "name": "Tyres"
-  },
-  {
-    "id": 301,
-    "category_id": 3,
-    "name": "Lubricants & Oil"
-  },
-  {
-    "id": 302,
-    "category_id": 3,
-    "name": "Car Essentials"
-  },
-  {
     "id": 400,
     "category_id": 4,
     "name": "Health Care"

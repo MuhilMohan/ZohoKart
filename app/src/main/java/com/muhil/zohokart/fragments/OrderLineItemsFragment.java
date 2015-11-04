@@ -97,7 +97,8 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
                             public void onClick(DialogInterface dialog, int which)
                             {
                                 zohokartDAO.cancelOrder(orderId);
-                                orderedProductsHolder.removeAllViews();
+                                (rootView.findViewById(R.id.expected_delivery_date_header)).setVisibility(View.GONE);
+                                (rootView.findViewById(R.id.expected_delivery_date)).setVisibility(View.GONE);
                                 new OrderLineItemsAddingTask().execute(orderId);
                             }
                         });
@@ -154,7 +155,7 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
 
             try
             {
-                date = dateConversionDateFormat.parse(order.getDate());
+                date = dateConversionDateFormat.parse(order.getOrderedDate());
                 String dateDisplayString = dateDisplayFormat.format(date);
                 ((TextView) rootView.findViewById(R.id.ordered_date)).setText(dateDisplayString);
             }
@@ -164,12 +165,12 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
             }
 
             ((TextView) rootView.findViewById(R.id.order_id)).setText(order.getId());
-            ((TextView) rootView.findViewById(R.id.total_price)).setText("Rs. " + order.getTotalPrice() );
+            ((TextView) rootView.findViewById(R.id.total_price)).setText("Rs. " + decimalFormat.format(order.getTotalPrice()) );
             ((TextView) rootView.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+            ((TextView) rootView.findViewById(R.id.expected_delivery_date)).setText(order.getExpectedDeliveryDate());
             if (order.getOrderStatus().equals(Order.ORDER_CANCELLED))
             {
-                rootView.findViewById(R.id.cancel_order).setAlpha(0.5f);
-                rootView.findViewById(R.id.cancel_order).setClickable(false);
+                rootView.findViewById(R.id.cancel_order).setVisibility(View.GONE);
             }
             else
             {

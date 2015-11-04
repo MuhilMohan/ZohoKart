@@ -25,11 +25,12 @@ public class Order
     public static final String _ID = "_id";
     public static final String EMAIL = "email";
     public static final String ADDED_ON = "added_on";
+    public static final String EXPECTED_DELIVERY_DATE = "expected_delivery_date";
     public static final String NUMBER_OF_PRODUCTS = "number_of_products";
     public static final String TOTAL_PRICE = "total_price";
     public static final String ORDER_STATUS = "order_status";
 
-    public static final String[] PROJECTION = {_ID, EMAIL, NUMBER_OF_PRODUCTS, TOTAL_PRICE, ORDER_STATUS, ADDED_ON};
+    public static final String[] PROJECTION = {_ID, EMAIL, NUMBER_OF_PRODUCTS, TOTAL_PRICE, ORDER_STATUS, ADDED_ON, EXPECTED_DELIVERY_DATE};
 
     public static final Uri CONTENT_URI = Uri.withAppendedPath(ZohokartContentProvider.CONTENT_URI, TABLE_NAME);
 
@@ -38,7 +39,8 @@ public class Order
 
     private String id;
     private String email;
-    private String date;
+    private String orderedDate;
+    private String expectedDeliveryDate;
     private int numberOfProducts;
     private double totalPrice;
     private String orderStatus;
@@ -46,24 +48,35 @@ public class Order
     public Order()
     {}
 
-    public Order(String id, String email, String date, int numberOfProducts, double totalPrice, String orderStatus)
+    public Order(String id, String email, String orderedDate, String expectedDeliveryDate, int numberOfProducts, double totalPrice, String orderStatus)
     {
         this.id = id;
         this.email = email;
-        this.date = date;
+        this.orderedDate = orderedDate;
+        this.expectedDeliveryDate = expectedDeliveryDate;
         this.numberOfProducts = numberOfProducts;
         this.totalPrice = totalPrice;
         this.orderStatus = orderStatus;
     }
 
-    public String getDate()
+    public String getOrderedDate()
     {
-        return date;
+        return orderedDate;
     }
 
-    public void setDate(String date)
+    public void setOrderedDate(String orderedDate)
     {
-        this.date = date;
+        this.orderedDate = orderedDate;
+    }
+
+    public String getExpectedDeliveryDate()
+    {
+        return expectedDeliveryDate;
+    }
+
+    public void setExpectedDeliveryDate(String expectedDeliveryDate)
+    {
+        this.expectedDeliveryDate = expectedDeliveryDate;
     }
 
     public String getId()

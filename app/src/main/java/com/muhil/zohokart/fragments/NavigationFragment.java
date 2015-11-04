@@ -90,8 +90,6 @@ public class NavigationFragment extends Fragment
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
 
-        ((ImageView) view.findViewById(R.id.header_image)).setImageBitmap(decodeSampledBitmapFromResource(getResources(), R.drawable.nav_image, 280, 190));
-
         (view.findViewById(R.id.home_action_button)).setOnClickListener(
                 new View.OnClickListener()
                 {

@@ -53,7 +53,7 @@
     <string name="sort">SORT</string>
     <string name="filter">FILTER</string>
     <string name="products_empty">No products available</string>
-    <string name="warranty">warranty</string>
+    <string name="warranty">Warranty</string>
     <string name="specification">Specifications</string>
     <string name="buy_now">BUY NOW</string>
     <string name="payment_options">Payment Options</string>
@@ -102,4 +102,5 @@
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="add_items">Want to add items?</string>
+    <string name="expected_delivery_date">Expected Delivery Date</string>
 </resources>

@@ -19,7 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.R;
+import com.muhil.zohokart.models.Book;
 import com.muhil.zohokart.models.FilterPair;
+import com.muhil.zohokart.models.Furniture;
+import com.muhil.zohokart.models.Kitchen;
 import com.muhil.zohokart.models.Laptop;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
@@ -149,6 +152,26 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     filterOptions.putAll(tempFilterOptions);
                     filterOptions.putAll(Laptop.FILTER_OPTIONS);
                     break;
+                case 200:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Furniture.FILTER_OPTIONS);
+                    break;
+                case 202:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Kitchen.FILTER_OPTIONS);
+                    break;
+                case 500:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Book.FILTER_OPTIONS);
+                    break;
+                case 501:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Book.FILTER_OPTIONS);
+                    break;
                 default:
                     break;
             }
@@ -199,6 +222,10 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                             filterPairs.add(filterPair);
                                             checkBox.setChecked(true);
                                         }
+                                        if (filterPairs.size() > 0)
+                                        {
+                                            (filterFragment.findViewById(R.id.filter_button)).setVisibility(View.VISIBLE);
+                                        }
                                     }
                                     else
                                     {
@@ -207,6 +234,10 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                             selectedFilterItems.remove(filterItemName.getText().toString());
                                             filterPairs.remove(filterPair);
                                             checkBox.setChecked(false);
+                                        }
+                                        if (filterPairs.size() <= 0)
+                                        {
+                                            (filterFragment.findViewById(R.id.filter_button)).setVisibility(View.GONE);
                                         }
                                     }
                                 }

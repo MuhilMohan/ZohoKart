@@ -55,6 +55,8 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     LayoutInflater inflater;
     CardView card_item_view;
     public static int CARD_ID = 100;
+    int backStackCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -308,8 +310,16 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     @Override
     public void onBackPressed()
     {
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        backStackCount = fragmentManager.getBackStackEntryCount();
+        if (backStackCount > 0)
+        {
+            fragmentManager.popBackStack();
+        }
+        else
+        {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
     }
 
     public Snackbar getSnackbar(String textToDisplay)
@@ -341,6 +351,12 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
     {
         OrderLineItemsFragment orderLineItemsFragment = OrderLineItemsFragment.getInstance(orderId);
         stackFragment(orderLineItemsFragment, ZohoKartFragments.ORDER_LINE_ITEMS_FRAGMENT);
+    }
+
+    @Override
+    public void showMainFragment()
+    {
+        finish();
     }
 
     class SavedCardsListingAsyncTask extends AsyncTask<String, Void, List<PaymentCard>>

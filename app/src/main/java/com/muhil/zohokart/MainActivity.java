@@ -1,21 +1,23 @@
 package com.muhil.zohokart;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -25,14 +27,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muhil.zohokart.activities.CheckoutActivity;
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.activities.ProfileActivity;
-import com.muhil.zohokart.activities.RegistrationActivity;
 import com.muhil.zohokart.fragments.BannerFragment;
 import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.FilterFragment;
@@ -47,7 +46,6 @@ import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
-import com.muhil.zohokart.models.Wishlist;
 import com.muhil.zohokart.models.ZohoKartFragments;
 import com.muhil.zohokart.utils.DataImporter;
 import com.muhil.zohokart.utils.SnackBarProvider;
@@ -80,14 +78,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     int subCategoryId, currentItemPosition;
 
     SearchView searchView;
-    EditText searchEditText;
 
     Fragment fragment;
     MainFragment mainFragment;
     CartFragment cartFragment;
     WishlistFragment wishlistFragment;
     SpecificationFragment specificationFragment;
-    ProductListFragment productListFragment;
+    ProductListFragment productListFragment, filteredProductListFragment;
     ProductDetailFragment productDetailFragment;
     android.support.v4.app.FragmentManager fragmentManager;
     android.support.v4.app.FragmentTransaction fragmentTransaction;
@@ -101,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // *** getting preferences for logged account ***
+        sharedPreferences = getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, MODE_PRIVATE);
 
         // *** setting toolbar and menu icon ***
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -124,78 +124,107 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        checkInternetAndShowContent();
+        if (haveNetworkConnection())
+        {
+            checkInternetAndShowContent();
+        }
+        else
+        {
+            showNetworkErrorAlert();
+        }
 
-        findViewById(R.id.retry_network).setOnClickListener(
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        checkInternetAndShowContent();
-                    }
-                }
-        );
+    }
 
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        clearFilter();
     }
 
     private void checkInternetAndShowContent()
     {
-        if (haveNetworkConnection())
+        int xValue = findViewById(R.id.no_internet).getWidth();
+        (findViewById(R.id.no_internet)).animate().setDuration(500).x(xValue).setListener(new AnimatorListenerAdapter()
         {
-            Toast.makeText(MainActivity.this, "Internet available.", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                super.onAnimationEnd(animation);
+                (findViewById(R.id.no_internet)).setVisibility(View.GONE);
+            }
+        });
 
-            new DataImportingTask().execute();
+        Toast.makeText(MainActivity.this, "Internet available.", Toast.LENGTH_SHORT).show();
 
-            // *** fragmentManager for transaction ***
-            fragmentManager = getSupportFragmentManager();
-            fragmentManager.addOnBackStackChangedListener(this);
-            zohokartDAO = new ZohokartDAO(this);
+        new DataImportingTask().execute();
 
-            // *** getting preferences for logged account ***
-            sharedPreferences = getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, MODE_PRIVATE);
+        // *** fragmentManager for transaction ***
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
+        zohokartDAO = new ZohokartDAO(this);
 
-            // *** initializing drawer ***
-            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawerLayout.setDrawerListener(
-                    new DrawerLayout.DrawerListener()
+        // *** initializing drawer ***
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerListener(
+                new DrawerLayout.DrawerListener()
+                {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset)
                     {
-                        @Override
-                        public void onDrawerSlide(View drawerView, float slideOffset)
-                        {
-                        }
-                        @Override
-                        public void onDrawerOpened(View drawerView) {}
-
-                        @Override
-                        public void onDrawerClosed(View drawerView)
-                        {
-                            navigationFragment.restScroll();
-                            if (productsToShow != null)
-                            {
-                                productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
-                                if (productListFragment == null)
-                                {
-                                    openProductList(productsToShow);
-                                }
-                                else
-                                {
-                                    fragmentManager.popBackStack();
-                                    openProductList(productsToShow);
-                                }
-                            }
-                            productsToShow = null;
-                        }
-
-                        @Override
-                        public void onDrawerStateChanged(int newState) {}
                     }
-            );
-        }
-        else
+
+                    @Override
+                    public void onDrawerOpened(View drawerView)
+                    {
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView)
+                    {
+                        navigationFragment.restScroll();
+                        if (productsToShow != null)
+                        {
+                            productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
+                            if (productListFragment == null)
+                            {
+                                openProductList(productsToShow);
+                            } else
+                            {
+                                fragmentManager.popBackStack();
+                                openProductList(productsToShow);
+                            }
+                        }
+                        productsToShow = null;
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState)
+                    {
+                    }
+                }
+        );
+    }
+
+    private void showNetworkErrorAlert()
+    {
+        AlertDialog.Builder internetDialog = new AlertDialog.Builder(this);
+        internetDialog.setMessage("No internet connection");
+        internetDialog.setPositiveButton("RETRY", new DialogInterface.OnClickListener()
         {
-            (findViewById(R.id.no_internet)).setVisibility(View.VISIBLE);
-        }
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                if (haveNetworkConnection())
+                {
+                    checkInternetAndShowContent();
+                } else
+                {
+                    showNetworkErrorAlert();
+                }
+            }
+        });
+        internetDialog.show();
     }
 
     @Override
@@ -232,8 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     openProductListForSearch(products);
                     searchView.onActionViewCollapsed();
                     searchView.setIconified(true);
-                }
-                else
+                } else
                 {
                     openProductListForSearch(products);
                     searchView.onActionViewCollapsed();
@@ -279,7 +307,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public void run()
             {
-                (findViewById(R.id.product_list_loading)).setVisibility(View.GONE);
+                (findViewById(R.id.product_list_loading)).animate().setDuration(500).alpha(0).setListener(new AnimatorListenerAdapter()
+                {
+                    @Override
+                    public void onAnimationEnd(Animator animation)
+                    {
+                        super.onAnimationEnd(animation);
+                        (findViewById(R.id.product_list_loading)).setVisibility(View.GONE);
+                    }
+                });
             }
         }, 300);
     }
@@ -342,10 +378,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 {
                     refreshProductDetail();
                 }
-                else if (backStackCount == 2)
-                {
-                    pop();
-                }
                 else
                 {
                     pop();
@@ -395,13 +427,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    private void popAndReset()
-    {
-        clearFilter();
-        fragmentManager.popBackStack();
-        this.subCategoryId = 0;
-    }
-
     private void pop()
     {
         clearFilter();
@@ -420,19 +445,11 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     private void clearFilter()
     {
-        fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
-        if(fragment != null && fragment.isVisible())
-        {
-            Log.d("BACKSTACK", "product list");
-            filterPref = getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, MODE_PRIVATE);
-            editor = filterPref.edit();
-            editor.clear();
-            editor.apply();
-        }
-        else
-        {
-            Log.d("BACKSTACK", "product list popped");
-        }
+        Log.d("BACKSTACK", "product list");
+        filterPref = getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, MODE_PRIVATE);
+        editor = filterPref.edit();
+        editor.clear();
+        editor.apply();
     }
 
     @Override
@@ -470,7 +487,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public void onBackPressed()
     {
         specificationFragment = (SpecificationFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.SPECIFICATION_FRAGMENT);
-        fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
+        productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
+        filteredProductListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
         cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
         wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
         if ((cartFragment!=null && cartFragment.isVisible()) || (wishlistFragment!=null && wishlistFragment.isVisible()))
@@ -481,16 +499,25 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         {
             refreshProductDetail();
         }
-        else if (fragment != null && fragment.isVisible())
+        else if (productListFragment != null && productListFragment.isVisible())
         {
             clearFilter();
             fragmentManager.popBackStack();
-            this.subCategoryId = 0;
+            if (!productListFragment.isFilter())
+            {
+                this.subCategoryId = 0;
+            }
             searchView.onActionViewCollapsed();
             searchView.setIconified(true);
         }
-        else if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        else if (filteredProductListFragment != null && filteredProductListFragment.isVisible())
         {
+            Log.d("FILTER_BACK", "cleared");
+            clearFilter();
+            fragmentManager.popBackStack();
+        }
+        else if (drawerLayout.isDrawerOpen(GravityCompat.START))
+    {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else
@@ -534,6 +561,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             this.subCategoryId = subCategoryId;
             if (subCategoryId > 99)
             {
+                clearFilter();
                 new ProductListingAsyncTask().execute(subCategoryId);
             }
         }
@@ -575,7 +603,16 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void sendFilteredProducts(List<Product> products)
     {
-        fragmentManager.popBackStack(ZohoKartFragments.PRODUCT_LIST_FRAGMENT, 0);
+        productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
+        if (productListFragment != null)
+        {
+            Log.d("FILTER_FRAG", "filtered product list fragment popped");
+            fragmentManager.popBackStackImmediate(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        else
+        {
+            fragmentManager.popBackStack();
+        }
         ProductListFragment productListFragment = ProductListFragment.getInstance(products, true);
         productListFragment.setCommunicator(this);
         if (products.size() > 0)
@@ -583,7 +620,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             productListFragment.setFilterEnabled(true);
             productListFragment.setSortEnabled(true);
         }
-        stackFragment(productListFragment, ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
+        stackFragment(productListFragment, ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
         Log.d("FILTERED", "filtered products sent");
     }
 
@@ -811,23 +848,55 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     private void stackFragment(Fragment fragment, String tag)
     {
-        fragmentTransaction = fragmentManager.beginTransaction();
-        if (tag.equals(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT))
+
+        Fragment thisFragment = fragment;
+        String thisTag = tag;
+
+        if (haveNetworkConnection())
         {
-            fragmentTransaction.setCustomAnimations(R.anim.slide_down_from_top, R.anim.fade_in, R.anim.fade_out, R.anim.slide_up_from_bottom);
-        }
-        else if (tag.equals(ZohoKartFragments.SPECIFICATION_FRAGMENT) || tag.equals(ZohoKartFragments.WISHLIST_FRAGMENT) ||
-                tag.equals(ZohoKartFragments.CART_FRAGMENT))
-        {
-            fragmentTransaction.setCustomAnimations(R.anim.slide_down_from_top, R.anim.fade_in, R.anim.fade_out, R.anim.slide_up_from_bottom);
+            fragmentTransaction = fragmentManager.beginTransaction();
+            if (tag.equals(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT))
+            {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_down_from_top, R.anim.fade_in, R.anim.fade_out, R.anim.slide_up_from_bottom);
+            }
+            else if (tag.equals(ZohoKartFragments.SPECIFICATION_FRAGMENT) || tag.equals(ZohoKartFragments.WISHLIST_FRAGMENT) ||
+                    tag.equals(ZohoKartFragments.CART_FRAGMENT))
+            {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_down_from_top, R.anim.fade_in, R.anim.fade_out, R.anim.slide_up_from_bottom);
+            }
+            else
+            {
+                fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+            }
+            fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
+            fragmentTransaction.addToBackStack(tag);
+            fragmentTransaction.commit();
         }
         else
         {
-            fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+            showNetworkErrorAlertWithinApp(thisFragment, thisTag);
         }
-        fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
-        fragmentTransaction.addToBackStack(tag);
-        fragmentTransaction.commit();
+    }
+
+    private void showNetworkErrorAlertWithinApp(final Fragment fragment, final String tag)
+    {
+        AlertDialog.Builder internetDialog = new AlertDialog.Builder(this);
+        internetDialog.setMessage("No internet connection");
+        internetDialog.setPositiveButton("RETRY", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                if (haveNetworkConnection())
+                {
+                    stackFragment(fragment, tag);
+                } else
+                {
+                    showNetworkErrorAlertWithinApp(fragment, tag);
+                }
+            }
+        });
+        internetDialog.show();
     }
 
     private boolean haveNetworkConnection() {

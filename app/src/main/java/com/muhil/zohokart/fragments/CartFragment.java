@@ -220,13 +220,13 @@ public class CartFragment extends android.support.v4.app.Fragment
                                     @Override
                                     public void onClick(View v)
                                     {
-                                        EditText quantityText = (EditText) (v.getRootView()).findViewById(R.id.quantity);
+                                        EditText quantityText = (EditText) ((ViewGroup) v.getParent()).findViewById(R.id.quantity);
                                         try
                                         {
                                             if (!(quantityText.getText().toString().equals("")))
                                             {
                                                 quantity = Integer.parseInt(quantityText.getText().toString());
-                                                ((TextView) (productsInCartHolder.findViewById(product.getId())).findViewById(R.id.total_price))
+                                                ((TextView) (productsInCartHolder.findViewById(((Product) v.getTag()).getId())).findViewById(R.id.total_price))
                                                         .setText(String.valueOf(decimalFormat.format(((Product) v.getTag()).getPrice() * quantity)));
                                                 if (zohokartDAO.updateQuantityOfProductInCart(Integer.parseInt(quantityText.getText().toString()), ((Product) v.getTag()).getId(), email))
                                                 {
@@ -265,7 +265,6 @@ public class CartFragment extends android.support.v4.app.Fragment
                                             Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
                                             int position = productsInCart.indexOf(product);
                                             productsInCart.remove(position);
-
                                             ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
                                             productsInCartHolder.removeView(productsInCartHolder.findViewById(product.getId()));
                                             updateGrandTotal();
@@ -273,6 +272,10 @@ public class CartFragment extends android.support.v4.app.Fragment
                                             if (productsInCart.size() == 0)
                                             {
                                                 switchViewElement();
+                                            }
+                                            else
+                                            {
+                                                cartContent.fullScroll(View.FOCUS_UP);
                                             }
                                         }
                                         else

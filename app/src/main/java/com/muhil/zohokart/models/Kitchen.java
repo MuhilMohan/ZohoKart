@@ -8,22 +8,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by muhil-ga42 on 19/10/15.
+ * Created by muhil-ga42 on 04/11/15.
  */
-public class Book implements IProduct
+public class Kitchen implements IProduct
 {
-
     private int id;
     @SerializedName("sub_category_id")
     private int categoryId;
     private String name;
-    private String publisher;
-    private String author;
-    private String binding;
+    private String brand;
+    private String color;
+    private String material;
     private double price;
     private String thumbnail;
     private double stars;
     private int ratings;
+    private String warranty;
 
     public static Map<String, Map<String, FilterPair>> FILTER_OPTIONS;
     public static Map<String, FilterPair> FILTER_OPTIONS_GROUP;
@@ -56,87 +56,78 @@ public class Book implements IProduct
 
     }
 
-    public Book()
-    {
+    public Kitchen() {
     }
 
-    public Book(int id, int categoryId, String name, String publisher, String author, String binding, double price, String thumbnail, double stars, int ratings)
+    public Kitchen(int id, int categoryId, String name, String brand, String color, String material, double price, String thumbnail, double stars, int ratings, String warranty)
     {
-        this.author = author;
-        this.binding = binding;
-        this.categoryId = categoryId;
         this.id = id;
+        this.categoryId = categoryId;
         this.name = name;
+        this.brand = brand;
+        this.color = color;
+        this.material = material;
         this.price = price;
-        this.publisher = publisher;
-        this.ratings = ratings;
-        this.stars = stars;
         this.thumbnail = thumbnail;
+        this.stars = stars;
+        this.ratings = ratings;
+        this.warranty = warranty;
+
     }
 
     @Override
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
     @Override
-    public int getCategoryId()
-    {
+    public int getCategoryId() {
         return categoryId;
     }
 
     @Override
-    public String getBrand()
-    {
-        return publisher;
+    public String getBrand() {
+        return brand;
     }
 
     @Override
-    public String getTitle()
-    {
+    public String getTitle() {
         return name;
     }
 
     @Override
-    public String getDescription()
-    {
-        return author + ", " + binding;
+    public String getDescription() {
+        return color + ", " + material;
     }
 
     @Override
-    public String getThumbnail()
-    {
+    public String getThumbnail() {
         return thumbnail;
     }
 
     @Override
-    public double getPrice()
-    {
+    public double getPrice() {
         return price;
     }
 
     @Override
-    public double getStars()
-    {
+    public double getStars() {
         return stars;
     }
 
     @Override
-    public int getRatings()
-    {
+    public int getRatings() {
         return ratings;
     }
 
     @Override
-    public String getWarranty()
-    {
-        return null;
+    public String getWarranty() {
+        return warranty;
     }
 
+
     @Override
-    public Product getProduct()
-    {
+    public Product getProduct() {
         return new Product(this.getId(), this.getCategoryId(), this.getBrand(),
                 this.getTitle(), this.getDescription(), this.getThumbnail(), this.getPrice(),
                 this.getStars(), this.getRatings(), this.getWarranty());

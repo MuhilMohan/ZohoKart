@@ -52,7 +52,6 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     boolean fromFilter;
     boolean filterEnabled = false;
     boolean sortEnabled = false;
-    int subCategoryId;
 
     public ProductListFragment()
     {
@@ -72,6 +71,11 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     public void setCommunicator(ProductListCommunicator communicator)
     {
         this.communicator = communicator;
+    }
+
+    public boolean isFilter()
+    {
+        return fromFilter;
     }
 
     public void setFilterEnabled(boolean status)

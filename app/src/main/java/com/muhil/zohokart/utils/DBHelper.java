@@ -40,7 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String CREATE_SPECIFICATION_TABLE = "CREATE TABLE " + SpecificationGroup.TABLE_NAME + " ( " + SpecificationGroup.PRODUCT_ID + " INTEGER, " + SpecificationGroup.GROUP_NAME + " TEXT, " + SpecificationGroup.SPECIFICATIONS + " TEXT )";
     public static String CREATE_PROMOTION_BANNER_TABLE = "CREATE TABLE " + PromotionBanner.TABLE_NAME + " ( " + PromotionBanner._ID + " INTEGER, " + PromotionBanner.BANNER_URL + " TEXT, " + PromotionBanner.PRODUCTS_RELATED + " TEXT )";
     public static String CREATE_PAYMENT_CARDS_TABLE = "CREATE TABLE " + PaymentCard.TABLE_NAME + " ( " + PaymentCard.EMAIL + " TEXT, " + PaymentCard.CARD_NUMBER + " TEXT, " + PaymentCard.CARD_TYPE + " TEXT, " + PaymentCard.NAME_ON_CARD + " TEXT, " + PaymentCard.EXPIRY + " TEXT )";
-    public static String CREATE_ORDERS_TABLE = "CREATE TABLE " + Order.TABLE_NAME + " ( " + Order._ID + " TEXT, " + Order.EMAIL + " TEXT, " + Order.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + Order.NUMBER_OF_PRODUCTS + " INTEGER, " + Order.TOTAL_PRICE + " REAL, " + Order.ORDER_STATUS + " TEXT )";
+    public static String CREATE_ORDERS_TABLE = "CREATE TABLE " + Order.TABLE_NAME + " ( " + Order._ID + " TEXT, " + Order.EMAIL + " TEXT, " + Order.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + Order.EXPECTED_DELIVERY_DATE + " TEXT, " + Order.NUMBER_OF_PRODUCTS + " INTEGER, " + Order.TOTAL_PRICE + " REAL, " + Order.ORDER_STATUS + " TEXT )";
     public static String CREATE_ORDER_LINE_ITEM_TABLE = "CREATE TABLE " + OrderLineItem.TABLE_NAME + " ( " + OrderLineItem.ORDER_ID + " TEXT, " + OrderLineItem.PRODUCT_ID + " INTEGER, " + OrderLineItem.QUANTITY + " INTEGER )";
 
     public DBHelper(Context context) {

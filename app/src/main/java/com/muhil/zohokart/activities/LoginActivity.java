@@ -59,7 +59,17 @@ public class LoginActivity extends AppCompatActivity
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (getIntent().getIntExtra("request_code", 0) == CheckoutActivity.REQUEST_LOGIN)
+                {
+                    setResult(CheckoutActivity.REQUEST_LOGIN, getIntent().putExtra(Account.EMAIL, ""));
+                }
+                else
+                {
+                    setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, ""));
+                }
                 finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
@@ -194,10 +204,16 @@ public class LoginActivity extends AppCompatActivity
                             editor.putString(Account.PASSWORD, account.getPassword());
                             editor.putString(Account.NAME, account.getName());
                             editor.apply();
-                            setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
+                            if (getIntent().getIntExtra("request_code", 0) == CheckoutActivity.REQUEST_LOGIN)
+                            {
+                                setResult(CheckoutActivity.REQUEST_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
+                            }
+                            else
+                            {
+                                setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
+                            }
                             finish();
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            Toast.makeText(LoginActivity.this, "Account added to preferences.", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {

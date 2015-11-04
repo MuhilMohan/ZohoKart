@@ -87,11 +87,6 @@ public class FilterFragment extends android.support.v4.app.Fragment
         filterPairs = new ArrayList<>();
         filteredProducts = new ArrayList<>();
         filterPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.SELECTED_FILTERS, Context.MODE_PRIVATE);
-        selectedFilterItems = filterPref.getStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, null);
-        if (selectedFilterItems == null)
-        {
-            selectedFilterItems = new HashSet<>();
-        }
     }
 
     @Override
@@ -101,6 +96,17 @@ public class FilterFragment extends android.support.v4.app.Fragment
         // Inflate the layout for this fragment
         filterFragment = inflater.inflate(R.layout.fragment_filter, container, false);
         communicator.lockDrawer();
+
+        selectedFilterItems = filterPref.getStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, null);
+        if (selectedFilterItems == null)
+        {
+            selectedFilterItems = new HashSet<>();
+        }
+        else
+        {
+            (filterFragment.findViewById(R.id.filter_button)).setVisibility(View.VISIBLE);
+        }
+
         filterPrefEditor = filterPref.edit();
 
         new FilterPopulateAsyncTask().execute(bundle.getInt("sub_category_id"));

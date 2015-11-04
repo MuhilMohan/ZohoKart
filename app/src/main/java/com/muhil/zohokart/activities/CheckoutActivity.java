@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,8 @@ import java.util.List;
 public class CheckoutActivity extends AppCompatActivity implements OrderConfirmationFragment.OrderConfirmationCommunicator,
         PaymentFragment.PaymentCommunicator
 {
+
+    public static final int REQUEST_LOGIN = 1001;
 
     Toolbar toolbar;
     SharedPreferences sharedPreferences;
@@ -58,6 +61,12 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
 
         sharedPreferences = getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, MODE_PRIVATE);
 
+        addOrderConfirmationFragmentIfLoggedIn();
+
+    }
+
+    private void addOrderConfirmationFragmentIfLoggedIn()
+    {
         email = sharedPreferences.getString(Account.EMAIL, "");
         password = sharedPreferences.getString(Account.PASSWORD, "");
 
@@ -72,10 +81,34 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
         }
         else
         {
-            startActivityForResult(new Intent(this, LoginActivity.class), 1000);
+            startActivityForResult(new Intent(this, LoginActivity.class).putExtra("request_code", REQUEST_LOGIN), CheckoutActivity.REQUEST_LOGIN);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CheckoutActivity.REQUEST_LOGIN)
+        {
+            if (resultCode == CheckoutActivity.REQUEST_LOGIN)
+            {
+                String emailFromLogin = data.getStringExtra(Account.EMAIL);
+                if (emailFromLogin.equals(""))
+                {
+                    Log.d("LOGIN_RES", "loading detail");
+                    setResult(MainActivity.REQUEST_CODE_CHECKOUT, getIntent().putExtra("checkout", false));
+                    finish();
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+                else
+                {
+                    Log.d("ORDER_FRAG", "loading orders");
+                    addOrderConfirmationFragmentIfLoggedIn();
+                }
+            }
+        }
     }
 
     @Override
@@ -96,6 +129,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
         }
         else
         {
+            setResult(MainActivity.REQUEST_CODE_CHECKOUT, getIntent().putExtra("checkout", false));
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         }
@@ -139,7 +173,7 @@ public class CheckoutActivity extends AppCompatActivity implements OrderConfirma
     @Override
     public void saveAndCloseCheckout()
     {
-        setResult(MainActivity.REQUEST_CODE_CHECKOUT);
+        setResult(MainActivity.REQUEST_CODE_CHECKOUT, getIntent().putExtra("checkout", true));
         finish();
     }
 

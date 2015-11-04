@@ -170,19 +170,12 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        if (email.equals("") || email.equals("default"))
-                        {
-                            communicator.openLoginPage();
-                        }
-                        else
-                        {
-                            Product product = products.get(productDetailPager.getCurrentItem());
+                        Product product = products.get(productDetailPager.getCurrentItem());
+                        productIds.clear();
+                        productIds.add(product.getId());
+                        communicator.openCheckout(productIds);
+                        productIds.clear();
 
-                            productIds.clear();
-                            productIds.add(product.getId());
-                            communicator.openCheckout(productIds);
-                            productIds.clear();
-                        }
                     }
                 }
         );

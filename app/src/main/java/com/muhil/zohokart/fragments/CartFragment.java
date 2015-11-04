@@ -113,22 +113,14 @@ public class CartFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
-
-                       if (email.equals("") || email.equals("default"))
+                       if (productsInCart.size() > 0)
                        {
-                           communicator.openLoginPage();
-                       }
-                        else
-                       {
-                           if (productsInCart.size() > 0)
+                           productIds.clear();
+                           for (Product product : productsInCart)
                            {
-                               productIds.clear();
-                               for (Product product : productsInCart)
-                               {
-                                   productIds.add(product.getId());
-                               }
-                               communicator.openCheckout(productIds);
+                               productIds.add(product.getId());
                            }
+                           communicator.openCheckout(productIds);
                        }
                     }
                 }

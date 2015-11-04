@@ -421,7 +421,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     private void pop()
     {
-        clearFilter();
         fragmentManager.popBackStack();
     }
 
@@ -463,14 +462,22 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         {
             if (resultCode == REQUEST_CODE_LOGIN)
             {
-                showMainFragment();
+                String emailFromLogin = data.getStringExtra(Account.EMAIL);
+                if (!(emailFromLogin.equals("")))
+                {
+                    showMainFragment();
+                }
             }
         }
         else if (requestCode == REQUEST_CODE_CHECKOUT)
         {
             if (resultCode == REQUEST_CODE_CHECKOUT)
             {
-                showMainFragment();
+                boolean checkoutStatus = data.getBooleanExtra("checkout", false);
+                if (checkoutStatus)
+                {
+                    showMainFragment();
+                }
             }
         }
     }

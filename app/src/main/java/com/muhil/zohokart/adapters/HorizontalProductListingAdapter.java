@@ -6,16 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.MainFragment;
 import com.muhil.zohokart.interfaces.ProductListCommunicator;
 import com.muhil.zohokart.models.Product;
-import com.muhil.zohokart.view_holders.HorizontalProductViewHolder;
-import com.muhil.zohokart.view_holders.ViewMoreHolder;
-import com.squareup.picasso.Picasso;
+import com.muhil.zohokart.holders.HorizontalProductViewHolder;
+import com.muhil.zohokart.holders.ViewMoreHolder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

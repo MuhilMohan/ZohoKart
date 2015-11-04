@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
  */
 public class ImageLoader
 {
-    final int placeholderImage = R.mipmap.ic_launcher;
+    final int placeholderImage = R.drawable.blank_screen;
     MemoryCache memoryCache = new MemoryCache();
     FileCache fileCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());

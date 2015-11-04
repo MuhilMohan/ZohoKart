@@ -1,4 +1,4 @@
-package com.muhil.zohokart.view_holders;
+package com.muhil.zohokart.holders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,6 @@ import com.muhil.zohokart.models.Product;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

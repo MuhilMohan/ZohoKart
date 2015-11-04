@@ -1,4 +1,4 @@
-package com.muhil.zohokart.view_holders;
+package com.muhil.zohokart.holders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

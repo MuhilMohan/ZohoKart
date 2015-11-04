@@ -130,7 +130,7 @@
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS v8"
         }
       ]
     },
@@ -143,7 +143,7 @@
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "IPS display"
         },
         {
           "key": "Screen Resolution",
@@ -160,7 +160,7 @@
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "64GB"
         }
       ]
     },
@@ -226,7 +226,7 @@
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 8"
         }
       ]
     },
@@ -256,7 +256,7 @@
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "128GB"
         }
       ]
     },
@@ -322,7 +322,7 @@
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 8"
         }
       ]
     },
@@ -331,7 +331,7 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "5.5 inches"
         },
         {
           "key": "Screen Type",
@@ -418,7 +418,7 @@
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 8"
         }
       ]
     },
@@ -427,7 +427,7 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "5.5 inches"
         },
         {
           "key": "Screen Type",
@@ -448,7 +448,7 @@
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "64GB"
         }
       ]
     },
@@ -510,11 +510,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A6 chip"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 7"
         }
       ]
     },
@@ -523,15 +523,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "4 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "Retina display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1136x640 Pixels"
         }
       ]
     },
@@ -566,11 +566,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "59.2x124.4x8.97 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "132 gm"
         }
       ]
     }
@@ -606,11 +606,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A6 chip"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 7"
         }
       ]
     },
@@ -619,15 +619,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "4 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "Retina display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1136x640 Pixels"
         }
       ]
     },
@@ -662,11 +662,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "59.2x124.4x8.97 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "132 gm"
         }
       ]
     }
@@ -702,11 +702,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A7 chip"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 6"
         }
       ]
     },
@@ -715,15 +715,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "4 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "Retina display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1136 x 640 Pixels"
         }
       ]
     },
@@ -758,11 +758,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "58.6x123.8x7.6 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "112 gm"
         }
       ]
     }
@@ -798,11 +798,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A6 chip"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 6"
         }
       ]
     },
@@ -811,15 +811,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "4 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "IPS display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1136x640 Pixels"
         }
       ]
     },
@@ -832,7 +832,7 @@
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "32GB"
         }
       ]
     },
@@ -841,7 +841,7 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 5MP"
         },
         {
           "key": "Secondary Camera",
@@ -858,7 +858,7 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "112 gm"
         }
       ]
     }
@@ -894,11 +894,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A6 chip"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 6"
         }
       ]
     },
@@ -907,15 +907,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "3.5 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "IPS display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1134x640 Pixels"
         }
       ]
     },
@@ -928,7 +928,7 @@
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "8GB"
         }
       ]
     },
@@ -954,7 +954,7 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "100 gm"
         }
       ]
     }
@@ -973,11 +973,11 @@
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "value": "GSM + LTE, Dual Sim"
         },
         {
           "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "Micro Sim"
         },
         {
           "key": "Video Calling",
@@ -990,11 +990,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "1.4 GHz + Qualcomm Snapdragon 410 MSM8916, Quad Core"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android v5.1.1 (Lollipop)"
         }
       ]
     },
@@ -1003,7 +1003,7 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "5 inches"
         },
         {
           "key": "Screen Type",
@@ -1011,7 +1011,7 @@
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1280 x 720 Pixels"
         }
       ]
     },
@@ -1020,7 +1020,7 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
+          "value": "2GB"
         },
         {
           "key": "Internal Storage",
@@ -1033,11 +1033,11 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 13MP"
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 5MP"
         }
       ]
     },
@@ -1046,11 +1046,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "72.4x142.1 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "155 gm"
         }
       ]
     }
@@ -1069,7 +1069,103 @@
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "value": "GSM + GSM, Dual Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Micro Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "2.5 GHz + Qualcomm Snapdragon 801 MSM8974-AC, Quad Core"
+        },
+        {
+          "key": "OS",
+          "value": "Android v4.4.4 (KitKat), Upgradable to v5.0 (Lollipop)(OTA Upgrade)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "5.2 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "FullHD"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "1920 x 1080 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "2GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 13MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "144 gm"
+        }
+      ]
+    }
+  ],
+  "1013": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "LTE + LTE, dual Sim"
         },
         {
           "key": "Sim Size",
@@ -1086,11 +1182,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "1.7 GHz + Qualcomm Snapdragon 615, Octa Core"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "v5.0 (Lollipop)"
         }
       ]
     },
@@ -1099,7 +1195,7 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "5.5 inches"
         },
         {
           "key": "Screen Type",
@@ -1107,7 +1203,7 @@
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1920 x 1080 Pixels"
         }
       ]
     },
@@ -1116,7 +1212,7 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
+          "value": "2GB"
         },
         {
           "key": "Internal Storage",
@@ -1129,11 +1225,11 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 21MP"
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 5MP"
         }
       ]
     },
@@ -1146,7 +1242,391 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "169 gm"
+        }
+      ]
+    }
+  ],
+  "1014": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "LTE + LTE, dual Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.7 GHz + Qualcomm Snapdragon 615, Octa Core"
+        },
+        {
+          "key": "OS",
+          "value": "v5.0 (Lollipop)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "5.5 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "FullHD"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "1920 x 1080 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "2GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "32GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 21MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 5MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "169 gm"
+        }
+      ]
+    }
+  ],
+  "1015": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "LTE + LTE, dual Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Nano Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.7 GHz + Qualcomm Snapdragon 615, Octa Core"
+        },
+        {
+          "key": "OS",
+          "value": "v5.0 (Lollipop)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "5.2 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "AMOLED"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "2560 X 1440 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "3GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "64GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 21MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "176 gm"
+        }
+      ]
+    }
+  ],
+  "1016": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "LTE + LTE, dual Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Micro Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.7 GHz + 2nd-gen Snapdragon 615 64-bit octa-core, Octa Core"
+        },
+        {
+          "key": "OS",
+          "value": "v5.0 (Lollipop)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "5 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "FullHD"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "1920 x 1080 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "2GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 13MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 5MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "130 gm"
+        }
+      ]
+    }
+  ],
+  "1017": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Call Features",
+          "value": "Loudspeaker"
+        },
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "GSM, Single Sim"
+        },
+        {
+          "key": "Sim Size",
+          "value": "Micro Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "2.5 GHz + Qualcomm MSM8274AC Snapdragon 801 Krait 400, Quad Core"
+        },
+        {
+          "key": "OS",
+          "value": "Android v4.4.4 (KitKat)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "5 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "FullHD"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "1920 x 1080 Pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "3GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 13MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 8MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "149 gm"
         }
       ]
     }
@@ -1156,10 +1636,6 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
@@ -1182,11 +1658,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A7 Chip with M7 Co-processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 7"
         }
       ]
     },
@@ -1195,15 +1671,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "9.7 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "Retina display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "2048 x 1536 pixels"
         }
       ]
     },
@@ -1216,7 +1692,7 @@
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "128GB"
         }
       ]
     },
@@ -1225,7 +1701,7 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 5MP"
         },
         {
           "key": "Secondary Camera",
@@ -1238,11 +1714,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "169.5 x 240 x 7.5 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "478 gm"
         }
       ]
     }
@@ -1252,20 +1728,12 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
-        },
-        {
-          "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "No sim"
         },
         {
           "key": "Video Calling",
@@ -1278,11 +1746,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "2.2 GHz NVIDIA Tegra K1 ARM Cortex-A15 Quad Core"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android 4.4.4 (KitKat)"
         }
       ]
     },
@@ -1291,7 +1759,7 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "7.9 inches"
         },
         {
           "key": "Screen Type",
@@ -1299,7 +1767,7 @@
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "2048 x 1536 pixels"
         }
       ]
     },
@@ -1308,11 +1776,15 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
+          "value": "2GB"
         },
         {
           "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "Expandable Storage",
+          "value": "128GB"
         }
       ]
     },
@@ -1325,7 +1797,7 @@
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 5MP"
         }
       ]
     },
@@ -1338,7 +1810,7 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "360 gm"
         }
       ]
     }
@@ -1348,20 +1820,12 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
-        },
-        {
-          "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "No Sim"
         },
         {
           "key": "Video Calling",
@@ -1374,11 +1838,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "1.4 GHz Snapdragon processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android 5.0 (Lollipop)"
         }
       ]
     },
@@ -1387,15 +1851,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "7 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "IPS display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1280 x 800 pixels"
         }
       ]
     },
@@ -1417,11 +1881,11 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 5MP"
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 0.3MP"
         }
       ]
     },
@@ -1430,11 +1894,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "120 x 190 x 9.4 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "320 gm"
         }
       ]
     }
@@ -1444,10 +1908,6 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
@@ -1470,11 +1930,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A7 Chip with M7 Co-processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 7"
         }
       ]
     },
@@ -1483,15 +1943,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "9.7 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "Retina display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "2048 x 1536 pixels"
         }
       ]
     },
@@ -1513,7 +1973,7 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 5MP"
         },
         {
           "key": "Secondary Camera",
@@ -1526,11 +1986,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "169.5 x 240 x 7.5 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "331 gm"
         }
       ]
     }
@@ -1540,20 +2000,12 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
-        },
-        {
-          "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "No Sim"
         },
         {
           "key": "Video Calling",
@@ -1566,11 +2018,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "1.33 GHz Intel Atom Z3530 Quad Core Processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android v4.4 (KitKat) OS"
         }
       ]
     },
@@ -1579,15 +2031,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "8 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "IPS display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1280 x 800 pixels"
         }
       ]
     },
@@ -1596,7 +2048,7 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
+          "value": "2GB"
         },
         {
           "key": "Internal Storage",
@@ -1609,11 +2061,11 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 5MP"
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 2MP"
         }
       ]
     },
@@ -1626,7 +2078,7 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "400 gm"
         }
       ]
     }
@@ -1636,20 +2088,12 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
-        },
-        {
-          "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "No Sim"
         },
         {
           "key": "Video Calling",
@@ -1662,11 +2106,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "Intel Clover Trail Z2520 Processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android v4.4 (KitKat) OS"
         }
       ]
     },
@@ -1675,15 +2119,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "7 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "IPS display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1280 x 800 pixels"
         }
       ]
     },
@@ -1705,11 +2149,11 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 2MP"
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 0.2MP"
         }
       ]
     },
@@ -1718,11 +2162,11 @@
       "specifications": [
         {
           "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "value": "192 x 10.7 x 110 mm"
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "290 gm"
         }
       ]
     }
@@ -1745,7 +2189,7 @@
         },
         {
           "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "Normal Sim"
         },
         {
           "key": "Video Calling",
@@ -1758,11 +2202,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "1.3 GHz Quad Core Processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android v4.4 (KitKat) OS"
         }
       ]
     },
@@ -1771,15 +2215,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "9.6 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "WXGA display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "1280 x 800 pixels"
         }
       ]
     },
@@ -1788,11 +2232,11 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
+          "value": "1.5GB"
         },
         {
           "key": "Internal Storage",
-          "value": "16GB"
+          "value": "8GB"
         }
       ]
     },
@@ -1801,11 +2245,11 @@
       "specifications": [
         {
           "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "value": "Yes, 5MP"
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 2MP"
         }
       ]
     },
@@ -1818,7 +2262,7 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "300 gm"
         }
       ]
     }
@@ -1854,11 +2298,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "1.9 GHz Quad Core Processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "Android v4.4 (KitKat) OS"
         }
       ]
     },
@@ -1867,15 +2311,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "10.5 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "AMOLED"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "2560x1600 pixels"
         }
       ]
     },
@@ -1884,7 +2328,7 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
+          "value": "3GB"
         },
         {
           "key": "Internal Storage",
@@ -1901,7 +2345,7 @@
         },
         {
           "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "value": "Yes, 2MP"
         }
       ]
     },
@@ -1924,20 +2368,12 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
           "value": "Yes"
         },
         {
           "key": "SIM Type",
-          "value": "GSM, Single Sim"
-        },
-        {
-          "key": "Sim Size",
-          "value": "Nano Sim"
+          "value": "No Sim"
         },
         {
           "key": "Video Calling",
@@ -1950,11 +2386,11 @@
       "specifications": [
         {
           "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "value": "A8X Chip with M8 Motion Co-processor"
         },
         {
           "key": "OS",
-          "value": "iOS 9"
+          "value": "iOS 7"
         }
       ]
     },
@@ -1963,15 +2399,15 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "9.7 inches"
         },
         {
           "key": "Screen Type",
-          "value": "FullHD"
+          "value": "Retina display"
         },
         {
           "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "value": "2048 x 1536 pixels"
         }
       ]
     },
@@ -2010,7 +2446,271 @@
         },
         {
           "key": "Weight",
-          "value": "129 gm"
+          "value": "437 gm"
+        }
+      ]
+    }
+  ],
+  "2012": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "No Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1 GHz Cortex-A8 Dual Core Processor"
+        },
+        {
+          "key": "OS",
+          "value": "Android 4.2 (Jelly Bean)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "7 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "Capacitive display"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "2048 x 1536 pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "512GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "4GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 2MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 0.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "437 gm"
+        }
+      ]
+    }
+  ],
+  "2013": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "No Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "1.9 GHz Quad Core Processor"
+        },
+        {
+          "key": "OS",
+          "value": "Android 4.2 (Jelly Bean)"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "7 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "IPS display"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "2048 x 1536 pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "1GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 5MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 1.2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "437 gm"
+        }
+      ]
+    }
+  ],
+  "2015": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Touch Screen",
+          "value": "Yes"
+        },
+        {
+          "key": "SIM Type",
+          "value": "No Sim"
+        },
+        {
+          "key": "Video Calling",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "specifications": [
+        {
+          "key": "Processor",
+          "value": "2 GHz Intel Atom Z2580 Dual Core Processor"
+        },
+        {
+          "key": "OS",
+          "value": "Android v4.2 (Jelly Bean) OS"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "8 inches"
+        },
+        {
+          "key": "Screen Type",
+          "value": "IPS display"
+        },
+        {
+          "key": "Screen Resolution",
+          "value": "1280 x 800 pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "2GB"
+        },
+        {
+          "key": "Internal Storage",
+          "value": "16GB"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "specifications": [
+        {
+          "key": "Primary Camera",
+          "value": "Yes, 5MP"
+        },
+        {
+          "key": "Secondary Camera",
+          "value": "Yes, 2MP"
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "specifications": [
+        {
+          "key": "Size",
+          "value": "67x138.1x6.9mm"
+        },
+        {
+          "key": "Weight",
+          "value": "350 gm"
         }
       ]
     }
@@ -2020,37 +2720,29 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
-          "value": "Yes"
+          "value": "No"
         },
         {
-          "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "key": "Model ID",
+          "value": "ME294HN/A"
         },
         {
-          "key": "Sim Size",
-          "value": "Nano Sim"
-        },
-        {
-          "key": "Video Calling",
-          "value": "Yes"
+          "key": "Model ID",
+          "value": "Macbook Pro"
         }
       ]
     },
     {
-      "name": "Platform",
+      "name": "Communication",
       "specifications": [
         {
-          "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "key": "Bluetooth",
+          "value": "v4.0"
         },
         {
-          "key": "OS",
-          "value": "iOS 9"
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
         }
       ]
     },
@@ -2059,15 +2751,11 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "15.25 inches"
         },
         {
-          "key": "Screen Type",
-          "value": "FullHD"
-        },
-        {
-          "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
         }
       ]
     },
@@ -2076,37 +2764,37 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
-        },
-        {
-          "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
         }
       ]
     },
     {
-      "name": "Camera",
+      "name": "Graphics",
       "specifications": [
         {
-          "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
         },
         {
-          "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
         }
       ]
     },
     {
-      "name": "Dimensions",
+      "name": "Processor",
       "specifications": [
         {
-          "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "key": "Brand",
+          "value": "Intel"
         },
         {
-          "key": "Weight",
-          "value": "129 gm"
+          "key": "Processor",
+          "value": "Core i7"
         }
       ]
     }
@@ -2116,37 +2804,29 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
-          "value": "Yes"
+          "value": "No"
         },
         {
-          "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "key": "Model ID",
+          "value": "ME294HN/A"
         },
         {
-          "key": "Sim Size",
-          "value": "Nano Sim"
-        },
-        {
-          "key": "Video Calling",
-          "value": "Yes"
+          "key": "Model ID",
+          "value": "Macbook Pro"
         }
       ]
     },
     {
-      "name": "Platform",
+      "name": "Communication",
       "specifications": [
         {
-          "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "key": "Bluetooth",
+          "value": "v4.0"
         },
         {
-          "key": "OS",
-          "value": "iOS 9"
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
         }
       ]
     },
@@ -2155,15 +2835,11 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "15.25 inches"
         },
         {
-          "key": "Screen Type",
-          "value": "FullHD"
-        },
-        {
-          "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
         }
       ]
     },
@@ -2172,37 +2848,37 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
-        },
-        {
-          "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
         }
       ]
     },
     {
-      "name": "Camera",
+      "name": "Graphics",
       "specifications": [
         {
-          "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
         },
         {
-          "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
         }
       ]
     },
     {
-      "name": "Dimensions",
+      "name": "Processor",
       "specifications": [
         {
-          "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "key": "Brand",
+          "value": "Intel"
         },
         {
-          "key": "Weight",
-          "value": "129 gm"
+          "key": "Processor",
+          "value": "Core i7"
         }
       ]
     }
@@ -2212,37 +2888,29 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
-          "value": "Yes"
+          "value": "No"
         },
         {
-          "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "key": "Model ID",
+          "value": "ME294HN/A"
         },
         {
-          "key": "Sim Size",
-          "value": "Nano Sim"
-        },
-        {
-          "key": "Video Calling",
-          "value": "Yes"
+          "key": "Model ID",
+          "value": "Macbook Pro"
         }
       ]
     },
     {
-      "name": "Platform",
+      "name": "Communication",
       "specifications": [
         {
-          "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "key": "Bluetooth",
+          "value": "v4.0"
         },
         {
-          "key": "OS",
-          "value": "iOS 9"
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
         }
       ]
     },
@@ -2251,15 +2919,11 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "15.25 inches"
         },
         {
-          "key": "Screen Type",
-          "value": "FullHD"
-        },
-        {
-          "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
         }
       ]
     },
@@ -2268,37 +2932,37 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
-        },
-        {
-          "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
         }
       ]
     },
     {
-      "name": "Camera",
+      "name": "Graphics",
       "specifications": [
         {
-          "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
         },
         {
-          "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
         }
       ]
     },
     {
-      "name": "Dimensions",
+      "name": "Processor",
       "specifications": [
         {
-          "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "key": "Brand",
+          "value": "Intel"
         },
         {
-          "key": "Weight",
-          "value": "129 gm"
+          "key": "Processor",
+          "value": "Core i7"
         }
       ]
     }
@@ -2308,37 +2972,29 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
-          "value": "Yes"
+          "value": "No"
         },
         {
-          "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "key": "Model ID",
+          "value": "ME294HN/A"
         },
         {
-          "key": "Sim Size",
-          "value": "Nano Sim"
-        },
-        {
-          "key": "Video Calling",
-          "value": "Yes"
+          "key": "Model ID",
+          "value": "Macbook Pro"
         }
       ]
     },
     {
-      "name": "Platform",
+      "name": "Communication",
       "specifications": [
         {
-          "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "key": "Bluetooth",
+          "value": "v4.0"
         },
         {
-          "key": "OS",
-          "value": "iOS 9"
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
         }
       ]
     },
@@ -2347,15 +3003,11 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "15.25 inches"
         },
         {
-          "key": "Screen Type",
-          "value": "FullHD"
-        },
-        {
-          "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
         }
       ]
     },
@@ -2364,37 +3016,37 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
-        },
-        {
-          "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
         }
       ]
     },
     {
-      "name": "Camera",
+      "name": "Graphics",
       "specifications": [
         {
-          "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
         },
         {
-          "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
         }
       ]
     },
     {
-      "name": "Dimensions",
+      "name": "Processor",
       "specifications": [
         {
-          "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "key": "Brand",
+          "value": "Intel"
         },
         {
-          "key": "Weight",
-          "value": "129 gm"
+          "key": "Processor",
+          "value": "Core i7"
         }
       ]
     }
@@ -2404,37 +3056,29 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
-          "value": "Yes"
+          "value": "No"
         },
         {
-          "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "key": "Model ID",
+          "value": "ME294HN/A"
         },
         {
-          "key": "Sim Size",
-          "value": "Nano Sim"
-        },
-        {
-          "key": "Video Calling",
-          "value": "Yes"
+          "key": "Model ID",
+          "value": "Macbook Pro"
         }
       ]
     },
     {
-      "name": "Platform",
+      "name": "Communication",
       "specifications": [
         {
-          "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "key": "Bluetooth",
+          "value": "v4.0"
         },
         {
-          "key": "OS",
-          "value": "iOS 9"
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
         }
       ]
     },
@@ -2443,15 +3087,11 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "15.25 inches"
         },
         {
-          "key": "Screen Type",
-          "value": "FullHD"
-        },
-        {
-          "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
         }
       ]
     },
@@ -2460,37 +3100,37 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
-        },
-        {
-          "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
         }
       ]
     },
     {
-      "name": "Camera",
+      "name": "Graphics",
       "specifications": [
         {
-          "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
         },
         {
-          "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
         }
       ]
     },
     {
-      "name": "Dimensions",
+      "name": "Processor",
       "specifications": [
         {
-          "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "key": "Brand",
+          "value": "Intel"
         },
         {
-          "key": "Weight",
-          "value": "129 gm"
+          "key": "Processor",
+          "value": "Core i7"
         }
       ]
     }
@@ -2500,37 +3140,29 @@
       "name": "General",
       "specifications": [
         {
-          "key": "Call Features",
-          "value": "Loudspeaker"
-        },
-        {
           "key": "Touch Screen",
-          "value": "Yes"
+          "value": "No"
         },
         {
-          "key": "SIM Type",
-          "value": "GSM, Single Sim"
+          "key": "Model ID",
+          "value": "ME294HN/A"
         },
         {
-          "key": "Sim Size",
-          "value": "Nano Sim"
-        },
-        {
-          "key": "Video Calling",
-          "value": "Yes"
+          "key": "Model ID",
+          "value": "Macbook Pro"
         }
       ]
     },
     {
-      "name": "Platform",
+      "name": "Communication",
       "specifications": [
         {
-          "key": "Processor",
-          "value": "1.4 GHz + A8 Chip with 64 bit architecture"
+          "key": "Bluetooth",
+          "value": "v4.0"
         },
         {
-          "key": "OS",
-          "value": "iOS 9"
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
         }
       ]
     },
@@ -2539,15 +3171,11 @@
       "specifications": [
         {
           "key": "Screen Size",
-          "value": "4.7 inches"
+          "value": "15.25 inches"
         },
         {
-          "key": "Screen Type",
-          "value": "FullHD"
-        },
-        {
-          "key": "Screen Resolution",
-          "value": "1334x750 Pixels"
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
         }
       ]
     },
@@ -2556,37 +3184,205 @@
       "specifications": [
         {
           "key": "RAM",
-          "value": "1GB"
-        },
-        {
-          "key": "Internal Storage",
           "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
         }
       ]
     },
     {
-      "name": "Camera",
+      "name": "Graphics",
       "specifications": [
         {
-          "key": "Primary Camera",
-          "value": "Yes, 8MP"
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
         },
         {
-          "key": "Secondary Camera",
-          "value": "Yes, 1.2MP"
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
         }
       ]
     },
     {
-      "name": "Dimensions",
+      "name": "Processor",
       "specifications": [
         {
-          "key": "Size",
-          "value": "67x138.1x6.9mm"
+          "key": "Brand",
+          "value": "Intel"
         },
         {
-          "key": "Weight",
-          "value": "129 gm"
+          "key": "Processor",
+          "value": "Core i7"
+        }
+      ]
+    }
+  ],
+  "3007": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Touch Screen",
+          "value": "No"
+        },
+        {
+          "key": "Model ID",
+          "value": "ME294HN/A"
+        },
+        {
+          "key": "Model ID",
+          "value": "Macbook Pro"
+        }
+      ]
+    },
+    {
+      "name": "Communication",
+      "specifications": [
+        {
+          "key": "Bluetooth",
+          "value": "v4.0"
+        },
+        {
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "15.25 inches"
+        },
+        {
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
+        }
+      ]
+    },
+    {
+      "name": "Graphics",
+      "specifications": [
+        {
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
+        },
+        {
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
+        }
+      ]
+    },
+    {
+      "name": "Processor",
+      "specifications": [
+        {
+          "key": "Brand",
+          "value": "Intel"
+        },
+        {
+          "key": "Processor",
+          "value": "Core i7"
+        }
+      ]
+    }
+  ],
+  "3008": [
+    {
+      "name": "General",
+      "specifications": [
+        {
+          "key": "Touch Screen",
+          "value": "No"
+        },
+        {
+          "key": "Model ID",
+          "value": "ME294HN/A"
+        },
+        {
+          "key": "Model ID",
+          "value": "Macbook Pro"
+        }
+      ]
+    },
+    {
+      "name": "Communication",
+      "specifications": [
+        {
+          "key": "Bluetooth",
+          "value": "v4.0"
+        },
+        {
+          "key": "Wireless LAN",
+          "value": "IEEE 802.11a/b/g/n"
+        }
+      ]
+    },
+    {
+      "name": "Display",
+      "specifications": [
+        {
+          "key": "Screen Size",
+          "value": "15.25 inches"
+        },
+        {
+          "key": "Resolution",
+          "value": "2880 x 1800 pixels"
+        }
+      ]
+    },
+    {
+      "name": "Memory & Storage",
+      "specifications": [
+        {
+          "key": "RAM",
+          "value": "16GB"
+        },
+        {
+          "key": "HDD Capacity",
+          "value": "512GB"
+        }
+      ]
+    },
+    {
+      "name": "Graphics",
+      "specifications": [
+        {
+          "key": "Graphic Processor",
+          "value": "Intel Iris Pro Graphics NVIDIA GE Force GT750M"
+        },
+        {
+          "key": "Dedicated Graphics Memory Capacity",
+          "value": "2GB"
+        }
+      ]
+    },
+    {
+      "name": "Processor",
+      "specifications": [
+        {
+          "key": "Brand",
+          "value": "Intel"
+        },
+        {
+          "key": "Processor",
+          "value": "Core i7"
         }
       ]
     }

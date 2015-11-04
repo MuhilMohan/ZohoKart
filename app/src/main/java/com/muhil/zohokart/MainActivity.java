@@ -307,15 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             @Override
             public void run()
             {
-                (findViewById(R.id.product_list_loading)).animate().setDuration(500).alpha(0).setListener(new AnimatorListenerAdapter()
-                {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-                        super.onAnimationEnd(animation);
-                        (findViewById(R.id.product_list_loading)).setVisibility(View.GONE);
-                    }
-                });
+                (findViewById(R.id.product_list_loading)).setVisibility(View.GONE);
             }
         }, 300);
     }
@@ -622,6 +614,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         stackFragment(productListFragment, ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
         Log.d("FILTERED", "filtered products sent");
+    }
+
+    @Override
+    public void tellToMainParamaeters(int position, List<Product> products)
+    {
+        this.currentItemPosition = position;
+        this.products = products;
     }
 
     @Override

@@ -91,7 +91,7 @@ public class SpecificationFragment extends android.support.v4.app.Fragment
         {
             super.onPreExecute();
             (rootView.findViewById(R.id.specs_progress)).setVisibility(View.VISIBLE);
-            (rootView.findViewById(R.id.specs_empty)).setVisibility(View.VISIBLE);
+            (rootView.findViewById(R.id.specs_empty)).setVisibility(View.GONE);
         }
 
         @Override

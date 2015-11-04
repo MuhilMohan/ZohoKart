@@ -1,24 +1,24 @@
 package com.muhil.zohokart.models;
 
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mobile implements IProduct {
-
+/**
+ * Created by muhil-ga42 on 04/11/15.
+ */
+public class Lighting implements IProduct
+{
     private int id;
     @SerializedName("sub_category_id")
     private int categoryId;
     private String name;
     private String brand;
     private String color;
-    @SerializedName("internal_memory")
-    private int internalMemory;
+    private String type;
     private double price;
     private String thumbnail;
     private double stars;
@@ -28,8 +28,6 @@ public class Mobile implements IProduct {
     public static Map<String, Map<String, FilterPair>> FILTER_OPTIONS;
     public static Map<String, FilterPair> FILTER_OPTIONS_GROUP;
     public static List<String> SELECTION_ARGS;
-
-    public static List<String> SPECS_FILTER;
 
     static
     {
@@ -56,25 +54,19 @@ public class Mobile implements IProduct {
 
         FILTER_OPTIONS.put("Price", FILTER_OPTIONS_GROUP);
 
-        SPECS_FILTER = new ArrayList<>();
-        SPECS_FILTER.add("SIM Type");
-        SPECS_FILTER.add("OS");
-        SPECS_FILTER.add("Screen Size");
-        SPECS_FILTER.add("Internal Storage");
-
     }
 
-    public Mobile() {
+    public Lighting() {
     }
 
-    public Mobile(int id, int categoryId, String name, String brand, String color, int internalMemory, double price, String thumbnail, double stars, int ratings, String warranty)
+    public Lighting(int id, int categoryId, String name, String brand, String color, String type, double price, String thumbnail, double stars, int ratings, String warranty)
     {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
         this.brand = brand;
         this.color = color;
-        this.internalMemory = internalMemory;
+        this.type = type;
         this.price = price;
         this.thumbnail = thumbnail;
         this.stars = stars;
@@ -105,7 +97,7 @@ public class Mobile implements IProduct {
 
     @Override
     public String getDescription() {
-        return color + ", " + internalMemory + " GB";
+        return color + ", " + type;
     }
 
     @Override

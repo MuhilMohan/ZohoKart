@@ -114,15 +114,22 @@ public class CartFragment extends android.support.v4.app.Fragment
                     public void onClick(View v)
                     {
 
-                        if (productsInCart.size() > 0)
-                        {
-                            productIds.clear();
-                            for (Product product : productsInCart)
-                            {
-                                productIds.add(product.getId());
-                            }
-                            communicator.openCheckout(productIds);
-                        }
+                       if (email.equals("") || email.equals("default"))
+                       {
+                           communicator.openLoginPage();
+                       }
+                        else
+                       {
+                           if (productsInCart.size() > 0)
+                           {
+                               productIds.clear();
+                               for (Product product : productsInCart)
+                               {
+                                   productIds.add(product.getId());
+                               }
+                               communicator.openCheckout(productIds);
+                           }
+                       }
                     }
                 }
         );
@@ -380,6 +387,7 @@ public class CartFragment extends android.support.v4.app.Fragment
         void showMainFragment();
         void lockDrawer();
         void openCheckout(List<Integer> productIds);
+        void openLoginPage();
     }
 
 }

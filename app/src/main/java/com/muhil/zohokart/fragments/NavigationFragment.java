@@ -54,7 +54,6 @@ public class NavigationFragment extends Fragment
 
     public static int[] SUB_CATEGORY_IMAGES = {R.mipmap.mobile_xxhdpi, R.mipmap.tablets_xxhdpi, R.mipmap.laptops_xxhdpi,
             R.mipmap.furniture_xxhdpi_min, R.mipmap.lighting_xxhdpi, R.mipmap.kitchen_dining_xxhdpi_min,
-            R.mipmap.tyres_xxhdpi_min, R.mipmap.lubricantsxxhdpi_min, R.mipmap.car_bike_carexxhdpi_min,
             R.mipmap.health_carexxhdpi_min, R.mipmap.sports_fitness_xxhdpi, R.mipmap.luggage_travel_xxhdpi,
             R.mipmap.books_xxhdpi, R.mipmap.books_xxhdpi, R.mipmap.books_xxhdpi};
 

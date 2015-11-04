@@ -10,11 +10,15 @@ import com.google.gson.reflect.TypeToken;
 import com.muhil.zohokart.models.Book;
 import com.muhil.zohokart.models.Category;
 import com.muhil.zohokart.models.Furniture;
+import com.muhil.zohokart.models.HealthCare;
 import com.muhil.zohokart.models.Kitchen;
 import com.muhil.zohokart.models.Laptop;
+import com.muhil.zohokart.models.Lighting;
+import com.muhil.zohokart.models.Luggage;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
+import com.muhil.zohokart.models.Sport;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Tablet;
 import com.muhil.zohokart.models.specification.SpecificationGroup;
@@ -158,6 +162,19 @@ public class DataImporter
             furnitures.clear();
             Log.d("DB", "Number of products in DB = " + records);
 
+            String lightingString = getJsonContentAsString("products/lighting");
+            List<Lighting> lightings = gson.fromJson(lightingString, new TypeToken<List<Lighting>>() {}.getType());
+
+            Log.d("JSON", "Number of lighting from JSON = " + lightings.size());
+            for (Lighting lighting : lightings)
+            {
+                products.add(lighting.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            lightings.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
             String kitchenString = getJsonContentAsString("products/kitchen");
             List<Kitchen> kitchens = gson.fromJson(kitchenString, new TypeToken<List<Kitchen>>() {}.getType());
 
@@ -169,6 +186,45 @@ public class DataImporter
             records = zohokartDAO.addProducts(products);
             products.clear();
             kitchens.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String healthCareString = getJsonContentAsString("products/healthcare");
+            List<HealthCare> healthCares = gson.fromJson(healthCareString, new TypeToken<List<HealthCare>>() {}.getType());
+
+            Log.d("JSON", "Number of healthcare from JSON = " + healthCares.size());
+            for (HealthCare healthCare : healthCares)
+            {
+                products.add(healthCare.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            healthCares.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String sportString = getJsonContentAsString("products/sports");
+            List<Sport> sports = gson.fromJson(sportString, new TypeToken<List<Sport>>() {}.getType());
+
+            Log.d("JSON", "Number of sports from JSON = " + sports.size());
+            for (Sport sport : sports)
+            {
+                products.add(sport.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            sports.clear();
+            Log.d("DB", "Number of products in DB = " + records);
+
+            String luggageString = getJsonContentAsString("products/luggage");
+            List<Luggage> luggages = gson.fromJson(luggageString, new TypeToken<List<Luggage>>() {}.getType());
+
+            Log.d("JSON", "Number of luggages from JSON = " + luggages.size());
+            for (Luggage luggage : luggages)
+            {
+                products.add(luggage.getProduct());
+            }
+            records = zohokartDAO.addProducts(products);
+            products.clear();
+            luggages.clear();
             Log.d("DB", "Number of products in DB = " + records);
 
             String promotionBannersAsString = getJsonContentAsString("promotion_banners");

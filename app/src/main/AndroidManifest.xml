@@ -53,12 +53,13 @@
             android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
         <activity
             android:name=".activities.CheckoutActivity"
             android:label="@string/title_activity_order_summary"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan">
         </activity>
     </application>
 

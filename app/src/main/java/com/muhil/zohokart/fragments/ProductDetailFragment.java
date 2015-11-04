@@ -124,6 +124,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             {
                 checkInCart(position);
                 addToRecentlyViewed(ProductDetailFragment.this.products.get(position).getId());
+                communicator.tellToMainParamaeters(position, products);
             }
 
             @Override
@@ -169,12 +170,19 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
-                        Product product = products.get(productDetailPager.getCurrentItem());
+                        if (email.equals("") || email.equals("default"))
+                        {
+                            communicator.openLoginPage();
+                        }
+                        else
+                        {
+                            Product product = products.get(productDetailPager.getCurrentItem());
 
-                        productIds.clear();
-                        productIds.add(product.getId());
-                        communicator.openCheckout(productIds);
-                        productIds.clear();
+                            productIds.clear();
+                            productIds.add(product.getId());
+                            communicator.openCheckout(productIds);
+                            productIds.clear();
+                        }
                     }
                 }
         );
@@ -263,6 +271,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         void updateRecentlyViewed();
         void lockDrawer();
         void openCheckout(List<Integer> productIds);
+        void tellToMainParamaeters(int position, List<Product> products);
     }
 
 }

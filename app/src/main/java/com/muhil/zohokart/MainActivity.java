@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     List<PromotionBanner> promotionBanners;
     ZohokartDAO zohokartDAO;
 
-    int subCategoryId, currentItemPosition;
+    int subCategoryId, currentItemPosition, selectedFilterCount = 0, oldSelectedFilterCount = 0;
     boolean ifTopRated = false, ifRecentlyViewed = false, ifFromPager;
 
     SearchView searchView;
@@ -354,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             backStackCount = fragmentManager.getBackStackEntryCount();
             if (backStackCount > 0)
             {
+                filterFragment = (FilterFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTER_FRAGMENT);
                 specificationFragment = (SpecificationFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.SPECIFICATION_FRAGMENT);
                 filteredProductListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
                 fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
@@ -376,6 +377,46 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     Log.d("FILTER_BACK", "cleared");
                     clearFilter();
                     pop();
+                }
+                else if (filterFragment != null && filterFragment.isVisible())
+                {
+                    if (selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount)
+                    {
+                        AlertDialog.Builder filterAlert = new AlertDialog.Builder(this);
+                        filterAlert.setMessage("Do you want to close without saving?");
+                        filterAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                pop();
+                            }
+                        });
+                        filterAlert.setNegativeButton("No", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                dialog.dismiss();
+                            }
+                        });
+                        filterAlert.show();
+                    }
+                    else if (selectedFilterCount == 0)
+                    {
+                        if (filteredProductListFragment != null)
+                        {
+                            fragmentManager.popBackStackImmediate(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        }
+                        else
+                        {
+                            pop();
+                        }
+                    }
+                    else
+                    {
+                        pop();
+                    }
                 }
                 else
                 {
@@ -436,6 +477,18 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
+    @Override
+    public void setSelectedFilterCount(int count)
+    {
+        this.selectedFilterCount = count;
+    }
+
+    @Override
+    public void setOldSelectedFilterCount(int count)
+    {
+        this.oldSelectedFilterCount = count;
+    }
+
     public void releaseDrawer()
     {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -492,6 +545,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void onBackPressed()
     {
+        filterFragment = (FilterFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTER_FRAGMENT);
         specificationFragment = (SpecificationFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.SPECIFICATION_FRAGMENT);
         productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
         filteredProductListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
@@ -522,8 +576,36 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             clearFilter();
             fragmentManager.popBackStack();
         }
+        else if (filterFragment != null && filterFragment.isVisible())
+        {
+            if (selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount)
+            {
+                AlertDialog.Builder filterAlert = new AlertDialog.Builder(this);
+                filterAlert.setMessage("Do you want to close without saving?");
+                filterAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        pop();
+                    }
+                });
+                filterAlert.show();
+            }
+            else if (selectedFilterCount == 0)
+            {
+                if (filteredProductListFragment != null)
+                {
+                    fragmentManager.popBackStackImmediate(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+                else
+                {
+                    pop();
+                }
+            }
+        }
         else if (drawerLayout.isDrawerOpen(GravityCompat.START))
-    {
+        {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else
@@ -631,7 +713,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
-    public void tellToMainParamaeters(int position, List<Product> products)
+    public void tellToMainParameters(int position, List<Product> products)
     {
         this.currentItemPosition = position;
         this.products = products;

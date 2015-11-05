@@ -124,7 +124,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
             {
                 checkInCart(position);
                 addToRecentlyViewed(ProductDetailFragment.this.products.get(position).getId());
-                communicator.tellToMainParamaeters(position, products);
+                communicator.tellToMainParameters(position, products);
             }
 
             @Override
@@ -264,7 +264,7 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         void updateRecentlyViewed();
         void lockDrawer();
         void openCheckout(List<Integer> productIds);
-        void tellToMainParamaeters(int position, List<Product> products);
+        void tellToMainParameters(int position, List<Product> products);
     }
 
 }

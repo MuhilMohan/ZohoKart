@@ -279,6 +279,7 @@ public class MainFragment extends Fragment
                             @Override
                             public void onClick(View v)
                             {
+                                mainCommunicator.setIfRecentlyViewed(true);
                                 mainCommunicator.openProductList(products);
                             }
                         }
@@ -305,6 +306,7 @@ public class MainFragment extends Fragment
         {
             super.onPostExecute(products);
             Log.d("TOP_RATED", " " + products.size());
+            mainCommunicator.setIfTopRated(true);
             mainCommunicator.openProductList(products);
         }
     }
@@ -313,6 +315,8 @@ public class MainFragment extends Fragment
     {
         void openProductList(List<Product> products);
         void showAllTopRatedProducts();
+        void setIfTopRated(boolean status);
+        void setIfRecentlyViewed(boolean status);
     }
 
 }

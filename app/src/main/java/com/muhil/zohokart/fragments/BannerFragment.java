@@ -110,6 +110,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
         protected void onPostExecute(List<Product> products)
         {
             super.onPostExecute(products);
+            communicator.setIfFromPager(true);
             communicator.openProductListPage(products);
         }
     }
@@ -117,6 +118,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
     public interface BannerCommunicator
     {
         void openProductListPage(List<Product> products);
+        void setIfFromPager(boolean status);
     }
 
 }

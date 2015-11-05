@@ -139,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
 
                                 setResult(MainActivity.REQUEST_CODE_LOGOUT, null);
                                 finish();
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
                             }
                         });
@@ -201,7 +201,6 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                     public void onClick(View v)
                     {
                         final String address = ((EditText) findViewById(R.id.account_address_edit)).getText().toString();
-                        Toast.makeText(ProfileActivity.this, address, Toast.LENGTH_SHORT).show();
                         if (!address.equals(""))
                         {
                             android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(ProfileActivity.this);

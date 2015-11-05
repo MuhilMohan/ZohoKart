@@ -130,6 +130,8 @@ public class RegistrationActivity extends AppCompatActivity
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                setResult(LoginActivity.SIGNUP_CODE, getIntent().putExtra(Account.EMAIL, ""));
                 finish();
             }
         });
@@ -169,7 +171,6 @@ public class RegistrationActivity extends AppCompatActivity
 
                                     if(registrationResult)
                                     {
-                                        Toast.makeText(RegistrationActivity.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
                                         loggedAccountHolder = getSharedPreferences(preferenceName, MODE_PRIVATE);
                                         editor = loggedAccountHolder.edit();
 
@@ -179,11 +180,9 @@ public class RegistrationActivity extends AppCompatActivity
 
                                         editor.apply();
 
-                                        startActivity(new Intent(RegistrationActivity.this, ProfileActivity.class));
-                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
+                                        setResult(LoginActivity.SIGNUP_CODE, getIntent().putExtra(Account.EMAIL, account.getEmail()));
                                         finish();
-                                        Toast.makeText(RegistrationActivity.this, "Account added to preferences", Toast.LENGTH_SHORT).show();
+                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                     }
                                     else
                                     {
@@ -256,7 +255,6 @@ public class RegistrationActivity extends AppCompatActivity
 
     public void onSigninClicked(View view)
     {
-        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 }

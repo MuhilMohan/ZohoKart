@@ -9,7 +9,8 @@
     "price": 3400.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/7/7/2/harry-potter-boxed-set-the-complete-collection-children-s-400x400-imaefzu8madcj8jz.jpeg",
     "stars": 5,
-    "ratings": 75
+    "ratings": 75,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13002,
@@ -21,7 +22,8 @@
     "price": 1189.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/3/6/0/the-lord-of-the-rings-set-of-3-books-400x400-imadeuqgep3qchbd.jpeg",
     "stars": 4.5,
-    "ratings": 32
+    "ratings": 32,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13003,
@@ -33,7 +35,8 @@
     "price": 339.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/4/8/2/to-kill-a-mockingbird-400x400-imadzen8xggageak.jpeg",
     "stars": 4.5,
-    "ratings": 739
+    "ratings": 739,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13004,
@@ -45,7 +48,8 @@
     "price": 339.00,
     "thumbnail": "http://static01.digital.flipkart.com/cds/ebooks/samplereader/explodecontent/downloadcontent/DIGI1-c4ccc87e-d3ee-4f93-80b9-70b17fafd752-book/images/d86918dc444a813c1874e5841b6407cf63bb65c1ee167ef2607792d2b1a5826a",
     "stars": 4.5,
-    "ratings": 243
+    "ratings": 243,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13005,
@@ -57,7 +61,8 @@
     "price": 166.00,
     "thumbnail": "http://img6a.flixcart.com/image/book/7/9/1/great-expectations-400x400-imadf7suygyfttpd.jpeg",
     "stars": 4,
-    "ratings": 3
+    "ratings": 3,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13006,
@@ -69,7 +74,8 @@
     "price": 138.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/3/3/8/the-count-of-monte-cristo-400x400-imadvuqavgyebzhh.jpeg",
     "stars": 4.5,
-    "ratings": 25
+    "ratings": 25,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13007,
@@ -81,7 +87,8 @@
     "price": 394.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/6/6/2/gone-girl-400x400-imadzj36uuhpvmta.jpeg",
     "stars": 4.5,
-    "ratings": 526
+    "ratings": 526,
+    "warranty": "30 day Replacement Guarantee."
   },
   {
     "id": 13008,
@@ -93,7 +100,8 @@
     "price": 424.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/5/4/0/game-of-thrones-a-song-of-ice-and-fire-book-1-400x400-imadhktfugaghygp.jpeg",
     "stars": 4,
-    "ratings": 408
+    "ratings": 408,
+    "warranty": "30 day Replacement Guarantee."
   },
    {
     "id": 13009,
@@ -105,7 +113,8 @@
     "price": 220.00,
     "thumbnail": "http://img6a.flixcart.com/image/book/9/3/1/the-kite-runner-10th-anniversary-400x400-imadjc8yekfb6cgp.jpeg",
     "stars": 4.5,
-    "ratings": 648
+    "ratings": 648,
+     "warranty": "30 day Replacement Guarantee."
   },
    {
     "id": 13010,
@@ -117,6 +126,7 @@
     "price": 398.00,
     "thumbnail": "http://img5a.flixcart.com/image/book/2/8/4/breaking-dawn-twilight-book-4-400x400-imae5gzr3ucchnfz.jpeg",
     "stars": 4.5,
-    "ratings": 107
+    "ratings": 107,
+     "warranty": "30 day Replacement Guarantee."
   }
 ]

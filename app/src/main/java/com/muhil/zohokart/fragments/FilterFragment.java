@@ -22,10 +22,14 @@ import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Book;
 import com.muhil.zohokart.models.FilterPair;
 import com.muhil.zohokart.models.Furniture;
+import com.muhil.zohokart.models.HealthCare;
 import com.muhil.zohokart.models.Kitchen;
 import com.muhil.zohokart.models.Laptop;
+import com.muhil.zohokart.models.Lighting;
+import com.muhil.zohokart.models.Luggage;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.Sport;
 import com.muhil.zohokart.models.Tablet;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
@@ -102,7 +106,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
         {
             selectedFilterItems = new HashSet<>();
         }
-        else
+        else if (selectedFilterItems.size() > 0)
         {
             (filterFragment.findViewById(R.id.filter_button)).setVisibility(View.VISIBLE);
         }
@@ -162,11 +166,30 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
                     filterOptions.putAll(tempFilterOptions);
                     filterOptions.putAll(Furniture.FILTER_OPTIONS);
+                case 201:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Lighting.FILTER_OPTIONS);
                     break;
                 case 202:
                     tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
                     filterOptions.putAll(tempFilterOptions);
                     filterOptions.putAll(Kitchen.FILTER_OPTIONS);
+                    break;
+                case 400:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(HealthCare.FILTER_OPTIONS);
+                    break;
+                case 401:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Sport.FILTER_OPTIONS);
+                    break;
+                case 402:
+                    tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);
+                    filterOptions.putAll(tempFilterOptions);
+                    filterOptions.putAll(Luggage.FILTER_OPTIONS);
                     break;
                 case 500:
                     tempFilterOptions = zohokartDAO.getBrandsForFilter(subCategoryId[0]);

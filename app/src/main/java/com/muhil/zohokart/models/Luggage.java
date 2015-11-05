@@ -34,22 +34,22 @@ public class Luggage implements IProduct
         FILTER_OPTIONS = new LinkedHashMap<>();
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(2000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2000 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(500));
+        FILTER_OPTIONS_GROUP.put("Rs. 500 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(2001));
-        SELECTION_ARGS.add(String.valueOf(15000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2001 - Rs. 15000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(501));
+        SELECTION_ARGS.add(String.valueOf(1000));
+        FILTER_OPTIONS_GROUP.put("Rs. 501 - Rs. 1000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(15001));
-        SELECTION_ARGS.add(String.valueOf(40000));
-        FILTER_OPTIONS_GROUP.put("Rs. 15001 - Rs. 40000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(1001));
+        SELECTION_ARGS.add(String.valueOf(4000));
+        FILTER_OPTIONS_GROUP.put("Rs. 1001 - Rs. 4000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(40001));
-        FILTER_OPTIONS_GROUP.put("Rs. 40001 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(4001));
+        FILTER_OPTIONS_GROUP.put("Rs. 4001 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
 
         FILTER_OPTIONS.put("Price", FILTER_OPTIONS_GROUP);
 

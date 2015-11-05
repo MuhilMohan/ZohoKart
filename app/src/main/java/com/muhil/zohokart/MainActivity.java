@@ -76,11 +76,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     ZohokartDAO zohokartDAO;
 
     int subCategoryId, currentItemPosition;
+    boolean ifTopRated = false, ifRecentlyViewed = false, ifFromPager;
 
     SearchView searchView;
 
     Fragment fragment;
     MainFragment mainFragment;
+    FilterFragment filterFragment;
     CartFragment cartFragment;
     WishlistFragment wishlistFragment;
     SpecificationFragment specificationFragment;
@@ -154,8 +156,6 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 (findViewById(R.id.no_internet)).setVisibility(View.GONE);
             }
         });
-
-        Toast.makeText(MainActivity.this, "Internet available.", Toast.LENGTH_SHORT).show();
 
         new DataImportingTask().execute();
 
@@ -355,6 +355,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             if (backStackCount > 0)
             {
                 specificationFragment = (SpecificationFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.SPECIFICATION_FRAGMENT);
+                filteredProductListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
                 fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
                 cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
                 wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
@@ -369,6 +370,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 else if (specificationFragment != null && specificationFragment.isVisible())
                 {
                     refreshProductDetail();
+                }
+                else if (filteredProductListFragment != null && filteredProductListFragment.isVisible())
+                {
+                    Log.d("FILTER_BACK", "cleared");
+                    clearFilter();
+                    pop();
                 }
                 else
                 {
@@ -711,14 +718,43 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
+    public void setIfTopRated(boolean status)
+    {
+        this.ifTopRated = status;
+    }
+
+    @Override
+    public void setIfRecentlyViewed(boolean status)
+    {
+        this.ifRecentlyViewed = status;
+    }
+
+    @Override
+    public void setIfFromPager(boolean status)
+    {
+        this.ifFromPager = status;
+    }
+
+    @Override
     public void openProductList(List<Product> products)
     {
         ProductListFragment productListFragment = ProductListFragment.getInstance(products, false);
         productListFragment.setCommunicator(this);
         if (products.size() > 0)
         {
-            productListFragment.setFilterEnabled(true);
-            productListFragment.setSortEnabled(true);
+            if (ifTopRated || ifRecentlyViewed || ifFromPager)
+            {
+                productListFragment.setFilterEnabled(false);
+                productListFragment.setSortEnabled(true);
+                this.ifTopRated = false;
+                this.ifRecentlyViewed = false;
+                this.ifFromPager = false;
+            }
+            else
+            {
+                productListFragment.setFilterEnabled(true);
+                productListFragment.setSortEnabled(true);
+            }
         }
         stackFragment(productListFragment, ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable()

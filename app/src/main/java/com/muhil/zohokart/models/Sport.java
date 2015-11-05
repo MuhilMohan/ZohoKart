@@ -34,22 +34,22 @@ public class Sport implements IProduct
         FILTER_OPTIONS = new LinkedHashMap<>();
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(2000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2000 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(500));
+        FILTER_OPTIONS_GROUP.put("Rs. 500 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(2001));
-        SELECTION_ARGS.add(String.valueOf(15000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2001 - Rs. 15000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(501));
+        SELECTION_ARGS.add(String.valueOf(750));
+        FILTER_OPTIONS_GROUP.put("Rs. 501 - Rs. 750", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(15001));
-        SELECTION_ARGS.add(String.valueOf(40000));
-        FILTER_OPTIONS_GROUP.put("Rs. 15001 - Rs. 40000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(751));
+        SELECTION_ARGS.add(String.valueOf(1000));
+        FILTER_OPTIONS_GROUP.put("Rs. 751 - Rs. 1000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(40001));
-        FILTER_OPTIONS_GROUP.put("Rs. 40001 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(1001));
+        FILTER_OPTIONS_GROUP.put("Rs. 1001 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
 
         FILTER_OPTIONS.put("Price", FILTER_OPTIONS_GROUP);
 

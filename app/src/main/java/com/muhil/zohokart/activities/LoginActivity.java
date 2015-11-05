@@ -31,6 +31,8 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity
 {
 
+    public static int SIGNUP_CODE = 2000;
+
     ZohokartDAO zohokartDAO;
     Gson gson;
 
@@ -171,11 +173,32 @@ public class LoginActivity extends AppCompatActivity
 
     public void onSignUpClicked(View view)
     {
-        startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+        startActivityForResult(new Intent(LoginActivity.this, RegistrationActivity.class).putExtra("request_code", SIGNUP_CODE), SIGNUP_CODE);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        finish();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SIGNUP_CODE)
+        {
+            if (resultCode == SIGNUP_CODE)
+            {
+                if (getIntent().getIntExtra("request_code", 0) == CheckoutActivity.REQUEST_LOGIN)
+                {
+                    setResult(CheckoutActivity.REQUEST_LOGIN, getIntent().putExtra(Account.EMAIL, data.getStringExtra(Account.EMAIL)));
+                }
+                else
+                {
+                    setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, data.getStringExtra(Account.EMAIL)));
+                }
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        }
+    }
 
     public void onLoginClicked(View view)
     {
@@ -213,11 +236,11 @@ public class LoginActivity extends AppCompatActivity
                                 setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
                             }
                             finish();
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                         }
                         else
                         {
-                            Toast.makeText(LoginActivity.this, "Login unsuccessful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login unsuccessful, possible detail mismatch.", Toast.LENGTH_SHORT).show();
                         }
 
                     }

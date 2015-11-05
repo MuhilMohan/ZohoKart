@@ -35,22 +35,22 @@ public class Lighting implements IProduct
         FILTER_OPTIONS = new LinkedHashMap<>();
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(2000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2000 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(400));
+        FILTER_OPTIONS_GROUP.put("Rs. 400 and below", new FilterPair(Product.FILTER_PRICE_LESSER_THAN, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(2001));
-        SELECTION_ARGS.add(String.valueOf(15000));
-        FILTER_OPTIONS_GROUP.put("Rs. 2001 - Rs. 15000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(401));
+        SELECTION_ARGS.add(String.valueOf(800));
+        FILTER_OPTIONS_GROUP.put("Rs. 401 - Rs. 800", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(15001));
-        SELECTION_ARGS.add(String.valueOf(40000));
-        FILTER_OPTIONS_GROUP.put("Rs. 15001 - Rs. 40000", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(801));
+        SELECTION_ARGS.add(String.valueOf(1200));
+        FILTER_OPTIONS_GROUP.put("Rs. 801 - Rs. 1200", new FilterPair(Product.FILTER_PRICE_RANGE, SELECTION_ARGS));
 
         SELECTION_ARGS = new ArrayList<>();
-        SELECTION_ARGS.add(String.valueOf(40001));
-        FILTER_OPTIONS_GROUP.put("Rs. 40001 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
+        SELECTION_ARGS.add(String.valueOf(1201));
+        FILTER_OPTIONS_GROUP.put("Rs. 1201 and above", new FilterPair(Product.FILTER_PRICE_GREATER_THAN, SELECTION_ARGS));
 
         FILTER_OPTIONS.put("Price", FILTER_OPTIONS_GROUP);
 

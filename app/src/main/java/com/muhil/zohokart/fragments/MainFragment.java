@@ -166,7 +166,7 @@ public class MainFragment extends Fragment
             ImageView pageIndicator = new ImageView(getActivity());
             pageIndicator.setImageResource(R.mipmap.fa_circle_o_256_0_ffffff_none);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DpToPxConverter.dpToPx(9), DpToPxConverter.dpToPx(9));
-            params.setMargins(2, 2, 2, 2);
+            params.setMargins(DpToPxConverter.dpToPx(2), DpToPxConverter.dpToPx(2), DpToPxConverter.dpToPx(2), DpToPxConverter.dpToPx(2));
             pageIndicatorHolder.addView(pageIndicator, params);
             pageIndicators.add(pageIndicator);
         }

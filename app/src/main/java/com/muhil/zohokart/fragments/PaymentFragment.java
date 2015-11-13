@@ -1,8 +1,11 @@
 package com.muhil.zohokart.fragments;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import com.muhil.zohokart.models.Order;
 import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.services.OrderDeliveryService;
 import com.muhil.zohokart.utils.CardValidator;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
@@ -52,7 +56,9 @@ public class PaymentFragment extends android.support.v4.app.Fragment
     public static boolean SAVED_CARD_SELECTED = false;
     public static boolean COD_SELECTED = false;
 
-    Calendar calendar;
+    AlarmManager alarmManager;
+    PendingIntent orderDeliveryService;
+    Calendar calendar, deliveryServiceCalendar;
     ZohokartDAO zohokartDAO;
     View rootView;
     EditText cardNumberText, nameOnCardText;
@@ -96,10 +102,12 @@ public class PaymentFragment extends android.support.v4.app.Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
         zohokartDAO = new ZohokartDAO(getActivity());
         email = getArguments().getString(Account.EMAIL);
         this.inflater = LayoutInflater.from(getActivity());
         calendar = Calendar.getInstance();
+        deliveryServiceCalendar = Calendar.getInstance();
         cardViews = new ArrayList<>();
         orderPref = getActivity().getSharedPreferences(ZohoKartSharePreferences.ORDER, Context.MODE_PRIVATE);
     }
@@ -387,7 +395,7 @@ public class PaymentFragment extends android.support.v4.app.Fragment
         int totalPrice, orderNumber;
         Calendar calendar;
         DateFormat dateDisplayFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
-        String expectedDeliveryDate;
+        String expectedDeliveryDate, orderedDate;
 
         @Override
         protected void onPreExecute()
@@ -400,6 +408,7 @@ public class PaymentFragment extends android.support.v4.app.Fragment
             orderId = "";
             totalPrice = 0;
             calendar = Calendar.getInstance();
+            orderedDate = dateDisplayFormat.format(calendar.getTime());
             calendar.add(Calendar.DATE, 3);
             expectedDeliveryDate = dateDisplayFormat.format(calendar.getTime());
         }
@@ -443,6 +452,7 @@ public class PaymentFragment extends android.support.v4.app.Fragment
             orderLineItems.clear();
 
             order.setId(orderId);
+            order.setOrderedDate(orderedDate);
             order.setExpectedDeliveryDate(expectedDeliveryDate);
             order.setNumberOfProducts(products.size());
             order.setTotalPrice(totalPrice);
@@ -451,6 +461,8 @@ public class PaymentFragment extends android.support.v4.app.Fragment
             zohokartDAO.addOrder(order, email[0]);
 
             zohokartDAO.removeProductsInCart(email[0]);
+
+            setAlarmForDelivery(orderNumber, order);
 
             return null;
         }
@@ -474,7 +486,6 @@ public class PaymentFragment extends android.support.v4.app.Fragment
                 public void onClick(DialogInterface dialog, int which)
                 {
                     communicator.saveAndCloseCheckout();
-                    dialog.dismiss();
                 }
             });
 
@@ -486,6 +497,15 @@ public class PaymentFragment extends android.support.v4.app.Fragment
     public interface PaymentCommunicator
     {
         void saveAndCloseCheckout();
+    }
+
+    private void setAlarmForDelivery(int orderNumber, Order order)
+    {
+        deliveryServiceCalendar.add(Calendar.SECOND, 30);
+        Intent deliveryServiceIntent = new Intent(getActivity(), OrderDeliveryService.class);
+        deliveryServiceIntent.putExtra("order", order);
+        orderDeliveryService = PendingIntent.getService(getActivity(), orderNumber, deliveryServiceIntent, 0);
+        alarmManager.set(AlarmManager.RTC, deliveryServiceCalendar.getTimeInMillis(), orderDeliveryService);
     }
 
 }

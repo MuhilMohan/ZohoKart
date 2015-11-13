@@ -107,6 +107,11 @@ public class FilterFragment extends android.support.v4.app.Fragment
         {
             selectedFilterItemsCopy.addAll(selectedFilterItems);
         }
+        else
+        {
+            selectedFilterItems = new HashSet<>();
+            selectedFilterItemsCopy.addAll(selectedFilterItems);
+        }
 
         if (selectedFilterItemsCopy.size() > 0)
         {
@@ -123,6 +128,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
                     {
                         filterPrefEditor = filterPref.edit();
                         communicator.setOldSelectedFilterCount(selectedFilterItemsCopy.size());
+                        checkFilterItems();
                         filteredProducts = zohokartDAO.getFilteredProducts(filterPairs, bundle.getInt("sub_category_id"));
                         communicator.sendFilteredProducts(filteredProducts);
                         filterPrefEditor.putStringSet(ZohoKartSharePreferences.SELECTED_FILTER_ITEMS, selectedFilterItemsCopy);
@@ -132,6 +138,14 @@ public class FilterFragment extends android.support.v4.app.Fragment
         );
 
         return filterFragment;
+    }
+
+    public void checkFilterItems()
+    {
+        if (!selectedFilterItemsCopy.containsAll(selectedFilterItems))
+        {
+            communicator.setSelectedFilterItemsChanged(true);
+        }
     }
 
     class FilterPopulateAsyncTask extends AsyncTask<Integer, Void, Void>
@@ -251,6 +265,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                         {
                                             selectedFilterItemsCopy.add(filterItemName.getText().toString());
                                             communicator.setSelectedFilterCount(selectedFilterItemsCopy.size());
+                                            checkFilterItems();
                                             filterPairs.add(filterPair);
                                             checkBox.setChecked(true);
                                         }
@@ -265,6 +280,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
                                         {
                                             selectedFilterItemsCopy.remove(filterItemName.getText().toString());
                                             communicator.setSelectedFilterCount(selectedFilterItemsCopy.size());
+                                            checkFilterItems();
                                             filterPairs.remove(filterPair);
                                             checkBox.setChecked(false);
                                         }
@@ -293,6 +309,7 @@ public class FilterFragment extends android.support.v4.app.Fragment
         void lockDrawer();
         void setSelectedFilterCount(int count);
         void setOldSelectedFilterCount(int count);
+        void setSelectedFilterItemsChanged(boolean state);
     }
 
 }

@@ -131,6 +131,7 @@ public class CartFragment extends android.support.v4.app.Fragment
             @Override
             public void onClick(View v)
             {
+                communicator.revealSearch();
                 communicator.showMainFragment();
             }
         });
@@ -262,6 +263,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                         if (zohokartDAO.removeFromCart(product.getId(), email))
                                         {
                                             Toast.makeText(getActivity(), "Product removed from cart.", Toast.LENGTH_SHORT).show();
+                                            communicator.invalidateOptions();
                                             int position = productsInCart.indexOf(product);
                                             productsInCart.remove(position);
                                             ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
@@ -322,6 +324,7 @@ public class CartFragment extends android.support.v4.app.Fragment
                                                     ((TextView) cartFragment.findViewById(R.id.cart_list_count)).setText("(" + productsInCart.size() + ")");
                                                     productsInCartHolder.removeView(productsInCartHolder.findViewById(product.getId()));
                                                     updateGrandTotal();
+                                                    communicator.invalidateOptions();
 
                                                     if (productsInCart.size() == 0)
                                                     {
@@ -379,7 +382,8 @@ public class CartFragment extends android.support.v4.app.Fragment
         void showMainFragment();
         void lockDrawer();
         void openCheckout(List<Integer> productIds);
-        void openLoginPage();
+        void revealSearch();
+        void invalidateOptions();
     }
 
 }

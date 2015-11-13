@@ -137,6 +137,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
                     if (zohokartDAO.addToWishlist(product.getId(), email))
                     {
                         getSnackbar("Added to wishlist").show();
+                        communicator.invalidateOptions();
                     }
                     else
                     {
@@ -149,6 +150,7 @@ public class ProductListingAdapter extends RecyclerView.Adapter<ProductListingAd
                     if (zohokartDAO.removeFromWishList(product.getId(), email))
                     {
                         getSnackbar("Removed from wishlist").show();
+                        communicator.invalidateOptions();
                     }
                     else
                     {

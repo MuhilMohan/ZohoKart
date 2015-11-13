@@ -31,7 +31,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:text="@string/order_id"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/order_id"
                 android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/ordered_date"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/ordered_date"
                 android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/expected_delivery_date"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/expected_delivery_date"
                 android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/total_price"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/total_price"
                 android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/order_status"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/order_status"
                 android:layout_width="wrap_content"

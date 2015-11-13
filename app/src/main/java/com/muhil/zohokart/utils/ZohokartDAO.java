@@ -939,6 +939,7 @@ public class ZohokartDAO
         ContentValues contentValues = new ContentValues();
         contentValues.put(Order._ID, order.getId());
         contentValues.put(Order.EMAIL, email);
+        contentValues.put(Order.ADDED_ON, order.getOrderedDate());
         contentValues.put(Order.EXPECTED_DELIVERY_DATE, order.getExpectedDeliveryDate());
         contentValues.put(Order.NUMBER_OF_PRODUCTS, order.getNumberOfProducts());
         contentValues.put(Order.TOTAL_PRICE, order.getTotalPrice());
@@ -1017,4 +1018,13 @@ public class ZohokartDAO
         int updateCount = context.getContentResolver().update(Uri.parse(Order.CONTENT_URI + "/" + orderId), contentValues, null, null);
         return (updateCount == 1);
     }
+
+    public boolean changeOrderDeliveryStatus(String orderId)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Order.ORDER_STATUS, Order.ORDER_DELIVERED);
+        int updateCount = context.getContentResolver().update(Uri.parse(Order.CONTENT_URI + "/" + orderId), contentValues, null, null);
+        return (updateCount == 1);
+    }
+
 }

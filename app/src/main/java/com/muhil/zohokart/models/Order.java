@@ -6,12 +6,13 @@ import android.util.Log;
 
 import com.muhil.zohokart.utils.ZohokartContentProvider;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by muhil-ga42 on 31/10/15.
  */
-public class Order
+public class Order implements Serializable
 {
 
     public static final String ORDER_KEY = "Order_000";

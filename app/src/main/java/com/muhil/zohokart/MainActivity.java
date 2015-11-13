@@ -2,10 +2,15 @@ package com.muhil.zohokart;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -22,16 +27,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.muhil.zohokart.activities.CheckoutActivity;
 import com.muhil.zohokart.activities.LoginActivity;
 import com.muhil.zohokart.activities.ProfileActivity;
+import com.muhil.zohokart.adapters.WishlistAdapter;
 import com.muhil.zohokart.fragments.BannerFragment;
 import com.muhil.zohokart.fragments.CartFragment;
 import com.muhil.zohokart.fragments.FilterFragment;
@@ -47,12 +53,15 @@ import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.ZohoKartFragments;
+import com.muhil.zohokart.services.CartNotifyService;
+import com.muhil.zohokart.services.OrderDeliveryService;
 import com.muhil.zohokart.utils.DataImporter;
 import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationFragment.Communicator, FilterFragment.FilterCommunicator,
@@ -63,20 +72,23 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     public static final int REQUEST_CODE_LOGIN = 101;
     public static final int REQUEST_CODE_LOGOUT = 102;
-    public static final int REQUEST_PERMISSION_FOR_STORAGE = 1001;
-    public static final int REQUEST_CODE_CHECKOUT = 103;
+    public static final int REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL = 103;
+    public static final int REQUEST_CODE_LOGIN_FROM_WISHLIST = 104;
+    public static final int REQUEST_CODE_CHECKOUT = 105;
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     DataImporter dataImporter;
     NavigationFragment navigationFragment;
 
+    Product product;
+    WishlistAdapter.WishlistViewHolder holder;
     List<Product> products, productsToShow;
     List<PromotionBanner> promotionBanners;
     ZohokartDAO zohokartDAO;
 
-    int subCategoryId, currentItemPosition, selectedFilterCount = 0, oldSelectedFilterCount = 0;
-    boolean ifTopRated = false, ifRecentlyViewed = false, ifFromPager;
+    int subCategoryId, currentItemPosition, selectedFilterCount = 0, oldSelectedFilterCount = 0, count = 0;
+    boolean ifTopRated = false, ifRecentlyViewed = false, ifFromPager, ifSelectedFilterItemsChanged;
 
     SearchView searchView;
 
@@ -96,14 +108,20 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     SharedPreferences sharedPreferences, filterPref;
     SharedPreferences.Editor editor;
+
+    AlarmManager alarmManager;
+    PendingIntent cartNotifyService;
+    Calendar cartNotifyCalendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
         // *** getting preferences for logged account ***
         sharedPreferences = getSharedPreferences(ZohoKartSharePreferences.LOGGED_ACCOUNT, MODE_PRIVATE);
-
         // *** setting toolbar and menu icon ***
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -210,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     {
         AlertDialog.Builder internetDialog = new AlertDialog.Builder(this);
         internetDialog.setMessage("No internet connection");
+        internetDialog.setCancelable(false);
         internetDialog.setPositiveButton("RETRY", new DialogInterface.OnClickListener()
         {
             @Override
@@ -231,6 +250,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem;
+
+        String accountEmail = sharedPreferences.getString(Account.EMAIL, "default");
+        Log.d("INVALIDATING", "" + accountEmail);
+        menuItem = menu.findItem(R.id.wish_list);
+        count = zohokartDAO.getProductsFromWishlist(accountEmail).size();
+        Log.d("INVALIDATING", "" + count);
+        menuItem.setIcon(buildCounterDrawable(count, ZohoKartFragments.WISHLIST_FRAGMENT));
+
+        menuItem = menu.findItem(R.id.cart_icon);
+        count = zohokartDAO.getProductsFromCart(accountEmail).size();
+        Log.d("INVALIDATING", "" + count);
+        menuItem.setIcon(buildCounterDrawable(count, ZohoKartFragments.CART_FRAGMENT));
 
         // *** getting searchview for handling search queries and changing image ***
 
@@ -334,7 +366,59 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 menu.findItem(R.id.action_login).setVisible(true);
             }
         }
+
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void invalidateOptions()
+    {
+        Log.d("INVALIDATING", "resetting");
+        invalidateOptionsMenu();
+    }
+
+    private Drawable buildCounterDrawable(int count, String tag)
+    {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = null;
+        switch (tag)
+        {
+            case ZohoKartFragments.WISHLIST_FRAGMENT:
+                view = inflater.inflate(R.layout.wishlist_with_count_layout, null);
+                if (count == 0) {
+                    View counterTextPanel = view.findViewById(R.id.countValuePanel);
+                    counterTextPanel.setVisibility(View.GONE);
+                } else {
+                    Log.d("INVALIDATING", "visible");
+                    View counterTextPanel = view.findViewById(R.id.countValuePanel);
+                    counterTextPanel.setVisibility(View.VISIBLE);
+                    TextView textView = (TextView) view.findViewById(R.id.count);
+                    textView.setText("" + count);
+                }
+                break;
+            case ZohoKartFragments.CART_FRAGMENT:
+                view = inflater.inflate(R.layout.cart_with_count_layout, null);
+                if (count == 0) {
+                    View counterTextPanel = view.findViewById(R.id.countValuePanel);
+                    counterTextPanel.setVisibility(View.GONE);
+                } else {
+                    Log.d("INVALIDATING", "visible");
+                    View counterTextPanel = view.findViewById(R.id.countValuePanel);
+                    counterTextPanel.setVisibility(View.VISIBLE);
+                    TextView textView = (TextView) view.findViewById(R.id.count);
+                    textView.setText("" + count);
+                }
+        }
+
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.setDrawingCacheEnabled(true);
+        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        return new BitmapDrawable(getResources(), bitmap);
     }
 
     @Override
@@ -366,11 +450,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 }
                 else if ((cartFragment!=null && cartFragment.isVisible()) || (wishlistFragment!=null && wishlistFragment.isVisible()))
                 {
-                    refreshProductDetail();
+                    revealSearch();
+                    refreshProductDetail(ZohoKartFragments.WISHLIST_FRAGMENT);
                 }
                 else if (specificationFragment != null && specificationFragment.isVisible())
                 {
-                    refreshProductDetail();
+                    refreshProductDetail(ZohoKartFragments.SPECIFICATION_FRAGMENT);
                 }
                 else if (filteredProductListFragment != null && filteredProductListFragment.isVisible())
                 {
@@ -380,7 +465,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 }
                 else if (filterFragment != null && filterFragment.isVisible())
                 {
-                    if (selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount)
+                    if ((selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount) || ifSelectedFilterItemsChanged)
                     {
                         AlertDialog.Builder filterAlert = new AlertDialog.Builder(this);
                         filterAlert.setMessage("Do you want to close without saving?");
@@ -401,6 +486,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                             }
                         });
                         filterAlert.show();
+                        ifSelectedFilterItemsChanged = false;
                     }
                     else if (selectedFilterCount == 0)
                     {
@@ -430,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else if (id == R.id.action_login)
         {
-            openLoginPage();
+            openLoginPage("LOGIN");
         }
         else if (id == ACTION_ACCOUNT_NAME)
         {
@@ -440,6 +526,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else if (id == R.id.wish_list)
         {
+            hideSearch();
             fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
             if (fragment == null)
             {
@@ -454,6 +541,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else if (id == R.id.cart_icon)
         {
+            hideSearch();
             fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
             if (fragment == null)
             {
@@ -472,6 +560,39 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         fragmentManager.popBackStack();
     }
 
+    public void hideSearch()
+    {
+        searchView.animate().setDuration(300).alpha(0).setListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                searchView.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    @Override
+    public void revealSearch()
+    {
+        searchView.setVisibility(View.VISIBLE);
+        searchView.animate().setDuration(300).alpha(1).setListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                searchView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    @Override
+    public void setProductMovedToCart(Product product, WishlistAdapter.WishlistViewHolder holder)
+    {
+        this.holder = holder;
+        this.product = product;
+    }
+
     public void lockDrawer()
     {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -487,6 +608,12 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public void setOldSelectedFilterCount(int count)
     {
         this.oldSelectedFilterCount = count;
+    }
+
+    @Override
+    public void setSelectedFilterItemsChanged(boolean state)
+    {
+        this.ifSelectedFilterItemsChanged = state;
     }
 
     public void releaseDrawer()
@@ -511,10 +638,31 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         {
             if (resultCode == REQUEST_CODE_LOGOUT)
             {
+                String response = data.getStringExtra(Account.EMAIL);
+                if (!(response.equals("")))
+                {
+                    wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
+                    cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
+                    if (wishlistFragment != null && wishlistFragment.isVisible())
+                    {
+                        wishlistFragment.setEmail(response);
+                        wishlistFragment.updateWishlist();
+
+                    }
+                    else if (cartFragment != null && cartFragment.isVisible())
+                    {
+                        cartFragment.setEmail(response);
+                        cartFragment.updateCart();
+                    }
+                    else
+                    {
+                        showMainFragment();
+                    }
+                }
                 editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-                showMainFragment();
+                invalidateOptions();
                 SnackBarProvider.getSnackbar("Logged out successfully.", findViewById(R.id.index_page)).show();
             }
         }
@@ -525,7 +673,82 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 String emailFromLogin = data.getStringExtra(Account.EMAIL);
                 if (!(emailFromLogin.equals("")))
                 {
-                    showMainFragment();
+                    wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
+                    cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
+                    if (wishlistFragment != null && wishlistFragment.isVisible())
+                    {
+                        wishlistFragment.setEmail(emailFromLogin);
+                        wishlistFragment.updateWishlist();
+                        invalidateOptions();
+
+                    }
+                    else if (cartFragment != null && cartFragment.isVisible())
+                    {
+                        cartFragment.setEmail(emailFromLogin);
+                        cartFragment.updateCart();
+                        invalidateOptions();
+                    }
+                    else
+                    {
+                        showMainFragment();
+                        invalidateOptions();
+                    }
+                }
+            }
+        }
+        else if (requestCode == REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL)
+        {
+            if (resultCode == REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL)
+            {
+                String emailFromLogin = data.getStringExtra(Account.EMAIL);
+                if (!(emailFromLogin.equals("")))
+                {
+                    if (zohokartDAO.addToCart(products.get(currentItemPosition).getId(), emailFromLogin))
+                    {
+                        SnackBarProvider.getSnackbar("Product added to cart.", findViewById(R.id.index_page)).show();
+                        productDetailFragment = (ProductDetailFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
+                        if (productDetailFragment != null && productDetailFragment.isVisible())
+                        {
+                            productDetailFragment.toogleCartAction();
+                        }
+                    }
+                }
+            }
+        }
+        else if (requestCode == REQUEST_CODE_LOGIN_FROM_WISHLIST)
+        {
+            if (resultCode == REQUEST_CODE_LOGIN_FROM_WISHLIST)
+            {
+                String emailFromLogin = data.getStringExtra(Account.EMAIL);
+                if (!(emailFromLogin.equals("")))
+                {
+                    if (zohokartDAO.addToWishlist(product.getId(), emailFromLogin))
+                    {
+                        if (zohokartDAO.addToCart(product.getId(), emailFromLogin))
+                        {
+                            SnackBarProvider.getSnackbar("Product added to cart.", findViewById(R.id.index_page)).show();
+                            wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
+                            if (wishlistFragment != null && wishlistFragment.isVisible())
+                            {
+                                wishlistFragment.setEmail(emailFromLogin);
+                                wishlistFragment.updateWishlist();
+                                wishlistFragment.changeCartActionView(holder);
+                                wishlistFragment.setEmailInAdapter(emailFromLogin);
+                                invalidateOptions();
+
+                            }
+                            product = null;
+                            holder = null;
+                        }
+                        else
+                        {
+                            SnackBarProvider.getSnackbar("Error while adding to cart.", findViewById(R.id.index_page)).show();
+                        }
+                    }
+                    else
+                    {
+                        SnackBarProvider.getSnackbar("Error while adding to cart.", findViewById(R.id.index_page)).show();
+                    }
                 }
             }
         }
@@ -551,13 +774,20 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         filteredProductListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
         cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
         wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
-        if ((cartFragment!=null && cartFragment.isVisible()) || (wishlistFragment!=null && wishlistFragment.isVisible()))
+        if (!searchView.isIconified())
         {
-            refreshProductDetail();
+            Log.d("SEARCH", "set iconify");
+            searchView.onActionViewCollapsed();
+            searchView.setIconified(true);
+        }
+        else if ((cartFragment!=null && cartFragment.isVisible()) || (wishlistFragment!=null && wishlistFragment.isVisible()))
+        {
+            revealSearch();
+            refreshProductDetail(ZohoKartFragments.WISHLIST_FRAGMENT);
         }
         else if (specificationFragment != null && specificationFragment.isVisible())
         {
-            refreshProductDetail();
+            refreshProductDetail(ZohoKartFragments.SPECIFICATION_FRAGMENT);
         }
         else if (productListFragment != null && productListFragment.isVisible())
         {
@@ -578,7 +808,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else if (filterFragment != null && filterFragment.isVisible())
         {
-            if (selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount)
+            if ((selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount) || ifSelectedFilterItemsChanged)
             {
                 AlertDialog.Builder filterAlert = new AlertDialog.Builder(this);
                 filterAlert.setMessage("Do you want to close without saving?");
@@ -590,7 +820,16 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                         pop();
                     }
                 });
+                filterAlert.setNegativeButton("No", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.dismiss();
+                    }
+                });
                 filterAlert.show();
+                ifSelectedFilterItemsChanged = false;
             }
             else if (selectedFilterCount == 0)
             {
@@ -614,7 +853,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
     }
 
-    private void refreshProductDetail()
+    private void refreshProductDetail(String tag)
     {
         productDetailFragment = (ProductDetailFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
         if (productDetailFragment != null)
@@ -624,7 +863,14 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             productDetailFragment = ProductDetailFragment.getInstance(currentItemPosition, products);
             productDetailFragment.setCommunicator(this, this);
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.slide_up_from_bottom, R.anim.fade_out, R.anim.slide_up_from_bottom);
+            if (tag.equals(ZohoKartFragments.SPECIFICATION_FRAGMENT))
+            {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+            else
+            {
+                fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
+            }
             fragmentTransaction.replace(R.id.fragment_holder, productDetailFragment, ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
             fragmentTransaction.addToBackStack(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
             fragmentTransaction.commit();
@@ -663,6 +909,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void showMainFragment()
     {
+        invalidateOptions();
         mainFragment = (MainFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.MAIN_FRAGMENT);
         if (mainFragment.isVisible())
         {
@@ -860,10 +1107,40 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
-    public void openLoginPage()
+    public void openLoginPage(String tag)
     {
-        startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_CODE_LOGIN);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        switch (tag)
+        {
+            case "LOGIN":
+                startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_CODE_LOGIN);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                break;
+            case ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT:
+                startActivityForResult(new Intent(this, LoginActivity.class).putExtra("request_code", REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL), REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                break;
+            case ZohoKartFragments.WISHLIST_FRAGMENT:
+                startActivityForResult(new Intent(this, LoginActivity.class).putExtra("request_code", REQUEST_CODE_LOGIN_FROM_WISHLIST), REQUEST_CODE_LOGIN_FROM_WISHLIST);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                break;
+        }
+    }
+
+    @Override
+    public void setCartNotificationAlarm(String email)
+    {
+        Log.d("CART_NOTIFY", "inside alarm maker");
+        if (cartNotifyService != null && alarmManager != null)
+        {
+            Log.d("CART_NOTIFY", "cancelling alarm");
+            alarmManager.cancel(cartNotifyService);
+        }
+        cartNotifyCalendar = Calendar.getInstance();
+        cartNotifyCalendar.add(Calendar.SECOND, 20);
+        Intent deliveryServiceIntent = new Intent(this, CartNotifyService.class);
+        deliveryServiceIntent.putExtra("email", email);
+        cartNotifyService = PendingIntent.getService(this, (int) System.currentTimeMillis(), deliveryServiceIntent, 0);
+        alarmManager.set(AlarmManager.RTC, cartNotifyCalendar.getTimeInMillis(), cartNotifyService);
     }
 
     @Override
@@ -973,24 +1250,18 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     private void stackFragment(Fragment fragment, String tag)
     {
 
-        Fragment thisFragment = fragment;
-        String thisTag = tag;
-
         if (haveNetworkConnection())
         {
             fragmentTransaction = fragmentManager.beginTransaction();
-            if (tag.equals(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT))
+            switch (tag)
             {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_down_from_top, R.anim.fade_in, R.anim.fade_out, R.anim.slide_up_from_bottom);
-            }
-            else if (tag.equals(ZohoKartFragments.SPECIFICATION_FRAGMENT) || tag.equals(ZohoKartFragments.WISHLIST_FRAGMENT) ||
-                    tag.equals(ZohoKartFragments.CART_FRAGMENT))
-            {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_down_from_top, R.anim.fade_in, R.anim.fade_out, R.anim.slide_up_from_bottom);
-            }
-            else
-            {
-                fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+                case ZohoKartFragments.SPECIFICATION_FRAGMENT:
+                    fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                    break;
+
+                default:
+                    fragmentTransaction.setCustomAnimations(R.anim.fade_out, R.anim.fade_in, R.anim.fade_out, R.anim.fade_in);
+                    break;
             }
             fragmentTransaction.replace(R.id.fragment_holder, fragment, tag);
             fragmentTransaction.addToBackStack(tag);
@@ -998,7 +1269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         }
         else
         {
-            showNetworkErrorAlertWithinApp(thisFragment, thisTag);
+            showNetworkErrorAlertWithinApp(fragment, tag);
         }
     }
 
@@ -1006,6 +1277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     {
         AlertDialog.Builder internetDialog = new AlertDialog.Builder(this);
         internetDialog.setMessage("No internet connection");
+        internetDialog.setCancelable(false);
         internetDialog.setPositiveButton("RETRY", new DialogInterface.OnClickListener()
         {
             @Override

@@ -32,9 +32,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:paddingTop="36dp"
+                android:paddingTop="46dp"
                 android:paddingBottom="36dp"
                 android:background="#EEEEEE">
 

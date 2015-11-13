@@ -13,14 +13,12 @@
 
     <item android:id="@+id/cart_icon"
         android:title="cart"
-        android:icon="@mipmap/ic_shopping_cart_white_24dp"
         app:showAsAction="always"
         android:orderInCategory="400" />
 
     <item
         android:id="@+id/wish_list"
         android:title="wish list"
-        android:icon="@mipmap/ic_favorite_white_24dp"
         app:showAsAction="always"
         android:orderInCategory="300" />
 

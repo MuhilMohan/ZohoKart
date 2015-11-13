@@ -92,7 +92,7 @@ public class OrdersFragment extends android.support.v4.app.Fragment
     {
 
         List<Order> orders;
-        DateFormat dateConversionDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        DateFormat dateConversionDateFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
         DateFormat dateDisplayFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
         Date date;
 
@@ -120,20 +120,24 @@ public class OrdersFragment extends android.support.v4.app.Fragment
                 for (final Order order : orders)
                 {
                     orderItem = (CardView) layoutInflater.inflate(R.layout.order_item, ordersHolder, false);
-                    try
-                    {
-                        date = dateConversionDateFormat.parse(order.getOrderedDate());
-                        String dateDisplayString = dateDisplayFormat.format(date);
-                        ((TextView) orderItem.findViewById(R.id.ordered_date)).setText(dateDisplayString);
-                    }
-                    catch (ParseException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    ((TextView) orderItem.findViewById(R.id.ordered_date)).setText(order.getOrderedDate());
                     ((TextView) orderItem.findViewById(R.id.total_products)).setText(String.valueOf(order.getNumberOfProducts()));
                     ((TextView) orderItem.findViewById(R.id.order_total_price)).setText("Rs. " + decimalFormat.format(order.getTotalPrice()));
                     orderItem.setTag(order.getId());
-                    ((TextView) orderItem.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+                    if (order.getOrderStatus().equals(Order.ORDER_CANCELLED) || order.getOrderStatus().equals(Order.ORDER_DELIVERED))
+                    {
+                        ((TextView) orderItem.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+                        ((TextView) orderItem.findViewById(R.id.order_status)).setTextColor(getResources().getColor(R.color.canceled_order));
+                        if (order.getOrderStatus().equals(Order.ORDER_DELIVERED))
+                        {
+                            ((TextView) orderItem.findViewById(R.id.order_status)).setTextColor(getResources().getColor(R.color.delivered_order));
+                        }
+                    }
+                    else
+                    {
+                        ((TextView) orderItem.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+                        ((TextView) orderItem.findViewById(R.id.order_status)).setTextColor(getResources().getColor(R.color.primary_color));
+                    }
 
                     orderItem.setOnClickListener(
                             new View.OnClickListener()

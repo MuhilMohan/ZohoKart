@@ -91,6 +91,7 @@ public class WishlistFragment extends android.support.v4.app.Fragment
                     @Override
                     public void onClick(View v)
                     {
+                        communicator.revealSearch();
                         communicator.showMainFragment();
                     }
                 }
@@ -102,6 +103,22 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     public void updateWishlistCount(int count)
     {
         ((TextView) wishlistFragment.findViewById(R.id.wishlist_count)).setText("(" + count + ")");
+    }
+
+    public void changeCartActionView(WishlistAdapter.WishlistViewHolder holder)
+    {
+        if (wishlistAdapter != null)
+        {
+            wishlistAdapter.toggleCartAction(holder);
+        }
+    }
+
+    public void setEmailInAdapter(String email)
+    {
+        if (wishlistAdapter != null)
+        {
+            wishlistAdapter.setEmail(email);
+        }
     }
 
     public void switchViewElement()
@@ -143,10 +160,14 @@ public class WishlistFragment extends android.support.v4.app.Fragment
     public interface WishlistCommunicator
     {
         void openCart();
-        void openLoginPage();
+        void openLoginPage(String tag);
         void showMainFragment();
         void updateWishlistStatus();
         void lockDrawer();
+        void revealSearch();
+        void setProductMovedToCart(Product product, WishlistAdapter.WishlistViewHolder holder);
+        void invalidateOptions();
+        void setCartNotificationAlarm(String email);
     }
 
 }

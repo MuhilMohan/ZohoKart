@@ -99,6 +99,7 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
                                 zohokartDAO.cancelOrder(orderId);
                                 (rootView.findViewById(R.id.expected_delivery_date_header)).setVisibility(View.GONE);
                                 (rootView.findViewById(R.id.expected_delivery_date)).setVisibility(View.GONE);
+                                orderedProductsHolder.removeAllViews();
                                 new OrderLineItemsAddingTask().execute(orderId);
                             }
                         });
@@ -127,9 +128,6 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
         List<Integer> productIds = new ArrayList<>();
         List<Integer> quantities = new ArrayList<>();
         List<Product> products;
-        DateFormat dateConversionDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
-        DateFormat dateDisplayFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
-        Date date;
 
         @Override
         protected Void doInBackground(String... orderId)
@@ -144,6 +142,7 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
             }
             products = zohokartDAO.getProductsForProductIds(productIds);
             Log.d("QUANTITY", "" + quantities.get(0));
+            Log.d("PRODUCTS", "" + products.size());
             return null;
         }
 
@@ -152,29 +151,27 @@ public class OrderLineItemsFragment extends android.support.v4.app.Fragment
         {
             super.onPostExecute(aVoid);
             ((TextView) rootView.findViewById(R.id.order_id)).setText(order.getId());
-
-            try
-            {
-                date = dateConversionDateFormat.parse(order.getOrderedDate());
-                String dateDisplayString = dateDisplayFormat.format(date);
-                ((TextView) rootView.findViewById(R.id.ordered_date)).setText(dateDisplayString);
-            }
-            catch (ParseException e)
-            {
-                e.printStackTrace();
-            }
-
+            ((TextView) rootView.findViewById(R.id.ordered_date)).setText(order.getOrderedDate());
             ((TextView) rootView.findViewById(R.id.order_id)).setText(order.getId());
-            ((TextView) rootView.findViewById(R.id.total_price)).setText("Rs. " + decimalFormat.format(order.getTotalPrice()) );
-            ((TextView) rootView.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+            ((TextView) rootView.findViewById(R.id.total_price)).setText(getString(R.string.rs_tag) + decimalFormat.format(order.getTotalPrice()));
             ((TextView) rootView.findViewById(R.id.expected_delivery_date)).setText(order.getExpectedDeliveryDate());
-            if (order.getOrderStatus().equals(Order.ORDER_CANCELLED))
+            if (order.getOrderStatus().equals(Order.ORDER_CANCELLED) || order.getOrderStatus().equals(Order.ORDER_DELIVERED))
             {
                 rootView.findViewById(R.id.cancel_order).setVisibility(View.GONE);
+                (rootView.findViewById(R.id.expected_delivery_date_header)).setVisibility(View.GONE);
+                (rootView.findViewById(R.id.expected_delivery_date)).setVisibility(View.GONE);
+                ((TextView) rootView.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+                ((TextView) rootView.findViewById(R.id.order_status)).setTextColor(getResources().getColor(R.color.canceled_order));
+                if (order.getOrderStatus().equals(Order.ORDER_DELIVERED))
+                {
+                    ((TextView) rootView.findViewById(R.id.order_status)).setTextColor(getResources().getColor(R.color.delivered_order));
+                }
             }
             else
             {
                 rootView.findViewById(R.id.cancel_order).setVisibility(View.VISIBLE);
+                ((TextView) rootView.findViewById(R.id.order_status)).setText(order.getOrderStatus());
+                ((TextView) rootView.findViewById(R.id.order_status)).setTextColor(getResources().getColor(R.color.primary_color));
             }
 
             for (Product product : products)

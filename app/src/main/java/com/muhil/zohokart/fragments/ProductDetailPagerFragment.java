@@ -138,6 +138,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                 if (zohokartDAO.addToWishlist(product.getId(), email))
                 {
                     SnackBarProvider.getSnackbar("Added to wishlist", rootView).show();
+                    communicator.invalidateOptions();
                 }
                 else
                 {
@@ -151,6 +152,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
             if (zohokartDAO.removeFromWishList(product.getId(), email))
             {
                 SnackBarProvider.getSnackbar("Removed from wishlist", rootView).show();
+                communicator.invalidateOptions();
             } else
             {
                 SnackBarProvider.getSnackbar("Error while removing from wishlist", rootView).show();
@@ -200,6 +202,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
     {
         void openSpecifications(Product product);
         boolean checkWishlist(int productId, String email);
+        void invalidateOptions();
     }
 
 }

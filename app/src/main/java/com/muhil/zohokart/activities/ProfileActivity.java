@@ -103,7 +103,10 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
             ((TextView) findViewById(R.id.account_address_text)).setText(account.getDeliveryAddress());
         }
 
-
+        if (getIntent().getBooleanExtra("orderLineItemsFragment", false))
+        {
+            openOrderLineItemsForOrderId(getIntent().getStringExtra("orderId"));
+        }
 
         // *** setting click listeners for elements ***
         (findViewById(R.id.edit_address_action)).setOnClickListener(
@@ -137,7 +140,7 @@ public class ProfileActivity extends AppCompatActivity implements SavedCardFragm
                             public void onClick(DialogInterface dialog, int which)
                             {
 
-                                setResult(MainActivity.REQUEST_CODE_LOGOUT, null);
+                                setResult(MainActivity.REQUEST_CODE_LOGOUT, getIntent().putExtra(Account.EMAIL, "default"));
                                 finish();
                                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 

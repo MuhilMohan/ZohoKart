@@ -19,10 +19,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.adapters.ProductDetailPagerAdapter;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.ZohoKartFragments;
 import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
@@ -147,19 +149,24 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
                         if (zohokartDAO.addToCart(product.getId(), email))
                         {
                             SnackBarProvider.getSnackbar("Product added to cart.", rootview).show();
+                            communicator.invalidateOptions();
+                            communicator.setCartNotificationAlarm(email);
                             (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
                             (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
-                        } else
+                        }
+                        else
                         {
                             SnackBarProvider.getSnackbar("Error while adding product to cart.", rootview).show();
                         }
-                    } else
+                    }
+                    else
                     {
                         SnackBarProvider.getSnackbar("Product already in cart.", rootview).show();
                     }
-                } else
+                }
+                else
                 {
-                    communicator.openLoginPage();
+                    communicator.openLoginPage(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
                 }
             }
         });
@@ -192,6 +199,11 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
         return rootview;
     }
 
+    public void toogleCartAction()
+    {
+        (rootview.findViewById(R.id.add_to_cart)).setVisibility(View.GONE);
+        (rootview.findViewById(R.id.go_to_cart)).setVisibility(View.VISIBLE);
+    }
 
     private void addToRecentlyViewed(int productId)
     {
@@ -260,11 +272,13 @@ public class ProductDetailFragment extends android.support.v4.app.Fragment
     public interface ProductDetailCommunicator
     {
         void openCart();
-        void openLoginPage();
+        void openLoginPage(String tag);
         void updateRecentlyViewed();
         void lockDrawer();
         void openCheckout(List<Integer> productIds);
         void tellToMainParameters(int position, List<Product> products);
+        void invalidateOptions();
+        void setCartNotificationAlarm(String email);
     }
 
 }

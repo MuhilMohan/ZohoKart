@@ -13,4 +13,5 @@ public interface ProductListCommunicator
     void showProductDetailFragment(int position, List<Product> products);
     void showMainFragment();
     void releaseDrawer();
+    void invalidateOptions();
 }

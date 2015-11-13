@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     app:cardBackgroundColor="#FFF"
     android:clickable="true"
     android:focusable="true"
@@ -66,6 +68,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:text="@string/ordered_date"
+                android:textColor="#616161"
                 android:textSize="18sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
@@ -76,7 +79,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/total_price"
                 android:textSize="14sp"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/order_total_price"
                 android:layout_width="wrap_content"
@@ -96,7 +99,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/order_status"
                 android:textSize="14sp"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="#616161"/>
             <TextView
                 android:id="@+id/order_status"
                 android:layout_width="wrap_content"

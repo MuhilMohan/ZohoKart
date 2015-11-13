@@ -22,8 +22,6 @@
             android:layout_height="match_parent"
             android:layout_below="@id/app_bar">
 
-
-
         </FrameLayout>
 
         <FrameLayout

@@ -66,6 +66,14 @@ public class LoginActivity extends AppCompatActivity
                 {
                     setResult(CheckoutActivity.REQUEST_LOGIN, getIntent().putExtra(Account.EMAIL, ""));
                 }
+                else if (getIntent().getIntExtra("request_code", 0) == MainActivity.REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL)
+                {
+                    setResult(MainActivity.REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL, getIntent().putExtra(Account.EMAIL, ""));
+                }
+                else if (getIntent().getIntExtra("request_code", 0) == MainActivity.REQUEST_CODE_LOGIN_FROM_WISHLIST)
+                {
+                    setResult(MainActivity.REQUEST_CODE_LOGIN_FROM_WISHLIST, getIntent().putExtra(Account.EMAIL, ""));
+                }
                 else
                 {
                     setResult(MainActivity.REQUEST_CODE_LOGIN, getIntent().putExtra(Account.EMAIL, ""));
@@ -177,7 +185,6 @@ public class LoginActivity extends AppCompatActivity
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -189,6 +196,14 @@ public class LoginActivity extends AppCompatActivity
                 if (getIntent().getIntExtra("request_code", 0) == CheckoutActivity.REQUEST_LOGIN)
                 {
                     setResult(CheckoutActivity.REQUEST_LOGIN, getIntent().putExtra(Account.EMAIL, data.getStringExtra(Account.EMAIL)));
+                }
+                else if (getIntent().getIntExtra("request_code", 0) == MainActivity.REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL)
+                {
+                    setResult(MainActivity.REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL, getIntent().putExtra(Account.EMAIL, data.getStringExtra(Account.EMAIL)));
+                }
+                else if (getIntent().getIntExtra("request_code", 0) == MainActivity.REQUEST_CODE_LOGIN_FROM_WISHLIST)
+                {
+                    setResult(MainActivity.REQUEST_CODE_LOGIN_FROM_WISHLIST, getIntent().putExtra(Account.EMAIL, data.getStringExtra(Account.EMAIL)));
                 }
                 else
                 {
@@ -230,6 +245,14 @@ public class LoginActivity extends AppCompatActivity
                             if (getIntent().getIntExtra("request_code", 0) == CheckoutActivity.REQUEST_LOGIN)
                             {
                                 setResult(CheckoutActivity.REQUEST_LOGIN, getIntent().putExtra(Account.EMAIL, account.getEmail()));
+                            }
+                            else if (getIntent().getIntExtra("request_code", 0) == MainActivity.REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL)
+                            {
+                                setResult(MainActivity.REQUEST_CODE_LOGIN_FROM_PRODUCT_DETAIL, getIntent().putExtra(Account.EMAIL, account.getEmail()));
+                            }
+                            else if (getIntent().getIntExtra("request_code", 0) == MainActivity.REQUEST_CODE_LOGIN_FROM_WISHLIST)
+                            {
+                                setResult(MainActivity.REQUEST_CODE_LOGIN_FROM_WISHLIST, getIntent().putExtra(Account.EMAIL, account.getEmail()));
                             }
                             else
                             {

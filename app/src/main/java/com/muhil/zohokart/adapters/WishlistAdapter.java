@@ -15,10 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.muhil.zohokart.MainActivity;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.fragments.WishlistFragment;
 import com.muhil.zohokart.models.Account;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.ZohoKartFragments;
 import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
 import com.muhil.zohokart.utils.ZohokartDAO;
@@ -143,6 +145,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                             wishlist.remove(position);
                             notifyItemRemoved(position);
                             wishlistFragment.updateWishlistCount(wishlist.size());
+                            communicator.invalidateOptions();
                             communicator.updateWishlistStatus();
                             if (wishlist.size() == 0)
                             {
@@ -181,6 +184,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                     if (zohokartDAO.addToCart(product.getId(), email))
                     {
                         SnackBarProvider.getSnackbar("product added to cart", rootView).show();
+                        communicator.invalidateOptions();
+                        communicator.setCartNotificationAlarm(email);
                         holder.goToCart.setVisibility(View.VISIBLE);
                         v.setVisibility(View.GONE);
                     }
@@ -191,7 +196,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
                 }
                 else
                 {
-                    communicator.openLoginPage();
+                    communicator.setProductMovedToCart(product, holder);
+                    communicator.openLoginPage(ZohoKartFragments.WISHLIST_FRAGMENT);
                 }
             }
         });
@@ -209,13 +215,24 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.Wishli
 
     }
 
+    public void toggleCartAction(WishlistViewHolder holder)
+    {
+        holder.goToCart.setVisibility(View.VISIBLE);
+        holder.addToCart.setVisibility(View.GONE);
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
     @Override
     public int getItemCount()
     {
         return wishlist.size();
     }
 
-    class WishlistViewHolder extends RecyclerView.ViewHolder
+    public class WishlistViewHolder extends RecyclerView.ViewHolder
     {
 
         TextView title, price, description, productRating;

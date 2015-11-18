@@ -2,6 +2,7 @@ package com.muhil.zohokart;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 
 import com.muhil.zohokart.activities.CheckoutActivity;
 import com.muhil.zohokart.activities.LoginActivity;
+import com.muhil.zohokart.activities.ProductGalleryActivity;
 import com.muhil.zohokart.activities.ProfileActivity;
 import com.muhil.zohokart.adapters.WishlistAdapter;
 import com.muhil.zohokart.fragments.BannerFragment;
@@ -54,7 +56,6 @@ import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.ZohoKartFragments;
 import com.muhil.zohokart.services.CartNotifyService;
-import com.muhil.zohokart.services.OrderDeliveryService;
 import com.muhil.zohokart.utils.DataImporter;
 import com.muhil.zohokart.utils.SnackBarProvider;
 import com.muhil.zohokart.utils.ZohoKartSharePreferences;
@@ -377,6 +378,15 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void showGallery(int productId)
+    {
+        Intent intent = new Intent(this, ProductGalleryActivity.class);
+        intent.putExtra("product_id", productId);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+    }
+
     private Drawable buildCounterDrawable(int count, String tag)
     {
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -410,14 +420,19 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 }
         }
 
-        view.measure(
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        view.setDrawingCacheEnabled(true);
-        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-        view.setDrawingCacheEnabled(false);
+        Bitmap bitmap = null;
+        if (view != null)
+        {
+            view.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+            view.setDrawingCacheEnabled(true);
+            view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            view.setDrawingCacheEnabled(false);
+        }
+
         return new BitmapDrawable(getResources(), bitmap);
     }
 

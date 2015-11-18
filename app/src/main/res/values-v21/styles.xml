@@ -33,7 +33,7 @@
     <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
         <item name="searchIcon">@null</item>
         <item name="android:closeIcon">@mipmap/ic_delete_black_24dp</item>
-        <item name="android:queryBackground">@color/whitebg</item>
+        <item name="android:queryBackground">@color/white_bg</item>
     </style>
 
 </resources>

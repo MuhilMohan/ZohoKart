@@ -21,6 +21,7 @@ import com.muhil.zohokart.models.Order;
 import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.ProductGallery;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
@@ -1025,6 +1026,60 @@ public class ZohokartDAO
         contentValues.put(Order.ORDER_STATUS, Order.ORDER_DELIVERED);
         int updateCount = context.getContentResolver().update(Uri.parse(Order.CONTENT_URI + "/" + orderId), contentValues, null, null);
         return (updateCount == 1);
+    }
+
+    public int addProductGalleries(List<ProductGallery> productGalleries)
+    {
+        Gson gson = new Gson();
+        ContentProviderResult[] contentProviderResults = null;
+        ArrayList<ContentProviderOperation> contentProviderOperations = new ArrayList<>();
+
+        for (ProductGallery productGallery : productGalleries)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ProductGallery.PRODUCT_ID, productGallery.getProductId());
+            String imageLinksAsString = gson.toJson(productGallery.getImageLinks());
+            contentValues.put(ProductGallery.IMAGE_LINKS, imageLinksAsString);
+            Log.d("GALLERY", productGallery.getProductId() + " " + imageLinksAsString);
+            contentProviderOperations.add(ContentProviderOperation.newInsert(ProductGallery.CONTENT_URI).withValues(contentValues).withYieldAllowed(true).build());
+        }
+
+        try
+        {
+            contentProviderResults = context.getContentResolver().applyBatch(ZohokartContentProvider.AUTHORITY, contentProviderOperations);
+        }
+        catch (RemoteException | OperationApplicationException e)
+        {
+            Log.e("DAO", "Error adding categories ", e);
+        }
+
+        return contentProviderResults != null ? contentProviderResults.length : 0;
+    }
+
+    public List<String> getImageLinksForProductId(int productId)
+    {
+        Gson gson = new Gson();
+        List<String> imageLinks = null;
+        String imageLinksAsString;
+        try (Cursor cursor = context.getContentResolver().query(
+                ProductGallery.CONTENT_URI, ProductGallery.PROJECTION, ProductGallery.PRODUCT_ID + " = ?", new String[]{String.valueOf(productId)}, null))
+        {
+            if (cursor != null)
+            {
+                Log.d("PRODUCT_ID", "" + cursor.getCount());
+                while (cursor.moveToNext())
+                {
+                    Log.d("PRODUCT_ID", "" + cursor.getCount());
+                    imageLinksAsString = cursor.getString(cursor.getColumnIndex(ProductGallery.IMAGE_LINKS));
+                    imageLinks = gson.fromJson(imageLinksAsString, new TypeToken<List<String>>() {}.getType());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return imageLinks;
     }
 
 }

@@ -72,7 +72,8 @@
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:src="@mipmap/ic_phone_iphone_black_24dp"
-                    android:contentDescription="@string/product_thumbnail"/>
+                    android:contentDescription="@string/product_thumbnail"
+                    android:transitionName="@string/product_shared_transition"/>
 
             </FrameLayout>
 

@@ -18,6 +18,7 @@ import com.muhil.zohokart.models.Order;
 import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.ProductGallery;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
@@ -54,6 +55,8 @@ public class ZohokartContentProvider extends ContentProvider
     private static final int ORDER_EMAIL = 20;
     private static final int ORDER_LINE_ITEM = 21;
     private static final int ORDER_LINE_ITEM_ID = 22;
+    private static final int PRODUCT_GALLERY = 23;
+    private static final int PRODUCT_GALLERY_ID = 24;
     private static final UriMatcher uriMatcher;
 
     static
@@ -82,6 +85,8 @@ public class ZohokartContentProvider extends ContentProvider
         uriMatcher.addURI(AUTHORITY, Order.TABLE_NAME + "/*", ORDER_EMAIL);
         uriMatcher.addURI(AUTHORITY, OrderLineItem.TABLE_NAME, ORDER_LINE_ITEM);
         uriMatcher.addURI(AUTHORITY, OrderLineItem.TABLE_NAME + "/*", ORDER_LINE_ITEM_ID);
+        uriMatcher.addURI(AUTHORITY, ProductGallery.TABLE_NAME, PRODUCT_GALLERY);
+        uriMatcher.addURI(AUTHORITY, ProductGallery.TABLE_NAME + "/#", PRODUCT_GALLERY_ID);
 
     }
 
@@ -192,6 +197,14 @@ public class ZohokartContentProvider extends ContentProvider
                 sqLiteQueryBuilder.appendWhere(OrderLineItem.ORDER_ID + " = '" + uri.getLastPathSegment() + "'");
                 break;
 
+            case PRODUCT_GALLERY:
+                sqLiteQueryBuilder.setTables(ProductGallery.TABLE_NAME);
+                break;
+            case PRODUCT_GALLERY_ID:
+                sqLiteQueryBuilder.setTables(ProductGallery.TABLE_NAME);
+                sqLiteQueryBuilder.appendWhere(ProductGallery.PRODUCT_ID + " = " + uri.getLastPathSegment());
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -273,6 +286,15 @@ public class ZohokartContentProvider extends ContentProvider
             case ORDER_LINE_ITEM:
                 return OrderLineItem.CONTENT_TYPE;
 
+            case ORDER_LINE_ITEM_ID:
+                return OrderLineItem.CONTENT_ITEM_TYPE;
+
+            case PRODUCT_GALLERY:
+                return ProductGallery.CONTENT_TYPE;
+
+            case PRODUCT_GALLERY_ID:
+                return ProductGallery.CONTENT_ITEM_TYPE;
+
             default:
                 return null;
 
@@ -286,7 +308,7 @@ public class ZohokartContentProvider extends ContentProvider
 
         if ((uriMatcher.match(uri) != CATEGORIES_ID) && (uriMatcher.match(uri) != SUB_CATEGORIES_ID) && (uriMatcher.match(uri) != PRODUCTS_ID) && (uriMatcher.match(uri) != ACCOUNTS_EMAIL)
                 && (uriMatcher.match(uri) != WISHLIST_ID) && (uriMatcher.match(uri) != CART_ID) && (uriMatcher.match(uri) != SPECIFICATION_ID) && (uriMatcher.match(uri) != PROMOTION_BANNERS_ID)
-                && (uriMatcher.match(uri) != PAYMENT_CARDS_EMAIL) && (uriMatcher.match(uri) != ORDER_EMAIL))
+                && (uriMatcher.match(uri) != PAYMENT_CARDS_EMAIL) && (uriMatcher.match(uri) != ORDER_EMAIL) && (uriMatcher.match(uri) != PRODUCT_GALLERY_ID))
         {
 
             long result;
@@ -336,6 +358,10 @@ public class ZohokartContentProvider extends ContentProvider
 
                 case ORDER_LINE_ITEM:
                     result = sqLiteDatabase.insert(OrderLineItem.TABLE_NAME, null, values);
+                    break;
+
+                case PRODUCT_GALLERY:
+                    result = sqLiteDatabase.insert(ProductGallery.TABLE_NAME, null, values);
                     break;
 
                 default:
@@ -492,6 +518,19 @@ public class ZohokartContentProvider extends ContentProvider
                 deleteCount = sqLiteDatabase.delete(OrderLineItem.TABLE_NAME, selection, selectionArgs);
                 break;
 
+            case PRODUCT_GALLERY:
+                deleteCount = sqLiteDatabase.delete(ProductGallery.TABLE_NAME, selection, selectionArgs);
+                break;
+            case PRODUCT_GALLERY_ID:
+                String productIdInGallery = uri.getLastPathSegment();
+                where = Order._ID + " = " + productIdInGallery;
+                if (!TextUtils.isEmpty(selection))
+                {
+                    where += " AND " + selection;
+                }
+                deleteCount = sqLiteDatabase.delete(ProductGallery.TABLE_NAME, where, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported URI : " + uri);
 
@@ -635,6 +674,19 @@ public class ZohokartContentProvider extends ContentProvider
 
             case ORDER_LINE_ITEM:
                 updateCount = sqLiteDatabase.update(OrderLineItem.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case PRODUCT_GALLERY:
+                updateCount = sqLiteDatabase.update(ProductGallery.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case PRODUCT_GALLERY_ID:
+                String productIdInGallery = uri.getLastPathSegment();
+                where = Order._ID + " = " + productIdInGallery;
+                if (!TextUtils.isEmpty(selection))
+                {
+                    where += " AND " + selection;
+                }
+                updateCount = sqLiteDatabase.update(ProductGallery.TABLE_NAME, values, where, selectionArgs);
                 break;
 
             default:

@@ -15,6 +15,7 @@ import com.muhil.zohokart.models.Order;
 import com.muhil.zohokart.models.OrderLineItem;
 import com.muhil.zohokart.models.PaymentCard;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.ProductGallery;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.SubCategory;
 import com.muhil.zohokart.models.Wishlist;
@@ -42,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String CREATE_PAYMENT_CARDS_TABLE = "CREATE TABLE " + PaymentCard.TABLE_NAME + " ( " + PaymentCard.EMAIL + " TEXT, " + PaymentCard.CARD_NUMBER + " TEXT, " + PaymentCard.CARD_TYPE + " TEXT, " + PaymentCard.NAME_ON_CARD + " TEXT, " + PaymentCard.EXPIRY + " TEXT )";
     public static String CREATE_ORDERS_TABLE = "CREATE TABLE " + Order.TABLE_NAME + " ( " + Order._ID + " TEXT, " + Order.EMAIL + " TEXT, " + Order.ADDED_ON + " DATETIME DEFAULT CURRENT_TIMESTAMP, " + Order.EXPECTED_DELIVERY_DATE + " TEXT, " + Order.NUMBER_OF_PRODUCTS + " INTEGER, " + Order.TOTAL_PRICE + " REAL, " + Order.ORDER_STATUS + " TEXT )";
     public static String CREATE_ORDER_LINE_ITEM_TABLE = "CREATE TABLE " + OrderLineItem.TABLE_NAME + " ( " + OrderLineItem.ORDER_ID + " TEXT, " + OrderLineItem.PRODUCT_ID + " INTEGER, " + OrderLineItem.QUANTITY + " INTEGER )";
+    public static String CREATE_PRODUCT_GALLERIES_TABLE = "CREATE TABLE " + ProductGallery.TABLE_NAME + " ( " + ProductGallery.PRODUCT_ID + " INTEGER, " + ProductGallery.IMAGE_LINKS + " TEXT)";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -61,6 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PAYMENT_CARDS_TABLE);
         db.execSQL(CREATE_ORDERS_TABLE);
         db.execSQL(CREATE_ORDER_LINE_ITEM_TABLE);
+        db.execSQL(CREATE_PRODUCT_GALLERIES_TABLE);
     }
 
     @Override

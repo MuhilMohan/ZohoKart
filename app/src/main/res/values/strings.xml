@@ -2,6 +2,7 @@
     <string name="app_name">ZohoKart</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="product_shared_transition">product transition</string>
     <string name="action_settings">Settings</string>
 
 <!-- TODO: Remove or change this placeholder text -->

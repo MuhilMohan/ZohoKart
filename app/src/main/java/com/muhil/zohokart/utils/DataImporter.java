@@ -17,6 +17,7 @@ import com.muhil.zohokart.models.Lighting;
 import com.muhil.zohokart.models.Luggage;
 import com.muhil.zohokart.models.Mobile;
 import com.muhil.zohokart.models.Product;
+import com.muhil.zohokart.models.ProductGallery;
 import com.muhil.zohokart.models.PromotionBanner;
 import com.muhil.zohokart.models.Sport;
 import com.muhil.zohokart.models.SubCategory;
@@ -235,6 +236,15 @@ public class DataImporter
             records = zohokartDAO.addBanners(promotionBanners);
 
             Log.d("JSON", "Number of promotion banners in db = " + records);
+
+            String productGalleryAsString = getJsonContentAsString("product_images");
+            List<ProductGallery> productGalleries = gson.fromJson(productGalleryAsString, new TypeToken<List<ProductGallery>>() {}.getType());
+
+            Log.d("JSON", "Number of product galleries = " + productGalleries.size());
+
+            records = zohokartDAO.addProductGalleries(productGalleries);
+
+            Log.d("JSON", "Number of product galleries in db = " + records);
 
             String specificationsAsString = getJsonContentAsString("specifications");
             Map<String, List<SpecificationGroup>> specifications = gson.fromJson(specificationsAsString, new TypeToken<Map<String, List<SpecificationGroup>>>() {

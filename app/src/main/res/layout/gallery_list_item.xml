@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="57dp"
+    android:layout_height="85dp"
+    android:layout_margin="8dp"
+    android:background="#FFF">
+
+    <FrameLayout
+        android:id="@+id/gallery_list_item_selected"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFC107"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:layout_width="54dp"
+        android:layout_height="82dp"
+        android:layout_gravity="center"
+        android:background="#FFF"/>
+
+    <ImageView
+        android:id="@+id/gallery_list_image"
+        android:layout_width="47dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"/>
+
+</FrameLayout>

@@ -125,6 +125,17 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
             }
         });
 
+        imageView.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        communicator.showGallery(product.getId());
+                    }
+                }
+        );
+
         return rootView;
     }
 
@@ -203,6 +214,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         void openSpecifications(Product product);
         boolean checkWishlist(int productId, String email);
         void invalidateOptions();
+        void showGallery(int productId);
     }
 
 }

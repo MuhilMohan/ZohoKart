@@ -3,6 +3,16 @@
 
     <color name="primary_color">#2196F3</color>
     <color name="primary_color_dark">#1976D2</color>
+    <color name="primary_color_dark99">#991976D2</color>
+    <color name="primary_color_dark88">#881976D2</color>
+    <color name="primary_color_dark77">#771976D2</color>
+    <color name="primary_color_dark66">#661976D2</color>
+    <color name="primary_color_dark55">#551976D2</color>
+    <color name="primary_color_dark44">#441976D2</color>
+    <color name="primary_color_dark33">#331976D2</color>
+    <color name="primary_color_dark22">#221976D2</color>
+    <color name="primary_color_dark11">#111976D2</color>
+    <color name="primary_color_dark00">#11000000</color>
     <color name="fragment_background_color">#EEEEEE</color>
     <color name="accent_color">#E91E63</color>
     <color name="white_bg">#FFF</color>

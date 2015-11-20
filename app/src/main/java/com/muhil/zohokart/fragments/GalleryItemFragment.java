@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.FloatMath;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -19,7 +20,11 @@ import com.squareup.picasso.Picasso;
 public class GalleryItemFragment extends android.support.v4.app.Fragment
 {
 
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
     View rootView;
+    GestureDetector gestureDetector;
     ImageView imageView;
     GalleryCommunicator communicator;
 
@@ -45,6 +50,7 @@ public class GalleryItemFragment extends android.support.v4.app.Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        gestureDetector = new GestureDetector(getActivity(), new SwipeDetector());
         super.onCreate(savedInstanceState);
     }
 
@@ -57,13 +63,14 @@ public class GalleryItemFragment extends android.support.v4.app.Fragment
         imageView = (ImageView) rootView.findViewById(R.id.gallery_image);
         Picasso.with(getActivity()).load(getArguments().getString("image_url")).into(imageView);
 
-        imageView.setOnClickListener(
-                new View.OnClickListener()
+        rootView.findViewById(R.id.root_view).setOnTouchListener(
+                new View.OnTouchListener()
                 {
                     @Override
-                    public void onClick(View v)
+                    public boolean onTouch(View v, MotionEvent event)
                     {
-                        communicator.toggleGalleryList();
+                        gestureDetector.onTouchEvent(event);
+                        return true;
                     }
                 }
         );
@@ -73,8 +80,31 @@ public class GalleryItemFragment extends android.support.v4.app.Fragment
 
     public interface GalleryCommunicator
     {
-        void toggleGalleryList();
+        void toggleGalleryList(boolean flag);
         void setSelectedItemInPager(int position);
+    }
+
+    class SwipeDetector extends GestureDetector.SimpleOnGestureListener
+    {
+        @Override
+        public boolean onDown(MotionEvent e)
+        {
+            return super.onDown(e);
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+        {
+            if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY)
+            {
+                communicator.toggleGalleryList(true); //bottom to top => UP swipe
+            }
+            else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY)
+            {
+                communicator.toggleGalleryList(false); //top to bottom => DOWN swipe
+            }
+            return super.onFling(e1, e2, velocityX, velocityY);
+        }
     }
 
 }

@@ -37,7 +37,7 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="46dp"
                 android:paddingBottom="36dp"
-                android:background="#EEEEEE">
+                android:background="#424242">
 
                 <ImageView
                     android:id="@+id/nav_icon"

@@ -10,11 +10,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -91,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     int subCategoryId, currentItemPosition, selectedFilterCount = 0, oldSelectedFilterCount = 0, count = 0;
     boolean ifTopRated = false, ifRecentlyViewed = false, ifFromPager, ifSelectedFilterItemsChanged;
 
+    float previousOffset = 0;
+    boolean shouldGoInvisible = false;
+
     SearchView searchView;
 
     Fragment fragment;
@@ -131,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+            toolbar.setPadding(0, getStatusBarHeight(), 0 , 0);
             (toolbar.findViewById(R.id.app_icon)).setOnClickListener(
                     new View.OnClickListener()
                     {
@@ -191,6 +198,99 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     @Override
                     public void onDrawerSlide(View drawerView, float slideOffset)
                     {
+                        Log.d("SLIDE", "" + slideOffset);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        {
+                            Window window = getWindow();
+                            if (slideOffset > previousOffset)
+                            {
+                                if (slideOffset == 1.0)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark00));
+                                }
+                                else if (slideOffset > 0.9)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark11));
+                                }
+                                else if (slideOffset > 0.8)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark22));
+                                }
+                                else if (slideOffset > 0.7)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark33));
+                                }
+                                else if (slideOffset > 0.6)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark44));
+                                }
+                                else if (slideOffset > 0.5)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark55));
+                                }
+                                else if (slideOffset > 0.4)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark66));
+                                }
+                                else if (slideOffset > 0.3)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark77));
+                                }
+                                else if (slideOffset > 0.2)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark88));
+                                }
+                                else if (slideOffset > 0.1)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark99));
+                                }
+                                previousOffset = slideOffset;
+                            }
+                            else
+                            {
+                                if (slideOffset == 0.0)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark));
+                                }
+                                else if (slideOffset < 0.01)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark99));
+                                }
+                                else if (slideOffset < 0.02)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark88));
+                                }
+                                else if (slideOffset < 0.03)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark77));
+                                }
+                                else if (slideOffset < 0.04)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark66));
+                                }
+                                else if (slideOffset < 0.05)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark55));
+                                }
+                                else if (slideOffset < 0.2)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark44));
+                                }
+                                else if (slideOffset < 0.4)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark33));
+                                }
+                                else if (slideOffset < 0.6)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark22));
+                                }
+                                else if (slideOffset < 0.8)
+                                {
+                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark11));
+                                }
+                                previousOffset = slideOffset;
+                            }
+                        }
                     }
 
                     @Override
@@ -201,11 +301,14 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     @Override
                     public void onDrawerClosed(View drawerView)
                     {
-                        navigationFragment.restScroll();
+                        if (navigationFragment != null)
+                        {
+                            navigationFragment.restScroll();
+                        }
                         if (productsToShow != null)
                         {
                             productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
-                            if (productListFragment == null)
+                            if (!(ifFragmentNotNull(productListFragment)))
                             {
                                 openProductList(productsToShow);
                             } else
@@ -288,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             {
                 List<Product> products = zohokartDAO.getProductsBySearchString(query);
                 fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
-                if (fragment != null && fragment.isVisible())
+                if (ifFragmentNotNullAndVisible(fragment))
                 {
                     fragmentManager.popBackStack();
                     openProductListForSearch(products);
@@ -459,26 +562,26 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
                 cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
                 wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
-                if (fragment!=null && fragment.isVisible())
+                if (ifFragmentNotNullAndVisible(fragment))
                 {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
-                else if ((cartFragment!=null && cartFragment.isVisible()) || (wishlistFragment!=null && wishlistFragment.isVisible()))
+                else if ((ifFragmentNotNullAndVisible(cartFragment)) || (ifFragmentNotNullAndVisible(wishlistFragment)))
                 {
                     revealSearch();
                     refreshProductDetail(ZohoKartFragments.WISHLIST_FRAGMENT);
                 }
-                else if (specificationFragment != null && specificationFragment.isVisible())
+                else if (ifFragmentNotNullAndVisible(specificationFragment))
                 {
                     refreshProductDetail(ZohoKartFragments.SPECIFICATION_FRAGMENT);
                 }
-                else if (filteredProductListFragment != null && filteredProductListFragment.isVisible())
+                else if (ifFragmentNotNullAndVisible(filteredProductListFragment))
                 {
                     Log.d("FILTER_BACK", "cleared");
                     clearFilter();
                     pop();
                 }
-                else if (filterFragment != null && filterFragment.isVisible())
+                else if (ifFragmentNotNullAndVisible(filterFragment))
                 {
                     if ((selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount) || ifSelectedFilterItemsChanged)
                     {
@@ -505,7 +608,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     }
                     else if (selectedFilterCount == 0)
                     {
-                        if (filteredProductListFragment != null)
+                        if (ifFragmentNotNull(filteredProductListFragment))
                         {
                             fragmentManager.popBackStackImmediate(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         }
@@ -549,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 wishlistFragment.setCommunicator(this);
                 stackFragment(wishlistFragment, ZohoKartFragments.WISHLIST_FRAGMENT);
             }
-            else if (!(fragment.isVisible()))
+            else if (!(ifFragmentNotNullAndVisible(fragment)))
             {
                 fragmentManager.popBackStackImmediate(ZohoKartFragments.WISHLIST_FRAGMENT, 0);
             }
@@ -562,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             {
                 openCart();
             }
-            else if (!(fragment.isVisible()))
+            else if (!(ifFragmentNotNullAndVisible(fragment)))
             {
                 fragmentManager.popBackStackImmediate(ZohoKartFragments.CART_FRAGMENT, 0);
             }
@@ -658,13 +761,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 {
                     wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
                     cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
-                    if (wishlistFragment != null && wishlistFragment.isVisible())
+                    if (ifFragmentNotNullAndVisible(wishlistFragment))
                     {
                         wishlistFragment.setEmail(response);
                         wishlistFragment.updateWishlist();
 
                     }
-                    else if (cartFragment != null && cartFragment.isVisible())
+                    else if (ifFragmentNotNullAndVisible(cartFragment))
                     {
                         cartFragment.setEmail(response);
                         cartFragment.updateCart();
@@ -690,14 +793,14 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                 {
                     wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
                     cartFragment = (CartFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.CART_FRAGMENT);
-                    if (wishlistFragment != null && wishlistFragment.isVisible())
+                    if (ifFragmentNotNullAndVisible(wishlistFragment))
                     {
                         wishlistFragment.setEmail(emailFromLogin);
                         wishlistFragment.updateWishlist();
                         invalidateOptions();
 
                     }
-                    else if (cartFragment != null && cartFragment.isVisible())
+                    else if (ifFragmentNotNullAndVisible(cartFragment))
                     {
                         cartFragment.setEmail(emailFromLogin);
                         cartFragment.updateCart();
@@ -722,7 +825,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     {
                         SnackBarProvider.getSnackbar("Product added to cart.", findViewById(R.id.index_page)).show();
                         productDetailFragment = (ProductDetailFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
-                        if (productDetailFragment != null && productDetailFragment.isVisible())
+                        if (ifFragmentNotNullAndVisible(productDetailFragment))
                         {
                             productDetailFragment.toogleCartAction();
                         }
@@ -743,7 +846,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                         {
                             SnackBarProvider.getSnackbar("Product added to cart.", findViewById(R.id.index_page)).show();
                             wishlistFragment = (WishlistFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.WISHLIST_FRAGMENT);
-                            if (wishlistFragment != null && wishlistFragment.isVisible())
+                            if (ifFragmentNotNullAndVisible(wishlistFragment))
                             {
                                 wishlistFragment.setEmail(emailFromLogin);
                                 wishlistFragment.updateWishlist();
@@ -795,16 +898,16 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             searchView.onActionViewCollapsed();
             searchView.setIconified(true);
         }
-        else if ((cartFragment!=null && cartFragment.isVisible()) || (wishlistFragment!=null && wishlistFragment.isVisible()))
+        else if ((ifFragmentNotNullAndVisible(cartFragment)) || (ifFragmentNotNullAndVisible(wishlistFragment)))
         {
             revealSearch();
             refreshProductDetail(ZohoKartFragments.WISHLIST_FRAGMENT);
         }
-        else if (specificationFragment != null && specificationFragment.isVisible())
+        else if (ifFragmentNotNullAndVisible(specificationFragment))
         {
             refreshProductDetail(ZohoKartFragments.SPECIFICATION_FRAGMENT);
         }
-        else if (productListFragment != null && productListFragment.isVisible())
+        else if (ifFragmentNotNullAndVisible(productListFragment))
         {
             clearFilter();
             fragmentManager.popBackStack();
@@ -815,13 +918,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             searchView.onActionViewCollapsed();
             searchView.setIconified(true);
         }
-        else if (filteredProductListFragment != null && filteredProductListFragment.isVisible())
+        else if (ifFragmentNotNullAndVisible(filteredProductListFragment))
         {
             Log.d("FILTER_BACK", "cleared");
             clearFilter();
             fragmentManager.popBackStack();
         }
-        else if (filterFragment != null && filterFragment.isVisible())
+        else if (ifFragmentNotNullAndVisible(filterFragment))
         {
             if ((selectedFilterCount > 0 && selectedFilterCount != oldSelectedFilterCount) || ifSelectedFilterItemsChanged)
             {
@@ -871,7 +974,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     private void refreshProductDetail(String tag)
     {
         productDetailFragment = (ProductDetailFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
-        if (productDetailFragment != null)
+        if (ifFragmentNotNull(productDetailFragment))
         {
             fragmentManager.popBackStack(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Log.d("BS_COUNT", "" + fragmentManager.getBackStackEntryCount());
@@ -926,7 +1029,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     {
         invalidateOptions();
         mainFragment = (MainFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.MAIN_FRAGMENT);
-        if (mainFragment.isVisible())
+        if (ifFragmentNotNullAndVisible(mainFragment))
         {
             mainFragment.resetScroll();
             closeDrawer();
@@ -954,7 +1057,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public void sendFilteredProducts(List<Product> products)
     {
         productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT);
-        if (productListFragment != null)
+        if (ifFragmentNotNull(productListFragment))
         {
             Log.d("FILTER_FRAG", "filtered product list fragment popped");
             fragmentManager.popBackStackImmediate(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -1115,7 +1218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     public void showAllTopRatedProducts()
     {
         mainFragment = (MainFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.MAIN_FRAGMENT);
-        if (mainFragment != null && mainFragment.isVisible())
+        if (ifFragmentNotNullAndVisible(mainFragment))
         {
             mainFragment.showTopRatedProducts();
         }
@@ -1167,7 +1270,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             if (backStackCount > 0)
             {
                 fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
-                if (fragment!=null && fragment.isVisible())
+                if (ifFragmentNotNullAndVisible(fragment))
                 {
                     getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu_white_24dp);
                 }
@@ -1183,7 +1286,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             }
         }
         mainFragment = (MainFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.MAIN_FRAGMENT);
-        if (mainFragment.isVisible())
+        if (ifFragmentNotNullAndVisible(mainFragment))
         {
             mainFragment.resetScroll();
         }
@@ -1193,7 +1296,10 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     {
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute()
+        {
+            (findViewById(R.id.product_list_loading)).setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected List<Product> doInBackground(Integer... params)
@@ -1208,15 +1314,13 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             super.onPostExecute(products);
 
             fragment = fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
-            if (fragment != null && fragment.isVisible())
+            if (ifFragmentNotNullAndVisible(fragment))
             {
-                (findViewById(R.id.product_list_loading)).setVisibility(View.VISIBLE);
                 fragmentManager.popBackStack();
                 productsToShow = products;
             }
             else
             {
-                (findViewById(R.id.product_list_loading)).setVisibility(View.VISIBLE);
                 productsToShow = products;
             }
         }
@@ -1325,6 +1429,30 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                     haveConnectedMobile = true;
         }
         return haveConnectedWifi || haveConnectedMobile;
+    }
+
+    private boolean ifFragmentNotNullAndVisible(Fragment fragment)
+    {
+        if (fragment != null && fragment.isVisible())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private boolean ifFragmentNotNull(Fragment fragment)
+    {
+        if (fragment != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.muhil.zohokart.activities.ProductGalleryActivity"
-    android:background="#FFF">
+    android:background="#FFF"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
         android:id="@+id/gallery_loading"
@@ -20,6 +21,8 @@
             android:layout_gravity="center"/>
 
     </FrameLayout>
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/gallery_pager"
@@ -43,6 +46,87 @@
             android:layout_width="match_parent"
             android:layout_height="101dp"
             android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/gallery_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EEEEEE"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No images available"
+            android:textSize="18sp"
+            android:drawableTop="@mipmap/ic_broken_image_black_48dp"
+            android:drawablePadding="16sp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/gallery_tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:alpha="0.8"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/gallery_tutorial_close_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_check_white_36dp"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/accent_color"
+            app:rippleColor="@color/accent_color"
+            android:clickable="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swipe down to hide gallery list"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:drawableTop="@mipmap/ic_arrow_downward_white_48dp"
+                    android:drawablePadding="24sp"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swipe up to show gallery list"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:drawableTop="@mipmap/ic_arrow_upward_white_48dp"
+                    android:drawablePadding="24sp"/>
+
+            </RelativeLayout>
+        </LinearLayout>
 
     </FrameLayout>
 

@@ -13,5 +13,7 @@ public class ZohoKartSharePreferences
     public static String SELECTED_FILTER_ITEMS = "selected_filter_items";
     public static String ORDER_COUNT = "order_count";
     public static String ORDER = "order";
+    public static String GALLERY_TUTORIAL = "gallery_tutorial";
+    public static String GALLERY_TUTORIAL_SEEN = "gallery_tutorial_seen";
 
 }

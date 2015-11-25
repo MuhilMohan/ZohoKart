@@ -1,5 +1,6 @@
 package com.muhil.zohokart;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityOptions;
@@ -10,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,7 +36,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -92,11 +92,10 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     List<PromotionBanner> promotionBanners;
     ZohokartDAO zohokartDAO;
 
-    int subCategoryId, currentItemPosition, selectedFilterCount = 0, oldSelectedFilterCount = 0, count = 0;
+    int subCategoryId, currentItemPosition = 0, selectedFilterCount = 0, oldSelectedFilterCount = 0, count = 0;
     boolean ifTopRated = false, ifRecentlyViewed = false, ifFromPager, ifSelectedFilterItemsChanged;
 
     float previousOffset = 0;
-    boolean shouldGoInvisible = false;
 
     SearchView searchView;
 
@@ -206,85 +205,96 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
                             {
                                 if (slideOffset == 1.0)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark00));
-                                }
-                                else if (slideOffset > 0.9)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark00));
+                                    }
+                                } else if (slideOffset > 0.9)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark11));
-                                }
-                                else if (slideOffset > 0.8)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark11));
+                                    }
+                                } else if (slideOffset > 0.8)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark22));
-                                }
-                                else if (slideOffset > 0.7)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark22));
+                                    }
+                                } else if (slideOffset > 0.7)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark33));
-                                }
-                                else if (slideOffset > 0.6)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark33));
+                                    }
+                                } else if (slideOffset > 0.6)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark44));
-                                }
-                                else if (slideOffset > 0.5)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark44));
+                                    }
+                                } else if (slideOffset > 0.5)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark55));
-                                }
-                                else if (slideOffset > 0.4)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark55));
+                                    }
+                                } else if (slideOffset > 0.4)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark66));
-                                }
-                                else if (slideOffset > 0.3)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark66));
+                                    }
+                                } else if (slideOffset > 0.3)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark77));
-                                }
-                                else if (slideOffset > 0.2)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark77));
+                                    }
+                                } else if (slideOffset > 0.2)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark88));
-                                }
-                                else if (slideOffset > 0.1)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark88));
+                                    }
+                                } else if (slideOffset > 0.1)
                                 {
-                                    window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark99));
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                    {
+                                        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.primary_color_dark99));
+                                    }
                                 }
                                 previousOffset = slideOffset;
-                            }
-                            else
+                            } else
                             {
                                 if (slideOffset == 0.0)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark));
-                                }
-                                else if (slideOffset < 0.01)
+                                } else if (slideOffset < 0.01)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark99));
-                                }
-                                else if (slideOffset < 0.02)
+                                } else if (slideOffset < 0.02)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark88));
-                                }
-                                else if (slideOffset < 0.03)
+                                } else if (slideOffset < 0.03)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark77));
-                                }
-                                else if (slideOffset < 0.04)
+                                } else if (slideOffset < 0.04)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark66));
-                                }
-                                else if (slideOffset < 0.05)
+                                } else if (slideOffset < 0.05)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark55));
-                                }
-                                else if (slideOffset < 0.2)
+                                } else if (slideOffset < 0.2)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark44));
-                                }
-                                else if (slideOffset < 0.4)
+                                } else if (slideOffset < 0.4)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark33));
-                                }
-                                else if (slideOffset < 0.6)
+                                } else if (slideOffset < 0.6)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark22));
-                                }
-                                else if (slideOffset < 0.8)
+                                } else if (slideOffset < 0.8)
                                 {
                                     window.setStatusBarColor(getResources().getColor(R.color.primary_color_dark11));
                                 }
@@ -359,7 +369,8 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
         String accountEmail = sharedPreferences.getString(Account.EMAIL, "default");
         Log.d("INVALIDATING", "" + accountEmail);
         menuItem = menu.findItem(R.id.wish_list);
-        count = zohokartDAO.getProductsFromWishlist(accountEmail).size();
+        products = zohokartDAO.getProductsFromWishlist(accountEmail);
+        count = products.size();
         Log.d("INVALIDATING", "" + count);
         menuItem.setIcon(buildCounterDrawable(count, ZohoKartFragments.WISHLIST_FRAGMENT));
 
@@ -482,11 +493,27 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     }
 
     @Override
-    public void showGallery(int productId)
+    public int getCurrentItemPosition()
+    {
+        return currentItemPosition;
+    }
+
+    @Override
+    public void showGallery(int productId, View view)
     {
         Intent intent = new Intent(this, ProductGalleryActivity.class);
         intent.putExtra("product_id", productId);
-        startActivity(intent);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
+        {
+            String transitionString = getString(R.string.gallery_transition);
+            ActivityOptions options;
+            options = ActivityOptions.makeSceneTransitionAnimation(this, view, transitionString);
+            startActivity(intent, options.toBundle());
+        }
+        else
+        {
+            startActivity(intent);
+        }
         overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
@@ -886,6 +913,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
     @Override
     public void onBackPressed()
     {
+        productDetailFragment = (ProductDetailFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_DETAIL_FRAGMENT);
         filterFragment = (FilterFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.FILTER_FRAGMENT);
         specificationFragment = (SpecificationFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.SPECIFICATION_FRAGMENT);
         productListFragment = (ProductListFragment) fragmentManager.findFragmentByTag(ZohoKartFragments.PRODUCT_LIST_FRAGMENT);
@@ -951,7 +979,7 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
             }
             else if (selectedFilterCount == 0)
             {
-                if (filteredProductListFragment != null)
+                if (ifFragmentNotNull(filteredProductListFragment))
                 {
                     fragmentManager.popBackStackImmediate(ZohoKartFragments.FILTERED_PRODUCT_LIST_FRAGMENT, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
@@ -1433,26 +1461,18 @@ public class MainActivity extends AppCompatActivity implements NavigationFragmen
 
     private boolean ifFragmentNotNullAndVisible(Fragment fragment)
     {
-        if (fragment != null && fragment.isVisible())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return fragment != null && fragment.isVisible();
     }
 
     private boolean ifFragmentNotNull(Fragment fragment)
     {
-        if (fragment != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return fragment != null;
+    }
+
+    public void checkForPermissions()
+    {
+        int externalStoragePermState = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
     }
 
 }

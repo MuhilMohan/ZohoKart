@@ -131,7 +131,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
                     @Override
                     public void onClick(View v)
                     {
-                        communicator.showGallery(product.getId());
+                        communicator.showGallery(product.getId(), rootView.findViewById(R.id.title));
                     }
                 }
         );
@@ -214,7 +214,7 @@ public class ProductDetailPagerFragment extends android.support.v4.app.Fragment 
         void openSpecifications(Product product);
         boolean checkWishlist(int productId, String email);
         void invalidateOptions();
-        void showGallery(int productId);
+        void showGallery(int productId, View view);
     }
 
 }

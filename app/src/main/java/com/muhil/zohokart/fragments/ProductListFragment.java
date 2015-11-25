@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,6 +53,7 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     boolean fromFilter;
     boolean filterEnabled = false;
     boolean sortEnabled = false;
+    int positionToScroll;
 
     public ProductListFragment()
     {
@@ -85,6 +87,15 @@ public class ProductListFragment extends android.support.v4.app.Fragment
     public void setSortEnabled(boolean status)
     {
         this.sortEnabled = status;
+    }
+
+    public void setScrollToPosition(int position)
+    {
+        if (recyclerView != null)
+        {
+            Log.d("POSITION", String.valueOf(position));
+            recyclerView.scrollToPosition(position);
+        }
     }
 
     @Override
@@ -181,6 +192,12 @@ public class ProductListFragment extends android.support.v4.app.Fragment
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 productListingAdapter = new ProductListingAdapter(productList, getActivity(), communicator, productListFragment);
                 recyclerView.setAdapter(productListingAdapter);
+
+                if ((positionToScroll = communicator.getCurrentItemPosition()) != 0)
+                {
+                    Log.d("POSITION", String.valueOf(positionToScroll));
+                    recyclerView.scrollToPosition(positionToScroll);
+                }
 
                 (productListFragment.findViewById(R.id.filter_action)).setOnClickListener(new View.OnClickListener()
                 {

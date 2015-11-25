@@ -6,27 +6,21 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.muhil.zohokart.R;
 import com.muhil.zohokart.models.Product;
 import com.muhil.zohokart.models.PromotionBanner;
-import com.muhil.zohokart.utils.ImageLoader;
+import com.muhil.zohokart.utils.VolleySingleton;
 import com.muhil.zohokart.utils.ZohokartDAO;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +35,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
     BannerCommunicator communicator;
     List<Integer> productIds;
     List<Product> products;
+    NetworkImageView bannerImageView;
 
     public static BannerFragment getInstance(PromotionBanner promotionBanner)
     {
@@ -66,7 +61,7 @@ public class BannerFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         zohokartDAO = new ZohokartDAO(getActivity());
-        imageLoader = new ImageLoader(getActivity());
+        imageLoader = VolleySingleton.getInstance(getActivity()).getImageLoader();
     }
 
     @Override
@@ -76,11 +71,13 @@ public class BannerFragment extends android.support.v4.app.Fragment
         // Inflate the layout for this fragment
         bannerFragment = inflater.inflate(R.layout.fragment_banner, container, false);
         currentBanner = (PromotionBanner) getArguments().getSerializable("banner");
-        ImageView bannerImage = (ImageView) bannerFragment.findViewById(R.id.banner_image);
-        imageLoader.displayImage(currentBanner.getBanner(), bannerImage);
-        bannerImage.setTag(currentBanner);
+        bannerImageView = (NetworkImageView) bannerFragment.findViewById(R.id.banner_image);
 
-        bannerImage.setOnClickListener(
+        bannerImageView.setImageUrl(currentBanner.getBanner(), imageLoader);
+
+        bannerImageView.setTag(currentBanner);
+
+        bannerImageView.setOnClickListener(
                 new View.OnClickListener()
                 {
                     @Override

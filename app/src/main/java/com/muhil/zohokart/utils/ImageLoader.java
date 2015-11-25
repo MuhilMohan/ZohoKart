@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.muhil.zohokart.R;
@@ -28,63 +31,61 @@ import java.util.concurrent.Executors;
  */
 public class ImageLoader
 {
-    final int placeholderImage = R.drawable.blank_screen;
-    MemoryCache memoryCache = new MemoryCache();
-    FileCache fileCache;
+    Context context;
+    final int placeholderImage = R.drawable.placeholder;
+    LruBitmapCache memoryCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     ExecutorService executorService;
 
     public ImageLoader(Context context)
     {
-        fileCache = new FileCache(context);
+        this.context = context;
+        memoryCache = new LruBitmapCache(context);
         executorService = Executors.newFixedThreadPool(5);
     }
 
-    public void displayImage(String url, ImageView imageView)
+    /*public void displayImage(String url, ImageView imageView)
     {
-        imageViews.put(imageView, url);
-        Bitmap bitmap = memoryCache.get(url);
+        //imageViews.put(imageView, url);
+        Bitmap bitmap = memoryCache.getBitmapFromMemCache(url);
         if (bitmap != null)
         {
-            imageView.setImageBitmap(bitmap);
+            Log.d("LOADER", "from cache");
+            ImageViewAnimatedChange(context, imageView, bitmap);
         }
         else
         {
-            queuePhoto(url, imageView);
+            Log.d("LOADER", "downloading");
+            BitmapWorkerTask task = new BitmapWorkerTask(url, imageView);
+            task.execute(url);
             imageView.setImageResource(placeholderImage);
         }
     }
 
-    private void queuePhoto(String url, ImageView imageView)
+    class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
     {
-        PhotoToLoad photoToLoad = new PhotoToLoad(url, imageView);
-        executorService.submit(new PhotoLoader(photoToLoad));
-    }
-
-    private Bitmap getBitmap(String url)
-    {
-        File file = fileCache.getFile(url);
-        Bitmap bitmap = decodeFile(file);
-        if (bitmap != null)
+        String url;
+        ImageView imageView;
+        public BitmapWorkerTask(String url, ImageView imageView)
         {
-            return bitmap;
+            this.url = url;
+            this.imageView = imageView;
         }
-        else
+
+        @Override
+        protected Bitmap doInBackground(String... url)
         {
             try
             {
-                Bitmap bitmapFromUrl = null;
-                URL imageUrl = new URL(url);
+                Bitmap bitmapFromUrl;
+                URL imageUrl = new URL(url[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) imageUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(30000);
                 urlConnection.setReadTimeout(30000);
                 urlConnection.setInstanceFollowRedirects(true);
                 InputStream inputStream = urlConnection.getInputStream();
-                OutputStream outputStream = new FileOutputStream(file);
-                FileTransferUtils.copyStream(inputStream, outputStream);
-                outputStream.close();
-                bitmapFromUrl = decodeFile(file);
+                bitmapFromUrl = BitmapFactory.decodeStream(inputStream);
                 return bitmapFromUrl;
             }
             catch (Throwable e)
@@ -93,125 +94,63 @@ public class ImageLoader
                 return null;
             }
         }
-    }
-
-    private Bitmap decodeFile(File file)
-    {
-        try
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(file), null, options);
-
-            final int REQUIRED_SIZE = 200;
-            int tempWidth = options.outWidth, tempHeight = options.outHeight;
-            int scale = 1;
-
-            while (true)
-            {
-                if ((tempWidth/2 < REQUIRED_SIZE) || (tempHeight/2 < REQUIRED_SIZE))
-                {
-                    break;
-                }
-                tempWidth /= 2;
-                tempHeight /= 2;
-                scale *= 2;
-            }
-            BitmapFactory.Options finalOptions = new BitmapFactory.Options();
-            finalOptions.inSampleSize = scale;
-            return BitmapFactory.decodeStream(new FileInputStream(file), null, finalOptions);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
-    private class PhotoToLoad
-    {
-        public String url;
-        public ImageView imageView;
-        public PhotoToLoad(String url, ImageView imageView)
-        {
-            this.url = url;
-            this.imageView = imageView;
-        }
-    }
-
-    class PhotoLoader implements Runnable
-    {
-        PhotoToLoad photoToLoad;
-
-        public PhotoLoader(PhotoToLoad photoToLoad)
-        {
-            this.photoToLoad = photoToLoad;
-        }
 
         @Override
-        public void run()
+        protected void onPostExecute(Bitmap bitmap)
         {
-            if (imageViewReUsed(photoToLoad))
-            {
-                return;
-            }
-            Bitmap bitmap = getBitmap(photoToLoad.url);
-            memoryCache.put(photoToLoad.url, bitmap);
-            if (imageViewReUsed(photoToLoad))
-            {
-                return;
-            }
-            BitmapDisplayer bitmapDisplayer = new BitmapDisplayer(bitmap, photoToLoad);
-            Activity activity = (Activity) photoToLoad.imageView.getContext();
+            memoryCache.addBitmapToMemoryCache(url, bitmap);
+            Log.d("LOADER", "" + memoryCache.size());
+            BitmapDisplayer bitmapDisplayer = new BitmapDisplayer(bitmap, imageView);
+            Activity activity = (Activity) imageView.getContext();
             activity.runOnUiThread(bitmapDisplayer);
         }
-    }
-
-    boolean imageViewReUsed(PhotoToLoad photoToLoad)
-    {
-        String tag = imageViews.get(photoToLoad.imageView);
-        if (tag == null || !(tag.equals(photoToLoad.url)))
-        {
-            return true;
-        }
-        return false;
     }
 
     class BitmapDisplayer implements Runnable
     {
         Bitmap bitmap;
-        PhotoToLoad photoToLoad;
+        ImageView imageView;
 
-        public BitmapDisplayer(Bitmap bitmap, PhotoToLoad photoToLoad)
+        public BitmapDisplayer(Bitmap bitmap, ImageView imageView)
         {
             this.bitmap = bitmap;
-            this.photoToLoad = photoToLoad;
+            this.imageView = imageView;
         }
 
         @Override
         public void run()
         {
-            if (imageViewReUsed(photoToLoad))
-            {
-                return;
-            }
             if (bitmap != null)
             {
-                photoToLoad.imageView.setImageBitmap(bitmap);
+                ImageViewAnimatedChange(context, imageView, bitmap);
             }
             else
             {
                 Log.d("IMAGE", "placeholder replaced");
-                photoToLoad.imageView.setImageResource(placeholderImage);
+                imageView.setImageResource(placeholderImage);
             }
         }
     }
 
-    public void clearCache()
-    {
-        memoryCache.clear();
-        fileCache.clear();
-    }
+    public static void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
+        final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
+        final Animation anim_in  = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
+        anim_out.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override public void onAnimationStart(Animation animation) {}
+            @Override public void onAnimationRepeat(Animation animation) {}
+            @Override public void onAnimationEnd(Animation animation)
+            {
+                v.setImageBitmap(new_image);
+                anim_in.setAnimationListener(new Animation.AnimationListener() {
+                    @Override public void onAnimationStart(Animation animation) {}
+                    @Override public void onAnimationRepeat(Animation animation) {}
+                    @Override public void onAnimationEnd(Animation animation) {}
+                });
+                v.startAnimation(anim_in);
+            }
+        });
+        v.startAnimation(anim_out);
+    }*/
 
 }

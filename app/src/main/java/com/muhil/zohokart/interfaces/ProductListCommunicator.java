@@ -14,4 +14,5 @@ public interface ProductListCommunicator
     void showMainFragment();
     void releaseDrawer();
     void invalidateOptions();
+    int getCurrentItemPosition();
 }

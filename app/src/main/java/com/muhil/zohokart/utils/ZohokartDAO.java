@@ -258,6 +258,23 @@ public class ZohokartDAO
         return products;
     }
 
+    public Product getProductForProductId(int productId)
+    {
+        Product product = null;
+        try (Cursor cursor = context.getContentResolver().query(
+                Uri.parse(Product.CONTENT_URI + "/" + productId), Product.PROJECTION, null, null, null))
+        {
+            if (cursor != null)
+            {
+                while (cursor.moveToNext())
+                {
+                    product = getProductFromCursor(cursor);
+                }
+            }
+        }
+        return product;
+    }
+
     public List<Product> getTopRatedProducts()
     {
         List<Product> products = new ArrayList<>();

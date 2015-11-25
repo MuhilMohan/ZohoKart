@@ -188,7 +188,7 @@ public class OrderConfirmationFragment extends android.support.v4.app.Fragment
                 ((TextView) cardView.findViewById(R.id.description)).setText(product.getDescription());
                 ((TextView) cardView.findViewById(R.id.price)).setText(decimalFormat.format((product.getPrice() * quantities.get(products.indexOf(product)))));
                 setGrandTotal(product.getPrice());
-                imageLoader.displayImage(product.getThumbnail(), (ImageView) cardView.findViewById(R.id.display_image));
+                //imageLoader.displayImage(product.getThumbnail(), (ImageView) cardView.findViewById(R.id.display_image));
                 ((TextView) cardView.findViewById(R.id.quantity)).setText(String.valueOf(quantities.get(products.indexOf(product))));
                 orderedProductsHolder.addView(cardView);
             }

@@ -9,10 +9,32 @@
     android:background="#FFF"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <LinearLayout
+        android:id="@+id/gallery_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/fragment_background_color">
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="sample"
+            android:textSize="18sp"
+            android:transitionName="@string/gallery_transition"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/gallery_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/gallery_header"
         android:visibility="gone">
 
         <ProgressBar
@@ -22,37 +44,74 @@
 
     </FrameLayout>
 
-
-
     <android.support.v4.view.ViewPager
         android:id="@+id/gallery_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
 
-    <FrameLayout
-        android:id="@+id/gallery_image_list"
+        android:layout_below="@id/gallery_header"/>
+
+    <RelativeLayout
+        android:id="@+id/gallery_actions"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
         <FrameLayout
+            android:id="@+id/gallery_image_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000"
-            android:alpha="0.6" />
+            android:layout_height="110dp"
+            android:layout_alignParentBottom="true">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/gallery_list"
-            android:layout_width="match_parent"
-            android:layout_height="101dp"
-            android:layout_gravity="center"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:alpha="0.6" />
 
-    </FrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/gallery_list"
+                android:layout_width="match_parent"
+                android:layout_height="101dp"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/download_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_above="@id/gallery_image_list"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/ic_file_download_white_24dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:backgroundTint="@color/accent_color"
+            app:elevation="8dp"
+            app:pressedTranslationZ="8dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/delete_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_above="@id/gallery_image_list"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/ic_delete_white_24dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:backgroundTint="@color/accent_color"
+            app:elevation="8dp"
+            app:pressedTranslationZ="8dp"/>
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/gallery_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/gallery_header"
         android:background="#EEEEEE"
         android:visibility="gone">
 
@@ -77,56 +136,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#000"
-            android:alpha="0.8"/>
+            android:alpha="0.8"
+            android:clickable="true"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/gallery_tutorial_close_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_check_white_36dp"
+            android:src="@mipmap/ic_check_white_24dp"
             android:layout_gravity="bottom|end"
             app:backgroundTint="@color/accent_color"
             app:rippleColor="@color/accent_color"
             android:clickable="true"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Swipe down to hide gallery list"
-                    android:textColor="#FFF"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:drawableTop="@mipmap/ic_arrow_downward_white_48dp"
-                    android:drawablePadding="24sp"/>
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Swipe up to show gallery list"
-                    android:textColor="#FFF"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:drawableTop="@mipmap/ic_arrow_upward_white_48dp"
-                    android:drawablePadding="24sp"/>
-
-            </RelativeLayout>
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:text="Touch image to toggle view of gallery list"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:drawableTop="@mipmap/ic_touch_app_white_48dp"
+            android:drawablePadding="24sp"/>
 
     </FrameLayout>
 

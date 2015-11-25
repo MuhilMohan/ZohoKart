@@ -703,4 +703,12 @@ public class ZohokartContentProvider extends ContentProvider
 
     }
 
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values)
+    {
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+
+
+        return 0;
+    }
 }
